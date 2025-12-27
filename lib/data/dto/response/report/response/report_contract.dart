@@ -1,0 +1,68 @@
+part of '../../../../data.dart';
+
+class ReportContractReadDto extends BaseHistoryReadDto {
+  const ReportContractReadDto({
+    super.id,
+    super.type,
+    super.creator,
+    super.body,
+    super.date,
+    super.persianDateTimeString,
+    this.files = const [],
+    this.contract,
+  });
+
+  final List<MainFileReadDto> files;
+  final ContractEntity? contract;
+
+  factory ReportContractReadDto.fromJson(final String str) => ReportContractReadDto.fromMap(json.decode(str));
+
+  factory ReportContractReadDto.fromMap(final Map<String, dynamic> json) {
+    final type = ReportType.fromString(json["message_type"] ?? json["report_type"]);
+
+    final String? time = json["created_at_persian"]?.trim();
+
+    ContractEntity? getRelatedObject(final Map<String, dynamic>? json) {
+      if (json == null) return null;
+      final String? dataType = json['data_type'];
+
+      final Map<String, dynamic> data = json['data'];
+
+      switch (dataType) {
+        case "task_contract_data":
+          return ContractEntity.fromMap(data);
+        case "customer_contract_data":
+          return ContractEntity.fromMap(data);
+        default:
+          return null;
+      }
+    }
+
+    return ReportContractReadDto(
+      id: json["id"],
+      type: type,
+      creator: json["creator"] == null ? null : UserReadDto.fromMap(json["creator"]),
+      files: json["file"] == null ? [] : List<MainFileReadDto>.from(json["file"]!.map((final x) => MainFileReadDto.fromMap(x))),
+      body: json["body"],
+      date: json["created_at_date_persian"] != null
+          ? json["created_at_date_persian"]?.toString().trim().toJalali()
+          : json["created_at"] != null
+          ? DateTime.tryParse(json["created_at"]?.toString().trim() ?? "")?.toJalali()
+          : null,
+      contract: getRelatedObject(json["related_object"] ?? json["relation_object"]),
+      persianDateTimeString: time,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    id,
+    type,
+    creator,
+    files,
+    body,
+    date,
+    contract,
+    persianDateTimeString,
+  ];
+}

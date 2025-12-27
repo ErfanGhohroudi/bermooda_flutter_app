@@ -1,0 +1,7 @@
+<svg id="vuesax_outline_search-normal" data-name="vuesax/outline/search-normal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="search-normal">
+    <path id="Vector" d="M8.418,17.083A8.492,8.492,0,0,1,0,8.542,8.492,8.492,0,0,1,8.418,0a8.492,8.492,0,0,1,8.418,8.542A8.492,8.492,0,0,1,8.418,17.083Zm0-15.833A7.248,7.248,0,0,0,1.232,8.542a7.248,7.248,0,0,0,7.186,7.292A7.248,7.248,0,0,0,15.6,8.542,7.248,7.248,0,0,0,8.418,1.25Z" transform="translate(1.13 1.042)" fill="#000000"/>
+    <path id="Vector-2" d="M2.483,2.915A.7.7,0,0,1,2,2.731L.2,1.065A.594.594,0,0,1,.2.181a.724.724,0,0,1,.958,0L2.962,1.848a.594.594,0,0,1,0,.883A.7.7,0,0,1,2.483,2.915Z" transform="translate(15.709 16.044)" fill="#000000"/>
+    <path id="Vector-3" d="M0,0H20V20H0Z" fill="none" opacity="0"/>
+  </g>
+</svg>

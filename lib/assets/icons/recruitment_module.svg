@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="28" height="26.442" viewBox="0 0 28 26.442">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3472e4"/>
+      <stop offset="1" stop-color="#1a3b74"/>
+    </linearGradient>
+  </defs>
+  <g id="svgexport-5_19_" transform="translate(-2 -3)">
+    <path id="Path_5603" d="M26.073,5.518V9.925H23.555V5.518H18.518V9.925H16V5.518A2.518,2.518,0,0,1,18.518,3h5.037A2.518,2.518,0,0,1,26.073,5.518Z" transform="translate(-5.186)" fill="url(#linear-gradient)"/>
+    <path id="Path_5604" d="M23.555,8h2.518v3.778H23.555ZM16,8h2.518v3.778H16Z" transform="translate(-5.186 -1.852)" fill="#002971"/>
+    <rect id="Rectangle_25266" width="26" height="16" rx="2" transform="translate(3 13)" fill="url(#linear-gradient)"/>
+    <path id="Path_5605" d="M28.05,41.489H5.95A2.618,2.618,0,0,1,4,40.62v.239a2.56,2.56,0,0,0,2.6,2.518H27.4A2.56,2.56,0,0,0,30,40.859V40.62a2.618,2.618,0,0,1-1.95.869Z" transform="translate(-1 -13.935)" fill="#002671"/>
+    <rect id="Rectangle_25267" width="28" height="9" rx="2" transform="translate(2 8)" fill="url(#linear-gradient)"/>
+    <path id="Path_5606" d="M27.813,22.489H3.889A2.5,2.5,0,0,1,2,21.62v.239a2.518,2.518,0,0,0,2.518,2.518H27.184A2.518,2.518,0,0,0,29.7,21.859V21.62a2.5,2.5,0,0,1-1.889.869Z" transform="translate(0 -6.897)" fill="#002671"/>
+    <rect id="Rectangle_25268" width="2" height="4" rx="1" transform="translate(9 15.48)" fill="#b6cae5"/>
+    <rect id="Rectangle_25269" width="2" height="4" rx="1" transform="translate(21 15.48)" fill="#b6cae5"/>
+    <g id="Group_9964" transform="translate(8.296 15.443)">
+      <circle id="Ellipse_1771" cx="1" cy="1" r="1" transform="translate(0.704 0.038)" fill="#eff3f9"/>
+      <circle id="Ellipse_1772" cx="1" cy="1" r="1" transform="translate(12.704 0.038)" fill="#eff3f9"/>
+    </g>
+  </g>
+</svg>

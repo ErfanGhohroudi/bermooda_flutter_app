@@ -1,0 +1,9 @@
+<svg id="vuesax_outline_undo" data-name="vuesax/outline/undo" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_outline_undo-2">
+    <g id="undo">
+      <path id="Vector" d="M3.75,11.5a.75.75,0,0,1,0-1.5h8a4.25,4.25,0,0,0,0-8.5H.75A.755.755,0,0,1,0,.75.755.755,0,0,1,.75,0h11a5.75,5.75,0,1,1,0,11.5Z" transform="translate(3.381 7.56)" fill="#000000"/>
+      <path id="Vector-2" d="M2.778,6.4.218,3.837a.754.754,0,0,1,0-1.06L2.778.218a.75.75,0,0,1,1.06,1.06l-2.03,2.03,2.03,2.03a.754.754,0,0,1,0,1.06.725.725,0,0,1-.53.22A.742.742,0,0,1,2.778,6.4Z" transform="translate(3.123 4.942)" fill="#000000"/>
+      <path id="Vector-3" d="M24,0V24H0V0Z" fill="#364f6b" opacity="0"/>
+    </g>
+  </g>
+</svg>

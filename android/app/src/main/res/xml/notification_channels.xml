@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<channels>
+    <channel
+        id="bermooda_channel_id"
+        name="Bermooda Channel"
+        description="This channel is used for important notifications."
+        importance="high"
+        sound="default"
+        vibration="true" />
+</channels>

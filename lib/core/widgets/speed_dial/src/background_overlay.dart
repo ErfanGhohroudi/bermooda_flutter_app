@@ -1,0 +1,76 @@
+part of '../../speed_dial/custom_speed_dial.dart';
+
+class BackgroundOverlay extends AnimatedWidget {
+  final Color color;
+  final double opacity;
+  final GlobalKey dialKey;
+  final LayerLink layerLink;
+  final ShapeBorder shape;
+  final VoidCallback? onTap;
+  final bool closeManually;
+  final String? tooltip;
+
+  const BackgroundOverlay({
+    required this.shape,
+    required final Animation<double> animation,
+    required this.dialKey,
+    required this.layerLink,
+    required this.closeManually,
+    required this.tooltip,
+    this.color = Colors.white,
+    this.opacity = 0.7,
+    this.onTap,
+    super.key,
+  }) : super(listenable: animation);
+
+  @override
+  Widget build(final BuildContext context) {
+    final Animation<double> animation = listenable as Animation<double>;
+    return ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            color.withValues(alpha: opacity * animation.value), BlendMode.srcOut),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            GestureDetector(
+              onTap: closeManually ? null : onTap,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: color, backgroundBlendMode: BlendMode.dstOut),
+              ),
+            ),
+            Positioned(
+              width: dialKey.globalPaintBounds?.size.width,
+              child: CompositedTransformFollower(
+                link: layerLink,
+                showWhenUnlinked: false,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: () {
+                    final Widget child = GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        width: dialKey.globalPaintBounds?.size.width,
+                        height: dialKey.globalPaintBounds?.size.height,
+                        decoration: ShapeDecoration(
+                          shape: shape == const CircleBorder()
+                              ? const StadiumBorder()
+                              : shape,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                    return tooltip != null && tooltip!.isNotEmpty
+                        ? Tooltip(
+                      message: tooltip!,
+                      child: child,
+                    )
+                        : child;
+                  }(),
+                ),
+              ),
+            ),
+          ],
+        ));
+  }
+}

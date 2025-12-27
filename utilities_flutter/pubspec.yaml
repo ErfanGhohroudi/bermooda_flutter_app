@@ -1,0 +1,89 @@
+name: u
+description: The only package you need, a complete set of packages and utilities you need in every single project.
+version: 1.0.0
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  group_button: ^5.3.4
+  package_info_plus: ^9.0.0
+  carousel_slider: ^5.1.1
+  chewie: ^1.13.0
+  share_plus: ^12.0.1
+  webview_flutter: ^4.13.0
+  local_auth: ^3.0.0
+  get: ^4.7.3
+  flutter_map: ^8.2.2
+  flutter_map_location_marker: ^10.1.0
+  geolocator: ^14.0.1
+  flutter_svg: ^2.0.16
+  lottie: ^3.3.0
+  image_cropper: ^11.0.0
+  file_picker: ^10.3.7
+  flutter_easyloading: ^3.0.5
+  flutter_local_notifications: ^19.5.0
+  flutter_typeahead: ^5.2.0
+  cached_network_image: ^3.4.1
+  firebase_messaging: ^16.0.4
+  firebase_analytics: ^12.0.4
+  firebase_crashlytics: ^5.0.5
+  syncfusion_flutter_charts: ^31.2.18
+  syncfusion_flutter_barcodes: ^31.2.18
+  syncfusion_flutter_pdfviewer: ^31.2.18
+  syncfusion_flutter_signaturepad: ^31.2.18
+  pin_code_fields: ^8.0.1
+  slide_countdown: ^2.0.2
+  screenshot: ^3.0.0
+  screen_protector: ^1.4.2+1
+  any_link_preview: ^3.0.2
+  universal_html: ^2.2.4
+  connectivity_plus: ^7.0.0
+  image_picker: ^1.1.2
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/assets/data/
+    - lib/assets/files/
+    - lib/assets/fonts/
+  fonts:
+    - family: Vazir
+      fonts:
+        - asset: lib/assets/fonts/Vazir.ttf
+    - family: Samim
+      fonts:
+        - asset: lib/assets/fonts/Samim.ttf
+    - family: Shabnam
+      fonts:
+        - asset: lib/assets/fonts/Shabnam.ttf
+    - family: Sahel
+      fonts:
+        - asset: lib/assets/fonts/Sahel.ttf
+    - family: Yekan
+      fonts:
+        - asset: lib/assets/fonts/Yekan.ttf
+    - family: IranSansFaNum
+      fonts:
+        - asset: lib/assets/fonts/IranSansFaNum.ttf
+    - family: IranSans
+      fonts:
+        - asset: lib/assets/fonts/IranSans.ttf

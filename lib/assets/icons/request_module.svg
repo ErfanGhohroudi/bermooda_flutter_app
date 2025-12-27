@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff4470"/>
+      <stop offset="1" stop-color="#ff0023"/>
+    </linearGradient>
+  </defs>
+  <g id="svgexport-8_68_" transform="translate(0 -0.397)">
+    <g id="_47" transform="translate(0 0.397)">
+      <rect id="Rectangle_25223" width="25" height="25" rx="12.5" fill="url(#linear-gradient)"/>
+      <path id="Path_5424" d="M94.9,108.619a.4.4,0,0,1,.675-.28l3.956,3.956a.791.791,0,0,1,0,1.119l-3.956,3.956a.4.4,0,0,1-.675-.28V115.08H89.76a.791.791,0,0,1-.791-.791v-2.867a.791.791,0,0,1,.791-.791H94.9v-2.011Zm-7.415-5.932a.4.4,0,0,0-.675-.28l-3.956,3.956a.791.791,0,0,0,0,1.119l3.956,3.956a.4.4,0,0,0,.675-.28v-2.011h5.141a.791.791,0,0,0,.791-.791v-2.867a.791.791,0,0,0-.791-.791H87.486v-2.011Z" transform="translate(-78.538 -97.545)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

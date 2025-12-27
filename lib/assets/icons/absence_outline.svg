@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.676" height="24.676" viewBox="0 0 24.676 24.676">
+  <g id="vuesax_outline_close-circle" transform="translate(0 0)">
+    <g id="close-circle" transform="translate(0 0)">
+      <path id="Vector" d="M11.053,22.105A11.053,11.053,0,1,1,22.105,11.053,11.062,11.062,0,0,1,11.053,22.105Zm0-20.563a9.51,9.51,0,1,0,9.51,9.51A9.522,9.522,0,0,0,11.053,1.542Z" transform="translate(1.285 1.285)" fill="#e20000"/>
+      <path id="Vector-2" d="M.769,7.359a.763.763,0,0,1-.545-.226.776.776,0,0,1,0-1.09L6.043.224a.771.771,0,1,1,1.09,1.09L1.313,7.133A.746.746,0,0,1,.769,7.359Z" transform="translate(8.66 8.66)" fill="#e20000"/>
+      <path id="Vector-3" d="M6.588,7.359a.763.763,0,0,1-.545-.226L.224,1.313A.771.771,0,0,1,1.313.224L7.133,6.043a.776.776,0,0,1,0,1.09A.763.763,0,0,1,6.588,7.359Z" transform="translate(8.66 8.66)" fill="#e20000"/>
+      <path id="Vector-4" d="M0,0H24.676V24.676H0Z" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>
