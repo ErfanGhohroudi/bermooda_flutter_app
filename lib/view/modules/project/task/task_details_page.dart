@@ -6,6 +6,7 @@ import '../../../../data/data.dart';
 import '../../reports/controllers/project/project_task_notes_controller.dart';
 import '../../reports/controllers/project/project_task_reports_controller.dart';
 import '../../reports/report_timeline_page.dart';
+import '../../subtask/list/subtask_list_page.dart';
 import 'create_update/create_update_task_page.dart';
 
 class TaskDetailsPage extends StatefulWidget {
@@ -37,6 +38,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> with SingleTickerProv
   void initState() {
     _tabs = [
       Tab(text: s.details),
+      Tab(text: s.subtasks),
       Tab(text: s.note),
       Tab(text: s.reports),
     ];
@@ -60,17 +62,29 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> with SingleTickerProv
         builder: () => CreateUpdateTaskPage(
           model: widget.task,
           projectId: widget.projectId,
-          scrollToSubtaskId: widget.scrollToSubtaskId,
           canChangeStatus: true,
           onResponse: widget.onEdit,
           onDelete: (final model) => widget.onDelete(),
+        ),
+      ),
+      LazyKeepAliveTabView(
+        builder: () => SubtaskListPage(
+          dataSourceType: SubtaskDataSourceType.project,
+          mainSourceId: widget.projectId,
+          sourceId: widget.task.id ?? 0,
+          scrollToSubtaskId: widget.scrollToSubtaskId,
+          // canEdit: canEdit,
         ),
       ),
       LazyKeepAliveTabView(builder: () => ReportTimelinePage(controller: notesCtrl)),
       LazyKeepAliveTabView(builder: () => ReportTimelinePage(controller: reportsCtrl)),
     ];
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      initialIndex: widget.scrollToSubtaskId != null ? 1 : 0,
+      length: _tabs.length,
+      vsync: this,
+    );
     super.initState();
   }
 

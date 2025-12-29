@@ -3,23 +3,27 @@ import 'package:u/utilities.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
+import '../../followup/list/followup_list_page.dart';
 import '../../reports/controllers/legal/legal_case_notes_controller.dart';
 import '../../reports/report_timeline_page.dart';
+import '../../subtask/list/subtask_list_page.dart';
 import '../contract/contract_page.dart';
-import '../followup/list/legal_case_followup_list_page.dart';
 import '../../reports/controllers/legal/legal_case_reports_controller.dart';
-import '../subtask/list/legal_case_subtask_list_page.dart';
 import 'details/legal_case_details_page.dart';
 
 class LegalCasePage extends StatefulWidget {
   const LegalCasePage({
     required this.legalCase,
     required this.canEdit,
+    this.scrollToSubtaskId,
+    this.scrollToFollowupSlug,
     super.key,
   });
 
   final LegalCaseReadDto legalCase;
   final bool canEdit;
+  final String? scrollToSubtaskId;
+  final String? scrollToFollowupSlug;
 
   @override
   State<LegalCasePage> createState() => _LegalCasePageState();
@@ -71,15 +75,19 @@ class _LegalCasePageState extends State<LegalCasePage> with SingleTickerProvider
         ),
       ),
       LazyKeepAliveTabView(
-        builder: () => LegalCaseSubtaskListPage(
-          legalDepartmentId: widget.legalCase.departmentId ?? 0,
-          legalCaseId: widget.legalCase.id,
+        builder: () => SubtaskListPage(
+          dataSourceType: SubtaskDataSourceType.project,
+          mainSourceId: widget.legalCase.departmentId?.toString() ?? "0",
+          sourceId: widget.legalCase.id,
+          scrollToSubtaskId: widget.scrollToSubtaskId,
           canEdit: canEdit,
         ),
       ),
       LazyKeepAliveTabView(
-        builder: () => LegalCaseFollowupListPage(
-          legalCaseId: widget.legalCase.id,
+        builder: () => FollowupListPage(
+          datasource: Get.find<LegalFollowUpDatasource>(),
+          sourceId: widget.legalCase.id,
+          scrollToFollowupSlug: widget.scrollToFollowupSlug,
           canEdit: canEdit,
         ),
       ),
@@ -87,7 +95,15 @@ class _LegalCasePageState extends State<LegalCasePage> with SingleTickerProvider
       LazyKeepAliveTabView(builder: () => ReportTimelinePage(controller: reportsCtrl)),
     ];
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      initialIndex: widget.scrollToSubtaskId != null
+          ? 2
+          : widget.scrollToFollowupSlug != null
+          ? 3
+          : 0,
+      length: _tabs.length,
+      vsync: this,
+    );
     super.initState();
   }
 

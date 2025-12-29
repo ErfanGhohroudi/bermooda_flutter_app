@@ -1,11 +1,11 @@
 import 'package:u/utilities.dart';
 
-import '../widgets.dart';
-import '../../theme.dart';
-import '../../utils/enums/enums.dart';
-import '../../../data/data.dart';
-import 'follow_up_details/follow_up_details_page.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../core/theme.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../data/data.dart';
 import 'follow_up_card_controller.dart';
+import 'follow_up_details/follow_up_details_page.dart';
 
 enum FollowUpCardShape { main, compact }
 
@@ -75,8 +75,8 @@ class _WFollowUpCardState extends State<WFollowUpCard> with FollowUpCardControll
                 );
               }
             : null,
-        showBorder: followUp.value.isDelayed,
-        borderColor: AppColors.red,
+        showBorder: true,
+        borderColor: followUp.value.isDelayed ? AppColors.red.withAlpha(50) : null,
         color: followUp.value.isDelayed
             ? AppColors.red.withAlpha(20)
             : (isMainShape ? null : context.theme.scaffoldBackgroundColor),

@@ -27,7 +27,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -61,7 +61,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -85,7 +85,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -120,7 +120,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -146,7 +146,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -173,7 +173,7 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -198,9 +198,33 @@ class CustomerFollowUpDatasource implements IFollowUpDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
+  }
+
+  @override
+  void getFollowups({
+    required final int? sourceId,
+    required final Function(GenericResponse<FollowUpReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    try {
+      final response = await _apiClient.get(
+        "/v1/CrmTracking/TrackingManager/",
+        queryParameters: {"customer_id": sourceId, "is_tracked": "False"},
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<FollowUpReadDto>.fromJson(response.data, fromMap: FollowUpReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
   }
 }

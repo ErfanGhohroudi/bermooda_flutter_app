@@ -1,25 +1,37 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/functions/date_picker_functions.dart';
 import '../../../../../core/services/permission_service.dart';
 import '../../../../../data/data.dart';
+import '../../../../core/core.dart';
+import '../../../../core/loading/loading.dart';
+import '../../crm/my_followups/my_followups_controller.dart';
+import '../../reports/controllers/crm/crm_customer_reports_controller.dart';
 import '../../reports/controllers/legal/legal_case_reports_controller.dart';
 
 class FollowupListController extends GetxController {
   late final IFollowUpDatasource _datasource;
   late final int _sourceId;
   late final bool canEdit;
+  String? _scrollToFollowupSlug;
 
   FollowupListController({
     required final IFollowUpDatasource datasource,
     required final int sourceId,
+    final String? scrollToFollowupSlug,
     required this.canEdit,
-  }) : _sourceId = sourceId,
-       _datasource = datasource;
+  }) {
+    _sourceId = sourceId;
+    _datasource = datasource;
+    _scrollToFollowupSlug = scrollToFollowupSlug;
+  }
 
+  late final Core _core;
   late final PermissionService _perService;
   final RefreshController refreshController = RefreshController();
+  final AutoScrollController scrollController = AutoScrollController();
   final Rx<PageState> pageState = PageState.initial.obs;
   final RxList<FollowUpReadDto> followups = <FollowUpReadDto>[].obs;
 
@@ -27,6 +39,7 @@ class FollowupListController extends GetxController {
 
   @override
   void onInit() {
+    _core = Get.find();
     _perService = Get.find();
     _getFollowups();
     super.onInit();
@@ -35,7 +48,23 @@ class FollowupListController extends GetxController {
   @override
   void onClose() {
     refreshController.dispose();
+    scrollController.dispose();
     super.onClose();
+  }
+
+  /// scroll to followup
+  Future<void> scrollToItem(final String followupSlug) async {
+    AppLoading.showLoading();
+    final int index = followups.indexWhere((final e) => e.slug == followupSlug);
+
+    if (index != -1) {
+      AppLoading.dismissLoading();
+      await scrollController.scrollToIndex(index, preferPosition: AutoScrollPosition.middle);
+      scrollController.highlight(index);
+    } else {
+      AppLoading.dismissLoading();
+    }
+    _scrollToFollowupSlug = null;
   }
 
   void addOrUpdateFollowUp(final FollowUpReadDto followUp) {
@@ -46,7 +75,7 @@ class FollowupListController extends GetxController {
       followups.add(followUp);
     }
     sortFollowUpList();
-    _reloadHistory();
+    _reloadReports();
   }
 
   void deleteFollowUp(final FollowUpReadDto followUp) {
@@ -67,9 +96,19 @@ class FollowupListController extends GetxController {
     followups(updatedList);
   }
 
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<LegalCaseReportsController>()) {
       Get.find<LegalCaseReportsController>().onInit();
+    }
+    if (Get.isRegistered<CrmCustomerReportsController>()) {
+      Get.find<CrmCustomerReportsController>().onInit();
+    }
+  }
+
+  void _insertAtMyFollowUps(final FollowUpReadDto model) {
+    if (model.assignedUser?.id != _core.userReadDto.value.id) return;
+    if (Get.isRegistered<MyFollowupsController>()) {
+      Get.find<MyFollowupsController>().insertItem(model);
     }
   }
 
@@ -91,6 +130,7 @@ class FollowupListController extends GetxController {
         onResponse: (final response) {
           if (response.result == null) return;
           addOrUpdateFollowUp(response.result!);
+          _insertAtMyFollowUps(response.result!);
         },
         onError: (final errorResponse) {},
       );
@@ -105,6 +145,14 @@ class FollowupListController extends GetxController {
         followups.assignAll(response.resultList ?? []);
         refreshController.refreshCompleted();
         pageState.loaded();
+        if (_scrollToFollowupSlug != null) {
+          delay(
+            500,
+            () {
+              scrollToItem(_scrollToFollowupSlug!);
+            },
+          );
+        }
       },
       onError: (final errorResponse) {
         if (pageState.isInitial()) {

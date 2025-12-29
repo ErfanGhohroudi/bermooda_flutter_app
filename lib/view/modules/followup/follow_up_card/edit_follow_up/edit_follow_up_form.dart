@@ -1,11 +1,11 @@
 import 'package:u/utilities.dart';
 
-import '../../widgets.dart';
-import '../../fields/fields.dart';
-import '../../image_files.dart';
-import '../../../core.dart';
-import '../../../functions/date_picker_functions.dart';
-import '../../../../data/data.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/widgets/fields/fields.dart';
+import '../../../../../core/widgets/image_files.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/functions/date_picker_functions.dart';
+import '../../../../../data/data.dart';
 import 'edit_follow_up_controller.dart';
 
 class EditFollowUpForm extends StatefulWidget {

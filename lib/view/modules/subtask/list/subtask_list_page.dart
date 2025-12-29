@@ -1,10 +1,10 @@
 import 'package:bermooda_business/core/core.dart';
 import 'package:bermooda_business/core/widgets/widgets.dart';
-import 'package:bermooda_business/core/widgets/subtask_card/subtask_card.dart';
+import 'package:bermooda_business/view/modules/subtask/subtask_card/subtask_card.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
-import '../../../data/data.dart';
+import '../../../../data/data.dart';
 import 'subtask_list_controller.dart';
 
 class SubtaskListPage extends StatefulWidget {
@@ -12,16 +12,16 @@ class SubtaskListPage extends StatefulWidget {
     required this.dataSourceType,
     required this.mainSourceId,
     required this.sourceId,
-    this.canEdit = true,
     required this.scrollToSubtaskId,
+    this.canEdit = true,
     super.key,
   });
 
   final SubtaskDataSourceType dataSourceType;
   final String mainSourceId;
   final int sourceId;
-  final bool canEdit;
   final String? scrollToSubtaskId;
+  final bool canEdit;
 
   @override
   State<SubtaskListPage> createState() => _SubtaskListPageState();
@@ -37,8 +37,8 @@ class _SubtaskListPageState extends State<SubtaskListPage> {
         dataSourceType: widget.dataSourceType,
         mainSourceId: widget.mainSourceId,
         sourceId: widget.sourceId,
-        canEdit: widget.canEdit,
         scrollToSubtaskId: widget.scrollToSubtaskId,
+        canEdit: widget.canEdit,
       ),
     );
     super.initState();

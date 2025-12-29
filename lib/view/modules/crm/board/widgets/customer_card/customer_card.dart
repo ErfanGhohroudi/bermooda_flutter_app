@@ -6,7 +6,7 @@ import '../../../../../../core/core.dart';
 import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../widgets/customer_steps/customer_steps.dart';
-import '../../../../../../core/widgets/follow_up_card/follow_up_card.dart';
+import '../../../../followup/follow_up_card/follow_up_card.dart';
 import 'customer_card_controller.dart';
 
 class WCustomerCard extends StatefulWidget {

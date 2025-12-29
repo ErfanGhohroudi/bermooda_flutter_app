@@ -2,14 +2,14 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../../core/core.dart';
-import '../../../../../core/services/permission_service.dart';
-import '../../../../../core/widgets/widgets.dart';
-import '../../../../../data/data.dart';
-import '../../../core/loading/loading.dart';
-import '../project/task/create_update/create_update_subtask/create_update_subtask_page.dart';
-import '../reports/controllers/legal/legal_case_reports_controller.dart';
-import '../reports/controllers/project/project_task_reports_controller.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../../core/services/permission_service.dart';
+import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../../data/data.dart';
+import '../../../../core/loading/loading.dart';
+import '../create_update_subtask/create_update_subtask_page.dart';
+import '../../reports/controllers/legal/legal_case_reports_controller.dart';
+import '../../reports/controllers/project/project_task_reports_controller.dart';
 
 class SubtaskListController extends GetxController {
   late final String _mainSourceId;
@@ -59,7 +59,7 @@ class SubtaskListController extends GetxController {
   }
 
   /// scroll to subtask
-  Future<void> scrollToSubtask(final String subtaskId) async {
+  Future<void> scrollToItem(final String subtaskId) async {
     AppLoading.showLoading();
     final int index = subtasks.indexWhere((final e) => e.id == subtaskId);
 
@@ -80,14 +80,14 @@ class SubtaskListController extends GetxController {
     } else {
       subtasks.insert(0, subtask);
     }
-    _reloadHistory();
+    _reloadReports();
   }
 
   void deleteSubtask(final SubtaskReadDto subtask) {
     subtasks.removeWhere((final f) => f.id == subtask.id);
   }
 
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<LegalCaseReportsController>()) {
       Get.find<LegalCaseReportsController>().onInit();
     }
@@ -134,7 +134,7 @@ class SubtaskListController extends GetxController {
           delay(
             500,
             () {
-              scrollToSubtask(_scrollToSubtaskId!);
+              scrollToItem(_scrollToSubtaskId!);
             },
           );
         }

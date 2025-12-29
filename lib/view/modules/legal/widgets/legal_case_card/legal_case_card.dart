@@ -1,7 +1,7 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/widgets/follow_up_card/follow_up_card.dart';
-import '../../../../../core/widgets/subtask_card/subtask_card_compact.dart';
+import '../../../followup/follow_up_card/follow_up_card.dart';
+import '../../../subtask/subtask_card/subtask_card_compact.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/theme.dart';

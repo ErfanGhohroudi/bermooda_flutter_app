@@ -42,7 +42,7 @@ class HistoryFollowupArchiveCard extends StatelessWidget {
     datasource.restore(
       slug: model.followup!.slug,
       onResponse: () {
-        _reloadHistory();
+        _reloadReports();
         _reloadDetails();
       },
       onError: (final errorResponse) {},
@@ -50,7 +50,7 @@ class HistoryFollowupArchiveCard extends StatelessWidget {
   }
 
   /// Refresh Reports Page
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<CrmCustomerReportsController>()) {
       Get.find<CrmCustomerReportsController>().onInit();
     }
@@ -64,8 +64,8 @@ class HistoryFollowupArchiveCard extends StatelessWidget {
     if (Get.isRegistered<CustomerInfoController>()) {
       Get.find<CustomerInfoController>().getCustomer();
     }
-    if (Get.isRegistered<LegalCaseFollowupListController>()) {
-      Get.find<LegalCaseFollowupListController>().onRefresh();
+    if (Get.isRegistered<FollowupListController>()) {
+      Get.find<FollowupListController>().onRefresh();
     }
   }
 

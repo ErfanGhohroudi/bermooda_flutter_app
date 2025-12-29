@@ -6,7 +6,7 @@ import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
 import '../../crm/board/widgets/customer_card/customer_card.dart';
-import '../../../../core/widgets/subtask_card/subtask_card.dart';
+import '../../subtask/subtask_card/subtask_card.dart';
 import 'calendar_controller.dart';
 
 class CalendarPage extends StatefulWidget {

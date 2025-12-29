@@ -1,11 +1,11 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../../core/widgets/image_files.dart';
-import '../../../../../../core/core.dart';
-import '../../../../../../core/navigator/navigator.dart';
-import '../../../../../../data/data.dart';
-import '../../../../view/modules/reports/controllers/crm/crm_customer_reports_controller.dart';
-import '../../../../view/modules/reports/controllers/legal/legal_case_reports_controller.dart';
+import '../../../../../../../core/widgets/image_files.dart';
+import '../../../../../../../core/core.dart';
+import '../../../../../../../core/navigator/navigator.dart';
+import '../../../../../../../data/data.dart';
+import '../../../reports/controllers/crm/crm_customer_reports_controller.dart';
+import '../../../reports/controllers/legal/legal_case_reports_controller.dart';
 
 mixin EditFollowUpController {
   late FollowUpReadDto followUp;
@@ -68,7 +68,7 @@ mixin EditFollowUpController {
     );
   }
 
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<CrmCustomerReportsController>()) {
       Get.find<CrmCustomerReportsController>().onInit();
     }
@@ -90,7 +90,7 @@ mixin EditFollowUpController {
       onResponse: (final response) {
         buttonState.loaded();
         action(response.result!);
-        _reloadHistory();
+        _reloadReports();
       },
       onError: (final errorResponse) {},
       withRetry: true,

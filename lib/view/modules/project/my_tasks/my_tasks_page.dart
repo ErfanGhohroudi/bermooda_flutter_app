@@ -4,7 +4,7 @@ import 'package:u/utilities.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/utils/enums/enums.dart';
-import '../../../../core/widgets/subtask_card/subtask_card.dart';
+import '../../subtask/subtask_card/subtask_card.dart';
 import 'my_tasks_controller.dart';
 
 class MyTasksPage extends StatefulWidget {

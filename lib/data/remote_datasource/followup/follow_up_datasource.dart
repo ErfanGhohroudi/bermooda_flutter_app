@@ -49,4 +49,11 @@ abstract class IFollowUpDatasource {
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
   });
+
+  void getFollowups({
+    required final int? sourceId,
+    required final Function(GenericResponse<FollowUpReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  });
 }

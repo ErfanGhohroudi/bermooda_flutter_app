@@ -1,9 +1,9 @@
 import 'package:u/utilities.dart';
 
-import '../widgets.dart';
-import '../../theme.dart';
-import '../../utils/enums/enums.dart';
-import '../../../data/data.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../core/theme.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../data/data.dart';
 import 'subtask_card_controller.dart';
 
 class WSubtaskCardCompact extends StatefulWidget {
@@ -48,7 +48,7 @@ class _WSubtaskCardCompactState extends State<WSubtaskCardCompact> with SubtaskC
     return Obx(
       () => WCard(
         showBorder: true,
-        borderColor: subtask.value.isDelayed ? AppColors.red : null,
+        borderColor: subtask.value.isDelayed ? AppColors.red.withAlpha(50) : null,
         color: subtask.value.isDelayed && !subtask.value.isCompleted ? AppColors.red.withAlpha(20) : context.theme.scaffoldBackgroundColor,
         padding: 6,
         child: Column(
