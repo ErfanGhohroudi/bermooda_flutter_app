@@ -30,14 +30,17 @@ class HistorySubtaskArchiveCard extends StatelessWidget {
       dataSourceType: model.subtask!.dataSourceType!,
       id: model.subtask!.id,
       onResponse: (final response) {
-        /// Refresh History Page
+        /// Refresh Reports Page
         if (Get.isRegistered<ProjectTaskReportsController>()) {
           Get.find<ProjectTaskReportsController>().onInit();
         }
 
-        /// Refresh Task Details Page
+        /// Refresh Subtask List Page
+        if (Get.isRegistered<SubtaskListController>()) {
+          Get.find<SubtaskListController>().onTryAgain();
+        }
         if (Get.isRegistered<CreateUpdateTaskController>()) {
-          Get.find<CreateUpdateTaskController>().getTask();
+          Get.find<CreateUpdateTaskController>().onInit();
         }
       },
       onError: (final errorResponse) {},

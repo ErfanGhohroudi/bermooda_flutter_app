@@ -1,9 +1,9 @@
 import 'package:u/utilities.dart';
 
-import '../../../data/data.dart';
-import '../../theme.dart';
-import '../../utils/enums/enums.dart';
-import '../widgets.dart';
+import '../../../../data/data.dart';
+import '../../../../core/theme.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../core/widgets/widgets.dart';
 import 'subtask_details/subtask_details_page.dart';
 import 'subtask_card_controller.dart';
 
@@ -80,7 +80,7 @@ class _WSubtaskCardState extends State<WSubtaskCard> with SubtaskCardController 
             : null,
         child: WCard(
           showBorder: true,
-          borderColor: subtask.value.isDelayed ? AppColors.red : null,
+          borderColor: subtask.value.isDelayed ? AppColors.red.withAlpha(50) : null,
           color: subtask.value.isDelayed && !subtask.value.isCompleted ? AppColors.red.withAlpha(20) : widget.cardColor,
           padding: 12,
           child: Column(

@@ -170,7 +170,7 @@ mixin CustomerCreateUpdateController {
     );
   }
 
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<CrmCustomerReportsController>()) {
       Get.find<CrmCustomerReportsController>().onInit();
     }
@@ -230,7 +230,7 @@ mixin CustomerCreateUpdateController {
       onResponse: (final response) {
         onResponse(response.result!);
         buttonState.loaded();
-        _reloadHistory();
+        _reloadReports();
       },
       onError: (final errorResponse) {
         buttonState.loaded();
@@ -294,7 +294,7 @@ mixin CustomerCreateUpdateController {
       onResponse: (final response) {
         onResponse(response.result!);
         buttonState.loaded();
-        _reloadHistory();
+        _reloadReports();
       },
       onError: (final errorResponse) {
         buttonState.loaded();

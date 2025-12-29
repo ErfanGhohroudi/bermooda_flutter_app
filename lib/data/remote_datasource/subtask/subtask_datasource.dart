@@ -168,13 +168,18 @@ class SubtaskDatasource {
   }) async {
     try {
       final String mainUrl = switch(dataSourceType) {
-        SubtaskDataSourceType.project => "",
+        SubtaskDataSourceType.project => "/v1/ProjectManager/MainCheckListManager",
         SubtaskDataSourceType.legal => "/v1/ContractBoard/ContractChecklistItem/",
+      };
+
+      final queryParameters = switch(dataSourceType) {
+        SubtaskDataSourceType.project => {"task_id": sourceId},
+        SubtaskDataSourceType.legal => {"contract_case_id": sourceId},
       };
 
       final response = await _apiClient.get(
         mainUrl,
-        queryParameters: {"contract_case_id": sourceId},
+        queryParameters: queryParameters,
         skipRetry: !withRetry,
       );
 

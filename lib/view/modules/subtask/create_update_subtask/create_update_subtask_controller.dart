@@ -1,8 +1,9 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../../core/widgets/fields/fields.dart';
-import '../../../../../../core/widgets/image_files.dart';
-import '../../../../../../data/data.dart';
+import '../../../../core/widgets/fields/fields.dart';
+import '../../../../core/widgets/image_files.dart';
+import '../../../../data/data.dart';
+import '../../project/task/create_update/create_update_task_controller.dart';
 
 mixin CreateUpdateSubtaskController {
   /// projectId or legalDepartmentId
@@ -125,6 +126,7 @@ mixin CreateUpdateSubtaskController {
         dataSourceType: _dataSourceType,
         dto: getModel(),
         onResponse: (final response) {
+          _reloadPages();
           if (buttonState.subject.isClosed) return;
           action(response.result!);
           buttonState.loaded();
@@ -174,5 +176,11 @@ mixin CreateUpdateSubtaskController {
       onError: (final errorResponse) {},
       withRetry: true,
     );
+  }
+
+  void _reloadPages() {
+    if (Get.isRegistered<CreateUpdateTaskController>()) {
+      Get.find<CreateUpdateTaskController>().onInit();
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
-import '../../../../core/widgets/follow_up_card/follow_up_card.dart';
+import '../../followup/follow_up_card/follow_up_card.dart';
 import 'enums/filter_enum.dart';
 import 'my_followups_controller.dart';
 

@@ -1,15 +1,15 @@
-import 'package:bermooda_business/view/modules/legal/legal_case/legal_case_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:u/utilities.dart';
 
-import '../../widgets.dart';
-import '../../image_files.dart';
-import '../../time_tracking/time_tracking.dart';
-import '../../../core.dart';
-import '../../../theme.dart';
-import '../../../utils/enums/enums.dart';
-import '../../../../data/data.dart';
-import '../../../../view/modules/crm/customer/customer_page.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/theme.dart';
+import '../../../../../core/utils/enums/enums.dart';
+import '../../../../../core/widgets/image_files.dart';
+import '../../../../../core/widgets/time_tracking/time_tracking.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../data/data.dart';
+import '../../../crm/customer/customer_page.dart';
+import '../../../legal/legal_case/legal_case_page.dart';
 import '../edit_follow_up/edit_follow_up_form.dart';
 import '../follow_up_card_controller.dart';
 

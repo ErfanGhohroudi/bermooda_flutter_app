@@ -1,16 +1,16 @@
 import 'package:u/utilities.dart';
 
-import '../../../view/modules/reports/controllers/crm/crm_customer_reports_controller.dart';
-import '../../../view/modules/reports/controllers/legal/legal_case_reports_controller.dart';
-import '../../../view/modules/legal/my_cases/my_cases_controller.dart';
-import '../widgets.dart';
-import '../../core.dart';
-import '../../navigator/navigator.dart';
-import '../../services/permission_service.dart';
-import '../../theme.dart';
-import '../../utils/enums/enums.dart';
-import '../../../data/data.dart';
-import '../../../view/modules/crm/my_followups/my_followups_controller.dart';
+import '../../reports/controllers/crm/crm_customer_reports_controller.dart';
+import '../../reports/controllers/legal/legal_case_reports_controller.dart';
+import '../../legal/my_cases/my_cases_controller.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../core/core.dart';
+import '../../../../core/navigator/navigator.dart';
+import '../../../../core/services/permission_service.dart';
+import '../../../../core/theme.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../data/data.dart';
+import '../../crm/my_followups/my_followups_controller.dart';
 
 mixin FollowUpCardController {
   final PermissionService _perService = Get.find<PermissionService>();
@@ -159,7 +159,7 @@ mixin FollowUpCardController {
     );
   }
 
-  void _reloadHistory() {
+  void _reloadReports() {
     if (Get.isRegistered<CrmCustomerReportsController>()) {
       Get.find<CrmCustomerReportsController>().onInit();
     }
@@ -179,7 +179,7 @@ mixin FollowUpCardController {
         if (response.result == null) return;
         final oldModel = followUp.value.copyWith();
         followUp(response.result);
-        _reloadHistory();
+        _reloadReports();
         handleMyFollowUpsChanges(oldModel, followUp.value.copyWith());
         onResponse(followUp.value);
       },

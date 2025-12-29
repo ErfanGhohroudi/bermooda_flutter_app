@@ -1,4 +1,3 @@
-import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/widgets/widgets.dart';
@@ -7,8 +6,6 @@ import '../../../../../core/widgets/fields/sections_dropdown/project_sections_dr
 import '../../../../../core/core.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../data/data.dart';
-import '../../../../../core/widgets/subtask_card/subtask_card.dart';
-import 'create_update_subtask/create_update_subtask_page.dart';
 import 'create_update_task_controller.dart';
 
 /// set [canChangeStatus] true if you want to hide AppBar and show checkbox.
@@ -22,7 +19,6 @@ class CreateUpdateTaskPage extends StatefulWidget {
     this.section,
     this.onSubtasksChanged,
     this.canChangeStatus = false,
-    this.scrollToSubtaskId,
     super.key,
   });
 
@@ -33,7 +29,6 @@ class CreateUpdateTaskPage extends StatefulWidget {
   final ProjectSectionReadDto? section;
   final Function(List<SubtaskReadDto> list)? onSubtasksChanged;
   final bool canChangeStatus;
-  final String? scrollToSubtaskId;
 
   @override
   State<CreateUpdateTaskPage> createState() => _CreateUpdateTaskPageState();
@@ -48,7 +43,6 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
       projectId: widget.projectId,
       task: widget.model,
       selectedSection: widget.section,
-      scrollToSubtaskId: widget.scrollToSubtaskId,
     ));
     super.initState();
   }
@@ -117,7 +111,6 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
             return ctrl.pageState.isLoaded()
                 ? SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-                    controller: ctrl.scrollController,
                     child: Form(
                       key: ctrl.formKey,
                       child: Column(
@@ -154,70 +147,22 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
                                   multiLine: true,
                                   showCounter: true,
                                   maxLength: 2000,
-                                  maxLines: 5,
+                                  maxLines: 20,
                                   autovalidateMode: AutovalidateMode.onUserInteraction,
                                 ),
-                                if (ctrl.haveAdminAccess && !ctrl.task!.isDeleted)
-                                  Container(
-                                    width: context.width,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      border: Border.all(color: context.theme.primaryColor, width: 2),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Center(
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        spacing: 5,
-                                        children: [
-                                          Icon(Icons.add_rounded, size: 25, color: context.theme.primaryColor),
-                                          Text(s.newSubtask).bodyMedium(color: context.theme.primaryColor).bold(),
-                                        ],
+                                WCard(
+                                  showBorder: true,
+                                  margin: EdgeInsets.zero,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    spacing: 10,
+                                    children: [
+                                      Text(s.progressStatus).titleMedium(),
+                                      WLabelProgressBar(
+                                        value: ctrl.task?.taskProgress?.round() ?? 0,
+                                        backgroundColor: context.theme.dividerColor,
                                       ),
-                                    ),
-                                  ).onTap(
-                                    () {
-                                      bottomSheet(
-                                        title: s.newSubtask,
-                                        child: CreateUpdateSubtaskPage(
-                                          dataSourceType: SubtaskDataSourceType.project,
-                                          mainSourceId: ctrl.projectId,
-                                          sourceId: ctrl.task?.id != null ? ctrl.task!.id : null,
-                                          onResponse: (final model) {
-                                            ctrl.subtasks.add(model);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  spacing: 5,
-                                  children: List<Widget>.generate(
-                                    ctrl.subtasks.length,
-                                    (final index) => ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: AutoScrollTag(
-                                        key: ValueKey(ctrl.subtasks[index].id),
-                                        controller: ctrl.scrollController,
-                                        index: index,
-                                        highlightColor: context.theme.primaryColor.withValues(alpha: 0.5),
-                                        child: WSubtaskCard(
-                                          subtask: ctrl.subtasks[index],
-                                          showCheckBox: widget.canChangeStatus,
-                                          onChangedCheckBoxStatus: (final value) {
-                                            ctrl.subtasks[index] = value;
-                                          },
-                                          onEdited: (final model) {
-                                            ctrl.subtasks[index] = model;
-                                          },
-                                          onDelete: () {
-                                            ctrl.subtasks.removeAt(index);
-                                          },
-                                        ),
-                                      ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                               ],

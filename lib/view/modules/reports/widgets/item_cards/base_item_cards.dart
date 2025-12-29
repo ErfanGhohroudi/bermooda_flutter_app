@@ -9,12 +9,13 @@ import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
 import '../../../crm/customer/customer_info/customer_info_controller.dart';
-import '../../../../../core/widgets/follow_up_card/follow_up_details/follow_up_details_page.dart';
-import '../../../legal/followup/list/legal_case_followup_list_controller.dart';
+import '../../../followup/follow_up_card/follow_up_details/follow_up_details_page.dart';
+import '../../../followup/list/followup_list_controller.dart';
+import '../../../subtask/list/subtask_list_controller.dart';
 import '../../controllers/crm/crm_customer_reports_controller.dart';
 import '../../controllers/legal/legal_case_reports_controller.dart';
 import '../../../project/task/create_update/create_update_task_controller.dart';
-import '../../../../../core/widgets/subtask_card/subtask_details/subtask_details_page.dart';
+import '../../../subtask/subtask_card/subtask_details/subtask_details_page.dart';
 import '../../controllers/project/project_task_reports_controller.dart';
 
 part 'contract_card.dart';

@@ -3,6 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
+import '../../followup/list/followup_list_page.dart';
 import '../../reports/controllers/crm/crm_customer_notes_controller.dart';
 import '../../reports/controllers/crm/crm_customer_reports_controller.dart';
 import '../../reports/report_timeline_page.dart';
@@ -13,6 +14,7 @@ class CustomerPage extends StatefulWidget {
     required this.customer,
     required this.onEdit,
     required this.onDelete,
+    this.scrollToFollowupSlug,
     this.canEdit = true,
     super.key,
   });
@@ -20,6 +22,7 @@ class CustomerPage extends StatefulWidget {
   final CustomerReadDto customer;
   final Function(CustomerReadDto customer) onEdit;
   final Function(CustomerReadDto customer) onDelete;
+  final String? scrollToFollowupSlug;
   final bool canEdit;
 
   @override
@@ -40,6 +43,7 @@ class _CustomerPageState extends State<CustomerPage> with SingleTickerProviderSt
 
     _tabs = [
       Tab(text: s.customerProfile),
+      Tab(text: s.followUps),
       Tab(text: s.note),
       Tab(text: s.reports),
     ];
@@ -70,11 +74,25 @@ class _CustomerPageState extends State<CustomerPage> with SingleTickerProviderSt
           onDelete: widget.onDelete,
         ),
       ),
+      LazyKeepAliveTabView(
+        builder: () => FollowupListPage(
+          datasource: Get.find<CustomerFollowUpDatasource>(),
+          sourceId: widget.customer.id ?? 0,
+          scrollToFollowupSlug: widget.scrollToFollowupSlug,
+          canEdit: canEdit,
+        ),
+      ),
       LazyKeepAliveTabView(builder: () => ReportTimelinePage(controller: notesCtrl)),
       LazyKeepAliveTabView(builder: () => ReportTimelinePage(controller: reportsCtrl)),
     ];
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      initialIndex: widget.scrollToFollowupSlug != null
+          ? 2
+          : 0,
+      length: _tabs.length,
+      vsync: this,
+    );
     super.initState();
   }
 

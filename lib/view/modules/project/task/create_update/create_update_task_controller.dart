@@ -1,9 +1,7 @@
-import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
-import '../../../../../core/loading/loading.dart';
 import '../../../../../core/services/permission_service.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../data/data.dart';
@@ -13,15 +11,12 @@ class CreateUpdateTaskController extends GetxController {
     required this.task,
     required this.projectId,
     required this.selectedSection,
-    final String? scrollToSubtaskId,
-  }) : _scrollToSubtaskId = scrollToSubtaskId;
+  });
 
   final TaskDatasource _taskDatasource = Get.find<TaskDatasource>();
   TaskReadDto? task;
   late String projectId;
-  String? _scrollToSubtaskId;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final AutoScrollController scrollController = AutoScrollController();
   final Rx<PageState> pageState = PageState.initial.obs;
   final Rx<PageState> buttonState = PageState.loaded.obs;
   final PermissionService _perService = Get.find<PermissionService>();
@@ -56,23 +51,7 @@ class CreateUpdateTaskController extends GetxController {
     debugPrint("CreateUpdateTaskController closed!!!");
     titleController.dispose();
     descriptionController.dispose();
-    scrollController.dispose();
     super.onClose();
-  }
-
-  /// scroll to subtask
-  Future<void> scrollToSubtask(final String subtaskId) async {
-    AppLoading.showLoading();
-    final int index = subtasks.indexWhere((final e) => e.id == subtaskId);
-
-    if (index != -1) {
-      AppLoading.dismissLoading();
-      await scrollController.scrollToIndex(index, preferPosition: AutoScrollPosition.middle);
-      scrollController.highlight(index);
-    } else {
-      AppLoading.dismissLoading();
-    }
-    _scrollToSubtaskId = null;
   }
 
   void onSubmit({required final Function(TaskReadDto model) onResponse}) {
@@ -145,15 +124,6 @@ class CreateUpdateTaskController extends GetxController {
     descriptionController.text = model?.description ?? '';
     subtasks(model?.subtasks);
     pageState.loaded();
-
-    if (_scrollToSubtaskId != null) {
-      delay(
-        500,
-        () {
-          scrollToSubtask(_scrollToSubtaskId!);
-        },
-      );
-    }
   }
 
   void delete({required final VoidCallback action}) {

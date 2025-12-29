@@ -1,18 +1,24 @@
-import 'package:bermooda_business/core/core.dart';
-import 'package:bermooda_business/core/widgets/widgets.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../core/core.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../data/data.dart';
 import '../follow_up_card/follow_up_card.dart';
-import 'legal_case_followup_list_controller.dart';
+import 'followup_list_controller.dart';
 
 class FollowupListPage extends StatefulWidget {
   const FollowupListPage({
+    required this.datasource,
     required this.sourceId,
+    required this.scrollToFollowupSlug,
     required this.canEdit,
     super.key,
   });
 
+  final IFollowUpDatasource datasource;
   final int sourceId;
+  final String? scrollToFollowupSlug;
   final bool canEdit;
 
   @override
@@ -26,7 +32,9 @@ class _FollowupListPageState extends State<FollowupListPage> {
   void initState() {
     ctrl = Get.put(
       FollowupListController(
+        datasource: widget.datasource,
         sourceId: widget.sourceId,
+        scrollToFollowupSlug: widget.scrollToFollowupSlug,
         canEdit: widget.canEdit,
       ),
     );
@@ -73,14 +81,25 @@ class _FollowupListPageState extends State<FollowupListPage> {
                 enablePullUp: false,
                 child: ListView.builder(
                   itemCount: ctrl.followups.length,
+                  controller: ctrl.scrollController,
                   padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 100),
                   itemBuilder: (final context, final index) {
                     final followup = ctrl.followups[index];
-                    return WFollowUpCard(
-                      followUp: followup,
-                      onChanged: ctrl.addOrUpdateFollowUp,
-                      onDelete: () => ctrl.deleteFollowUp(followup),
-                      showSourceData: false,
+
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: AutoScrollTag(
+                        key: ValueKey(ctrl.followups[index].slug),
+                        controller: ctrl.scrollController,
+                        index: index,
+                        highlightColor: context.theme.primaryColor.withValues(alpha: 0.5),
+                        child: WFollowUpCard(
+                          followUp: followup,
+                          onChanged: ctrl.addOrUpdateFollowUp,
+                          onDelete: () => ctrl.deleteFollowUp(followup),
+                          showSourceData: false,
+                        ),
+                      ),
                     );
                   },
                 ),

@@ -4,7 +4,7 @@ import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
 import '../../board/project_board_controller.dart';
-import '../../../../../core/widgets/subtask_card/subtask_card_compact.dart';
+import '../../../subtask/subtask_card/subtask_card_compact.dart';
 import '../../task/task_details_page.dart';
 
 class TaskCard extends StatefulWidget {

@@ -204,8 +204,9 @@ class LegalFollowUpDatasource implements IFollowUpDatasource {
     AppLoading.dismissLoading();
   }
 
+  @override
   void getFollowups({
-    required final int? caseId,
+    required final int? sourceId,
     required final Function(GenericResponse<FollowUpReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -213,7 +214,7 @@ class LegalFollowUpDatasource implements IFollowUpDatasource {
     try {
       final response = await _apiClient.get(
         "/v1/ContractBoard/MainContractTrackingManager/",
-        queryParameters: {"contract_case_id": caseId},
+        queryParameters: {"contract_case_id": sourceId},
         skipRetry: !withRetry,
       );
 

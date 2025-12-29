@@ -1,16 +1,16 @@
 import 'package:u/utilities.dart';
 
-import '../../../utils/extensions/color_extension.dart';
+import '../../../../../core/utils/extensions/color_extension.dart';
 import '../subtask_card_controller.dart';
-import '../../widgets.dart';
-import '../../fields/fields.dart';
-import '../../image_files.dart';
-import '../../links.dart';
-import '../../time_tracking/time_tracking.dart';
-import '../../../core.dart';
-import '../../../theme.dart';
-import '../../../utils/enums/enums.dart';
-import '../../../../data/data.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/widgets/fields/fields.dart';
+import '../../../../../core/widgets/image_files.dart';
+import '../../../../../core/widgets/links.dart';
+import '../../../../../core/widgets/time_tracking/time_tracking.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/theme.dart';
+import '../../../../../core/utils/enums/enums.dart';
+import '../../../../../data/data.dart';
 
 class SubtaskDetailsPage extends StatefulWidget {
   const SubtaskDetailsPage({

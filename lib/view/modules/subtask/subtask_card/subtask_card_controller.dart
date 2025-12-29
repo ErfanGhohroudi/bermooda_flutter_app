@@ -1,16 +1,16 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/navigator/navigator.dart';
-import '../../../../../core/services/permission_service.dart';
-import '../../../../../core/theme.dart';
-import '../../../../../data/data.dart';
-import '../../../../../core/core.dart';
-import '../../../../../core/utils/enums/enums.dart';
-import '../../../../../core/widgets/widgets.dart';
-import '../../../view/modules/reports/controllers/crm/crm_customer_reports_controller.dart';
-import '../../../view/modules/reports/controllers/legal/legal_case_reports_controller.dart';
-import '../../../view/modules/project/task/create_update/create_update_subtask/create_update_subtask_page.dart';
-import '../../../view/modules/project/task/create_update/create_update_task_controller.dart';
+import '../../../../../../core/navigator/navigator.dart';
+import '../../../../../../core/services/permission_service.dart';
+import '../../../../../../core/theme.dart';
+import '../../../../../../data/data.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../../core/utils/enums/enums.dart';
+import '../../../../../../core/widgets/widgets.dart';
+import '../../reports/controllers/crm/crm_customer_reports_controller.dart';
+import '../../reports/controllers/legal/legal_case_reports_controller.dart';
+import '../create_update_subtask/create_update_subtask_page.dart';
+import '../../project/task/create_update/create_update_task_controller.dart';
 
 mixin SubtaskCardController {
   final core = Get.find<Core>();
