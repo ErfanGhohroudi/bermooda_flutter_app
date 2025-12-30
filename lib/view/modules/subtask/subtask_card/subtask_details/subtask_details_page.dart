@@ -39,7 +39,12 @@ class SubtaskDetailsPage extends StatefulWidget {
 }
 
 class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCardController {
-  bool get canManage => widget.canManage && haveAccess && !subtask.value.isCompleted && !subtask.value.isArchived && (haveAdminAccess || isMySubtask);
+  bool get canManage =>
+      widget.canManage &&
+      haveAccess &&
+      !subtask.value.isCompleted &&
+      !subtask.value.isArchived &&
+      (isMySubtask || haveAdminAccess);
 
   @override
   void initState() {
@@ -81,10 +86,12 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                                     titleColor: AppColors.red,
                                     icon: AppIcons.delete,
                                     iconColor: AppColors.red,
-                                    onTap: () => deleteSubtask(action: () {
-                                      widget.onDelete;
-                                      if (mounted) UNavigator.back();
-                                    }),
+                                    onTap: () => deleteSubtask(
+                                      action: () {
+                                        widget.onDelete;
+                                        if (mounted) UNavigator.back();
+                                      },
+                                    ),
                                   ),
                               ],
                             );
@@ -142,7 +149,11 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                   _item(
                     title: s.date,
                     icon: UImage(AppIcons.calendarOutline, size: 25, color: context.theme.hintColor),
-                    value: subtask.value.dateToStart != null || subtask.value.timeToStart != null || subtask.value.dateToEnd != null || subtask.value.timeToEnd != null
+                    value:
+                        subtask.value.dateToStart != null ||
+                            subtask.value.timeToStart != null ||
+                            subtask.value.dateToEnd != null ||
+                            subtask.value.timeToEnd != null
                         ? Text(
                             RangeDatePickerViewModel(
                               startDate: subtask.value.dateToStart,
@@ -192,9 +203,9 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                     interactive: isMySubtask,
                     onChanged: widget.canChange && canManage
                         ? (final value) => changeProgress(
-                              value,
-                              onResponse: (final model) => widget.onEdited(model),
-                            )
+                            value,
+                            onResponse: (final model) => widget.onEdited(model),
+                          )
                         : null,
                   ),
                 ],
@@ -218,7 +229,12 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                       padding: const EdgeInsetsDirectional.only(start: 35),
                       child: WTimeTracking(
                         timerDto: subtask.value.timer!,
-                        showButtons: widget.canChange && widget.showCheckBox && !subtask.value.isCompleted && isMySubtask && !subtask.value.isArchived,
+                        showButtons:
+                            widget.canChange &&
+                            widget.showCheckBox &&
+                            !subtask.value.isCompleted &&
+                            isMySubtask &&
+                            !subtask.value.isArchived,
                         onTapButton: (final command) {
                           if (command == TimerStatusCommand.stop) {
                             appShowYesCancelDialog(
@@ -247,7 +263,9 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                     UBadge(
                       badgeContent: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
-                        child: Center(child: Text(subtask.value.links.length.toString()).bodyMedium(color: context.theme.hintColor)),
+                        child: Center(
+                          child: Text(subtask.value.links.length.toString()).bodyMedium(color: context.theme.hintColor),
+                        ),
                       ),
                       badgeColor: context.theme.hintColor.withAlpha(100),
                     ),
@@ -263,7 +281,10 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                         showAddWidget: false,
                         onChanged: (final list) {},
                       )
-                    : SizedBox(height: 70, child: Center(child: Text(s.listIsEmpty).bodyMedium(color: context.theme.hintColor))),
+                    : SizedBox(
+                        height: 70,
+                        child: Center(child: Text(s.listIsEmpty).bodyMedium(color: context.theme.hintColor)),
+                      ),
                 onChanged: (final value) {},
               ).pSymmetric(horizontal: 16),
               const Divider(),
@@ -277,7 +298,9 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                     UBadge(
                       badgeContent: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
-                        child: Center(child: Text(subtask.value.files.length.toString()).bodyMedium(color: context.theme.hintColor)),
+                        child: Center(
+                          child: Text(subtask.value.files.length.toString()).bodyMedium(color: context.theme.hintColor),
+                        ),
                       ),
                       badgeColor: context.theme.hintColor.withAlpha(100),
                     ),
@@ -295,7 +318,10 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                         onFilesUpdated: (final list) {},
                         uploadingFileStatus: (final value) {},
                       )
-                    : SizedBox(height: 70, child: Center(child: Text(s.listIsEmpty).bodyMedium(color: context.theme.hintColor))),
+                    : SizedBox(
+                        height: 70,
+                        child: Center(child: Text(s.listIsEmpty).bodyMedium(color: context.theme.hintColor)),
+                      ),
                 onChanged: (final value) {},
               ).pSymmetric(horizontal: 16),
             ],
@@ -310,24 +336,23 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
     required final Widget value,
     final Widget? icon,
     final CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-  }) =>
-      Row(
-        crossAxisAlignment: crossAxisAlignment,
-        spacing: 10,
-        children: [
-          SizedBox(
-            width: context.width / 3.5,
-            child: Row(
-              spacing: 10,
-              children: [
-                if (icon != null) icon,
-                Flexible(
-                  child: Text(title).bodyMedium(color: context.theme.hintColor),
-                ),
-              ],
+  }) => Row(
+    crossAxisAlignment: crossAxisAlignment,
+    spacing: 10,
+    children: [
+      SizedBox(
+        width: context.width / 3.5,
+        child: Row(
+          spacing: 10,
+          children: [
+            if (icon != null) icon,
+            Flexible(
+              child: Text(title).bodyMedium(color: context.theme.hintColor),
             ),
-          ),
-          value.expanded(),
-        ],
-      );
+          ],
+        ),
+      ),
+      value.expanded(),
+    ],
+  );
 }

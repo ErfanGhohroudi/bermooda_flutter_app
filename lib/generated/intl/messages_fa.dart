@@ -123,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "budget": MessageLookupByLibrary.simpleMessage("بودجه"),
     "businessName": MessageLookupByLibrary.simpleMessage("نام کسب‌وکار"),
     "businessSize": MessageLookupByLibrary.simpleMessage("اندازه کسب‌وکار"),
+    "businesses": MessageLookupByLibrary.simpleMessage("کسب‌وکار ها"),
     "buySubscription": MessageLookupByLibrary.simpleMessage("خرید اشتراک"),
     "calendar": MessageLookupByLibrary.simpleMessage("تقویم"),
     "camera": MessageLookupByLibrary.simpleMessage("دوربین"),

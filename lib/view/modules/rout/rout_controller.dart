@@ -9,6 +9,8 @@ import '../../../core/widgets/widgets.dart';
 import '../../../core/constants.dart';
 import '../../../core/core.dart';
 import '../../../core/functions/user_functions.dart';
+import '../../../core/functions/init_app_functions.dart';
+import '../../../core/services/websocket_service.dart';
 import '../conversation/presentation/pages/conversations/conversations_list_page.dart';
 import '../dashboard/dashboard_page.dart';
 import '../members/list/members_list_page.dart';
@@ -166,6 +168,19 @@ class RoutController extends GetxController {
     screen = _buildPageForIndex(currentPageIndex.value);
     currentPageIndex.refresh();
     update();
+  }
+
+  /// Change current workspace and re-init app if needed
+  void changeCurrentWorkspace(final WorkspaceReadDto newWorkspace) {
+    _datasource.changeCurrentWorkspace(
+      id: newWorkspace.id,
+      onResponse: () {
+        if (WebSocketService().isConnected.value) return;
+        initApp(currentWorkspaceChanged: true);
+      },
+      onError: (final errorResponse) {},
+      withRetry: true,
+    );
   }
 
   Future<void> changePage(int index) async {

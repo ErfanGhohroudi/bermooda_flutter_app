@@ -1,19 +1,21 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/utils/enums/enums.dart';
-import '../../../../../core/core.dart';
-import '../../../../../core/theme.dart';
-import '../../../../../data/data.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../core/core.dart';
+import '../../../../core/theme.dart';
+import '../../../../data/data.dart';
 
 class WorkspaceListItem extends StatelessWidget {
   const WorkspaceListItem({
     required this.workspace,
     required this.onTap,
+    this.isSelected = false,
     super.key,
   });
 
   final WorkspaceReadDto workspace;
   final VoidCallback onTap;
+  final bool isSelected;
 
   @override
   Widget build(final BuildContext context) {
@@ -21,7 +23,11 @@ class WorkspaceListItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: context.width,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
+        padding: EdgeInsets.symmetric(vertical: 12, horizontal: isSelected ? 12 : 4),
+        decoration: BoxDecoration(
+          color: isSelected ? context.theme.primaryColor.withValues(alpha: 0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Row(
           spacing: 10,
           children: [
