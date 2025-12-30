@@ -50,7 +50,6 @@ mixin LegalCreateUpdateSectionController {
     this.section = section;
     if (this.section != null) _setValue();
     _getBoardIcons();
-    pageState.loaded();
   }
 
   void _setValue() {

@@ -76,7 +76,7 @@ class _LegalCasePageState extends State<LegalCasePage> with SingleTickerProvider
       ),
       LazyKeepAliveTabView(
         builder: () => SubtaskListPage(
-          dataSourceType: SubtaskDataSourceType.project,
+          dataSourceType: SubtaskDataSourceType.legal,
           mainSourceId: widget.legalCase.departmentId?.toString() ?? "0",
           sourceId: widget.legalCase.id,
           scrollToSubtaskId: widget.scrollToSubtaskId,

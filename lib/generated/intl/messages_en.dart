@@ -125,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "budget": MessageLookupByLibrary.simpleMessage("Budget"),
     "businessName": MessageLookupByLibrary.simpleMessage("Business Name"),
     "businessSize": MessageLookupByLibrary.simpleMessage("Business Size"),
+    "businesses": MessageLookupByLibrary.simpleMessage("Businesses"),
     "buySubscription": MessageLookupByLibrary.simpleMessage("Subscribe"),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "camera": MessageLookupByLibrary.simpleMessage("Camera"),

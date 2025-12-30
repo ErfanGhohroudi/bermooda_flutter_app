@@ -1,14 +1,11 @@
 import 'package:u/utilities.dart';
 
 import '../../../../core/core.dart';
-import '../../../../core/functions/init_app_functions.dart';
 import '../../../../data/data.dart';
-import '../../../../core/services/websocket_service.dart';
 import '../../subscription/subscription_page.dart';
 import '../rout_controller.dart';
 
 mixin RoutDrawerController {
-  final WorkspaceDatasource _datasource = Get.find<WorkspaceDatasource>();
   final core = Get.find<Core>();
   final RoutController routCtrl = Get.find<RoutController>();
   bool isShowWorkspaces = false;
@@ -45,15 +42,7 @@ mixin RoutDrawerController {
   }
 
   void changeCurrentWorkspace(final WorkspaceReadDto newWorkspace) {
-    _datasource.changeCurrentWorkspace(
-      id: newWorkspace.id,
-      onResponse: () {
-        if (WebSocketService().isConnected.value) return;
-        initApp(currentWorkspaceChanged: true);
-      },
-      onError: (final errorResponse) {},
-      withRetry: true,
-    );
+    routCtrl.changeCurrentWorkspace(newWorkspace);
   }
 
   void changeTheme() {

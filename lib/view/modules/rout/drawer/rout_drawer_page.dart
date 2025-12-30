@@ -11,8 +11,8 @@ import '../../account/update/update_account_page.dart';
 import '../../workspace/create/create_workspace_page.dart';
 import '../../workspace/list/workspace_list_page.dart';
 import 'rout_drawer_controller.dart';
-import 'widgets/create_workspace_button.dart';
-import 'widgets/workspace_list_item.dart';
+import '../widgets/create_workspace_button.dart';
+import '../widgets/workspace_list_item.dart';
 
 class RoutDrawerPage extends StatefulWidget {
   const RoutDrawerPage({super.key});

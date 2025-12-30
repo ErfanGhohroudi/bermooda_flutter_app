@@ -1,7 +1,7 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/core.dart';
-import '../../../../../core/theme.dart';
+import '../../../../core/core.dart';
+import '../../../../core/theme.dart';
 
 class CreateWorkspaceButton extends StatelessWidget {
   const CreateWorkspaceButton({

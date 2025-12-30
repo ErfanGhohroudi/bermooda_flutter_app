@@ -2144,6 +2144,11 @@ class S {
     );
   }
 
+  /// `Businesses`
+  String get businesses {
+    return Intl.message('Businesses', name: 'businesses', desc: '', args: []);
+  }
+
   /// `My Business List`
   String get myBusinessList {
     return Intl.message(
