@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/widgets/board_section_icons/icons_page.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/kanban_board/view_models/section_view_model.dart';
@@ -9,7 +10,6 @@ import '../../../../../core/utils/enums/enums.dart';
 import '../../../../../data/data.dart';
 import '../project_board_controller.dart';
 import 'project_create_update_section_controller.dart';
-import 'icons/icons_page.dart';
 
 class ProjectCreateUpdateSectionPage extends StatefulWidget {
   const ProjectCreateUpdateSectionPage({

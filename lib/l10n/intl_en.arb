@@ -588,7 +588,6 @@
   "bank": "Bank",
   "activeModules": "Active Modules",
   "activatedModules": "Activated Modules",
-  "moduleManagement": "Module Management",
   "active": "Active",
   "expired": "Expired",
   "expiringSoon": "Expiring Soon",

@@ -1,8 +1,8 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../../core/widgets/widgets.dart';
-import '../../../../../../core/utils/enums/enums.dart';
-import '../../../../../../data/data.dart';
+import '../widgets.dart';
+import '../../utils/enums/enums.dart';
+import '../../../data/data.dart';
 
 class IconsPage extends StatefulWidget {
   const IconsPage({

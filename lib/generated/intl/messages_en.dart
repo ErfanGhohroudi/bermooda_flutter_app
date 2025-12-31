@@ -675,9 +675,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "missionPurpose": MessageLookupByLibrary.simpleMessage("Mission Purpose"),
     "missionStart": MessageLookupByLibrary.simpleMessage("Start of Mission"),
     "module": MessageLookupByLibrary.simpleMessage("Module"),
-    "moduleManagement": MessageLookupByLibrary.simpleMessage(
-      "Module Management",
-    ),
     "modules": MessageLookupByLibrary.simpleMessage("Modules"),
     "month": MessageLookupByLibrary.simpleMessage("Month"),
     "months": MessageLookupByLibrary.simpleMessage("Months"),

@@ -4644,16 +4644,6 @@ class S {
     );
   }
 
-  /// `Module Management`
-  String get moduleManagement {
-    return Intl.message(
-      'Module Management',
-      name: 'moduleManagement',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Active`
   String get active {
     return Intl.message('Active', name: 'active', desc: '', args: []);

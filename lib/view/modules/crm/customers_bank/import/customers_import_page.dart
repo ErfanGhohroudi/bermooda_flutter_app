@@ -56,33 +56,41 @@ class CustomersImportPageState extends State<CustomersImportPage> {
         canvasColor: context.theme.scaffoldBackgroundColor,
       ),
       child: Obx(
-        () => Stepper(
-          type: StepperType.horizontal,
-          currentStep: ctrl.currentStep.value,
-          elevation: 0,
-          stepIconMargin: const EdgeInsets.only(left: 3, right: 3, bottom: 10),
-          // onStepTapped: (final i) => setState(() => currentStep.value = i),
-          controlsBuilder: (final context, final details) => const SizedBox.shrink(),
-          steps: List.generate(4, (final index) {
-            final isActive = index <= ctrl.currentStep.value;
-            final isComplete = index < ctrl.currentStep.value;
+        () => Theme(
+          data: context.theme.copyWith(
+            colorScheme: context.theme.colorScheme.copyWith(
+              primary: context.theme.primaryColor,
+            ),
+            canvasColor: context.theme.scaffoldBackgroundColor, // یا هر رنگ دیگری که می‌خواهید
+          ),
+          child: Stepper(
+            type: StepperType.horizontal,
+            currentStep: ctrl.currentStep.value,
+            elevation: 0,
+            stepIconMargin: const EdgeInsets.only(left: 3, right: 3, bottom: 10),
+            // onStepTapped: (final i) => setState(() => currentStep.value = i),
+            controlsBuilder: (final context, final details) => const SizedBox.shrink(),
+            steps: List.generate(4, (final index) {
+              final isActive = index <= ctrl.currentStep.value;
+              final isComplete = index < ctrl.currentStep.value;
 
-            return Step(
-              isActive: isActive,
-              state: isComplete ? StepState.complete : StepState.indexed,
-              title: const SizedBox.shrink(),
-              // title: Text(steps[index], textAlign: TextAlign.center).bodySmall(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
-              label: Text(steps[index], textAlign: TextAlign.center).bodyMedium(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
-              stepStyle: StepStyle(
-                color: isActive ? context.theme.primaryColor : context.theme.dividerColor,
-                connectorColor: context.theme.dividerColor,
-                indexStyle: context.textTheme.bodyMedium?.copyWith(
-                  color: isActive ? Colors.white : context.theme.hintColor,
+              return Step(
+                isActive: isActive,
+                state: isComplete ? StepState.complete : StepState.indexed,
+                title: const SizedBox.shrink(),
+                // title: Text(steps[index], textAlign: TextAlign.center).bodySmall(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
+                label: Text(steps[index], textAlign: TextAlign.center).bodyMedium(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
+                stepStyle: StepStyle(
+                  color: isActive ? context.theme.primaryColor : context.theme.dividerColor,
+                  connectorColor: context.theme.dividerColor,
+                  indexStyle: context.textTheme.bodyMedium?.copyWith(
+                    color: isActive ? Colors.white : context.theme.hintColor,
+                  ),
                 ),
-              ),
-              content: _buildStepContent(index),
-            );
-          }),
+                content: _buildStepContent(index),
+              );
+            }),
+          ),
         ),
       ),
     );

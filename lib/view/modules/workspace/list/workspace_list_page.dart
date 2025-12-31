@@ -193,7 +193,7 @@ class _WorkspaceListPageState extends State<WorkspaceListPage> with WorkspaceLis
             spacing: 10,
             children: [
               UElevatedButton(
-                title: s.buySubscription,
+                title: s.subscriptionManagement,
                 backgroundColor: context.theme.primaryColor,
                 onTap: () {
                   UNavigator.push(SubscriptionPage(workspaceId: workspace.id));

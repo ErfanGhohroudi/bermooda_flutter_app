@@ -57,7 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "amount": MessageLookupByLibrary.simpleMessage("مبلغ"),
     "appName": MessageLookupByLibrary.simpleMessage("برمودا"),
     "applicant": MessageLookupByLibrary.simpleMessage("درخواست دهنده"),
-    "apply": MessageLookupByLibrary.simpleMessage("اعمال"),
+    "apply": MessageLookupByLibrary.simpleMessage("تایید"),
     "approve": MessageLookupByLibrary.simpleMessage("تایید"),
     "archive": MessageLookupByLibrary.simpleMessage("بایگانی"),
     "archiveRemoved": MessageLookupByLibrary.simpleMessage(
@@ -668,7 +668,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "missionPurpose": MessageLookupByLibrary.simpleMessage("هدف مأموریت"),
     "missionStart": MessageLookupByLibrary.simpleMessage("شروع مأموریت"),
     "module": MessageLookupByLibrary.simpleMessage("ماژول"),
-    "moduleManagement": MessageLookupByLibrary.simpleMessage("مدیریت ماژول‌ها"),
     "modules": MessageLookupByLibrary.simpleMessage("ماژول ها"),
     "month": MessageLookupByLibrary.simpleMessage("ماه"),
     "months": MessageLookupByLibrary.simpleMessage("ماه"),
