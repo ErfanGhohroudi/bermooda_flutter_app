@@ -122,6 +122,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Birth Certificate Number",
     ),
     "both": MessageLookupByLibrary.simpleMessage("Both"),
+    "breakEnd": MessageLookupByLibrary.simpleMessage("End of Break"),
+    "breakStart": MessageLookupByLibrary.simpleMessage("Start of Break"),
+    "breakText": MessageLookupByLibrary.simpleMessage("Break"),
     "budget": MessageLookupByLibrary.simpleMessage("Budget"),
     "businessName": MessageLookupByLibrary.simpleMessage("Business Name"),
     "businessSize": MessageLookupByLibrary.simpleMessage("Business Size"),
@@ -355,6 +358,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "duplicate": MessageLookupByLibrary.simpleMessage("Duplicate"),
     "early": MessageLookupByLibrary.simpleMessage("Early"),
+    "earlyOutAllowance": MessageLookupByLibrary.simpleMessage(
+      "Early Out Allowance",
+    ),
     "economicCode": MessageLookupByLibrary.simpleMessage("Economic Code"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
     "editCase": MessageLookupByLibrary.simpleMessage("Edit Case"),
@@ -587,6 +593,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "leave": MessageLookupByLibrary.simpleMessage("Leave"),
     "leaveDate": MessageLookupByLibrary.simpleMessage("Leave Date"),
     "leaveEnd": MessageLookupByLibrary.simpleMessage("End of Leave"),
+    "leaveEntitlement": MessageLookupByLibrary.simpleMessage(
+      "Leave Entitlement",
+    ),
     "leaveGroup": MessageLookupByLibrary.simpleMessage("Leave Group"),
     "leaveGroupDialogDescription": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to leave this group?",
@@ -672,11 +681,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Mission Destination (City, Province)",
     ),
     "missionEnd": MessageLookupByLibrary.simpleMessage("End of Mission"),
+    "missionLimit": MessageLookupByLibrary.simpleMessage("Mission Limit"),
     "missionPurpose": MessageLookupByLibrary.simpleMessage("Mission Purpose"),
     "missionStart": MessageLookupByLibrary.simpleMessage("Start of Mission"),
     "module": MessageLookupByLibrary.simpleMessage("Module"),
     "modules": MessageLookupByLibrary.simpleMessage("Modules"),
     "month": MessageLookupByLibrary.simpleMessage("Month"),
+    "monthlySettings": MessageLookupByLibrary.simpleMessage("Monthly Settings"),
     "months": MessageLookupByLibrary.simpleMessage("Months"),
     "more": MessageLookupByLibrary.simpleMessage("More"),
     "moveCustomer": MessageLookupByLibrary.simpleMessage("Move Customer"),
@@ -822,6 +833,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "overdueTasks": MessageLookupByLibrary.simpleMessage("Overdue Tasks"),
     "overtime": MessageLookupByLibrary.simpleMessage("Overtime"),
     "overtimeEnd": MessageLookupByLibrary.simpleMessage("End of Overtime"),
+    "overtimeLimit": MessageLookupByLibrary.simpleMessage("Overtime Limit"),
     "overtimeStart": MessageLookupByLibrary.simpleMessage("Start of Overtime"),
     "owner": MessageLookupByLibrary.simpleMessage("Owner"),
     "parties": MessageLookupByLibrary.simpleMessage("The Parties"),
@@ -990,8 +1002,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resend": MessageLookupByLibrary.simpleMessage("RESEND"),
     "responsibility": MessageLookupByLibrary.simpleMessage("Responsibility"),
-    "restEnd": MessageLookupByLibrary.simpleMessage("End of Rest"),
-    "restStart": MessageLookupByLibrary.simpleMessage("Start of Rest"),
     "restore": MessageLookupByLibrary.simpleMessage("Restore"),
     "restoreDescription": MessageLookupByLibrary.simpleMessage(
       "Do you want to restore?",
@@ -1158,6 +1168,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "* Tap the Enter key on your keyboard to add.",
     ),
     "tardiness": MessageLookupByLibrary.simpleMessage("Tardiness"),
+    "tardinessAllowance": MessageLookupByLibrary.simpleMessage(
+      "Tardiness Allowance",
+    ),
     "task": MessageLookupByLibrary.simpleMessage("Task"),
     "tasks": MessageLookupByLibrary.simpleMessage("Tasks"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("Technical Skills"),
@@ -1236,13 +1249,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "upgradeSubscription": MessageLookupByLibrary.simpleMessage("Upgrade"),
     "upload": MessageLookupByLibrary.simpleMessage("Upload"),
-    "uploadBusinessRegistrationLicense": MessageLookupByLibrary.simpleMessage(
-      "Upload Business Registration / License",
-    ),
-    "uploadBusinessRegistrationLicenseIsRequired":
-        MessageLookupByLibrary.simpleMessage(
-          "Uploading the business registration or license is required.",
-        ),
     "uploadCriminalRecordClearanceCertificate":
         MessageLookupByLibrary.simpleMessage(
           "Upload Criminal Record Clearance Certificate",
@@ -1253,12 +1259,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uploadMedicalCertificate": MessageLookupByLibrary.simpleMessage(
       "Upload Medical Certificate",
-    ),
-    "uploadNationalIDCard": MessageLookupByLibrary.simpleMessage(
-      "Upload National ID Card",
-    ),
-    "uploadNationalIDCardIsRequired": MessageLookupByLibrary.simpleMessage(
-      "Uploading the national ID card photo is required.",
     ),
     "uploadPhoto": MessageLookupByLibrary.simpleMessage("Upload Photo"),
     "uploadSignature": MessageLookupByLibrary.simpleMessage("Upload Signature"),

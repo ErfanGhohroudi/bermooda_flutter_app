@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:u/utilities.dart';
 import 'package:dio/dio.dart' as dio;
 
+import '../view/modules/human_resource/workshift/enums/shift_flexible_time_duration.dart';
 import '../view/modules/subscription/enums/max_contract_count.dart';
 import '../core/navigator/navigator.dart';
 import '../core/theme.dart';
@@ -36,6 +37,12 @@ part 'dto/params/request/mission_work_request_params.dart';
 part 'dto/params/request/overtime_request_params.dart';
 part 'dto/params/request/support_procurement_request_params.dart';
 part 'dto/params/request/welfare_financial_request_params.dart';
+
+/// workshift
+part 'dto/params/workshift/year_shift_params.dart';
+part 'dto/params/workshift/month_shift_params.dart';
+part 'dto/params/workshift/daily_shift_params.dart';
+part 'dto/params/workshift/shift_type_params.dart';
 
 /// workspace
 part 'dto/params/workspace/base_workspace_required_info_params.dart';
@@ -83,6 +90,10 @@ part 'dto/response/human_resource/member_activity.dart';
 part 'dto/response/human_resource/timesheet.dart';
 part 'dto/response/human_resource/monthly_attendance_statistics.dart';
 part 'dto/response/human_resource/work_shift.dart';
+part 'dto/response/human_resource/workshift/year_shift.dart';
+part 'dto/response/human_resource/workshift/month_shift.dart';
+part 'dto/response/human_resource/workshift/daily_shift.dart';
+part 'dto/response/human_resource/workshift/shift_type.dart';
 // Import Customer Exel models
 part 'dto/response/import_customer_exel/exel_mapping_result.dart';
 part 'dto/response/import_customer_exel/exel_result.dart';
@@ -180,6 +191,10 @@ part 'remote_datasource/human_resources_manager/hr_statistics_datasource.dart';
 part 'remote_datasource/human_resources_manager/human_resource_datasource.dart';
 part 'remote_datasource/human_resources_manager/member_datasource.dart';
 part 'remote_datasource/human_resources_manager/work_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/year_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/month_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/daily_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/shift_type_datasource.dart';
 // Kanban_board_Manager
 part 'remote_datasource/kanban_board_manager/kanban_datasource.dart';
 // Label

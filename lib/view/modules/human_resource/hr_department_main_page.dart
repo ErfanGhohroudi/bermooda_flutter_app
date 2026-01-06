@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../app_config.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
@@ -10,6 +11,7 @@ import 'attendance/statistics/monthly_attendance_stats_page.dart';
 import 'board/hr_board_page.dart';
 import 'my_reviews/my_reviews_page.dart';
 import 'statistics/hr_statistics_page.dart';
+import 'workshift/workshift_list_page.dart';
 
 class HrDepartmentMainPage extends StatelessWidget {
   const HrDepartmentMainPage({
@@ -77,6 +79,17 @@ class HrDepartmentMainPage extends StatelessWidget {
               },
               icon: AppIcons.timerOutline,
               title: s.attendance,
+            ),
+          if (haveManagerAccess && department.slug != null && AppConfig.instance.isDevelopment)
+            _item(
+              context: context,
+              onTap: () {
+                UNavigator.push(WorkshiftListPage(
+                  departmentSlug: department.slug!,
+                ));
+              },
+              icon: AppIcons.extensionOutline,
+              title: s.workShift,
             ),
           _item(
             context: context,

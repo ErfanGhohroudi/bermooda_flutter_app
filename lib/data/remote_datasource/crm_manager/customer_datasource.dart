@@ -14,7 +14,7 @@ class CustomerDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/CrmManager/CustomerUserView",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -23,7 +23,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     if (withLoading) AppLoading.dismissLoading();
@@ -39,7 +39,7 @@ class CustomerDatasource {
     try {
       final response = await _apiClient.put(
         "/v1/CrmManager/CustomerUserView/$id",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -48,7 +48,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -71,7 +71,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -94,7 +94,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -118,7 +118,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -134,7 +134,7 @@ class CustomerDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/CrmManager/CustomerStatusManager/$customerId",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -143,7 +143,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -169,7 +169,7 @@ class CustomerDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();

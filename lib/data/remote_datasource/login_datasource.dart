@@ -12,7 +12,7 @@ class LoginDataSource {
     try {
       final response = await _apiClient.post(
         "/v1/UserManager/AuthUser",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -21,7 +21,7 @@ class LoginDataSource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -44,7 +44,7 @@ class LoginDataSource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -71,7 +71,7 @@ class LoginDataSource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }

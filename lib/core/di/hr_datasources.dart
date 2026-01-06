@@ -9,8 +9,14 @@ class HrDatasources {
     Get.lazyPut<HrSectionDatasource>(() => HrSectionDatasource(), fenix: true);
     Get.lazyPut<HRStatisticsDatasource>(() => HRStatisticsDatasource(), fenix: true);
     Get.lazyPut<MemberDatasource>(() => MemberDatasource(), fenix: true);
-    Get.lazyPut<WorkShiftDatasource>(() => WorkShiftDatasource(), fenix: true);
     Get.lazyPut<AttendanceDatasource>(() => AttendanceDatasource(), fenix: true);
     Get.lazyPut<EmployeeRequestDatasource>(() => EmployeeRequestDatasource(), fenix: true);
+
+    // --- Workshift Data Sources ---
+    Get.lazyPut<WorkShiftDatasource>(() => WorkShiftDatasource(), fenix: true);
+    Get.lazyPut<YearShiftDatasource>(() => YearShiftDatasource(), fenix: true);
+    Get.lazyPut<MonthShiftDatasource>(() => MonthShiftDatasource(), fenix: true);
+    Get.lazyPut<DailyShiftDatasource>(() => DailyShiftDatasource(), fenix: true);
+    Get.lazyPut<ShiftTypeDatasource>(() => ShiftTypeDatasource(), fenix: true);
   }
 }

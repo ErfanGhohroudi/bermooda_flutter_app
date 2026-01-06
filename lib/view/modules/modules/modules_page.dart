@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../app_config.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
@@ -84,7 +85,7 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
   }
 
   List<WModuleCard> _getModules() => [
-    if (perService.isWorkspaceOwner || kDebugMode)
+    if (perService.isWorkspaceOwner || AppConfig.instance.isDevelopment)
       WModuleCard(
         title: s.staffManagement,
         icon: AppIcons.staffManagementModule,
@@ -116,13 +117,13 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
           onTap: () => UNavigator.push(const RequestMainPage()),
         ),
     ],
-    if ((subService.legalModuleIsActive && perService.haveLegalAccess) || kDebugMode)
+    if ((subService.legalModuleIsActive && perService.haveLegalAccess) || AppConfig.instance.isDevelopment)
       WModuleCard(
         title: s.legal,
         icon: AppIcons.legalModule,
         onTap: () => UNavigator.push(const LegalDepartmentListPage()),
       ),
-    if (kDebugMode)
+    if (AppConfig.instance.isDevelopment)
       // if (subService.lettersModuleIsActive && perService.haveLettersAccess)
       WModuleCard(
         title: s.correspondence,

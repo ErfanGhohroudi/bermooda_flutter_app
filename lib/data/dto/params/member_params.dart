@@ -2,7 +2,7 @@ part of '../../data.dart';
 
 class CreateMemberParams {
   String? phoneNumber;
-  String? folderSlug;
+  String? departmentSlug;
   String? workShiftSlug;
   String? firstName;
   String? lastName;
@@ -40,7 +40,7 @@ class CreateMemberParams {
 
   CreateMemberParams({
     this.phoneNumber,
-    this.folderSlug,
+    this.departmentSlug,
     this.workShiftSlug,
     this.firstName,
     this.lastName,
@@ -81,7 +81,7 @@ class CreateMemberParams {
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         "phone_number": phoneNumber,
-        "folder_slug": folderSlug,
+        "folder_slug": departmentSlug,
         "workshift_slug": workShiftSlug,
         "first_name": firstName,
         "last_name": lastName,

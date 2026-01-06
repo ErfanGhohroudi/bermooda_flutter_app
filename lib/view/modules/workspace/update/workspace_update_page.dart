@@ -2,7 +2,6 @@ import 'package:u/utilities.dart';
 
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
-import '../../../../core/constants.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../../../core/core.dart';
@@ -68,182 +67,187 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           title: Text("${s.edit} (${workspaceInfo.title})"),
         ),
         bottomNavigationBar: Obx(
-          () => pageState.isLoaded()
-              ? UElevatedButton(
-                  title: s.save,
-                  width: context.width,
-                  isLoading: buttonState.isLoading(),
-                  onTap: () => onSubmit(
-                    onResponse: (final workspaceInfo) {
-                      widget.onResponse(workspaceInfo);
-                      UNavigator.back();
-                    },
-                  ),
-                )
-              : const SizedBox(),
-        ).pOnly(left: 16, right: 16, bottom: 24),
+          () {
+            if (pageState.isLoaded()) {
+              return UElevatedButton(
+                title: s.save,
+                width: context.width,
+                isLoading: buttonState.isLoading(),
+                onTap: () => onSubmit(
+                  onResponse: (final workspaceInfo) {
+                    widget.onResponse(workspaceInfo);
+                    UNavigator.back();
+                  },
+                ),
+              ).pOnly(left: 16, right: 16, bottom: 24);
+            }
+            return const SizedBox.shrink();
+          },
+        ),
         body: Obx(
-          () => pageState.isLoaded()
-              ? SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: itemsSpacing),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      spacing: itemsSpacing,
+          () {
+            if (pageState.isInitial() || pageState.isLoading()) {
+              return const Center(child: WCircularLoading());
+            }
+
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: itemsSpacing),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: itemsSpacing,
+                  children: [
+                    /// Logo/profile
+                    Row(
                       children: [
-                        /// Logo/profile
-                        Row(
-                          children: [
-                            WProfileUploadAndShowImage(
-                              itemWidth: 70,
-                              file: avatar,
-                              onUploaded: (final file) {
-                                avatar = file;
-                              },
-                              onRemove: (final file) {
-                                avatar = null;
-                              },
-                              uploadStatus: (final value) {
-                                isUploadingAvatar = value;
-                              },
-                            ),
-                            const SizedBox(width: 10),
-                            Text(s.logo).bodyMedium(fontSize: 14, color: context.theme.primaryColor),
-                          ],
-                        ),
-
-                        /// Business Name
-                        WTextField(
-                          controller: titleController,
-                          labelText: s.businessName,
-                          required: true,
-                          minLength: 3,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                        ),
-
-                        /// Link jadoo Brand Name
-                        Obx(
-                          () => UTextFormField(
-                            controller: jadooBrandNameController,
-                            focusNode: focusNode,
-                            labelText: s.link,
-                            hintText: "username",
-                            required: true,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: validateMinLength(
-                              3,
-                              requiredMessage: s.requiredField,
-                              minLengthMessage: s.isShort.replaceAll("#", "3"),
-                            ),
-                            maxLength: 30,
-                            formatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9_.]'))],
-                            suffix: isPersianLang && (jadooNameIsFocus.value || jadooBrandNameController.text != '')
-                                ? _linkDomainText()
-                                : null,
-                            prefix: !isPersianLang && (jadooNameIsFocus.value || jadooBrandNameController.text != '')
-                                ? _linkDomainText()
-                                : null,
-                            textAlign: TextAlign.left,
-                            textDirection: TextDirection.ltr,
-                            onChanged: (final value) {
-                              jadooBrandNameController.text = jadooBrandNameController.text.toLowerCase();
-                            },
-                          ),
-                        ),
-
-                        /// Industry
-                        Obx(
-                          () => WDropDownFormField<DropdownItemReadDto>(
-                            labelText: s.industry,
-                            value: selectedIndustry.value,
-                            required: true,
-                            showSearchField: true,
-                            items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: industries),
-                            onChanged: (final value) {
-                              selectedIndustry(value);
-                            },
-                          ),
-                        ),
-
-                        /// Business Size
-                        Obx(
-                          () => WDropDownFormField<String>(
-                            labelText: s.businessSize,
-                            value: selectedBusinessSize.value?.getTitle(),
-                            items: getDropDownMenuItemsFromString(
-                              menuItems: BusinessSize.values.map((final e) => e.getTitle()).toList(),
-                            ),
-                            onChanged: (final value) {
-                              selectedBusinessSize(BusinessSize.values.firstWhereOrNull((final e) => e.getTitle() == value));
-                            },
-                          ),
-                        ),
-
-                        /// State
-                        Obx(
-                          () => WDropDownFormField<DropdownItemReadDto>(
-                            labelText: s.state,
-                            value: selectedState.value,
-                            required: true,
-                            showSearchField: true,
-                            items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: states),
-                            onChanged: (final value) {
-                              selectedState(value);
-                              selectedCity(null);
-                              getCities();
-                            },
-                          ),
-                        ),
-
-                        /// City
-                        Obx(
-                          () => WDropDownFormField<DropdownItemReadDto>(
-                            labelText: citiesState.isLoaded() ? s.city : s.loading,
-                            value: selectedCity.value,
-                            required: true,
-                            showSearchField: true,
-                            items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: cities),
-                            onChanged: (final value) {
-                              selectedCity(value);
-                            },
-                          ).marginOnly(bottom: 20),
-                        ),
-
-                        /// Verification Text Info
-                        RichText(
-                          text: TextSpan(
-                            style: context.textTheme.bodyMedium,
-                            children: [
-                              TextSpan(text: '${s.verification}: '),
-                              TextSpan(
-                                text: s.verificationTextInfo,
-                                style: context.textTheme.bodyMedium!.copyWith(color: context.theme.hintColor),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        /// AuthenticationType
-                        WRadioGroup<AuthenticationType>(
-                          items: AuthenticationType.values,
-                          initialValue: authenticationType.value,
-                          labelBuilder: (final item) => item.title,
-                          onChanged: (final value) {
-                            authenticationType(value);
-                            if (authenticationType.isPerson() && nationalIDController.text.length > 10) {
-                              nationalIDController.text = nationalIDController.text.substring(0, 10);
-                            }
-                            FocusManager.instance.primaryFocus!.unfocus();
+                        WProfileUploadAndShowImage(
+                          itemWidth: 70,
+                          file: avatar,
+                          onUploaded: (final file) {
+                            avatar = file;
+                          },
+                          onRemove: (final file) {
+                            avatar = null;
+                          },
+                          uploadStatus: (final value) {
+                            isUploadingAvatar = value;
                           },
                         ),
-                        _verificationForm(),
+                        const SizedBox(width: 10),
+                        Text(s.logo).bodyMedium(fontSize: 14, color: context.theme.primaryColor),
                       ],
+                    ).marginOnly(bottom: 8),
+
+                    /// Business Name
+                    WTextField(
+                      controller: titleController,
+                      labelText: s.businessName,
+                      required: true,
+                      minLength: 3,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     ),
-                  ),
-                )
-              : const Center(child: WCircularLoading()),
+
+                    /// Link jadoo Brand Name
+                    // Obx(
+                    //   () => UTextFormField(
+                    //     controller: jadooBrandNameController,
+                    //     focusNode: focusNode,
+                    //     labelText: s.link,
+                    //     hintText: "username",
+                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //     validator: validateMinLength(
+                    //       3,
+                    //       requiredMessage: s.requiredField,
+                    //       minLengthMessage: s.isShort.replaceAll("#", "3"),
+                    //     ),
+                    //     maxLength: 30,
+                    //     formatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9_.]'))],
+                    //     suffix: isPersianLang && (jadooNameIsFocus.value || jadooBrandNameController.text != '')
+                    //         ? _linkDomainText()
+                    //         : null,
+                    //     prefix: !isPersianLang && (jadooNameIsFocus.value || jadooBrandNameController.text != '')
+                    //         ? _linkDomainText()
+                    //         : null,
+                    //     textAlign: TextAlign.left,
+                    //     textDirection: TextDirection.ltr,
+                    //     onChanged: (final value) {
+                    //       jadooBrandNameController.text = jadooBrandNameController.text.toLowerCase();
+                    //     },
+                    //   ),
+                    // ),
+
+                    /// Industry
+                    Obx(
+                      () => WDropDownFormField<DropdownItemReadDto>(
+                        labelText: s.industry,
+                        value: selectedIndustry.value,
+                        deselectable: true,
+                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: industries),
+                        onChanged: (final value) {
+                          selectedIndustry.value = value;
+                        },
+                      ),
+                    ),
+
+                    /// Business Size
+                    Obx(
+                      () => WDropDownFormField<String>(
+                        labelText: s.businessSize,
+                        value: selectedBusinessSize.value?.getTitle(),
+                        deselectable: true,
+                        items: getDropDownMenuItemsFromString(
+                          menuItems: BusinessSize.values.map((final e) => e.getTitle()).toList(),
+                        ),
+                        onChanged: (final value) {
+                          selectedBusinessSize.value = BusinessSize.values.firstWhereOrNull((final e) => e.getTitle() == value);
+                        },
+                      ),
+                    ),
+
+                    /// State
+                    Obx(
+                      () => WDropDownFormField<DropdownItemReadDto>(
+                        labelText: s.state,
+                        value: selectedState.value,
+                        deselectable: true,
+                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: states),
+                        onChanged: (final value) {
+                          selectedState.value = value;
+                          selectedCity.value = null;
+                          if (selectedState.value == null) return;
+                          getCities();
+                        },
+                      ),
+                    ),
+
+                    /// City
+                    Obx(
+                      () => WDropDownFormField<DropdownItemReadDto>(
+                        labelText: citiesState.isLoaded() ? s.city : s.loading,
+                        value: selectedCity.value,
+                        deselectable: true,
+                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: cities),
+                        onChanged: (final value) {
+                          selectedCity.value = value;
+                        },
+                      ).marginOnly(bottom: 20),
+                    ),
+
+                    /// Verification Text Info
+                    RichText(
+                      text: TextSpan(
+                        style: context.textTheme.bodyMedium,
+                        children: [
+                          TextSpan(text: '${s.verification}: '),
+                          TextSpan(
+                            text: s.verificationTextInfo,
+                            style: context.textTheme.bodyMedium!.copyWith(color: context.theme.hintColor),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /// AuthenticationType
+                    WRadioGroup<AuthenticationType>(
+                      items: AuthenticationType.values,
+                      initialValue: authenticationType.value,
+                      labelBuilder: (final item) => item.title,
+                      onChanged: (final value) {
+                        authenticationType(value);
+                        if (authenticationType.isPerson() && nationalIDController.text.length > 10) {
+                          nationalIDController.text = nationalIDController.text.substring(0, 10);
+                        }
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      },
+                    ),
+                    _verificationForm(),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
@@ -255,17 +259,14 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
       mainAxisSize: MainAxisSize.min,
       spacing: itemsSpacing,
       children: [
-        /// Company Name
-        if (authenticationType.isLegal())
-          UTextFormField(
-            controller: companyNameController,
-            labelText: s.companyName,
-            required: true,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: validateNotEmpty(requiredMessage: s.requiredField),
-            maxLength: 32,
-            formatters: [NoLeadingSpaceInputFormatter()],
-          ),
+        /// Company Name or Full Name
+        WTextField(
+          controller: nameController,
+          labelText: authenticationType.isPerson() ? s.fullName : s.companyName,
+          required: true,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          minLength: 3,
+        ),
 
         /// National ID / Company National ID
         UTextFormField(
@@ -283,8 +284,23 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           ),
         ),
 
-        /// Economic Number
-        if (authenticationType.isLegal())
+        if (authenticationType.isLegal()) ...[
+          /// Registration Number
+          UTextFormField(
+            controller: registrationNumberController,
+            labelText: s.registrationNumber,
+            required: true,
+            keyboardType: TextInputType.number,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            formatters: [FilteringTextInputFormatter.digitsOnly],
+            validator: validateMinLength(
+              6,
+              requiredMessage: s.requiredField,
+              minLengthMessage: s.isShort.replaceAll('#', '6'),
+            ),
+          ),
+
+          /// Economic Number
           UTextFormField(
             controller: economicNumberController,
             labelText: s.economicCode,
@@ -300,49 +316,19 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
             ),
           ),
 
-        /// Sheba number
-        WShebaNumberField(
-          controller: ibanController,
-          required: true,
-        ),
-
-        /// Postal Code
-        UTextFormField(
-          controller: postalCodeController,
-          labelText: s.postalCode,
-          required: true,
-          keyboardType: TextInputType.number,
-          maxLength: 10,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          formatters: [FilteringTextInputFormatter.digitsOnly],
-          validator: validateMinLength(
-            10,
-            requiredMessage: s.requiredField,
-            minLengthMessage: s.isShort.replaceAll('#', '10'),
-          ),
-        ),
-
-        /// Landline
-        if (authenticationType.isLegal())
-          WPhoneNumberField(
-            controller: landlineController,
-            labelText: s.landline,
-          ),
+          /// Landline
+          if (authenticationType.isLegal())
+            WPhoneNumberField(
+              controller: landlineController,
+              labelText: s.landline,
+            ),
+        ],
 
         /// Phone Number
-        WPhoneNumberField(
-          controller: phoneNumberController,
-          required: true,
-        ),
-
-        /// Fax Number
-        if (authenticationType.isLegal())
-          UTextFormField(
-            controller: faxController,
-            labelText: s.fax,
-            keyboardType: TextInputType.number,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            formatters: [FilteringTextInputFormatter.digitsOnly],
+        if (authenticationType.isPerson())
+          WPhoneNumberField(
+            controller: phoneNumberController,
+            required: true,
           ),
 
         /// Email
@@ -352,81 +338,16 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
         ),
 
         /// Address
-        WAddressField(
-          controller: addressController,
-          required: true,
-        ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 150,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  WProfileUploadAndShowImage(
-                    itemWidth: 150,
-                    itemHeight: 112,
-                    borderRadius: 12,
-                    file: nationalIDCardFile,
-                    color: context.theme.hintColor,
-                    showImageFullScreen: true,
-                    onUploaded: (final file) {
-                      nationalIDCardFile = file;
-                    },
-                    onRemove: (final file) {
-                      nationalIDCardFile = null;
-                    },
-                    uploadStatus: (final value) {
-                      isUploadingAvatar = value;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  Text(s.uploadNationalIDCard).bodyMedium(fontSize: 14, color: context.theme.hintColor),
-                ],
-              ),
-            ),
-            if (authenticationType.isLegal())
-              SizedBox(
-                width: 150,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    WProfileUploadAndShowImage(
-                      itemWidth: 150,
-                      itemHeight: 112,
-                      borderRadius: 12,
-                      file: businessRegistrationLicenseFile,
-                      color: context.theme.hintColor,
-                      showImageFullScreen: true,
-                      onUploaded: (final file) {
-                        businessRegistrationLicenseFile = file;
-                      },
-                      onRemove: (final file) {
-                        businessRegistrationLicenseFile = null;
-                      },
-                      uploadStatus: (final value) {
-                        isUploadingAvatar = value;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      s.uploadBusinessRegistrationLicense,
-                      textAlign: TextAlign.center,
-                    ).bodyMedium(color: context.theme.hintColor),
-                  ],
-                ),
-              ),
-          ],
-        ),
+        // WAddressField(
+        //   controller: addressController,
+        //   required: true,
+        // ),
       ],
     ).marginOnly(bottom: 40),
   );
 
-  Widget _linkDomainText() => Text(
-    AppConstants.websiteBaseURL,
-    textDirection: TextDirection.ltr,
-  ).titleMedium();
+  // Widget _linkDomainText() => Text(
+  //   AppConstants.websiteBaseURL,
+  //   textDirection: TextDirection.ltr,
+  // ).titleMedium();
 }

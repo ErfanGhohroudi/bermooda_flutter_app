@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../app_config.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
@@ -100,7 +101,7 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
                       _myBusinesses(),
                       _theme(),
                       _logout(),
-                      if (kDebugMode)
+                      if (AppConfig.instance.isDevelopment)
                         WCard(
                           onTap: changeLanguage,
                           child: const Text("s.changeLanguage"),

@@ -120,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "شماره شناسنامه",
     ),
     "both": MessageLookupByLibrary.simpleMessage("هر دو"),
+    "breakEnd": MessageLookupByLibrary.simpleMessage("پایان استراحت"),
+    "breakStart": MessageLookupByLibrary.simpleMessage("شروع استراحت"),
+    "breakText": MessageLookupByLibrary.simpleMessage("استراحت"),
     "budget": MessageLookupByLibrary.simpleMessage("بودجه"),
     "businessName": MessageLookupByLibrary.simpleMessage("نام کسب‌وکار"),
     "businessSize": MessageLookupByLibrary.simpleMessage("اندازه کسب‌وکار"),
@@ -347,6 +350,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "duplicate": MessageLookupByLibrary.simpleMessage("تکراری"),
     "early": MessageLookupByLibrary.simpleMessage("زود تر"),
+    "earlyOutAllowance": MessageLookupByLibrary.simpleMessage(
+      "حداکثر تعجیل مجاز",
+    ),
     "economicCode": MessageLookupByLibrary.simpleMessage("شماره اقتصادی"),
     "edit": MessageLookupByLibrary.simpleMessage("ویرایش"),
     "editCase": MessageLookupByLibrary.simpleMessage("ویرایش پرونده"),
@@ -585,6 +591,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "leave": MessageLookupByLibrary.simpleMessage("مرخصی"),
     "leaveDate": MessageLookupByLibrary.simpleMessage("تاریخ مرخصی"),
     "leaveEnd": MessageLookupByLibrary.simpleMessage("پایان مرخصی"),
+    "leaveEntitlement": MessageLookupByLibrary.simpleMessage("سهمیه مرخصی"),
     "leaveGroup": MessageLookupByLibrary.simpleMessage("ترک گروه"),
     "leaveGroupDialogDescription": MessageLookupByLibrary.simpleMessage(
       "آیا از ترک این گروه اطمینان دارید؟",
@@ -665,11 +672,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "مقصد مأموریت (شهر، استان)",
     ),
     "missionEnd": MessageLookupByLibrary.simpleMessage("پایان مأموریت"),
+    "missionLimit": MessageLookupByLibrary.simpleMessage("حداکثر مأموریت مجاز"),
     "missionPurpose": MessageLookupByLibrary.simpleMessage("هدف مأموریت"),
     "missionStart": MessageLookupByLibrary.simpleMessage("شروع مأموریت"),
     "module": MessageLookupByLibrary.simpleMessage("ماژول"),
     "modules": MessageLookupByLibrary.simpleMessage("ماژول ها"),
     "month": MessageLookupByLibrary.simpleMessage("ماه"),
+    "monthlySettings": MessageLookupByLibrary.simpleMessage("تنظیمات ماهانه"),
     "months": MessageLookupByLibrary.simpleMessage("ماه"),
     "more": MessageLookupByLibrary.simpleMessage("بیشتر"),
     "moveCustomer": MessageLookupByLibrary.simpleMessage("انتقال مشتری"),
@@ -807,6 +816,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "overdueTasks": MessageLookupByLibrary.simpleMessage("وظایف دارای تاخیر"),
     "overtime": MessageLookupByLibrary.simpleMessage("اضافه کار"),
     "overtimeEnd": MessageLookupByLibrary.simpleMessage("پایان اضافه کاری"),
+    "overtimeLimit": MessageLookupByLibrary.simpleMessage(
+      "حداکثر اظافه کاری مجاز",
+    ),
     "overtimeStart": MessageLookupByLibrary.simpleMessage("شروع اضافه کاری"),
     "owner": MessageLookupByLibrary.simpleMessage("مالک"),
     "parties": MessageLookupByLibrary.simpleMessage("طرفین"),
@@ -965,8 +977,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resend": MessageLookupByLibrary.simpleMessage("ارسال مجدد"),
     "responsibility": MessageLookupByLibrary.simpleMessage("مسئولیت"),
-    "restEnd": MessageLookupByLibrary.simpleMessage("پایان استراحت"),
-    "restStart": MessageLookupByLibrary.simpleMessage("شروع استراحت"),
     "restore": MessageLookupByLibrary.simpleMessage("بازیابی"),
     "restoreDescription": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید بازیابی شود؟",
@@ -1129,6 +1139,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "* برای اضافه شدن، دکمه Enter کیبورد را بزنید.",
     ),
     "tardiness": MessageLookupByLibrary.simpleMessage("تاخیر"),
+    "tardinessAllowance": MessageLookupByLibrary.simpleMessage(
+      "حداکثر تاخیر مجاز",
+    ),
     "task": MessageLookupByLibrary.simpleMessage("وظیفه"),
     "tasks": MessageLookupByLibrary.simpleMessage("وظایف"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("مهارت‌های تخصصی"),
@@ -1209,13 +1222,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "upgradeSubscription": MessageLookupByLibrary.simpleMessage("ارتقا اشتراک"),
     "upload": MessageLookupByLibrary.simpleMessage("آپلود"),
-    "uploadBusinessRegistrationLicense": MessageLookupByLibrary.simpleMessage(
-      "بارگذاری آگهی تاسیس / پروانه کسب",
-    ),
-    "uploadBusinessRegistrationLicenseIsRequired":
-        MessageLookupByLibrary.simpleMessage(
-          "بارگذاری آگهی تاسیس یا پروانه کسب الزامی است.",
-        ),
     "uploadCriminalRecordClearanceCertificate":
         MessageLookupByLibrary.simpleMessage("بارگذاری گواهی عدم سوء پیشینه"),
     "uploadExelFile": MessageLookupByLibrary.simpleMessage("آپلود فایل Excel"),
@@ -1224,12 +1230,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uploadMedicalCertificate": MessageLookupByLibrary.simpleMessage(
       "بارگذاری گواهی پزشکی",
-    ),
-    "uploadNationalIDCard": MessageLookupByLibrary.simpleMessage(
-      "بارگذاری کارت ملی",
-    ),
-    "uploadNationalIDCardIsRequired": MessageLookupByLibrary.simpleMessage(
-      "بارگذاری عکس کارت ملی الزامی است.",
     ),
     "uploadPhoto": MessageLookupByLibrary.simpleMessage("بارگذاری تصویر"),
     "uploadSignature": MessageLookupByLibrary.simpleMessage("بارگذاری امضا"),

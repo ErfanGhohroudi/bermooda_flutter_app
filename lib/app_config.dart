@@ -4,7 +4,9 @@ enum Flavor { development, production }
 
 class AppConfig {
   static final AppConfig _instance = AppConfig._internal();
+
   factory AppConfig() => _instance;
+
   AppConfig._internal();
 
   static AppConfig get instance => _instance;
@@ -13,6 +15,10 @@ class AppConfig {
   bool _isFlavorSet = false;
 
   Flavor get appFlavor => _appFlavor;
+
+  bool get isDevelopment => _appFlavor == Flavor.development;
+
+  bool get isProduction => _appFlavor == Flavor.production;
 
   void setFlavor(final Flavor flavor) {
     if (!_isFlavorSet) {

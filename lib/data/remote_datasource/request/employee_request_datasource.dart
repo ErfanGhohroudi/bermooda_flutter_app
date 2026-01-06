@@ -13,7 +13,7 @@ class EmployeeRequestDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/HumanResourcesManager/EmployeeRequestManager/",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -22,7 +22,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -50,7 +50,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -79,7 +79,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -119,7 +119,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -142,7 +142,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -173,7 +173,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -197,7 +197,7 @@ class EmployeeRequestDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();

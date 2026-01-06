@@ -33,6 +33,16 @@ const List<String> _monthNamesEn = [
   'Esfand',
 ];
 
+extension MonthNameExtentions<T> on int {
+  String getJalaliMonthNameFaEn() {
+    if (isPersianLang) {
+      return _monthNamesFa[this - 1];
+    } else {
+      return _monthNamesEn[this - 1];
+    }
+  }
+}
+
 extension DateExtentions<T> on String? {
   String getJalaliMonthNameFaEn() {
     if (this == null) return '- -';

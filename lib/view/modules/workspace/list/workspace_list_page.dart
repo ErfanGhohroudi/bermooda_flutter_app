@@ -1,6 +1,7 @@
 import 'package:bermooda_business/core/utils/enums/enums.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../app_config.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -215,7 +216,7 @@ class _WorkspaceListPageState extends State<WorkspaceListPage> with WorkspaceLis
               ),
             ],
           ).marginOnly(top: 10),
-          if (kDebugMode)
+          if (AppConfig.instance.isDevelopment)
             UElevatedButton(
               title: s.delete,
               backgroundColor: AppColors.red,

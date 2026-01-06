@@ -379,7 +379,7 @@ mixin InviteMemberController {
   void _create({required final Function(MemberReadDto member) onResponse}) {
     _memberDatasource.create(
       dto: CreateMemberParams(
-        folderSlug: department?.slug,
+        departmentSlug: department?.slug,
         workShiftSlug: selectedWorkShift?.slug,
         firstName: firstNameController.text.trim(),
         lastName: lastNameController.text.trim(),
@@ -436,7 +436,7 @@ mixin InviteMemberController {
       _memberDatasource.update(
         id: member!.id!,
         dto: CreateMemberParams(
-          folderSlug: department?.slug,
+          departmentSlug: department?.slug,
           workShiftSlug: selectedWorkShift?.slug,
           firstName: firstNameController.text.trim(),
           lastName: lastNameController.text.trim(),

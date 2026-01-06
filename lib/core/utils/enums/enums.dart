@@ -219,6 +219,11 @@ enum LabelColors {
 
   String getTitle() => !isPersianLang ? title : titleTr1;
 
+  static LabelColors fromColorCode(final String? value) {
+    if (value == null) return LabelColors.yellow;
+    return LabelColors.values.firstWhereOrNull((final e) => e.colorCode == value) ?? LabelColors.yellow;
+  }
+
   final String title;
   final String titleTr1;
   final Color color;
@@ -831,9 +836,9 @@ enum AttendanceReportType {
       case AttendanceReportType.check_out || AttendanceReportType.check_out_temporary:
         return s.checkOut;
       case AttendanceReportType.rest_start:
-        return s.restStart;
+        return s.breakStart;
       case AttendanceReportType.rest_end:
-        return s.restEnd;
+        return s.breakEnd;
       case AttendanceReportType.leave_start:
         return s.leaveStart;
       case AttendanceReportType.leave_end:

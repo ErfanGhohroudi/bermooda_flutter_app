@@ -2329,46 +2329,6 @@ class S {
     return Intl.message('Fax', name: 'fax', desc: '', args: []);
   }
 
-  /// `Upload National ID Card`
-  String get uploadNationalIDCard {
-    return Intl.message(
-      'Upload National ID Card',
-      name: 'uploadNationalIDCard',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Uploading the national ID card photo is required.`
-  String get uploadNationalIDCardIsRequired {
-    return Intl.message(
-      'Uploading the national ID card photo is required.',
-      name: 'uploadNationalIDCardIsRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Upload Business Registration / License`
-  String get uploadBusinessRegistrationLicense {
-    return Intl.message(
-      'Upload Business Registration / License',
-      name: 'uploadBusinessRegistrationLicense',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Uploading the business registration or license is required.`
-  String get uploadBusinessRegistrationLicenseIsRequired {
-    return Intl.message(
-      'Uploading the business registration or license is required.',
-      name: 'uploadBusinessRegistrationLicenseIsRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Verified`
   String get verified {
     return Intl.message('Verified', name: 'verified', desc: '', args: []);
@@ -5184,14 +5144,24 @@ class S {
     );
   }
 
-  /// `Start of Rest`
-  String get restStart {
-    return Intl.message('Start of Rest', name: 'restStart', desc: '', args: []);
+  /// `Break`
+  String get breakText {
+    return Intl.message('Break', name: 'breakText', desc: '', args: []);
   }
 
-  /// `End of Rest`
-  String get restEnd {
-    return Intl.message('End of Rest', name: 'restEnd', desc: '', args: []);
+  /// `Start of Break`
+  String get breakStart {
+    return Intl.message(
+      'Start of Break',
+      name: 'breakStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End of Break`
+  String get breakEnd {
+    return Intl.message('End of Break', name: 'breakEnd', desc: '', args: []);
   }
 
   /// `Start of Leave`
@@ -6229,6 +6199,66 @@ class S {
     return Intl.message(
       'This value represents the total number of contracts you are authorized to create within the Legal module based on your account permissions.',
       name: 'contractCountInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly Settings`
+  String get monthlySettings {
+    return Intl.message(
+      'Monthly Settings',
+      name: 'monthlySettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overtime Limit`
+  String get overtimeLimit {
+    return Intl.message(
+      'Overtime Limit',
+      name: 'overtimeLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mission Limit`
+  String get missionLimit {
+    return Intl.message(
+      'Mission Limit',
+      name: 'missionLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave Entitlement`
+  String get leaveEntitlement {
+    return Intl.message(
+      'Leave Entitlement',
+      name: 'leaveEntitlement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Early Out Allowance`
+  String get earlyOutAllowance {
+    return Intl.message(
+      'Early Out Allowance',
+      name: 'earlyOutAllowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tardiness Allowance`
+  String get tardinessAllowance {
+    return Intl.message(
+      'Tardiness Allowance',
+      name: 'tardinessAllowance',
       desc: '',
       args: [],
     );
