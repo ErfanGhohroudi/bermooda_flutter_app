@@ -18,6 +18,8 @@ class ShiftTypeReadDto extends Equatable {
   final List<AttendanceMethod> allowedCheckInMethodList;
   final List<AttendanceMethod> allowedCheckOutMethodList;
 
+  String get shiftRangeTime => '${s.from} $startTime ${s.to} $endTime';
+
   bool get isNightShift => endTime.numericOnly().toInt() <= startTime.numericOnly().toInt();
 
   const ShiftTypeReadDto({

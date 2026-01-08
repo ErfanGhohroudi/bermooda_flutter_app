@@ -3129,6 +3129,16 @@ class S {
     return Intl.message('Work Shift', name: 'workShift', desc: '', args: []);
   }
 
+  /// `New WorkShift`
+  String get newWorkShift {
+    return Intl.message(
+      'New WorkShift',
+      name: 'newWorkShift',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Won Reason`
   String get wonReason {
     return Intl.message('Won Reason', name: 'wonReason', desc: '', args: []);
@@ -6259,6 +6269,321 @@ class S {
     return Intl.message(
       'Tardiness Allowance',
       name: 'tardinessAllowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove shift from day?`
+  String get deleteShiftQuestion {
+    return Intl.message(
+      'Remove shift from day?',
+      name: 'deleteShiftQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove shift from all days?`
+  String get deleteShiftFromAllDaysQuestion {
+    return Intl.message(
+      'Remove shift from all days?',
+      name: 'deleteShiftFromAllDaysQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initial setup applied successfully`
+  String get initialSetupAppliedSuccessfully {
+    return Intl.message(
+      'Initial setup applied successfully',
+      name: 'initialSetupAppliedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Entry`
+  String get entry {
+    return Intl.message('Entry', name: 'entry', desc: '', args: []);
+  }
+
+  /// `Floating Time`
+  String get floatingTime {
+    return Intl.message(
+      'Floating Time',
+      name: 'floatingTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete From Day`
+  String get deleteFromDay {
+    return Intl.message(
+      'Delete From Day',
+      name: 'deleteFromDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete From All Day`
+  String get deleteFromAllDay {
+    return Intl.message(
+      'Delete From All Day',
+      name: 'deleteFromAllDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conflicting days`
+  String get conflictingDays {
+    return Intl.message(
+      'Conflicting days',
+      name: 'conflictingDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `# days without conflict will be applied`
+  String get daysWithoutConflictWillBeApplied {
+    return Intl.message(
+      '# days without conflict will be applied',
+      name: 'daysWithoutConflictWillBeApplied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift Overlap Report`
+  String get shiftOverlapReport {
+    return Intl.message(
+      'Shift Overlap Report',
+      name: 'shiftOverlapReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift # conflicts with all selected days`
+  String get shiftConflictsWithAllSelectedDays {
+    return Intl.message(
+      'Shift # conflicts with all selected days',
+      name: 'shiftConflictsWithAllSelectedDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `previous day`
+  String get previousDay {
+    return Intl.message(
+      'previous day',
+      name: 'previousDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `shift # conflicts with # days`
+  String get shiftConflictsWithDays {
+    return Intl.message(
+      'shift # conflicts with # days',
+      name: 'shiftConflictsWithDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift Title`
+  String get shiftTitle {
+    return Intl.message('Shift Title', name: 'shiftTitle', desc: '', args: []);
+  }
+
+  /// `Shift Color`
+  String get shiftColor {
+    return Intl.message('Shift Color', name: 'shiftColor', desc: '', args: []);
+  }
+
+  /// `Entry Time`
+  String get entryTime {
+    return Intl.message('Entry Time', name: 'entryTime', desc: '', args: []);
+  }
+
+  /// `Exit Time`
+  String get exitTime {
+    return Intl.message('Exit Time', name: 'exitTime', desc: '', args: []);
+  }
+
+  /// `Night Shift`
+  String get nightShift {
+    return Intl.message('Night Shift', name: 'nightShift', desc: '', args: []);
+  }
+
+  /// `Shifts that start one night and end the next morning (e.g., 22:00 - 06:00)`
+  String get nightShiftHelper {
+    return Intl.message(
+      'Shifts that start one night and end the next morning (e.g., 22:00 - 06:00)',
+      name: 'nightShiftHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allowed Attendance Methods`
+  String get allowedAttendanceMethods {
+    return Intl.message(
+      'Allowed Attendance Methods',
+      name: 'allowedAttendanceMethods',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat Options`
+  String get repeatOptions {
+    return Intl.message(
+      'Repeat Options',
+      name: 'repeatOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat Type`
+  String get repeatType {
+    return Intl.message('Repeat Type', name: 'repeatType', desc: '', args: []);
+  }
+
+  /// `Shifts will be created on selected weekdays until end of selected year`
+  String get weeklyRepeatTypeHelper {
+    return Intl.message(
+      'Shifts will be created on selected weekdays until end of selected year',
+      name: 'weeklyRepeatTypeHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shifts will be created on selected month days for remaining months of selected year`
+  String get monthlyRepeatTypeHelper {
+    return Intl.message(
+      'Shifts will be created on selected month days for remaining months of selected year',
+      name: 'monthlyRepeatTypeHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Break start/end must both be set`
+  String get breakStartEndMustBothBeSet {
+    return Intl.message(
+      'Break start/end must both be set',
+      name: 'breakStartEndMustBothBeSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one attendance method`
+  String get pickAtLeastOneAttendanceMethod {
+    return Intl.message(
+      'Pick at least one attendance method',
+      name: 'pickAtLeastOneAttendanceMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one weekday`
+  String get pickAtLeastOneWeekday {
+    return Intl.message(
+      'Pick at least one weekday',
+      name: 'pickAtLeastOneWeekday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one day of month`
+  String get pickAtLeastOneDayOfMonth {
+    return Intl.message(
+      'Pick at least one day of month',
+      name: 'pickAtLeastOneDayOfMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Shift`
+  String get addShift {
+    return Intl.message('Add Shift', name: 'addShift', desc: '', args: []);
+  }
+
+  /// `Initial shift setup`
+  String get initialShiftSetup {
+    return Intl.message(
+      'Initial shift setup',
+      name: 'initialShiftSetup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to apply shift`
+  String get failedToApplyShift {
+    return Intl.message(
+      'Failed to apply shift',
+      name: 'failedToApplyShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only this day`
+  String get onlyThisDay {
+    return Intl.message(
+      'Only this day',
+      name: 'onlyThisDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weekly {
+    return Intl.message('Weekly', name: 'weekly', desc: '', args: []);
+  }
+
+  /// `Monthly`
+  String get monthly {
+    return Intl.message('Monthly', name: 'monthly', desc: '', args: []);
+  }
+
+  /// `To make changes, click on the calendar cells.`
+  String get workshiftCalendarInfo {
+    return Intl.message(
+      'To make changes, click on the calendar cells.',
+      name: 'workshiftCalendarInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeekDays`
+  String get weekDays {
+    return Intl.message('WeekDays', name: 'weekDays', desc: '', args: []);
+  }
+
+  /// `Days of Month`
+  String get daysOfMonth {
+    return Intl.message(
+      'Days of Month',
+      name: 'daysOfMonth',
       desc: '',
       args: [],
     );

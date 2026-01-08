@@ -171,7 +171,7 @@ abstract class ShiftOverlapChecker {
           overlapInfoList.add(
             ShiftOverlapInfo(
               dayKey: dayKey,
-              conflictingShiftTitle: '${existingShift.title} (${isPersianLang ? 'روز قبل' : 'previous day'})',
+              conflictingShiftTitle: '${existingShift.title} (${s.previousDay})',
               conflictingTimeRange: '${existingShift.startTime} - ${existingShift.endTime}',
               newShiftTimeRange: newTimeRange,
             ),
@@ -197,9 +197,7 @@ abstract class ShiftOverlapChecker {
   static void showAllDaysOverlapError({required final String newShiftTitle}) {
     AppNavigator.snackbarRed(
       title: s.error,
-      subtitle: isPersianLang
-          ? 'شیفت "$newShiftTitle" با تمام روزهای انتخابی تداخل دارد'
-          : 'Shift "$newShiftTitle" conflicts with all selected days',
+      subtitle: s.shiftConflictsWithAllSelectedDays.replaceAll('#', newShiftTitle),
     );
   }
 
@@ -227,12 +225,8 @@ abstract class ShiftOverlapChecker {
             title: Row(
               spacing: 8,
               children: [
-                const UImage(AppIcons.warningOutline, color: Colors.orange, size: 25),
-                Expanded(
-                  child: Text(
-                    isPersianLang ? 'گزارش تداخل شیفت' : 'Shift Overlap Report',
-                  ).titleMedium(),
-                ),
+                const UImage(AppIcons.warningOutline, color: AppColors.orange, size: 25),
+                Text(s.shiftOverlapReport).titleMedium().expanded(),
               ],
             ),
             content: Column(
@@ -257,14 +251,12 @@ abstract class ShiftOverlapChecker {
                             spacing: 4,
                             children: [
                               Text(
-                                isPersianLang
-                                    ? 'شیفت "$newShiftTitle" با ${result.overlapCount} روز تداخل دارد'
-                                    : 'Shift "$newShiftTitle" conflicts with ${result.overlapCount} days',
+                                s.shiftConflictsWithDays
+                                    .replaceFirst('#', newShiftTitle)
+                                    .replaceFirst('#', '${result.overlapCount}'),
                               ).bodyMedium().bold(),
                               Text(
-                                isPersianLang
-                                    ? '${result.validCount} روز بدون تداخل اعمال خواهد شد'
-                                    : '${result.validCount} days without conflict will be applied',
+                                s.daysWithoutConflictWillBeApplied.replaceAll('#', '${result.validCount}'),
                               ).bodyMedium(color: AppColors.green),
                             ],
                           ),
@@ -302,9 +294,7 @@ abstract class ShiftOverlapChecker {
                                 ],
                               ),
                               Text('${s.time}: $timeRange').bodySmall(color: ctx.theme.hintColor),
-                              Text(
-                                isPersianLang ? 'تعداد روزهای متداخل: ${days.length}' : 'Conflicting days: ${days.length}',
-                              ).bodySmall(),
+                              Text('${s.conflictingDays}: ${days.length}').bodySmall(),
                             ],
                           ),
                         );

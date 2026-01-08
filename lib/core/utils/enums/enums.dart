@@ -219,6 +219,8 @@ enum LabelColors {
 
   String getTitle() => !isPersianLang ? title : titleTr1;
 
+  static LabelColors getRandom() => values.elementAt(Random().nextInt(values.length));
+
   static LabelColors fromColorCode(final String? value) {
     if (value == null) return LabelColors.yellow;
     return LabelColors.values.firstWhereOrNull((final e) => e.colorCode == value) ?? LabelColors.yellow;

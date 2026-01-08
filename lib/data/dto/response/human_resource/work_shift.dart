@@ -51,11 +51,11 @@ class WorkShiftReadDto extends Equatable {
       slug: json["slug"] ?? '',
       title: json["title"] ?? '',
       years: json["years"] == null ? [] : List<YearShiftReadDto>.from(json["years"]!.map((final x) => YearShiftReadDto.fromMap(x))),
-      allowedOvertimeHoursNumber: json["allowed_overtime_hours_number"],
-      allowedLeaveHoursNumber: json["allowed_leave_hours_number"],
-      allowedMissionHoursNumber: json["allowed_mission_hours_number"],
-      allowedLeaveEarlyHoursNumber: json["allowed_leave_early_hours_number"],
-      allowedOverdueHoursNumber: json["allowed_overdue_hours_number"],
+      allowedOvertimeHoursNumber: json["allowed_overtime_hours"],
+      allowedLeaveHoursNumber: json["allowed_leave_hours"],
+      allowedMissionHoursNumber: json["allowed_mission_hours"],
+      allowedLeaveEarlyHoursNumber: json["allowed_leave_early"],
+      allowedOverdueHoursNumber: json["allowed_overdue"],
     );
   }
 

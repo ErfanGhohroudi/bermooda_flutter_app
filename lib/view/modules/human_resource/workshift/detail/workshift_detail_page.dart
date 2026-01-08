@@ -57,13 +57,29 @@ class _WorkshiftDetailPageState extends State<WorkshiftDetailPage> {
             ? SafeArea(
                 top: false,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
-                  child: UElevatedButton(
-                    enable: ctrl.draftShifts.isNotEmpty,
-                    title: s.save,
-                    width: double.maxFinite,
-                    isLoading: ctrl.saveButtonState.isLoading(),
-                    onTap: ctrl.onSave,
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (ctrl.draftShifts.isNotEmpty) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 10,
+                          children: [
+                            Text('${'s.changesCount'}:').bodyMedium(color: context.theme.hintColor),
+                            Text("${ctrl.draftShifts.length} ${s.days}").bodyMedium(color: context.theme.primaryColor).bold(),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      UElevatedButton(
+                        enable: ctrl.draftShifts.isNotEmpty,
+                        title: s.save,
+                        width: double.maxFinite,
+                        isLoading: ctrl.saveButtonState.isLoading(),
+                        onTap: ctrl.onSave,
+                      ),
+                    ],
                   ),
                 ),
               )
@@ -79,20 +95,17 @@ class _WorkshiftDetailPageState extends State<WorkshiftDetailPage> {
             return Center(child: WErrorWidget(onTapButton: ctrl.onRefresh));
           }
 
-          if (ctrl.pageState.isLoaded() && ctrl.yearShifts.isEmpty) {
-            return const Center(child: WEmptyWidget());
-          }
-
           return Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Column(
               spacing: 12,
               children: [
                 WorkshiftYearMonthHeader(
-                  years: ctrl.yearShifts,
-                  selectedYear: ctrl.selectedYearShift.value,
-                  months: ctrl.monthShifts,
-                  selectedMonth: ctrl.selectedMonthShift.value,
+                  // years: ctrl.yearShifts,
+                  // selectedYear: ctrl.selectedYearShift.value,
+                  // months: ctrl.monthShifts,
+                  selectedMonth: ctrl.selectedJalaliMonth.value,
+                  // selectedMonth: ctrl.selectedMonthShift.value,
                   onYearChanged: ctrl.onYearSelected,
                   onMonthChanged: ctrl.onMonthSelected,
                 ),

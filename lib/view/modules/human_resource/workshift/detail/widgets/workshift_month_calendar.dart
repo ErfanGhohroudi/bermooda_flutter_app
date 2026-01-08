@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../data/data.dart';
 import 'night_shift_span.dart';
@@ -31,26 +32,28 @@ class WorkshiftMonthCalendar extends StatelessWidget {
     final persianWeekDays = const ["ش", "ی", "د", "س", "چ", "پ", "ج"];
     final englishWeekDays = const ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
-    return Column(
-      children: [
-        Container(
-          height: 25,
-          decoration: BoxDecoration(
-            color: context.theme.scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(30),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          /// WeakDays
+          Container(
+            height: 25,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: (isPersianLang ? persianWeekDays : englishWeekDays).map((final d) => Text(d).bodySmall()).toList(),
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: (isPersianLang ? persianWeekDays : englishWeekDays).map((final d) => Text(d).bodySmall()).toList(),
-          ),
-        ),
-        const SizedBox(height: 6),
-        Expanded(
-          child: Obx(
+          const SizedBox(height: 6),
+
+          /// Calendar
+          Obx(
             () {
-              if (assignmentsByDate.isEmpty || shiftTypeRegistry.isEmpty) {
-                debugPrint('');
-              }
+              /// Don't remove this line. it is for pass the Obx Error.
+              if (assignmentsByDate.isEmpty || shiftTypeRegistry.isEmpty) {}
 
               return GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -62,7 +65,7 @@ class WorkshiftMonthCalendar extends StatelessWidget {
                 ),
                 itemCount: _monthLength + _firstWeekDay,
                 itemBuilder: (final context, final index) {
-                  if (index < _firstWeekDay) return const SizedBox();
+                  if (index < _firstWeekDay) return const SizedBox.shrink();
 
                   final day = index - _firstWeekDay + 1;
                   final dayDate = month.withDay(day);
@@ -70,6 +73,9 @@ class WorkshiftMonthCalendar extends StatelessWidget {
 
                   final slugs = assignmentsByDate[dayKey] ?? const <String>{};
                   final chips = _buildChips(context, slugs);
+                  final previousDaySlugs = day > 1
+                      ? (assignmentsByDate[_dayKey(month.withDay(day - 1))] ?? const <String>{})
+                      : const <String>{};
 
                   return _DayCell(
                     day: day,
@@ -77,9 +83,7 @@ class WorkshiftMonthCalendar extends StatelessWidget {
                     nightShiftSpans: _buildNightShiftSpans(
                       day: dayDate,
                       todaySlugs: slugs,
-                      yesterdaySlugs: day > 1
-                          ? (assignmentsByDate[_dayKey(month.withDay(day - 1))] ?? const <String>{})
-                          : const <String>{},
+                      yesterdaySlugs: previousDaySlugs,
                     ),
                     onTap: () => onDayTap(dayDate),
                   );
@@ -87,8 +91,25 @@ class WorkshiftMonthCalendar extends StatelessWidget {
               );
             },
           ),
-        ),
-      ],
+          const SizedBox(height: 18),
+
+          /// Calendar info
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.blueLink.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              spacing: 10,
+              children: [
+                const UImage(AppIcons.info, color: AppColors.blue, size: 25),
+                Text(s.workshiftCalendarInfo).bodyMedium(color: AppColors.blue).expanded(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -101,7 +122,14 @@ class WorkshiftMonthCalendar extends StatelessWidget {
 
   List<Widget> _buildChips(final BuildContext context, final Set<String> slugs) {
     if (slugs.isEmpty) return const [];
-    final list = slugs.map((final s) => shiftTypeRegistry[s]).whereType<ShiftTypeReadDto>().toList();
+    // Filter out night shifts - they are displayed as NightShiftSpan instead
+    final list = slugs
+        .map((final s) => shiftTypeRegistry[s])
+        .whereType<ShiftTypeReadDto>()
+        .where((final st) => !_isNightShift(st))
+        .toList();
+
+    if (list.isEmpty) return const [];
 
     // Show up to 2, then +N
     final visible = list.take(2).toList();
@@ -133,6 +161,14 @@ class WorkshiftMonthCalendar extends StatelessWidget {
         ),
     ];
     return widgets;
+  }
+
+  /// Checks if a shift type is a night shift (starts after end time, crosses midnight).
+  bool _isNightShift(final ShiftTypeReadDto st) {
+    final start = _parseHm(st.startTime);
+    final end = _parseHm(st.endTime);
+    if (start == null || end == null) return false;
+    return start > end;
   }
 
   List<NightShiftSpan> _buildNightShiftSpans({
@@ -190,12 +226,22 @@ class _DayCell extends StatelessWidget {
   final List<NightShiftSpan> nightShiftSpans;
   final VoidCallback onTap;
 
+  static const int chipsLimit = 2;
+  static const int maxChips = 9;
+
+  int get shiftsCount => nightShiftSpans.length + chips.length;
+
+  bool get showChips => shiftsCount > 0 && shiftsCount <= chipsLimit;
+
+  bool get showChipsCount => shiftsCount > chipsLimit && shiftsCount <= maxChips;
+
+  bool get showMoreThanChips => shiftsCount > maxChips;
+
   @override
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      horPadding: 6,
-      verPadding: 6,
+      padding: 6,
       elevation: 0,
       margin: EdgeInsets.zero,
       onTap: onTap,
@@ -205,7 +251,7 @@ class _DayCell extends StatelessWidget {
         spacing: 2,
         children: [
           Text(day.toString()).bodyMedium().bold(),
-          if (nightShiftSpans.isNotEmpty || chips.isNotEmpty)
+          if (showChips)
             Flexible(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -223,7 +269,11 @@ class _DayCell extends StatelessWidget {
                     ),
                 ],
               ),
-            ),
+            )
+          else if (showChipsCount || showMoreThanChips)
+            Text(
+              showChipsCount ? "($shiftsCount)" : '+$maxChips',
+            ).bodySmall(color: context.theme.primaryColor).bold(),
         ],
       ),
     );

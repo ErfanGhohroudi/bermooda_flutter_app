@@ -31,7 +31,6 @@ class WorkshiftListController extends GetxController {
 
   @override
   void onClose() {
-    debugPrint("WorkshiftListController closed!!!");
     refreshController.dispose();
     searchController.dispose();
     super.onClose();
@@ -61,6 +60,7 @@ class WorkshiftListController extends GetxController {
     _workShiftDatasource.getAllWorkShifts(
       slug: departmentSlug,
       pageNumber: pageNumber,
+      // search: searchController.text,
       onResponse: (final response) {
         if (response.resultList == null) return;
         if (workShifts.subject.isClosed) return;
@@ -133,7 +133,7 @@ class WorkshiftListController extends GetxController {
 
   void showCreateUpdateBottomSheet({final WorkShiftReadDto? workShift}) {
     final title = workShift == null 
-        ? 's.newWorkShift'
+        ? s.newWorkShift
         : '${s.edit} ${s.workShift}';
     bottomSheet(
       title: title,

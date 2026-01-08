@@ -57,12 +57,13 @@ class _WorkshiftListPageState extends State<WorkshiftListPage> {
           ),
           Column(
             children: [
-              WSearchField(
-                controller: ctrl.searchController,
-                borderRadius: 0,
-                height: 50,
-                onChanged: (final value) => ctrl.onSearch(),
-              ),
+              if (false)
+                WSearchField(
+                  controller: ctrl.searchController,
+                  borderRadius: 0,
+                  height: 50,
+                  onChanged: (final value) => ctrl.onSearch(),
+                ),
               Expanded(
                 child: Obx(
                   () {
@@ -79,11 +80,11 @@ class _WorkshiftListPageState extends State<WorkshiftListPage> {
                       onRefresh: ctrl.onRefresh,
                       onLoading: ctrl.loadMore,
                       child: ListView.builder(
-                        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: ctrl.isEndOfList ? 100 : 10),
                         itemCount: ctrl.workShifts.length,
+                        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: ctrl.isEndOfList ? 100 : 10),
                         itemBuilder: (final context, final index) {
                           final workShift = ctrl.workShifts[index];
-                          return _buildWorkShiftCard(context, workShift);
+                          return _buildWorkShiftCard(workShift);
                         },
                       ),
                     );
@@ -97,103 +98,212 @@ class _WorkshiftListPageState extends State<WorkshiftListPage> {
     );
   }
 
-  Widget _buildWorkShiftCard(final BuildContext context, final WorkShiftReadDto workShift) {
-    return WCard(
-      showBorder: true,
-      onTap: ctrl.haveAdminAccess ? () => ctrl.showCreateUpdateBottomSheet(workShift: workShift) : null,
-      horPadding: 12,
-      verPadding: 12,
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+  Widget _buildWorkShiftCard(final WorkShiftReadDto workShift) {
+    final hasAnyLimits =
+        workShift.allowedOvertimeHoursNumber != null ||
+        workShift.allowedLeaveHoursNumber != null ||
+        workShift.allowedMissionHoursNumber != null ||
+        workShift.allowedLeaveEarlyHoursNumber != null ||
+        workShift.allowedOverdueHoursNumber != null;
+
+    bool isExpanded = false;
+
+    return StatefulBuilder(
+      builder: (final context, final setState) {
+        void toggleExpansion() => setState(() => isExpanded = !isExpanded);
+
+        return WCard(
+          showBorder: true,
+          onTap: toggleExpansion,
+          horPadding: 16,
+          verPadding: 0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
+              const SizedBox(height: 12),
+              // Header
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
                       workShift.title,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ).titleMedium().bold(),
-                    if (workShift.years.isNotEmpty)
-                      Text(
-                        '${s.year}: ${workShift.years.length}',
-                        maxLines: 1,
-                      ).bodySmall(color: context.theme.hintColor).marginOnly(top: 4),
-                  ],
-                ),
+                  ),
+                  if (ctrl.haveAdminAccess)
+                    WMoreButtonIcon(
+                      items: [
+                        WPopupMenuItem(
+                          title: s.edit,
+                          icon: AppIcons.editOutline,
+                          titleColor: AppColors.green,
+                          iconColor: AppColors.green,
+                          onTap: () => ctrl.showCreateUpdateBottomSheet(workShift: workShift),
+                        ),
+                        WPopupMenuItem(
+                          title: s.delete,
+                          icon: AppIcons.delete,
+                          titleColor: AppColors.red,
+                          iconColor: AppColors.red,
+                          onTap: () => ctrl.deleteWorkShift(workShift),
+                        ),
+                      ],
+                    ),
+                ],
               ),
-              if (ctrl.haveAdminAccess) ...[
-                IconButton(
-                  onPressed: () => ctrl.showCreateUpdateBottomSheet(workShift: workShift),
-                  icon: UImage(AppIcons.editOutline, color: context.theme.primaryColor, size: 22),
-                  tooltip: s.edit,
-                ),
-                IconButton(
-                  onPressed: () => ctrl.deleteWorkShift(workShift),
-                  icon: const UImage(AppIcons.delete, color: AppColors.red, size: 22),
-                  tooltip: s.delete,
+
+              // Years
+              if (workShift.years.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                _buildYearsChips(context, workShift),
+              ],
+
+              // Limits/Rules
+              if (hasAnyLimits) ...[
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextButton(
+                      onPressed: () => toggleExpansion(),
+                      style: TextButton.styleFrom(
+                        visualDensity: VisualDensity.compact,
+                      ),
+                      child: Row(
+                        spacing: 10,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(s.more).bodySmall(color: context.theme.primaryColor),
+                          Icon(
+                            isExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                            color: context.theme.primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (isExpanded) ...[
+                      const Divider(height: 0),
+                      const SizedBox(height: 10),
+                    ],
+                    AnimatedSize(
+                      duration: 300.milliseconds,
+                      curve: Curves.easeInOut,
+                      child: SizedBox(
+                        width: double.maxFinite,
+                        child: isExpanded ? _buildLimitsWrap(context, workShift).pOnly(bottom: 12) : null,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ],
           ),
-          if (workShift.allowedOvertimeHoursNumber != null ||
-              workShift.allowedLeaveHoursNumber != null ||
-              workShift.allowedMissionHoursNumber != null ||
-              workShift.allowedLeaveEarlyHoursNumber != null ||
-              workShift.allowedOverdueHoursNumber != null) ...[
-            const Divider(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                if (workShift.allowedOvertimeHoursNumber != null)
-                  _buildInfoChip(
-                    context,
-                    '${s.overtime}: ${workShift.allowedOvertimeHoursNumber} ${s.hours}',
-                  ),
-                if (workShift.allowedLeaveHoursNumber != null)
-                  _buildInfoChip(
-                    context,
-                    '${s.leave}: ${workShift.allowedLeaveHoursNumber} ${s.hours}',
-                  ),
-                if (workShift.allowedMissionHoursNumber != null)
-                  _buildInfoChip(
-                    context,
-                    '${s.mission}: ${workShift.allowedMissionHoursNumber} ${s.hours}',
-                  ),
-                if (workShift.allowedLeaveEarlyHoursNumber != null)
-                  _buildInfoChip(
-                    context,
-                    '${s.leave} ${s.early}: ${workShift.allowedLeaveEarlyHoursNumber} ${s.hours}',
-                  ),
-                if (workShift.allowedOverdueHoursNumber != null)
-                  _buildInfoChip(
-                    context,
-                    '${s.tardiness}: ${workShift.allowedOverdueHoursNumber} ${s.hours}',
-                  ),
-              ],
-            ),
-          ],
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildInfoChip(final BuildContext context, final String text) {
+  Widget _buildYearsChips(final BuildContext context, final WorkShiftReadDto workShift) {
+    final years = workShift.years.map((final e) => e.year.toString()).toList();
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 4,
+      children: [
+        UImage(
+          AppIcons.calendarOutline,
+          size: 20,
+          color: context.theme.hintColor,
+        ),
+        Flexible(
+          child: Wrap(
+            spacing: 4,
+            runSpacing: 6,
+            children: List.generate(years.length, (final index) {
+              final year = years[index];
+              return WLabel(
+                text: year,
+                verticalPadding: 1,
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLimitsWrap(final BuildContext context, final WorkShiftReadDto workShift) {
+    return Wrap(
+      spacing: 4,
+      runSpacing: 6,
+      children: [
+        if (workShift.allowedOvertimeHoursNumber != null)
+          _buildInfoChip(
+            context,
+            iconString: AppIcons.clockOutline,
+            label: s.overtimeLimit,
+            value: '${workShift.allowedOvertimeHoursNumber} ${s.hours}',
+          ),
+        if (workShift.allowedMissionHoursNumber != null)
+          _buildInfoChip(
+            context,
+            iconString: AppIcons.missionOutline,
+            label: s.missionLimit,
+            value: '${workShift.allowedMissionHoursNumber} ${s.hours}',
+          ),
+        if (workShift.allowedLeaveHoursNumber != null)
+          _buildInfoChip(
+            context,
+            iconString: AppIcons.leaveOutline,
+            label: s.leaveEntitlement,
+            value: '${workShift.allowedLeaveHoursNumber} ${s.hours}',
+          ),
+        if (workShift.allowedOverdueHoursNumber != null)
+          _buildInfoChip(
+            context,
+            iconString: AppIcons.warningOutline,
+            label: s.tardinessAllowance,
+            value: '${workShift.allowedOverdueHoursNumber} ${s.hours}',
+          ),
+        if (workShift.allowedLeaveEarlyHoursNumber != null)
+          _buildInfoChip(
+            context,
+            iconString: AppIcons.clockOutline,
+            label: s.earlyOutAllowance,
+            value: '${workShift.allowedLeaveEarlyHoursNumber} ${s.hours}',
+          ),
+      ],
+    );
+  }
+
+  Widget _buildInfoChip(
+    final BuildContext context, {
+    required final String iconString,
+    required final String label,
+    required final String value,
+  }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
         color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: context.theme.dividerColor),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: context.theme.dividerColor.withValues(alpha: 0.5)),
       ),
-      child: Text(
-        text,
-        style: context.textTheme.bodySmall?.copyWith(color: context.theme.hintColor),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 6,
+        children: [
+          UImage(
+            iconString,
+            size: 14,
+            color: context.theme.hintColor,
+          ),
+          Flexible(
+            child: Text('$label: $value', maxLines: 1).bodySmall(
+              color: context.theme.hintColor,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

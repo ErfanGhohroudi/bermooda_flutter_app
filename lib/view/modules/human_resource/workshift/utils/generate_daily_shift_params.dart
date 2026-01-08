@@ -3,6 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../data/data.dart';
 import '../create_update/models/daily_shift_repeat_pattern.dart';
+import '../enums/workshift_repeat_type.dart';
 
 Future<List<DailyShiftParams>> generateDailyShiftParams({
   required final DailyShiftRepeatPattern pattern,

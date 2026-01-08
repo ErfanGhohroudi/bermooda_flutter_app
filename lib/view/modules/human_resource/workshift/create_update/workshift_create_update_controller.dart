@@ -214,8 +214,11 @@ mixin WorkshiftCreateUpdateController {
     if (_workShift == null) return;
 
     final pattern = await bottomSheetWithNoScroll<DailyShiftRepeatPattern>(
-      title: isPersianLang ? 'تنظیم اولیه شیفت' : 'Initial shift setup',
-      child: DailyShiftRepeatPatternSheet(initialPattern: _lastPattern),
+      title: s.initialShiftSetup,
+      child: DailyShiftRepeatPatternSheet(
+        initialPattern: _lastPattern,
+        isInitialSetup: true,
+      ),
     );
 
     // If user dismissed: keep previous behavior (create year + navigate).
@@ -247,10 +250,7 @@ mixin WorkshiftCreateUpdateController {
     } catch (e) {
       AppLoading.dismissLoading();
       buttonState.loaded();
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: isPersianLang ? 'خطا در تنظیم اولیه تقویم' : 'Failed to apply initial setup',
-      );
+      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
       _postCreateFlow();
     }

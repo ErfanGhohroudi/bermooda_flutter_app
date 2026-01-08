@@ -484,6 +484,7 @@ abstract class AppIcons {
   static const String marketingModule = "$_base/marketing_module.png";
   static const String minusSquareOutline = "$_base/minus_square_outline.svg";
   static const String missionOutline = "$_base/mission_outline.svg";
+  static const String moon = "$_base/moon.svg";
   static const String moonOutline = "$_base/moon_outline.svg";
   static const String myDocsModule = "$_base/my_docs_module.svg";
   static const String noteOutline = "$_base/note_outline.svg";

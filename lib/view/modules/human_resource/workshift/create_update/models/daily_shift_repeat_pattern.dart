@@ -1,33 +1,5 @@
-import '../../../../../../core/core.dart';
 import '../../../../../../data/data.dart';
-
-enum WorkshiftRepeatType {
-  singleDay,
-  weekly,
-  monthly;
-
-  String get title {
-    //todo: دو زبانه بشه
-    if (isPersianLang) {
-      switch (this) {
-        case WorkshiftRepeatType.singleDay:
-          return 'فقط این روز';
-        case WorkshiftRepeatType.weekly:
-          return 'هفتگی';
-        case WorkshiftRepeatType.monthly:
-          return 'ماهانه';
-      }
-    }
-    switch (this) {
-      case WorkshiftRepeatType.singleDay:
-        return 'Only this day';
-      case WorkshiftRepeatType.weekly:
-        return 'Weekly';
-      case WorkshiftRepeatType.monthly:
-        return 'Monthly';
-    }
-  }
-}
+import '../../enums/workshift_repeat_type.dart';
 
 class DailyShiftRepeatPattern {
   const DailyShiftRepeatPattern({

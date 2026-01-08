@@ -45,12 +45,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "addReviewers": MessageLookupByLibrary.simpleMessage(
       "افزودن بررسی‌کنندگان",
     ),
+    "addShift": MessageLookupByLibrary.simpleMessage("افزودن شیفت"),
     "addText": MessageLookupByLibrary.simpleMessage("افزودن"),
     "additionalInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تکمیلی"),
     "address": MessageLookupByLibrary.simpleMessage("آدرس"),
     "admin": MessageLookupByLibrary.simpleMessage("مدیر"),
     "all": MessageLookupByLibrary.simpleMessage("همه"),
     "allowanceType": MessageLookupByLibrary.simpleMessage("نوع کمک‌هزینه"),
+    "allowedAttendanceMethods": MessageLookupByLibrary.simpleMessage(
+      "روش‌های مجاز ثبت تردد",
+    ),
     "allowedExelFormatsAndSize": MessageLookupByLibrary.simpleMessage(
       "فرمت‌های مجاز: XLSX, XLS, CSV (حداکثر 10 مگابایت)",
     ),
@@ -122,6 +126,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "both": MessageLookupByLibrary.simpleMessage("هر دو"),
     "breakEnd": MessageLookupByLibrary.simpleMessage("پایان استراحت"),
     "breakStart": MessageLookupByLibrary.simpleMessage("شروع استراحت"),
+    "breakStartEndMustBothBeSet": MessageLookupByLibrary.simpleMessage(
+      "شروع و پایان استراحت باید هر دو مشخص شوند",
+    ),
     "breakText": MessageLookupByLibrary.simpleMessage("استراحت"),
     "budget": MessageLookupByLibrary.simpleMessage("بودجه"),
     "businessName": MessageLookupByLibrary.simpleMessage("نام کسب‌وکار"),
@@ -208,6 +215,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "تکرار رمز عبور جدید",
     ),
     "confirmPassword": MessageLookupByLibrary.simpleMessage("تکرار رمز عبور"),
+    "conflictingDays": MessageLookupByLibrary.simpleMessage(
+      "تعداد روزهای متداخل",
+    ),
     "connecting": MessageLookupByLibrary.simpleMessage("در حال اتصال..."),
     "connectionLost": MessageLookupByLibrary.simpleMessage("اتصال قطع است"),
     "contactInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تماس"),
@@ -290,6 +300,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateOfEntry": MessageLookupByLibrary.simpleMessage("تاریخ ثبت"),
     "day": MessageLookupByLibrary.simpleMessage("روز"),
     "days": MessageLookupByLibrary.simpleMessage("روز"),
+    "daysOfMonth": MessageLookupByLibrary.simpleMessage("روزهای ماه"),
+    "daysWithoutConflictWillBeApplied": MessageLookupByLibrary.simpleMessage(
+      "# روز بدون تداخل اعمال خواهد شد",
+    ),
     "deadline": MessageLookupByLibrary.simpleMessage("مهلت"),
     "decline": MessageLookupByLibrary.simpleMessage("رد کردن"),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -301,10 +315,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "deleteContractHelper": MessageLookupByLibrary.simpleMessage(
       "با کلیک روی این دکمه، قرارداد فعلی حذف شده و می‌توانید قرارداد جدیدی ایجاد کنید.",
     ),
+    "deleteFromAllDay": MessageLookupByLibrary.simpleMessage(
+      "حذف از تمام روزها",
+    ),
+    "deleteFromDay": MessageLookupByLibrary.simpleMessage("حذف از روز"),
     "deleteSelectedCustomersDialogDescription":
         MessageLookupByLibrary.simpleMessage(
           "آیا همه مشتریان انتخاب شده از پوشه حذف شوند؟",
         ),
+    "deleteShiftFromAllDaysQuestion": MessageLookupByLibrary.simpleMessage(
+      "شیفت از تمام روزها حذف شود؟",
+    ),
+    "deleteShiftQuestion": MessageLookupByLibrary.simpleMessage(
+      "شیفت از این روز حذف شود؟",
+    ),
     "deleteThisCustomerDialogDescription": MessageLookupByLibrary.simpleMessage(
       "آیا این مشتری از پوشه حذف شود؟",
     ),
@@ -398,6 +422,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterStepTitle": MessageLookupByLibrary.simpleMessage(
       "عنوان مرحله را وارد کنید",
     ),
+    "entry": MessageLookupByLibrary.simpleMessage("ورود"),
+    "entryTime": MessageLookupByLibrary.simpleMessage("زمان ورود"),
     "equipmentType": MessageLookupByLibrary.simpleMessage("نوع تجهیز"),
     "error": MessageLookupByLibrary.simpleMessage("خطا"),
     "error400": MessageLookupByLibrary.simpleMessage("مشکل فنی پیش آمده"),
@@ -430,6 +456,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "exitPage": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید از این صفحه خارج شوید؟\n*تغییرات ذخیره نمیشوند.",
     ),
+    "exitTime": MessageLookupByLibrary.simpleMessage("زمان خروج"),
     "expenseAmount": MessageLookupByLibrary.simpleMessage("مبلغ هزینه"),
     "expenseDate": MessageLookupByLibrary.simpleMessage("تاریخ هزینه"),
     "expenseType": MessageLookupByLibrary.simpleMessage("نوع هزینه"),
@@ -443,6 +470,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "extension": MessageLookupByLibrary.simpleMessage("داخلی"),
     "faceId": MessageLookupByLibrary.simpleMessage("تشخیص چهره"),
     "failed": MessageLookupByLibrary.simpleMessage("ناموفق"),
+    "failedToApplyShift": MessageLookupByLibrary.simpleMessage(
+      "خطا در تنظیم شیفت",
+    ),
     "fair": MessageLookupByLibrary.simpleMessage("متوسط"),
     "favorite": MessageLookupByLibrary.simpleMessage("علاقه‌مندی"),
     "favorites": MessageLookupByLibrary.simpleMessage("علاقه‌مندی‌ها"),
@@ -468,6 +498,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "finalPrice": MessageLookupByLibrary.simpleMessage("قیمت نهایی"),
     "fingerPrint": MessageLookupByLibrary.simpleMessage("اثر انگشت"),
     "firstName": MessageLookupByLibrary.simpleMessage("نام"),
+    "floatingTime": MessageLookupByLibrary.simpleMessage("زمان شناور"),
     "followUp": MessageLookupByLibrary.simpleMessage("پیگیری"),
     "followUpStatusPopupDescription": MessageLookupByLibrary.simpleMessage(
       "آیا پیگیری موفقیت‌آمیز بود؟",
@@ -530,6 +561,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "includeSalary": MessageLookupByLibrary.simpleMessage("ذکر میزان حقوق"),
     "industry": MessageLookupByLibrary.simpleMessage("صنعت"),
     "informationType": MessageLookupByLibrary.simpleMessage("نوع اطلاعات"),
+    "initialSetupAppliedSuccessfully": MessageLookupByLibrary.simpleMessage(
+      "تنظیم اولیه با موفقیت اعمال شد",
+    ),
+    "initialShiftSetup": MessageLookupByLibrary.simpleMessage(
+      "تنظیم اولیه شیفت",
+    ),
     "insurance": MessageLookupByLibrary.simpleMessage("بیمه"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
       "موضوع معرفی‌نامه",
@@ -678,6 +715,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "module": MessageLookupByLibrary.simpleMessage("ماژول"),
     "modules": MessageLookupByLibrary.simpleMessage("ماژول ها"),
     "month": MessageLookupByLibrary.simpleMessage("ماه"),
+    "monthly": MessageLookupByLibrary.simpleMessage("ماهانه"),
+    "monthlyRepeatTypeHelper": MessageLookupByLibrary.simpleMessage(
+      "شیفت در روزهای انتخابی تمام ماه‌های باقیمانده سال (سال انتخاب شده) ایجاد می‌شود",
+    ),
     "monthlySettings": MessageLookupByLibrary.simpleMessage("تنظیمات ماهانه"),
     "months": MessageLookupByLibrary.simpleMessage("ماه"),
     "more": MessageLookupByLibrary.simpleMessage("بیشتر"),
@@ -724,11 +765,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "newSubtask": MessageLookupByLibrary.simpleMessage("زیر وظیفه جدید"),
     "newTask": MessageLookupByLibrary.simpleMessage("وظیفه جدید"),
     "newValue": MessageLookupByLibrary.simpleMessage("مقدار جدید"),
+    "newWorkShift": MessageLookupByLibrary.simpleMessage("شیفت کاری جدید"),
     "newWorkspace": MessageLookupByLibrary.simpleMessage("کسب‌وکار جدید"),
     "neww": MessageLookupByLibrary.simpleMessage("جدید"),
     "next": MessageLookupByLibrary.simpleMessage("بعدی"),
     "nextMonth": MessageLookupByLibrary.simpleMessage("ماه بعد"),
     "nextYear": MessageLookupByLibrary.simpleMessage("سال بعد"),
+    "nightShift": MessageLookupByLibrary.simpleMessage("شیفت شب"),
+    "nightShiftHelper": MessageLookupByLibrary.simpleMessage(
+      "شیفت‌هایی که از شب یک روز شروع شده و صبح روز بعد تمام می‌شوند (مثلاً ۲۲:۰۰ - ۰۶:۰۰)",
+    ),
     "no": MessageLookupByLibrary.simpleMessage("خیر"),
     "noActivity": MessageLookupByLibrary.simpleMessage("بدون فعالیت"),
     "noAttachment": MessageLookupByLibrary.simpleMessage("ندارد"),
@@ -793,6 +839,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "onlyPDFFilesAllowed": MessageLookupByLibrary.simpleMessage(
       "فقط فایل های PDF قابل قبول است.",
     ),
+    "onlyThisDay": MessageLookupByLibrary.simpleMessage("فقط این روز"),
     "optionalAttachments": MessageLookupByLibrary.simpleMessage(
       "مدارک پیوست (اختیاری)",
     ),
@@ -853,6 +900,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "personnelCode": MessageLookupByLibrary.simpleMessage("کد پرسنلی"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("شماره همراه"),
     "photo": MessageLookupByLibrary.simpleMessage("عکس"),
+    "pickAtLeastOneAttendanceMethod": MessageLookupByLibrary.simpleMessage(
+      "حداقل یک روش برای ثبت تردد انتخاب کنید",
+    ),
+    "pickAtLeastOneDayOfMonth": MessageLookupByLibrary.simpleMessage(
+      "حداقل یک روز ماه را انتخاب کنید",
+    ),
+    "pickAtLeastOneWeekday": MessageLookupByLibrary.simpleMessage(
+      "حداقل یک روز هفته را انتخاب کنید",
+    ),
     "pin": MessageLookupByLibrary.simpleMessage("سنجاق کردن"),
     "planning": MessageLookupByLibrary.simpleMessage("برنامه ریزی"),
     "pleaseSelectAtLeastOneConversation": MessageLookupByLibrary.simpleMessage(
@@ -869,6 +925,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "presence": MessageLookupByLibrary.simpleMessage("حضور"),
     "preview": MessageLookupByLibrary.simpleMessage("پیش‌نمایش"),
     "previous": MessageLookupByLibrary.simpleMessage("قبلی"),
+    "previousDay": MessageLookupByLibrary.simpleMessage("روز قبل"),
     "previousMonth": MessageLookupByLibrary.simpleMessage("ماه قبل"),
     "previousYear": MessageLookupByLibrary.simpleMessage("سال قبل"),
     "price": MessageLookupByLibrary.simpleMessage("قیمت"),
@@ -922,6 +979,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "شرایط بازپرداخت پیشنهادی",
     ),
     "repeat": MessageLookupByLibrary.simpleMessage("تکرار"),
+    "repeatOptions": MessageLookupByLibrary.simpleMessage("گزینه‌های تکرار"),
+    "repeatType": MessageLookupByLibrary.simpleMessage("نوع تکرار"),
     "replace": MessageLookupByLibrary.simpleMessage("جایگزینی"),
     "replacementEmployee": MessageLookupByLibrary.simpleMessage(
       "جایگزین در زمان غیبت",
@@ -1047,6 +1106,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "sender": MessageLookupByLibrary.simpleMessage("فرستنده"),
     "settings": MessageLookupByLibrary.simpleMessage("تنظیمات"),
     "share": MessageLookupByLibrary.simpleMessage("اشتراک گذاری"),
+    "shiftColor": MessageLookupByLibrary.simpleMessage("رنگ شیفت"),
+    "shiftConflictsWithAllSelectedDays": MessageLookupByLibrary.simpleMessage(
+      "شیفت # با تمام روزهای انتخابی تداخل دارد",
+    ),
+    "shiftConflictsWithDays": MessageLookupByLibrary.simpleMessage(
+      "شیفت # با # روز تداخل دارد",
+    ),
+    "shiftOverlapReport": MessageLookupByLibrary.simpleMessage(
+      "گزارش تداخل شیفت",
+    ),
+    "shiftTitle": MessageLookupByLibrary.simpleMessage("عنوان شیفت"),
     "show": MessageLookupByLibrary.simpleMessage("نمایش"),
     "signatories": MessageLookupByLibrary.simpleMessage("امضاکنندگان"),
     "signatures": MessageLookupByLibrary.simpleMessage("امضا‌ها"),
@@ -1267,6 +1337,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "warning": MessageLookupByLibrary.simpleMessage("هشدار"),
     "website": MessageLookupByLibrary.simpleMessage("وبسایت"),
+    "weekDays": MessageLookupByLibrary.simpleMessage("روزهای هفته"),
+    "weekly": MessageLookupByLibrary.simpleMessage("هفتگی"),
+    "weeklyRepeatTypeHelper": MessageLookupByLibrary.simpleMessage(
+      "شیفت در روزهای انتخابی تا پایان سال (سال انتخاب شده) ایجاد می‌شود",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("به برمودا خوش آمدید"),
     "welfareType": MessageLookupByLibrary.simpleMessage("نوع درخواست رفاهی"),
     "wonReason": MessageLookupByLibrary.simpleMessage("دلیل موفقیت"),
@@ -1274,6 +1349,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "workShift": MessageLookupByLibrary.simpleMessage("شیفت کاری"),
     "workingHours": MessageLookupByLibrary.simpleMessage("ساعات کاری"),
     "workload": MessageLookupByLibrary.simpleMessage("حجم کار"),
+    "workshiftCalendarInfo": MessageLookupByLibrary.simpleMessage(
+      "برای تغییرات، روی خانه های تقویم کلیک کنید.",
+    ),
     "workspaceTitle": MessageLookupByLibrary.simpleMessage("عنوان کسب‌وکار"),
     "writeYourMessage": MessageLookupByLibrary.simpleMessage(
       "پیام خود را بنویسید",

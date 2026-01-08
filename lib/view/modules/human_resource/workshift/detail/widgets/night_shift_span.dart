@@ -19,10 +19,6 @@ class NightShiftSpan extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final color = (shiftType.color?.color ?? context.theme.primaryColor);
-    final label = switch (segment) {
-      NightShiftSegment.start => '${shiftType.startTime} →',
-      NightShiftSegment.end => '← ${shiftType.endTime}',
-    };
 
     final borderRadius = switch (segment) {
       // No rounded edge on the side that visually connects to the adjacent day.
@@ -37,13 +33,12 @@ class NightShiftSpan extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
         color: color.withAlpha(35),
         borderRadius: borderRadius,
         border: Border.all(color: color.withAlpha(120)),
       ),
-      child: Text(label).bodySmall(fontSize: 8, color: color).bold(),
     );
   }
 }

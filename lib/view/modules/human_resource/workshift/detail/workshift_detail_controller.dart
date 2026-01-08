@@ -1,8 +1,9 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/theme.dart';
+import '../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
-import '../../../../../core/loading/loading.dart';
 import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/services/permission_service.dart';
 import '../../../../../data/data.dart';
@@ -29,11 +30,7 @@ class WorkshiftDetailController extends GetxController {
   final Rx<PageState> pageState = PageState.initial.obs;
   final Rx<PageState> saveButtonState = PageState.loaded.obs;
 
-  final RxList<YearShiftReadDto> yearShifts = <YearShiftReadDto>[].obs;
   final Rx<YearShiftReadDto?> selectedYearShift = Rx<YearShiftReadDto?>(null);
-
-  final RxList<MonthShiftReadDto> monthShifts = <MonthShiftReadDto>[].obs;
-  final Rx<MonthShiftReadDto?> selectedMonthShift = Rx<MonthShiftReadDto?>(null);
 
   /// Jalali month (always day=1) used for rendering the calendar grid.
   final Rx<Jalali> selectedJalaliMonth = Jalali.now().withDay(1).obs;
@@ -58,10 +55,7 @@ class WorkshiftDetailController extends GetxController {
     if (initialSetup) {
       // Keep it simple: one-time info toast on entry after initial auto-populate.
       Future<void>.delayed(const Duration(milliseconds: 300), () {
-        AppNavigator.snackbarGreen(
-          title: s.done,
-          subtitle: isPersianLang ? 'تنظیم اولیه با موفقیت اعمال شد' : 'Initial setup applied successfully',
-        );
+        AppNavigator.snackbarGreen(title: s.done, subtitle: s.initialSetupAppliedSuccessfully);
       });
     }
     super.onInit();
@@ -72,7 +66,6 @@ class WorkshiftDetailController extends GetxController {
     _draftShiftsWorker.dispose();
     saveButtonState.close();
     selectedYearShift.close();
-    selectedMonthShift.close();
     selectedJalaliMonth.close();
     sourceShiftTypes.close();
     shiftTypeRegistry.close();
@@ -107,7 +100,6 @@ class WorkshiftDetailController extends GetxController {
         shiftTypeRegistry.refresh();
       },
       onError: (final errorResponse) {},
-      withRetry: false,
     );
   }
 
@@ -129,60 +121,36 @@ class WorkshiftDetailController extends GetxController {
 
   /// Load years directly from the workShift model (no API call).
   void _loadYearShiftsFromModel() {
-    final years = workShift.years.toList()..sort((final a, final b) => b.year.compareTo(a.year));
-    yearShifts(years);
     pageState.loaded();
-
-    if (yearShifts.isEmpty) return;
-
-    final nowYear = Jalali.now().year;
-    final initial = yearShifts.firstWhereOrNull((final y) => y.year == nowYear) ?? yearShifts.last;
-    onYearSelected(initial);
+    onYearSelected(selectedJalaliMonth.value.year);
   }
 
-  void onYearSelected(final YearShiftReadDto? year) {
-    if (year == null) return;
-    if (selectedYearShift.value?.slug == year.slug) return;
+  void onYearSelected(final int year) {
+    final years = workShift.years.toList();
+    final yearShift = years.firstWhereOrNull((final y) => y.year == year);
 
-    selectedYearShift(year);
-    monthShifts.clear();
-    selectedMonthShift(null);
+    selectedJalaliMonth(selectedJalaliMonth.value.withYear(year));
     remoteDailyByDate.clear();
     assignmentsByDate.clear();
 
-    _loadMonthShiftsFromModel(year);
+    selectedYearShift(yearShift);
+    onMonthSelected(selectedJalaliMonth.value.month);
   }
 
-  /// Load months directly from the YearShiftReadDto model (no API call).
-  void _loadMonthShiftsFromModel(final YearShiftReadDto year) {
-    final months = year.months?.toList() ?? <MonthShiftReadDto>[];
-    months.sort((final a, final b) => a.monthNumber.compareTo(b.monthNumber));
-    monthShifts(months);
+  void onMonthSelected(final int month) {
+    selectedJalaliMonth(selectedJalaliMonth.value.withMonth(month));
 
-    if (monthShifts.isEmpty) return;
+    final months = selectedYearShift.value?.months?.toList() ?? <MonthShiftReadDto>[];
+    final monthShift = months.firstWhereOrNull(
+      (final m) => m.monthNumber == month,
+    );
 
-    final now = Jalali.now();
-    final date = year.year == now.year ? now : Jalali(year.year, 1, 1);
-    final initial =
-        monthShifts.firstWhereOrNull(
-          (final m) => m.monthNumber == date.month && (selectedYearShift.value?.year == date.year),
-        ) ??
-        monthShifts.first;
-    onMonthSelected(initial);
-  }
-
-  void onMonthSelected(final MonthShiftReadDto? monthShift) {
-    if (monthShift == null) return;
-    if (selectedMonthShift.value?.slug == monthShift.slug) return;
-
-    selectedMonthShift(monthShift);
     remoteDailyByDate.clear();
-    assignmentsByDate.clear();
-
-    final year = selectedYearShift.value?.year ?? Jalali.now().year;
-    selectedJalaliMonth(Jalali(year, monthShift.monthNumber, 1));
-
-    _loadDailyShiftsFromModel(monthShift);
+    if (monthShift != null) {
+      _loadDailyShiftsFromModel(monthShift);
+    } else {
+      _rebuildAssignmentsForMonth();
+    }
   }
 
   /// Load daily shifts directly from the MonthShiftReadDto model (no API call).
@@ -240,6 +208,9 @@ class WorkshiftDetailController extends GetxController {
     return '$y-$m-$d';
   }
 
+  /// Public method to get day key from Jalali date.
+  String getDayKeyFromJalali(final Jalali date) => _dayKey(date);
+
   // ---------------------------------------------------------------------------
   // Day interactions
   // ---------------------------------------------------------------------------
@@ -247,7 +218,7 @@ class WorkshiftDetailController extends GetxController {
   void onDayTap(final Jalali day) {
     final key = _dayKey(day);
     bottomSheetWithNoScroll<void>(
-      title: s.details,
+      title: day.formatToDDmNYYYY,
       child: WorkshiftDaySheet(
         controller: this,
         day: day,
@@ -261,6 +232,140 @@ class WorkshiftDetailController extends GetxController {
   void setDayAssignments(final String dayKey, final Set<String> newValue) {
     assignmentsByDate[dayKey] = newValue;
     assignmentsByDate.refresh();
+  }
+
+  // ---------------------------------------------------------------------------
+  // ShiftType Draft Helpers
+  // ---------------------------------------------------------------------------
+
+  /// Checks if a shift type is in draft only (not yet saved) for a specific day.
+  /// Returns true if the shift exists in draftShifts but NOT in remoteDailyByDate.
+  bool isShiftTypeInDraftOnly(final String shiftTypeSlug, final String dayKey) {
+    final remote = remoteDailyByDate[dayKey];
+    if (remote != null && remote.shiftTypes.any((final st) => st.slug == shiftTypeSlug)) {
+      return false; // It's from remote
+    }
+    return draftShifts.any((final draft) {
+      final key = _normalizeDayKey(draft.dayDate);
+      return key == dayKey && (draft.shiftTypeSlugList?.contains(shiftTypeSlug) ?? false);
+    });
+  }
+
+  /// Checks if ALL days in the given range are draft only for the shift type.
+  /// Returns true if the shift type does NOT exist in remote for any day in the range.
+  bool areAllDaysInDraftOnly(final String shiftTypeSlug, final Jalali startDate, final Jalali endDate) {
+    for (var day = startDate; day.compareTo(endDate) <= 0; day = day.addDays(1)) {
+      final key = _dayKey(day);
+      // If shift exists in remote for this day, not all days are draft only
+      final remote = remoteDailyByDate[key];
+      if (remote != null && remote.shiftTypes.any((final st) => st.slug == shiftTypeSlug)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /// Finds the first and last day (Jalali) where a shift type exists.
+  /// Returns null if the shift type is not found in any day.
+  (Jalali, Jalali)? getShiftTypeDateRange(final String shiftTypeSlug) {
+    Jalali? minDate;
+    Jalali? maxDate;
+
+    // Check remoteDailyByDate
+    for (final entry in remoteDailyByDate.entries) {
+      final remote = entry.value;
+      if (remote.shiftTypes.any((final st) => st.slug == shiftTypeSlug)) {
+        final jalali = _parseJalaliFromKey(entry.key);
+        if (jalali != null) {
+          if (minDate == null || jalali.compareTo(minDate) < 0) minDate = jalali;
+          if (maxDate == null || jalali.compareTo(maxDate) > 0) maxDate = jalali;
+        }
+      }
+    }
+
+    // Check draftShifts
+    for (final draft in draftShifts) {
+      if (draft.shiftTypeSlugList?.contains(shiftTypeSlug) ?? false) {
+        final key = _normalizeDayKey(draft.dayDate);
+        final jalali = _parseJalaliFromKey(key);
+        if (jalali != null) {
+          if (minDate == null || jalali.compareTo(minDate) < 0) minDate = jalali;
+          if (maxDate == null || jalali.compareTo(maxDate) > 0) maxDate = jalali;
+        }
+      }
+    }
+
+    if (minDate == null || maxDate == null) return null;
+    return (minDate, maxDate);
+  }
+
+  /// Parses a Jalali date from a day key (yyyy-MM-dd format).
+  Jalali? _parseJalaliFromKey(final String key) {
+    final parts = key.split('-');
+    if (parts.length != 3) return null;
+    final y = int.tryParse(parts[0]);
+    final m = int.tryParse(parts[1]);
+    final d = int.tryParse(parts[2]);
+    if (y == null || m == null || d == null) return null;
+    return Jalali(y, m, d);
+  }
+
+  /// Removes a shift type from draft for a specific date range (local only).
+  void removeShiftTypeFromDraftLocal(
+    final String shiftTypeSlug,
+    final Jalali startDate,
+    final Jalali endDate, {
+    required final bool isAllDays,
+  }) {
+    appShowYesCancelDialog(
+      title: s.delete,
+      description: isAllDays ? s.deleteShiftFromAllDaysQuestion : s.deleteShiftQuestion,
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
+      onYesButtonTap: () {
+        UNavigator.back();
+
+        final keysToRemove = <String>{};
+        for (var day = startDate; day.compareTo(endDate) <= 0; day = day.addDays(1)) {
+          keysToRemove.add(_dayKey(day));
+        }
+
+        final toRemove = <DailyShiftParams>[];
+        final toAdd = <DailyShiftParams>[];
+
+        for (final draft in draftShifts) {
+          final key = _normalizeDayKey(draft.dayDate);
+          if (keysToRemove.contains(key) && (draft.shiftTypeSlugList?.contains(shiftTypeSlug) ?? false)) {
+            toRemove.add(draft);
+
+            // If draft has other slugs, create new entry without the deleted slug
+            final remainingSlugs = draft.shiftTypeSlugList?.where((final slug) => slug != shiftTypeSlug).toList();
+            if (remainingSlugs != null && remainingSlugs.isNotEmpty) {
+              toAdd.add(
+                DailyShiftParams(
+                  dayDate: draft.dayDate,
+                  isHoliday: draft.isHoliday,
+                  isInMonth: draft.isInMonth,
+                  shiftTypeSlugList: remainingSlugs,
+                ),
+              );
+            }
+          }
+        }
+
+        for (final draft in toRemove) {
+          draftShifts.remove(draft);
+        }
+        draftShifts.addAll(toAdd);
+        draftShifts.refresh();
+
+        // Also update assignmentsByDate for immediate UI update
+        for (final key in keysToRemove) {
+          assignmentsByDate[key]?.remove(shiftTypeSlug);
+        }
+        assignmentsByDate.refresh();
+      },
+    );
   }
 
   // ---------------------------------------------------------------------------
@@ -286,46 +391,31 @@ class WorkshiftDetailController extends GetxController {
     return completer.future;
   }
 
-  Future<ShiftTypeReadDto> updateShiftTypeAsync({
-    required final String slug,
-    required final ShiftTypeParams params,
-  }) async {
-    final completer = Completer<ShiftTypeReadDto>();
-    shiftTypeDatasource.update(
-      slug: slug,
-      dto: params,
-      onResponse: (final response) {
-        final st = response.result;
-        if (st == null) {
-          AppNavigator.snackbarRed(title: s.error, subtitle: 'Failed to update shift type');
-          return;
-        }
-        final idx = sourceShiftTypes.indexWhere((final x) => x.slug == slug);
-        if (idx != -1) {
-          sourceShiftTypes[idx] = st;
-          sourceShiftTypes.refresh();
-        }
-        shiftTypeRegistry[slug] = st;
-        shiftTypeRegistry.refresh();
-        completer.complete(st);
-      },
-      onError: (final errorResponse) => completer.completeError(StateError(errorResponse.message)),
-    );
-    return completer.future;
-  }
-
-  void deleteShiftTypeFromServer(final ShiftTypeReadDto shiftType) {
+  void deleteShiftTypeFromDays(
+    final ShiftTypeReadDto shiftType, {
+    required final Jalali startDate,
+    required final Jalali endDate,
+    required final bool isAllDays,
+  }) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: isAllDays ? s.deleteShiftFromAllDaysQuestion : s.deleteShiftQuestion,
       yesButtonTitle: s.delete,
-      yesBackgroundColor: Colors.red,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         UNavigator.back();
-        shiftTypeDatasource.delete(
+        shiftTypeDatasource.deleteFromDays(
           slug: shiftType.slug,
+          workshiftSlug: workShiftSlug,
+          startDate: startDate,
+          endDate: endDate,
           onResponse: () {
-            _removeShiftType(shiftType);
+            _removeShiftTypeFromDays(
+              shiftType,
+              startDate: startDate,
+              endDate: endDate,
+              isAllDays: isAllDays,
+            );
             AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
           },
           onError: (final errorResponse) {},
@@ -342,32 +432,68 @@ class WorkshiftDetailController extends GetxController {
     sourceShiftTypes.refresh();
   }
 
-  void _removeShiftType(final ShiftTypeReadDto st) {
-    AppLoading.showLoading();
+  void _removeShiftTypeFromDays(
+    final ShiftTypeReadDto st, {
+    required final Jalali startDate,
+    required final Jalali endDate,
+    required final bool isAllDays,
+  }) {
+    // 1. Remove st from shiftTypeRegistry if isAllDays == true
+    if (isAllDays) {
+      sourceShiftTypes.removeWhere((final s) => s.slug == st.slug);
+      shiftTypeRegistry.remove(st.slug);
+      shiftTypeRegistry.refresh();
+      sourceShiftTypes.refresh();
+    }
 
-    // if draftShifts contains this shift type, remove it from draftShifts
-    if (draftShifts.any((final d) => d.shiftTypeSlugList?.contains(st.slug) ?? false)) {
-      Set<DailyShiftParams> drafts = Set.of(draftShifts);
-      for (final d in drafts) {
-        if (d.shiftTypeSlugList?.contains(st.slug) ?? false) {
-          d.shiftTypeSlugList?.removeWhere((final s) => s == st.slug);
+    // Build set of day keys for the date range
+    final keysInRange = <String>{};
+    for (var day = startDate; day.compareTo(endDate) <= 0; day = day.addDays(1)) {
+      keysInRange.add(_dayKey(day));
+    }
+
+    // 2. Remove st from draftShifts from startDate to endDate days
+    final draftsToRemove = <DailyShiftParams>[];
+    final draftsToAdd = <DailyShiftParams>[];
+    for (final draft in draftShifts) {
+      final key = _normalizeDayKey(draft.dayDate);
+      if (keysInRange.contains(key) && (draft.shiftTypeSlugList?.contains(st.slug) ?? false)) {
+        draftsToRemove.add(draft);
+
+        // If draft has other slugs, create new entry without the deleted slug
+        final remainingSlugs = draft.shiftTypeSlugList?.where((final slug) => slug != st.slug).toList();
+        if (remainingSlugs != null && remainingSlugs.isNotEmpty) {
+          draftsToAdd.add(
+            DailyShiftParams(
+              dayDate: draft.dayDate,
+              isHoliday: draft.isHoliday,
+              isInMonth: draft.isInMonth,
+              shiftTypeSlugList: remainingSlugs,
+            ),
+          );
         }
       }
-      draftShifts(drafts);
     }
+    for (final draft in draftsToRemove) {
+      draftShifts.remove(draft);
+    }
+    draftShifts.addAll(draftsToAdd);
+    draftShifts.refresh();
 
-    sourceShiftTypes.removeWhere((final x) => x.slug == st.slug);
-    shiftTypeRegistry.remove(st.slug);
-    shiftTypeRegistry.refresh();
-    sourceShiftTypes.refresh();
-
-    // Keep UI consistent for currently loaded days.
-    for (final entry in assignmentsByDate.entries) {
-      if (entry.value.contains(st.slug)) {
-        entry.value.remove(st.slug);
+    // 3. Remove st from remoteDailyByDate from startDate to endDate days
+    for (final key in keysInRange) {
+      final remote = remoteDailyByDate[key];
+      if (remote != null) {
+        remote.shiftTypes.removeWhere((final s) => s.slug == st.slug);
       }
     }
-    AppLoading.dismissLoading();
+    remoteDailyByDate.refresh();
+
+    // 4. Remove st from assignmentsByDate from startDate to endDate days
+    for (final key in keysInRange) {
+      assignmentsByDate[key]?.remove(st.slug);
+    }
+
     assignmentsByDate.refresh();
   }
 
