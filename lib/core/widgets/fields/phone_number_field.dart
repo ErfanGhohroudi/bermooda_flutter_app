@@ -116,17 +116,18 @@ class WPhoneNumberField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       helperText: helperText,
       helperStyle: helperStyle,
-      validator: (final value) {
-        if (required && (value == null || value.isEmpty)) {
+      validator: (final p0) {
+      final value = p0 ?? '';
+        if (required && value.isEmpty) {
           return s.requiredField;
         }
 
-        if (value != null && value.length < minLength) {
+        if (value.isNotEmpty && value.length < minLength) {
           return s.isShort.replaceAll('#', minLength.toString());
         }
 
         if (startWith != null && startWith!.isNotEmpty) {
-          if (value != null && !value.startsWith(startWith!)) {
+          if (value.isNotEmpty && !value.startsWith(startWith!)) {
             return s.invalidPhoneNumber;
           }
         } else {
@@ -134,7 +135,7 @@ class WPhoneNumberField extends StatelessWidget {
           // و بقیه آن فقط عدد باشد.
           final phoneRegExp = RegExp(r'^\+?[0-9]+$');
 
-          if (value != null && value.isNotEmpty && !phoneRegExp.hasMatch(value)) {
+          if (value.isNotEmpty && value.isNotEmpty && !phoneRegExp.hasMatch(value)) {
             return "${s.invalidPhoneNumber} (${s.validBeginningSignInPhoneNumber})";
           }
         }

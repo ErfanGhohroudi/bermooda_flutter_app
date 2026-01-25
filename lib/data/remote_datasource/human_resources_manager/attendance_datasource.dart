@@ -22,7 +22,7 @@ class AttendanceDatasource {
 
       final response = await _apiClient.post(
         "/v1/HumanResourcesManager/SmartAttendance/${getMethod()}",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -31,7 +31,7 @@ class AttendanceDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -67,7 +67,7 @@ class AttendanceDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }

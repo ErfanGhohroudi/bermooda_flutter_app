@@ -47,8 +47,9 @@ class _CrmCategoriesListPageState extends State<CrmCategoriesListPage> with CrmC
             Obx(
               () => IconButton(
                 tooltip: isReorderEnabled.value ? s.save : s.reorder,
-                icon:
-                    isReorderEnabled.value ? const Icon(Icons.check, size: 25, color: Colors.white) : const UImage(AppIcons.arrowSwapVert, size: 25, color: Colors.white),
+                icon: isReorderEnabled.value
+                    ? const Icon(Icons.check, size: 25, color: Colors.white)
+                    : const UImage(AppIcons.arrowSwapVert, size: 25, color: Colors.white),
                 onPressed: () {
                   if (isReorderEnabled.value) return updateOrders();
                   toggleReorder();
@@ -58,7 +59,9 @@ class _CrmCategoriesListPageState extends State<CrmCategoriesListPage> with CrmC
             const SizedBox(width: 6),
           ],
         ),
-        floatingActionButtonLocation: isPersianLang ? FloatingActionButtonLocation.startFloat : FloatingActionButtonLocation.endFloat,
+        floatingActionButtonLocation: isPersianLang
+            ? FloatingActionButtonLocation.startFloat
+            : FloatingActionButtonLocation.endFloat,
         floatingActionButton: haveAdminAccess
             ? FloatingActionButton(
                 heroTag: "crmCategoriesFAB",
@@ -94,42 +97,42 @@ class _CrmCategoriesListPageState extends State<CrmCategoriesListPage> with CrmC
                   onLoading: loadMore,
                   child: pageState.isLoaded()
                       ? categories.isNotEmpty
-                          ? CustomScrollView(
-                              slivers: [
-                                SliverPadding(
-                                  padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: isEndOfList ? 100 : 0),
-                                  sliver: SliverReorderableList(
-                                    itemCount: categories.length,
-                                    onReorder: (final oldIndex, newIndex) {
-                                      if (oldIndex < newIndex) {
-                                        newIndex -= 1;
-                                      }
-                                      final CrmCategoryReadDto item = categories.removeAt(oldIndex);
-                                      categories.insert(newIndex, item);
-                                    },
-                                    itemBuilder: (final context, final index) => CategoryItemCard(
-                                      key: ValueKey(categories[index].id),
-                                      index: index,
-                                      category: categories[index],
-                                      isReorderEnabled: isReorderEnabled.value,
-                                      showMoreIcon: haveAdminAccess,
-                                      onEdited: (final project) {
-                                        categories[index] = project;
-                                        categories.refresh();
+                            ? CustomScrollView(
+                                slivers: [
+                                  SliverPadding(
+                                    padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: isEndOfList ? 100 : 0),
+                                    sliver: SliverReorderableList(
+                                      itemCount: categories.length,
+                                      onReorder: (final oldIndex, newIndex) {
+                                        if (oldIndex < newIndex) {
+                                          newIndex -= 1;
+                                        }
+                                        final CrmCategoryReadDto item = categories.removeAt(oldIndex);
+                                        categories.insert(newIndex, item);
                                       },
-                                      onDelete: () => deleteCategory(
-                                        categories[index],
-                                        action: () {
-                                          categories.removeAt(index);
+                                      itemBuilder: (final context, final index) => CategoryItemCard(
+                                        key: ValueKey(categories[index].id),
+                                        index: index,
+                                        category: categories[index],
+                                        isReorderEnabled: isReorderEnabled.value,
+                                        showMoreIcon: haveAdminAccess,
+                                        onEdited: (final project) {
+                                          categories[index] = project;
                                           categories.refresh();
                                         },
+                                        onDelete: () => deleteCategory(
+                                          categories[index],
+                                          action: () {
+                                            categories.removeAt(index);
+                                            categories.refresh();
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : const Center(child: WEmptyWidget())
+                                ],
+                              )
+                            : const Center(child: WEmptyWidget())
                       : ListView.builder(
                           itemCount: 10,
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

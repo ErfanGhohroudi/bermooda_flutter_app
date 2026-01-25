@@ -10,6 +10,7 @@ import 'attendance/statistics/monthly_attendance_stats_page.dart';
 import 'board/hr_board_page.dart';
 import 'my_reviews/my_reviews_page.dart';
 import 'statistics/hr_statistics_page.dart';
+import 'workshift/workshift_list_page.dart';
 
 class HrDepartmentMainPage extends StatelessWidget {
   const HrDepartmentMainPage({
@@ -77,6 +78,17 @@ class HrDepartmentMainPage extends StatelessWidget {
               },
               icon: AppIcons.timerOutline,
               title: s.attendance,
+            ),
+          if (haveManagerAccess && department.slug != null)
+            _item(
+              context: context,
+              onTap: () {
+                UNavigator.push(WorkshiftListPage(
+                  departmentSlug: department.slug!,
+                ));
+              },
+              icon: AppIcons.workshift,
+              title: s.workShift,
             ),
           _item(
             context: context,

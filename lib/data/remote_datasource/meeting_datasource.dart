@@ -21,7 +21,7 @@ class MeetingDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     if (withLoading) AppLoading.dismissLoading();
@@ -36,7 +36,7 @@ class MeetingDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/CalenderManager/Calender",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -45,7 +45,7 @@ class MeetingDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -60,7 +60,7 @@ class MeetingDatasource {
     try {
       final response = await _apiClient.put(
         "/v1/CalenderManager/Calender/$id",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -69,7 +69,7 @@ class MeetingDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -92,7 +92,7 @@ class MeetingDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();

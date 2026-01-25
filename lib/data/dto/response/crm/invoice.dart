@@ -2,7 +2,7 @@ part of '../../../data.dart';
 
 class InvoiceReadDto {
   InvoiceStatusReadDto? status;
-  InvoiceStatusType? invoiceType;
+  InvoiceType? invoiceType;
   MainFileReadDto? qrCode;
   int? id;
   String? mainId;
@@ -60,8 +60,8 @@ class InvoiceReadDto {
   factory InvoiceReadDto.fromJson(final String str) => InvoiceReadDto.fromMap(json.decode(str));
 
   factory InvoiceReadDto.fromMap(final Map<String, dynamic> json) => InvoiceReadDto(
+        invoiceType: InvoiceType.fromString(json["invoice_type"]),
         status: json["status"] == null ? null : InvoiceStatusReadDto.fromMap(json["status"]),
-        invoiceType: json["invoice_type"] == null ? null : InvoiceStatusType.values.firstWhereOrNull((final element) => element.name == json["invoice_type"]),
         qrCode: json["qr_code"] == null ? null : MainFileReadDto.fromMap(json["qr_code"]),
         id: json["id"],
         mainId: json["main_id"],

@@ -96,8 +96,7 @@ class WithMainActionMenu extends StatelessWidget {
             ),
           WPopupMenuItem(
             title: message.isPinned ? s.unpin : s.pin,
-            icon: '',
-            iconData: message.isPinned ? CupertinoIcons.pin_slash : CupertinoIcons.pin,
+            icon: message.isPinned ? AppIcons.pinOffOutline : AppIcons.pinOutline,
             onTap: () {
               if (message.isPinned) {
                 Future.delayed(const Duration(milliseconds: 100), () {
@@ -129,8 +128,7 @@ class WithMainActionMenu extends StatelessWidget {
           ),
         WPopupMenuItem(
           title: s.forward,
-          icon: '',
-          iconData: CupertinoIcons.arrow_turn_up_right,
+          icon: AppIcons.forward,
           onTap: () {
             Future.delayed(const Duration(milliseconds: 100), () {
               controller.forwardSelectedMessage(message);

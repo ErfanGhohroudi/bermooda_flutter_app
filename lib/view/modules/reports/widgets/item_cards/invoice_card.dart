@@ -17,6 +17,7 @@ class HistoryInvoiceCard extends StatelessWidget {
     final InvoiceEntity? invoice = model.invoice;
 
     return baseCard(
+      onTap: invoice != null ? () => UNavigator.push(InvoiceDetailPage(invoiceId: invoice.id)) : null,
       showStartMargin: showStartMargin,
       children: [
         baseHeader(context, model),
@@ -24,42 +25,33 @@ class HistoryInvoiceCard extends StatelessWidget {
           buildRowInfo(
             context: context,
             title: s.invoiceId,
-            value: Text(invoice?.invoiceId ?? '- -').bodyMedium(),
-          ),
-          buildRowInfo(
-            context: context,
-            title: s.amount,
-            value: Text(
-              (invoice?.amount ?? '0').toTomanMoney(),
-            ).bodyMedium(),
-          ),
-          buildRowInfo(
-            context: context,
-            title: s.type,
-            value: Wrap(
-              spacing: 10,
-              runSpacing: 10,
+            value: Row(
+              spacing: 4,
               children: [
-                if (invoice?.type != null)
-                  WLabel(
-                    text: invoice?.type?.getTitle(),
-                  ),
+                Expanded(child: Text(invoice?.invoiceCode ?? '- -').bodyMedium()),
                 if (invoice?.status != null)
                   WLabel(
-                    text: invoice?.status?.getTitle(),
+                    text: invoice?.status!.title,
+                    color: invoice?.status!.colorCode.toColor(),
                   ),
               ],
             ),
           ),
-          if ((invoice?.files ?? []).isNotEmpty)
-            WImageFiles(
-              files: invoice!.files,
-              removable: false,
-              showUploadWidget: false,
-              itemsSize: 50,
-              onFilesUpdated: (final uploadedFiles) {},
-              uploadingFileStatus: (final value) {},
+          if (invoice?.invoiceType != null)
+            buildRowInfo(
+              context: context,
+              title: s.type,
+              value: WLabel(
+                text: invoice?.invoiceType.getTitle(),
+              ),
             ),
+          buildRowInfo(
+            context: context,
+            title: s.amount,
+            value: Text(
+              invoice?.factorPrice?.finalPrice ?? '- -',
+            ).bodyMedium(),
+          ),
         ],
       ],
     );

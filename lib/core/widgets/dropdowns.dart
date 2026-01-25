@@ -266,11 +266,13 @@ class WDropdownItemText extends StatelessWidget {
   const WDropdownItemText({
     required this.text,
     this.maxLines = 2,
+    this.color,
     super.key,
   });
 
   final String text;
   final int maxLines;
+  final Color? color;
 
   @override
   Widget build(final BuildContext context) {
@@ -281,6 +283,7 @@ class WDropdownItemText extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         fontSize: (context.textTheme.bodyMedium!.fontSize ?? 12) + 2,
         height: 1.2,
+        color: color,
       ),
     );
   }

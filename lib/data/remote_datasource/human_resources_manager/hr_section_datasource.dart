@@ -7,6 +7,7 @@ class HrSectionDatasource {
     required final String departmentSlug,
     required final String title,
     required final String colorCode,
+    required final int? iconId,
     required final Function(GenericResponse<HRSectionReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -18,6 +19,7 @@ class HrSectionDatasource {
           "folder_slug": departmentSlug,
           "title": title,
           "color_code": colorCode,
+          if (iconId != null) "icon_id": iconId,
         },
         skipRetry: !withRetry,
       );
@@ -36,6 +38,7 @@ class HrSectionDatasource {
     required final String? slug,
     required final String title,
     required final String colorCode,
+    required final int? iconId,
     required final Function(GenericResponse<HRSectionReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -46,6 +49,7 @@ class HrSectionDatasource {
         data: {
           "title": title,
           "color_code": colorCode,
+          if (iconId != null) "icon_id": iconId,
         },
         skipRetry: !withRetry,
       );

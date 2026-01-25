@@ -106,10 +106,11 @@ class _CreateUpdateGroupPageState extends State<CreateUpdateGroupPage> {
               WTextField(
                 controller: _descriptionCtrl,
                 labelText: s.description,
-                maxLines: 3,
-                multiLine: true,
+                minLines: 4,
+                maxLines: 8,
+                maxLength: 2000,
                 showCounter: true,
-                maxLength: 500,
+                multiLine: true,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
               if (_isEditing == false)

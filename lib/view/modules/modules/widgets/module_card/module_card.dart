@@ -5,11 +5,13 @@ import '../../../../../core/services/subscription_service.dart';
 class WModuleCard extends StatelessWidget {
   final String title;
   final String icon;
+  final bool isBottomSheet;
   final VoidCallback onTap;
 
   const WModuleCard({
     required this.title,
     required this.icon,
+    required this.isBottomSheet,
     required this.onTap,
     super.key,
   });
@@ -23,9 +25,17 @@ class WModuleCard extends StatelessWidget {
       spacing: 10,
       children: [
         InkWell(
-          onTap: () => subService.checkSubscription(action: onTap),
+          onTap: () => subService.checkSubscription(
+            action: () async {
+              if (isBottomSheet) {
+                UNavigator.back();
+                await Future.delayed(250.milliseconds);
+              }
+              onTap();
+            },
+          ),
           borderRadius: BorderRadius.circular(15),
-          child: Ink(
+          child: Container(
             width: 60,
             height: 60,
             padding: const EdgeInsets.all(12),
@@ -43,7 +53,10 @@ class WModuleCard extends StatelessWidget {
             child: UImage(icon),
           ),
         ),
-        SizedBox(width: context.width, child: Text(title, textAlign: TextAlign.center, maxLines: 2).bodySmall(fontSize: 12, overflow: TextOverflow.ellipsis)),
+        SizedBox(
+          width: context.width,
+          child: Text(title, textAlign: TextAlign.center, maxLines: 2).bodySmall(fontSize: 12, overflow: TextOverflow.ellipsis),
+        ),
       ],
     ).withTooltip(title);
   }

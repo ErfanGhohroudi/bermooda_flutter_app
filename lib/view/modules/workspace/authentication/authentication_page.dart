@@ -72,91 +72,91 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
   }
 
   List<Widget> _verificationForm() => [
-        /// Company Name or Full Name
-        WTextField(
-          controller: nameController,
-          labelText: authenticationType.isPerson() ? s.fullName : s.companyName,
+    /// Company Name or Full Name
+    WTextField(
+      controller: nameController,
+      labelText: authenticationType.isPerson() ? s.fullName : s.companyName,
+      required: true,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      minLength: 3,
+    ),
+
+    /// National ID / Company National ID
+    UTextFormField(
+      controller: nationalIDController,
+      labelText: authenticationType.isPerson() ? s.nationalID : s.companyNationalID,
+      required: true,
+      keyboardType: TextInputType.number,
+      maxLength: authenticationType.isPerson() ? 10 : 11,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      formatters: [FilteringTextInputFormatter.digitsOnly],
+      validator: validateMinLength(
+        authenticationType.isPerson() ? 10 : 11,
+        requiredMessage: s.requiredField,
+        minLengthMessage: s.isShort.replaceAll('#', authenticationType.isPerson() ? '10' : '11'),
+      ),
+    ),
+    if (authenticationType.isLegal()) ...[
+      /// Registration Number
+      UTextFormField(
+        controller: registrationNumberController,
+        labelText: s.registrationNumber,
+        required: true,
+        keyboardType: TextInputType.number,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        formatters: [FilteringTextInputFormatter.digitsOnly],
+        validator: validateMinLength(
+          6,
+          requiredMessage: s.requiredField,
+          minLengthMessage: s.isShort.replaceAll('#', '6'),
+        ),
+      ),
+
+      /// Economic Code
+      UTextFormField(
+        controller: economicNumberController,
+        labelText: s.economicCode,
+        required: true,
+        keyboardType: TextInputType.number,
+        maxLength: 12,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        formatters: [FilteringTextInputFormatter.digitsOnly],
+        validator: validateMinLength(
+          12,
+          requiredMessage: s.requiredField,
+          minLengthMessage: s.isShort.replaceAll('#', '12'),
+        ),
+      ),
+
+      /// Landline
+      if (authenticationType.isLegal())
+        WPhoneNumberField(
+          controller: landlineController,
+          labelText: s.landline,
           required: true,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          minLength: 3,
+          // hintText: "e.g: 02112345678",
+          // keyboardType: TextInputType.number,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          // formatters: [FilteringTextInputFormatter.digitsOnly],
+          // validator: validateMinLength(
+          //   11,
+          //   requiredMessage: s.requiredField,
+          //   minLengthMessage: s.isShort.replaceAll('#', '11'),
+          // ),
         ),
+    ],
 
-        /// National ID
-        UTextFormField(
-          controller: nationalIDController,
-          labelText: authenticationType.isPerson() ? s.nationalID : s.companyNationalID,
-          required: true,
-          keyboardType: TextInputType.number,
-          maxLength: authenticationType.isPerson() ? 10 : 11,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          formatters: [FilteringTextInputFormatter.digitsOnly],
-          validator: validateMinLength(
-            authenticationType.isPerson() ? 10 : 11,
-            requiredMessage: s.requiredField,
-            minLengthMessage: s.isShort.replaceAll('#', authenticationType.isPerson() ? '10' : '11'),
-          ),
-        ),
-        if (authenticationType.isLegal()) ...[
-          /// Registration Number
-          UTextFormField(
-            controller: registrationNumberController,
-            labelText: s.registrationNumber,
-            required: true,
-            keyboardType: TextInputType.number,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            formatters: [FilteringTextInputFormatter.digitsOnly],
-            validator: validateMinLength(
-              6,
-              requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '6'),
-            ),
-          ),
+    /// Phone Number
+    if (authenticationType.isPerson())
+      WPhoneNumberField(
+        controller: phoneNumberController,
+        required: true,
+      ),
 
-          /// Economic Code
-          UTextFormField(
-            controller: economicNumberController,
-            labelText: s.economicCode,
-            required: true,
-            keyboardType: TextInputType.number,
-            maxLength: 12,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            formatters: [FilteringTextInputFormatter.digitsOnly],
-            validator: validateMinLength(
-              12,
-              requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '12'),
-            ),
-          ),
-
-          /// Landline
-          if (authenticationType.isLegal())
-            WPhoneNumberField(
-              controller: landlineController,
-              labelText: s.landline,
-              required: true,
-              // hintText: "e.g: 02112345678",
-              // keyboardType: TextInputType.number,
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
-              // formatters: [FilteringTextInputFormatter.digitsOnly],
-              // validator: validateMinLength(
-              //   11,
-              //   requiredMessage: s.requiredField,
-              //   minLengthMessage: s.isShort.replaceAll('#', '11'),
-              // ),
-            ),
-        ],
-
-        /// Phone Number
-        if (authenticationType.isPerson())
-          WPhoneNumberField(
-            controller: phoneNumberController,
-            required: true,
-          ),
-
-        /// Email
-        WEmailField(
-          controller: emailController,
-          required: false,
-        ),
-      ];
+    /// Email
+    WEmailField(
+      controller: emailController,
+      required: false,
+    ),
+  ];
 }

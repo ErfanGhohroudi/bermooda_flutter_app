@@ -3,7 +3,6 @@ import 'package:u/utilities.dart';
 import '../../../../core/widgets/image_files.dart';
 import '../../../../core/core.dart';
 import '../../../../core/functions/user_functions.dart';
-import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../data/data.dart';
 
@@ -26,24 +25,21 @@ mixin WorkspaceUpdateController {
 
   MainFileReadDto? avatar;
   final TextEditingController titleController = TextEditingController();
-  final TextEditingController jadooBrandNameController = TextEditingController();
-  final Rx<DropdownItemReadDto?> selectedIndustry = Rx(null);
-  final Rx<BusinessSize?> selectedBusinessSize = Rx(null);
-  final Rx<DropdownItemReadDto?> selectedState = Rx(null);
-  final Rx<DropdownItemReadDto?> selectedCity = Rx(null);
+  final Rxn<DropdownItemReadDto> selectedIndustry = Rxn(null);
+  final Rxn<BusinessSize> selectedBusinessSize = Rxn(null);
+  final Rxn<DropdownItemReadDto> selectedState = Rxn(null);
+  final Rxn<DropdownItemReadDto> selectedCity = Rxn(null);
+
+  // Authentication
   final Rx<AuthenticationType> authenticationType = AuthenticationType.person.obs;
-  final TextEditingController companyNameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController nationalIDController = TextEditingController();
   final TextEditingController economicNumberController = TextEditingController();
-  final TextEditingController ibanController = TextEditingController();
-  final TextEditingController postalCodeController = TextEditingController();
-  final TextEditingController landlineController = TextEditingController();
+  final TextEditingController registrationNumberController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController faxController = TextEditingController();
+  final TextEditingController landlineController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  MainFileReadDto? nationalIDCardFile;
-  MainFileReadDto? businessRegistrationLicenseFile;
 
   void disposeItems() {
     focusNode.dispose();
@@ -55,16 +51,13 @@ mixin WorkspaceUpdateController {
     cities.close();
     citiesState.close();
     titleController.dispose();
-    jadooBrandNameController.dispose();
     authenticationType.close();
-    companyNameController.dispose();
+    nameController.dispose();
     nationalIDController.dispose();
     economicNumberController.dispose();
-    ibanController.dispose();
-    postalCodeController.dispose();
-    landlineController.dispose();
+    registrationNumberController.dispose();
     phoneNumberController.dispose();
-    faxController.dispose();
+    landlineController.dispose();
     emailController.dispose();
     addressController.dispose();
   }
@@ -75,20 +68,15 @@ mixin WorkspaceUpdateController {
     );
     avatar = model.avatar;
     titleController.text = model.title ?? '';
-    jadooBrandNameController.text = model.jadooBrandName ?? '';
     authenticationType(model.personType);
-    companyNameController.text = model.companyName ?? '';
+    nameController.text = model.name ?? '';
     nationalIDController.text = model.nationalCode ?? '';
     economicNumberController.text = model.economicNumber ?? '';
-    ibanController.text = model.bankNumber ?? '';
-    postalCodeController.text = model.postalCode ?? '';
-    landlineController.text = model.telNumber ?? '';
+    registrationNumberController.text = model.registrationNumber ?? '';
     phoneNumberController.text = model.phoneNumber ?? '';
-    faxController.text = model.faxNumber ?? '';
+    landlineController.text = model.telNumber ?? '';
     emailController.text = model.email ?? '';
     addressController.text = model.address ?? '';
-    nationalIDCardFile = model.nationalCardImage;
-    businessRegistrationLicenseFile = model.documentImage;
     selectedIndustry(model.industrialActivity);
     if (model.businessEmployer != null) {
       selectedBusinessSize(model.businessEmployer);
@@ -116,31 +104,51 @@ mixin WorkspaceUpdateController {
   }
 
   void update({required final Function(WorkspaceInfoReadDto workspaceInfo) onResponse}) {
+    WorkspaceInfoParams getDto() => WorkspaceInfoParams(
+      avatarId: avatar?.fileId,
+      title: titleController.text.trim(),
+      industryId: selectedIndustry.value?.id,
+      businessSize: selectedBusinessSize.value,
+      stateId: selectedState.value?.id,
+      cityId: selectedCity.value?.id,
+      authenticationType: authenticationType.value,
+      companyName: nameController.text.trim(),
+      nationalCode: nationalIDController.text.trim(),
+      economicNumber: economicNumberController.text.trim(),
+      phoneNumber: phoneNumberController.text.trim(),
+      telNumber: landlineController.text.trim(),
+      email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
+      address: addressController.text.trim().isNotEmpty ? addressController.text.trim() : null,
+    );
+
+    IWorkspaceRequiredInfoParams getAuthDto() {
+      switch (authenticationType.value) {
+        case AuthenticationType.person:
+          return PersonWorkspaceRequiredInfoParams(
+            authenticationType: authenticationType.value,
+            fullName: nameController.text.trim(),
+            nationalId: nationalIDController.text.trim(),
+            phoneNumber: phoneNumberController.text.trim(),
+            email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
+          );
+        case AuthenticationType.legal:
+          return LegalWorkspaceRequiredInfoParams(
+            authenticationType: authenticationType.value,
+            organizationName: nameController.text.trim(),
+            nationalId: nationalIDController.text.trim(),
+            registrationNumber: registrationNumberController.text.trim(),
+            economicCode: economicNumberController.text.trim(),
+            landline: landlineController.text.trim(),
+            email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
+          );
+      }
+    }
+
     buttonState.loading();
     _workspaceDatasource.update(
       id: workspaceInfo.id,
-      dto: WorkspaceInfoParams(
-        avatarId: avatar?.fileId,
-        title: titleController.text,
-        jadooBrandName: jadooBrandNameController.text,
-        industryId: selectedIndustry.value?.id,
-        businessSize: selectedBusinessSize.value,
-        stateId: selectedState.value?.id,
-        cityId: selectedCity.value?.id,
-        authenticationType: authenticationType.value,
-        companyName: authenticationType.isLegal() ? companyNameController.text : null,
-        nationalCode: nationalIDController.text,
-        economicNumber: authenticationType.isLegal() ? economicNumberController.text : null,
-        bankNumber: ibanController.text,
-        postalCode: postalCodeController.text,
-        telNumber: authenticationType.isLegal() && landlineController.text.isNotEmpty ? landlineController.text : null,
-        phoneNumber: phoneNumberController.text,
-        faxNumber: authenticationType.isLegal() && faxController.text.isNotEmpty ? faxController.text : null,
-        email: emailController.text,
-        address: addressController.text,
-        nationalCardImageId: nationalIDCardFile?.fileId,
-        documentImageId: authenticationType.isLegal() ? businessRegistrationLicenseFile?.fileId : null,
-      ),
+      dto: getDto(),
+      authDto: getAuthDto(),
       onResponse: (final response) {
         if (response.result == null) return;
         if (response.result!.id == core.currentWorkspace.value.id) {
@@ -161,15 +169,7 @@ mixin WorkspaceUpdateController {
   void _checkImages({required final VoidCallback action}) {
     WImageFiles.checkFileUploading(
       isUploadingFile: isUploadingAvatar,
-      action: () {
-        if (nationalIDCardFile == null) {
-          return AppNavigator.snackbarRed(title: s.warning, subtitle: s.uploadNationalIDCardIsRequired);
-        }
-        if (authenticationType.isLegal() && businessRegistrationLicenseFile == null) {
-          return AppNavigator.snackbarRed(title: s.warning, subtitle: s.uploadBusinessRegistrationLicenseIsRequired);
-        }
-        action();
-      },
+      action: action,
     );
   }
 

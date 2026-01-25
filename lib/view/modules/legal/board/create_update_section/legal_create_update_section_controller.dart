@@ -3,7 +3,6 @@ import 'package:u/utilities.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/kanban_board/kanban_board.dart';
 import '../../../../../core/core.dart';
-import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/utils/extensions/color_extension.dart';
 import '../../../../../core/utils/enums/enums.dart';
@@ -26,18 +25,12 @@ mixin LegalCreateUpdateSectionController {
   MainFileReadDto? selectedIcon;
   LabelColors selectedColor = LabelColors.values.first;
 
-  final GlobalKey<FormState> stepFormKey = GlobalKey<FormState>();
-  final TextEditingController stepTitleController = TextEditingController();
-  final RxList<String> steps = <String>[].obs;
-
   bool get showMoreIcon => iconsList.length > initialIconsListCount;
 
   void disposeItems() {
     titleController.dispose();
     pageState.close();
     buttonState.close();
-    stepTitleController.dispose();
-    steps.close();
   }
 
   void initialController({
@@ -60,27 +53,10 @@ mixin LegalCreateUpdateSectionController {
         LabelColors.values.first;
   }
 
-  void addStep(final String value) {
-    validateForm(
-      key: stepFormKey,
-      action: () {
-        if (value.isNotEmpty) {
-          steps.add(value);
-          stepTitleController.clear();
-        }
-      },
-    );
-  }
-
   void onSubmit() {
     validateForm(
       key: formKey,
       action: () {
-        if (steps.length < 2) {
-          AppNavigator.snackbarRed(title: s.error, subtitle: s.stepLengthError);
-          return;
-        }
-
         buttonState.loading();
         if (section == null) {
           create();
@@ -98,7 +74,6 @@ mixin LegalCreateUpdateSectionController {
       title: titleController.text,
       colorCode: selectedColor.colorCode,
       iconId: selectedIcon?.fileId,
-      stepList: steps,
       onResponse: (final response) => UNavigator.back(),
       onError: (final errorResponse) => buttonState.loaded(),
     );
@@ -109,8 +84,7 @@ mixin LegalCreateUpdateSectionController {
       id: section?.data?.id,
       title: titleController.text,
       colorCode: selectedColor.colorCode,
-      // iconId: selectedIcon?.fileId,
-      stepList: steps,
+      iconId: selectedIcon?.fileId,
       onResponse: (final response) => UNavigator.back(),
       onError: (final errorResponse) => buttonState.loaded(),
     );

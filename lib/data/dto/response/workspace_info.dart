@@ -6,10 +6,10 @@ class WorkspaceInfoReadDto extends Equatable {
     this.title,
     this.industrialActivity,
     this.personalInformationStatus = false,
-    this.documentImage,
-    this.nationalCardImage,
-    this.companyName,
-    this.jadooBrandName,
+    // this.documentImage,
+    // this.nationalCardImage,
+    this.name,
+    // this.jadooBrandName,
     this.city,
     this.state,
     this.stateName,
@@ -18,11 +18,12 @@ class WorkspaceInfoReadDto extends Equatable {
     this.personType,
     this.nationalCode,
     this.email,
-    this.postalCode,
-    this.bankNumber,
+    // this.postalCode,
+    // this.bankNumber,
     this.phoneNumber,
     this.telNumber,
-    this.faxNumber,
+    // this.faxNumber,
+    this.registrationNumber,
     this.economicNumber,
     this.address,
     this.avatar,
@@ -34,10 +35,10 @@ class WorkspaceInfoReadDto extends Equatable {
   final String? title;
   final DropdownItemReadDto? industrialActivity;
   final bool personalInformationStatus;
-  final MainFileReadDto? documentImage;
-  final MainFileReadDto? nationalCardImage;
-  final String? companyName;
-  final String? jadooBrandName;
+  // final MainFileReadDto? documentImage;
+  // final MainFileReadDto? nationalCardImage;
+  final String? name;// from company_name to name
+  // final String? jadooBrandName;
   final int? city;
   final int? state;
   final String? stateName;
@@ -46,11 +47,12 @@ class WorkspaceInfoReadDto extends Equatable {
   final AuthenticationType? personType;
   final String? nationalCode;
   final String? email;
-  final String? postalCode;
-  final String? bankNumber;
+  // final String? postalCode;
+  // final String? bankNumber;
   final String? phoneNumber;
   final String? telNumber;
-  final String? faxNumber;
+  // final String? faxNumber;
+  final String? registrationNumber;
   final String? economicNumber;
   final String? address;
   final MainFileReadDto? avatar;
@@ -64,10 +66,10 @@ class WorkspaceInfoReadDto extends Equatable {
         title: json["title"],
         industrialActivity: json["industrialactivity"] == null ? null : DropdownItemReadDto.fromMap(json["industrialactivity"]),
         personalInformationStatus: json["personal_information_status"] ?? false,
-        documentImage: json["document_image"] == null ? null : MainFileReadDto.fromMap(json["document_image"]),
-        nationalCardImage: json["national_card_image"] == null ? null : MainFileReadDto.fromMap(json["national_card_image"]),
-        companyName: json["company_name"],
-        jadooBrandName: json["jadoo_brand_name"],
+        // documentImage: json["document_image"] == null ? null : MainFileReadDto.fromMap(json["document_image"]),
+        // nationalCardImage: json["national_card_image"] == null ? null : MainFileReadDto.fromMap(json["national_card_image"]),
+        name: json["company_name"],
+        // jadooBrandName: json["jadoo_brand_name"],
         city: json["city"],
         state: json["state"],
         stateName: json["state_name"],
@@ -76,11 +78,12 @@ class WorkspaceInfoReadDto extends Equatable {
         personType: AuthenticationType.values.firstWhereOrNull((final element) => element.name == json["person_type"]),
         nationalCode: json["national_code"],
         email: json["email"],
-        postalCode: json["postal_code"],
-        bankNumber: json["bank_number"],
+        // postalCode: json["postal_code"],
+        // bankNumber: json["bank_number"],
         phoneNumber: json["phone_number"],
         telNumber: json["tel_number"],
-        faxNumber: json["fax_number"],
+        // faxNumber: json["fax_number"],
+        registrationNumber: json["registration_number"],
         economicNumber: json["economic_number"],
         address: json["address"],
         avatar: json["avatar"] == null ? null : MainFileReadDto.fromMap(json["avatar"]),
@@ -94,10 +97,10 @@ class WorkspaceInfoReadDto extends Equatable {
         title,
         industrialActivity,
         personalInformationStatus,
-        documentImage,
-        nationalCardImage,
-        companyName,
-        jadooBrandName,
+        // documentImage,
+        // nationalCardImage,
+        name,
+        // jadooBrandName,
         city,
         state,
         stateName,
@@ -106,11 +109,12 @@ class WorkspaceInfoReadDto extends Equatable {
         personType,
         nationalCode,
         email,
-        postalCode,
-        bankNumber,
+        // postalCode,
+        // bankNumber,
         phoneNumber,
         telNumber,
-        faxNumber,
+        // faxNumber,
+        registrationNumber,
         economicNumber,
         address,
         avatar,

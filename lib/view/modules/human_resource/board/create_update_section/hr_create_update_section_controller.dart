@@ -35,7 +35,7 @@ mixin HRCreateUpdateSectionController {
 
   void setValue() {
     titleController.text = section?.data?.title ?? '';
-    // selectedIcon = section?.data?.icon;
+    selectedIcon = section?.data?.icon;
     selectedColor =
         LabelColors.values.firstWhereOrNull((final e) => e.color == section?.data?.colorCode?.toColor()) ??
         LabelColors.values.first;
@@ -61,19 +61,8 @@ mixin HRCreateUpdateSectionController {
       departmentSlug: department.slug!,
       title: titleController.text,
       colorCode: selectedColor.colorCode,
-      // iconId: selectedIcon?.fileId,
-      onResponse: (final response) {
-        // final section = response.result;
-        // if (section != null) {
-        //   controller.kanbanController.addSection(
-        //     Section<HRSectionReadDto, BoardMemberReadDto>(
-        //       slug: section.slug.toString(),
-        //       data: section,
-        //     ),
-        //   );
-        // }
-        UNavigator.back();
-      },
+      iconId: selectedIcon?.fileId,
+      onResponse: (final response) => UNavigator.back(),
       onError: (final errorResponse) {
         buttonState.loaded();
       },
@@ -85,46 +74,36 @@ mixin HRCreateUpdateSectionController {
       slug: section?.data?.slug,
       title: titleController.text,
       colorCode: selectedColor.colorCode,
-      onResponse: (final response) {
-        // final section = response.result;
-        // if (section != null) {
-        //   controller.kanbanController.updateSection(
-        //     Section<HRSectionReadDto, BoardMemberReadDto>(
-        //       slug: section.slug.toString(),
-        //       data: section,
-        //     ),
-        //   );
-        // }
-        UNavigator.back();
-      },
+      iconId: selectedIcon?.fileId,
+      onResponse: (final response) => UNavigator.back(),
       onError: (final errorResponse) {
         buttonState.loaded();
       },
     );
   }
 
-  // void getBoardIcons() {
-  //   ProjectDatasource(baseUrl: AppConstants.baseUrl).getAllBoardIcons(
-  //     onResponse: (final response) {
-  //       iconsList = response.resultList ?? iconsList;
-  //       selectedIcon ??= iconsList.firstOrNull;
-  //
-  //       if (iconsList.length > initialIconsListCount) {
-  //         initialIconsList = iconsList.take(initialIconsListCount).toList();
-  //       } else {
-  //         initialIconsList = response.resultList ?? initialIconsList;
-  //       }
-  //
-  //       if (selectedIcon != null && !initialIconsList.any((final e) => e.fileId == selectedIcon?.fileId)) {
-  //         initialIconsList.first = selectedIcon!;
-  //       }
-  //
-  //       pageState.loaded();
-  //     },
-  //     onError: (final errorResponse) {},
-  //     retryCallback: () => getBoardIcons(),
-  //   );
-  // }
+  void getBoardIcons() {
+    Get.find<ProjectDatasource>().getAllBoardIcons(
+      onResponse: (final response) {
+        iconsList = response.resultList ?? iconsList;
+        selectedIcon ??= iconsList.firstOrNull;
+
+        if (iconsList.length > initialIconsListCount) {
+          initialIconsList = iconsList.take(initialIconsListCount).toList();
+        } else {
+          initialIconsList = response.resultList ?? initialIconsList;
+        }
+
+        if (selectedIcon != null && !initialIconsList.any((final e) => e.fileId == selectedIcon?.fileId)) {
+          initialIconsList.first = selectedIcon!;
+        }
+
+        pageState.loaded();
+      },
+      onError: (final errorResponse) {},
+      withRetry: true,
+    );
+  }
 
   void onDelete() {
     appShowYesCancelDialog(
@@ -142,10 +121,7 @@ mixin HRCreateUpdateSectionController {
   void _delete() {
     _hrSectionDatasource.delete(
       slug: section?.data?.slug,
-      onResponse: () {
-        // controller.kanbanController.removeSection(section!.slug);
-        UNavigator.back();
-      },
+      onResponse: () => UNavigator.back(),
       onError: (final errorResponse) {},
       withRetry: true,
     );

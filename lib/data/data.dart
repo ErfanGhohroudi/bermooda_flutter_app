@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:u/utilities.dart';
 import 'package:dio/dio.dart' as dio;
 
+import '../view/modules/crm/invoice/domain/entities/invoice.dart';
+import '../view/modules/human_resource/workshift/enums/shift_flexible_time_duration.dart';
 import '../view/modules/subscription/enums/max_contract_count.dart';
 import '../core/navigator/navigator.dart';
 import '../core/theme.dart';
@@ -37,6 +39,12 @@ part 'dto/params/request/overtime_request_params.dart';
 part 'dto/params/request/support_procurement_request_params.dart';
 part 'dto/params/request/welfare_financial_request_params.dart';
 
+/// workshift
+part 'dto/params/workshift/year_shift_params.dart';
+part 'dto/params/workshift/month_shift_params.dart';
+part 'dto/params/workshift/daily_shift_params.dart';
+part 'dto/params/workshift/shift_type_params.dart';
+
 /// workspace
 part 'dto/params/workspace/base_workspace_required_info_params.dart';
 part 'dto/params/workspace/legal_workspace_required_info_params.dart';
@@ -68,6 +76,8 @@ part 'dto/response/crm/customers_bank_document.dart';
 part 'dto/response/crm/follow_up.dart';
 part 'dto/response/crm/invoice.dart';
 part 'dto/response/crm/status_reason.dart';
+// Warehouse models
+part 'dto/response/warehouse/warehouse_dto.dart';
 // Dashboard models
 part 'dto/response/dashboard/crm_summery.dart';
 part 'dto/response/dashboard/online_users_summery.dart';
@@ -83,6 +93,10 @@ part 'dto/response/human_resource/member_activity.dart';
 part 'dto/response/human_resource/timesheet.dart';
 part 'dto/response/human_resource/monthly_attendance_statistics.dart';
 part 'dto/response/human_resource/work_shift.dart';
+part 'dto/response/human_resource/workshift/year_shift.dart';
+part 'dto/response/human_resource/workshift/month_shift.dart';
+part 'dto/response/human_resource/workshift/daily_shift.dart';
+part 'dto/response/human_resource/workshift/shift_type.dart';
 // Import Customer Exel models
 part 'dto/response/import_customer_exel/exel_mapping_result.dart';
 part 'dto/response/import_customer_exel/exel_result.dart';
@@ -110,7 +124,6 @@ part 'dto/response/project/subtask.dart';
 part 'dto/response/project/task.dart';
 // Report models
 part 'dto/response/report/entities/report_contract_entity.dart';
-part 'dto/response/report/entities/report_invoice_entity.dart';
 part 'dto/response/report/interfaces/report.dart';
 part 'dto/response/report/interfaces/report_archive.dart';
 part 'dto/response/report/response/report_contract.dart';
@@ -166,6 +179,15 @@ part 'remote_datasource/crm_manager/customer_status_reason_datasource.dart';
 part 'remote_datasource/crm_manager/customers_bank_datasource.dart';
 part 'remote_datasource/label/customer_invoice_label_datasource.dart';
 part 'remote_datasource/label/customer_contract_label_datasource.dart';
+// Customer_Finance
+part 'remote_datasource/customer_finance/invoice_manager_datasource.dart';
+part 'remote_datasource/customer_finance/invoice_status_manager_datasource.dart';
+part 'remote_datasource/customer_finance/installment_datasource.dart';
+part 'remote_datasource/customer_finance/pay_invoice_datasource.dart';
+part 'remote_datasource/customer_finance/send_invoice_sms_datasource.dart';
+part 'remote_datasource/customer_finance/get_invoice_code_datasource.dart';
+part 'remote_datasource/customer_finance/change_invoice_status_datasource.dart';
+part 'remote_datasource/customer_finance/invoice_preview_datasource.dart';
 // Followup
 part 'remote_datasource/followup/follow_up_datasource.dart';
 part 'remote_datasource/followup/customer_follow_up_datasource.dart';
@@ -180,6 +202,10 @@ part 'remote_datasource/human_resources_manager/hr_statistics_datasource.dart';
 part 'remote_datasource/human_resources_manager/human_resource_datasource.dart';
 part 'remote_datasource/human_resources_manager/member_datasource.dart';
 part 'remote_datasource/human_resources_manager/work_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/year_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/month_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/daily_shift_datasource.dart';
+part 'remote_datasource/human_resources_manager/workshift/shift_type_datasource.dart';
 // Kanban_board_Manager
 part 'remote_datasource/kanban_board_manager/kanban_datasource.dart';
 // Label
@@ -223,6 +249,8 @@ part 'remote_datasource/register_datasource.dart';
 part 'remote_datasource/subscription_datasource.dart';
 part 'remote_datasource/subscription_invoice_datasource.dart';
 part 'remote_datasource/update_datasource.dart';
+// Warehouse
+part 'remote_datasource/warehouse/warehouse_datasource.dart';
 part 'remote_datasource/upload_customer_exel_datasource.dart';
 part 'remote_datasource/upload_file_datasource.dart';
 part 'remote_datasource/user_datasource.dart';

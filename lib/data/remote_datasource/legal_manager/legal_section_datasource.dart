@@ -8,20 +8,18 @@ class LegalSectionDatasource {
     required final String title,
     required final String colorCode,
     required final int? iconId,
-    required final List<String> stepList,
     required final Function(GenericResponse<LegalSectionReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.post(
-        "/v1/ContractBoard/kanban/column/",
+        "/v1/ContractBoard/ContractColumn/",
         data: {
           "board_id": departmentId,
           "title": title,
-          "color": colorCode,
+          "color_code": colorCode,
           if (iconId != null) "icon_id": iconId,
-          "step_list": stepList,
         },
         skipRetry: !withRetry,
       );
@@ -40,20 +38,18 @@ class LegalSectionDatasource {
     required final int? id,
     required final String title,
     required final String colorCode,
-    // required final int? iconId,
-    required final List<String> stepList,
+    required final int? iconId,
     required final Function(GenericResponse<LegalSectionReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.put(
-        "/v1/ContractBoard/kanban/column/$id/",
+        "/v1/ContractBoard/ContractColumn/$id/",
         data: {
           "title": title,
-          "color": colorCode,
-          // if (iconId != null) "icon_id": iconId,
-          "step_list": stepList,
+          "color_code": colorCode,
+          if (iconId != null) "icon_id": iconId,
         },
         skipRetry: !withRetry,
       );
@@ -77,7 +73,7 @@ class LegalSectionDatasource {
     AppLoading.showLoading();
     try {
       final response = await _apiClient.delete(
-        "/v1/ContractBoard/kanban/column/$id/",
+        "/v1/ContractBoard/ContractColumn/$id/",
         skipRetry: !withRetry,
       );
 

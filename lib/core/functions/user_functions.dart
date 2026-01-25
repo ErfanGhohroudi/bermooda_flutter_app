@@ -73,9 +73,7 @@ void addFcmToken({
     // Only proceed if token was successfully retrieved
     if (!tokenRetrieved) {
       ULocalStorage.set(AppConstants.hasNotSetFcmToken, true);
-      if (kDebugMode) {
-        print("FCM token not available. Cannot add FCM token to server.");
-      }
+      debugPrint("FCM token not available. Cannot add FCM token to server.");
       action();
       return;
     }
@@ -93,25 +91,19 @@ void addFcmToken({
         },
         onError: (final GenericResponse<dynamic> errorResponse) {
           ULocalStorage.set(AppConstants.hasNotSetFcmToken, true);
-          if (kDebugMode) {
-            print("Error adding FCM token to server: ${errorResponse.message}");
-          }
+          debugPrint("Error adding FCM token to server: ${errorResponse.message}");
         },
         withRetry: true,
       );
     } catch (e) {
       // Token not initialized, call onError
       ULocalStorage.set(AppConstants.hasNotSetFcmToken, true);
-      if (kDebugMode) {
-        print("FCM token not initialized: $e");
-      }
+      debugPrint("FCM token not initialized: $e");
       action();
     }
   } catch (e) {
     ULocalStorage.set(AppConstants.hasNotSetFcmToken, true);
-    if (kDebugMode) {
-      print("Exception in addFcmToken: $e");
-    }
+    debugPrint("Exception in addFcmToken: $e");
     action();
   }
 }

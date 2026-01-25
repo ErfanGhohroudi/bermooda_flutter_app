@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../core/widgets/board_section_icons/icons_page.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/kanban_board/view_models/section_view_model.dart';
@@ -34,8 +34,7 @@ class _HRCreateUpdateSectionPageState extends State<HRCreateUpdateSectionPage> w
     controller = widget.controller;
     section = widget.section;
     if (section != null) setValue();
-    // getBoardIcons();
-    pageState.loaded();
+    getBoardIcons();
     super.initState();
   }
 
@@ -73,42 +72,42 @@ class _HRCreateUpdateSectionPageState extends State<HRCreateUpdateSectionPage> w
                     showRequired: false,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                   ),
-                  // GridView.builder(
-                  //   itemCount: showMoreIcon ? (initialIconsList.length + 1) : initialIconsList.length,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   shrinkWrap: true,
-                  //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  //     crossAxisCount: 5,
-                  //     childAspectRatio: 1,
-                  //     crossAxisSpacing: 6,
-                  //     mainAxisSpacing: 6,
-                  //   ),
-                  //   itemBuilder: (final context, final index) {
-                  //     if (showMoreIcon && index == initialIconsList.length) {
-                  //       return Container(
-                  //         color: Colors.transparent,
-                  //         child: const Icon(Icons.arrow_forward_rounded, size: 30),
-                  //       ).onTap(
-                  //         () => UNavigator.push(
-                  //           IconsPage(
-                  //             icons: iconsList,
-                  //             selectedIcon: selectedIcon,
-                  //             selectedColor: selectedColor,
-                  //             onSelected: (final icon) {
-                  //               if (!initialIconsList.any((final e) => e.fileId == icon.fileId)) {
-                  //                 initialIconsList.first = icon;
-                  //               }
-                  //               setState(() {
-                  //                 selectedIcon = icon;
-                  //               });
-                  //             },
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }
-                  //     return _iconItem(initialIconsList[index], selectedColor);
-                  //   },
-                  // ),
+                  GridView.builder(
+                    itemCount: showMoreIcon ? (initialIconsList.length + 1) : initialIconsList.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,
+                      childAspectRatio: 1,
+                      crossAxisSpacing: 6,
+                      mainAxisSpacing: 6,
+                    ),
+                    itemBuilder: (final context, final index) {
+                      if (showMoreIcon && index == initialIconsList.length) {
+                        return Container(
+                          color: Colors.transparent,
+                          child: const Icon(Icons.arrow_forward_rounded, size: 30),
+                        ).onTap(
+                          () => UNavigator.push(
+                            IconsPage(
+                              icons: iconsList,
+                              selectedIcon: selectedIcon,
+                              selectedColor: selectedColor,
+                              onSelected: (final icon) {
+                                if (!initialIconsList.any((final e) => e.fileId == icon.fileId)) {
+                                  initialIconsList.first = icon;
+                                }
+                                setState(() {
+                                  selectedIcon = icon;
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                      return _iconItem(initialIconsList[index], selectedColor);
+                    },
+                  ),
                   WColorPicker(
                     colors: LabelColors.values.map((final e) => e.color).toList(),
                     circleSize: 35,

@@ -27,6 +27,7 @@ class WorkspaceDatasource {
   Future<void> update({
     required final String id,
     required final WorkspaceInfoParams dto,
+    required final IWorkspaceRequiredInfoParams authDto,
     required final Function(GenericResponse<WorkspaceInfoReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -34,7 +35,10 @@ class WorkspaceDatasource {
     try {
       final response = await _apiClient.put(
         '/v1/WorkSpace/WorkSpaceManager/$id',
-        data: dto.toJson(),
+        data: {
+          ...dto.toMap(),
+          ...authDto.toMap(),
+        },
         skipRetry: !withRetry,
       );
       onResponse(GenericResponse<WorkspaceInfoReadDto>.fromJson(response.data, fromMap: WorkspaceInfoReadDto.fromMap));
@@ -53,7 +57,7 @@ class WorkspaceDatasource {
     try {
       await _apiClient.post(
         '/v1/WorkSpace/UpdateRequiredInfo/$id',
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
       onResponse();

@@ -30,11 +30,21 @@ class SubscriptionController extends GetxController {
   final Rx<UniqueKey> maxContractDropdownUniqueKey = UniqueKey().obs;
   final Rx<PageState> pageState = PageState.initial.obs;
   final Rx<SubscriptionReadDto> subscription = const SubscriptionReadDto(slug: '').obs;
-  final RxList<ModuleReadDto> availableModules = <ModuleReadDto>[].obs;
   final Rxn<SubscriptionPriceReadDto?> priceCalculation = Rxn<SubscriptionPriceReadDto?>(null);
 
+  // Stepper
+  final steps = [s.modules, s.settings, s.priceSummary, s.payment];
+  final RxInt currentStep = 0.obs;
+
+  // Module Management
+  final RxList<ModuleReadDto> availableModules = <ModuleReadDto>[].obs;
+  final RxSet<ModuleReadDto> _oldSelectedModules = <ModuleReadDto>{}.obs;
+  final RxSet<ModuleReadDto> _newSelectedModules = <ModuleReadDto>{}.obs;
+  bool get selectedModulesIsEmpty => _oldSelectedModules.isEmpty && _newSelectedModules.isEmpty;
+  bool get selectedModulesIsNotEmpty => !selectedModulesIsEmpty;
+  List<ModuleReadDto> get selectedModules => [..._oldSelectedModules, ..._newSelectedModules];
+
   // Form controllers
-  final RxList<ModuleReadDto> selectedModules = <ModuleReadDto>[].obs;
   final RxInt selectedUserCount = 5.obs;
   final RxInt selectedStorage = 5.obs;
   final Rx<SubscriptionPeriod> selectedPeriod = SubscriptionPeriod.twelveMonths.obs;
@@ -50,8 +60,12 @@ class SubscriptionController extends GetxController {
 
   bool get isLegalModuleSelected => selectedModules.any((final module) => module.type == ModuleType.legal);
 
+  bool get isSubscriptionPurchased => subscription.value.isPurchase;
+  bool get canChangePeriod => !isSubscriptionPurchased;
+
   @override
   void onInit() {
+    getAvailableModules();
     getBankAccountInfo();
     getSubscriptionInfo();
     super.onInit();
@@ -62,6 +76,50 @@ class SubscriptionController extends GetxController {
     discountCodeCtrl.dispose();
     debugPrint("SubscriptionController closed!!!");
     super.onClose();
+  }
+
+  //------------------------------------------------
+  // Stepper Methods
+  //------------------------------------------------
+  void nextStep() {
+    if (selectedModulesIsEmpty) {
+      showEmptyModulesSnackBar();
+      return;
+    }
+    if (currentStep.value >= steps.length - 1) return;
+    currentStep.value++;
+  }
+
+  void previousStep() {
+    if (currentStep.value <= 0) return;
+    currentStep.value--;
+  }
+
+  // ------------------------------------------------
+  // Module Management Methods
+  //------------------------------------------------
+  bool isModuleActive(final ModuleReadDto module) => _newSelectedModules.contains(module) || _oldSelectedModules.contains(module);
+
+  void toggleModule(final ModuleReadDto module) {
+    if (_oldSelectedModules.contains(module)) {
+      return;
+    }
+
+    if (_newSelectedModules.contains(module)) {
+      _newSelectedModules.remove(module);
+    } else {
+      _newSelectedModules.add(module);
+    }
+    availableModules.refresh();
+  }
+
+  void onSaveSelectedModules() {
+    if (selectedModulesIsEmpty) {
+      showEmptyModulesSnackBar();
+      return;
+    }
+    calculatePrice();
+    nextStep();
   }
 
   //-------------------------------------------
@@ -136,11 +194,13 @@ class SubscriptionController extends GetxController {
         minUser = selectedUserCount.value;
         minStorage = selectedStorage.value;
         minContract = selectedMaxContractCount.value;
-        selectedModules.assignAll(subscription.value.modules);
-        if (selectedModules.isNotEmpty) calculatePrice();
+        _oldSelectedModules.assignAll(subscription.value.modules);
+        if (selectedModulesIsNotEmpty) calculatePrice();
         pageState.loaded();
       },
-      onError: (final errorResponse) {},
+      onError: (final errorResponse) {
+        pageState.error();
+      },
     );
   }
 
@@ -157,7 +217,7 @@ class SubscriptionController extends GetxController {
   }
 
   void calculatePrice({final bool goToBank = false, final VoidCallback? action}) {
-    if (selectedModules.isEmpty) {
+    if (selectedModulesIsEmpty) {
       showEmptyModulesSnackBar();
       priceCalculation.value = null;
       priceCalculation.refresh();
@@ -189,7 +249,7 @@ class SubscriptionController extends GetxController {
   }
 
   void createPaymentRequest() {
-    if (selectedModules.isEmpty) {
+    if (selectedModulesIsEmpty) {
       showEmptyModulesSnackBar();
       return;
     }
@@ -200,27 +260,10 @@ class SubscriptionController extends GetxController {
     );
   }
 
-  void toggleModule(final ModuleReadDto module) {
-    if (selectedModules.contains(module)) {
-      selectedModules.remove(module);
-    } else {
-      selectedModules.add(module);
-    }
-    // refresh available modules list
-    availableModules.refresh();
-    // Recalculate price when modules change
-    if (selectedModules.isNotEmpty) {
-      calculatePrice();
-    } else {
-      priceCalculation.value = null;
-      priceCalculation.refresh();
-    }
-  }
-
   void updateUserCount(final int count, {final bool withCalculation = true}) {
     if (count < minUser || count > maxUser) return;
     selectedUserCount(count);
-    if (selectedModules.isNotEmpty) {
+    if (selectedModulesIsNotEmpty) {
       if (withCalculation) calculatePrice();
     } else {
       priceCalculation.value = null;
@@ -231,7 +274,7 @@ class SubscriptionController extends GetxController {
   void updateStorage(final int storage, {final bool withCalculation = true}) {
     if (storage < minStorage || storage > maxStorage) return;
     selectedStorage(storage);
-    if (selectedModules.isNotEmpty) {
+    if (selectedModulesIsNotEmpty) {
       if (withCalculation) calculatePrice();
     } else {
       priceCalculation.value = null;
@@ -243,7 +286,7 @@ class SubscriptionController extends GetxController {
     if (count.count < minContract.count) return _resetMaxContractDropdownKey(); // for rebuild dropdown
     if (selectedMaxContractCount.value == count) return _resetMaxContractDropdownKey();
     selectedMaxContractCount(count);
-    if (selectedModules.isNotEmpty) {
+    if (selectedModulesIsNotEmpty) {
       calculatePrice();
     } else {
       priceCalculation.value = null;
@@ -255,10 +298,11 @@ class SubscriptionController extends GetxController {
     maxContractDropdownUniqueKey.value = UniqueKey();
   }
 
-
   void updatePeriod(final SubscriptionPeriod period) {
-    selectedPeriod(period);
-    calculatePrice();
+    if (canChangePeriod) {
+      selectedPeriod(period);
+      calculatePrice();
+    }
   }
 
   void showEmptyModulesSnackBar() {

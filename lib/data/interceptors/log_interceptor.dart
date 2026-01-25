@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart' as dio;
 import 'dart:developer' as developer;
-import 'package:flutter/foundation.dart';
+
+import '../../app_config.dart';
 
 /// Interceptor برای pretty logging درخواست‌ها و پاسخ‌ها
 class LogInterceptor extends dio.Interceptor {
   @override
   void onResponse(final dio.Response response, final dio.ResponseInterceptorHandler handler) {
-    if (kDebugMode) {
+    if (AppConfig.instance.isDevelopment) {
       final method = response.requestOptions.method.toUpperCase();
       final url = '${response.requestOptions.baseUrl}${response.requestOptions.path}';
       final queryParams = response.requestOptions.queryParameters;
@@ -49,7 +50,7 @@ class LogInterceptor extends dio.Interceptor {
 
   @override
   void onError(final dio.DioException err, final dio.ErrorInterceptorHandler handler) {
-    if (kDebugMode) {
+    if (AppConfig.instance.isDevelopment) {
       final method = err.requestOptions.method.toUpperCase();
       final url = '${err.requestOptions.baseUrl}${err.requestOptions.path}';
       final queryParams = err.requestOptions.queryParameters;

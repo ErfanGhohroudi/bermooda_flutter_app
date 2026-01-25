@@ -2329,46 +2329,6 @@ class S {
     return Intl.message('Fax', name: 'fax', desc: '', args: []);
   }
 
-  /// `Upload National ID Card`
-  String get uploadNationalIDCard {
-    return Intl.message(
-      'Upload National ID Card',
-      name: 'uploadNationalIDCard',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Uploading the national ID card photo is required.`
-  String get uploadNationalIDCardIsRequired {
-    return Intl.message(
-      'Uploading the national ID card photo is required.',
-      name: 'uploadNationalIDCardIsRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Upload Business Registration / License`
-  String get uploadBusinessRegistrationLicense {
-    return Intl.message(
-      'Upload Business Registration / License',
-      name: 'uploadBusinessRegistrationLicense',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Uploading the business registration or license is required.`
-  String get uploadBusinessRegistrationLicenseIsRequired {
-    return Intl.message(
-      'Uploading the business registration or license is required.',
-      name: 'uploadBusinessRegistrationLicenseIsRequired',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Verified`
   String get verified {
     return Intl.message('Verified', name: 'verified', desc: '', args: []);
@@ -2939,6 +2899,61 @@ class S {
     return Intl.message('Customers', name: 'customers', desc: '', args: []);
   }
 
+  /// `Warehouses`
+  String get warehouses {
+    return Intl.message('Warehouses', name: 'warehouses', desc: '', args: []);
+  }
+
+  /// `Warehouse`
+  String get warehouse {
+    return Intl.message('Warehouse', name: 'warehouse', desc: '', args: []);
+  }
+
+  /// `New Warehouse`
+  String get newWarehouse {
+    return Intl.message(
+      'New Warehouse',
+      name: 'newWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Warehouse`
+  String get editWarehouse {
+    return Intl.message(
+      'Edit Warehouse',
+      name: 'editWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warehouse Code`
+  String get warehouseCode {
+    return Intl.message(
+      'Warehouse Code',
+      name: 'warehouseCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capacity`
+  String get capacity {
+    return Intl.message('Capacity', name: 'capacity', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to delete this warehouse?`
+  String get areYouSureToDeleteWarehouse {
+    return Intl.message(
+      'Are you sure you want to delete this warehouse?',
+      name: 'areYouSureToDeleteWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reports`
   String get reports {
     return Intl.message('Reports', name: 'reports', desc: '', args: []);
@@ -3167,6 +3182,16 @@ class S {
   /// `Work Shift`
   String get workShift {
     return Intl.message('Work Shift', name: 'workShift', desc: '', args: []);
+  }
+
+  /// `New WorkShift`
+  String get newWorkShift {
+    return Intl.message(
+      'New WorkShift',
+      name: 'newWorkShift',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Won Reason`
@@ -4644,16 +4669,6 @@ class S {
     );
   }
 
-  /// `Module Management`
-  String get moduleManagement {
-    return Intl.message(
-      'Module Management',
-      name: 'moduleManagement',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Active`
   String get active {
     return Intl.message('Active', name: 'active', desc: '', args: []);
@@ -5194,14 +5209,24 @@ class S {
     );
   }
 
-  /// `Start of Rest`
-  String get restStart {
-    return Intl.message('Start of Rest', name: 'restStart', desc: '', args: []);
+  /// `Break`
+  String get breakText {
+    return Intl.message('Break', name: 'breakText', desc: '', args: []);
   }
 
-  /// `End of Rest`
-  String get restEnd {
-    return Intl.message('End of Rest', name: 'restEnd', desc: '', args: []);
+  /// `Start of Break`
+  String get breakStart {
+    return Intl.message(
+      'Start of Break',
+      name: 'breakStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End of Break`
+  String get breakEnd {
+    return Intl.message('End of Break', name: 'breakEnd', desc: '', args: []);
   }
 
   /// `Start of Leave`
@@ -6239,6 +6264,456 @@ class S {
     return Intl.message(
       'This value represents the total number of contracts you are authorized to create within the Legal module based on your account permissions.',
       name: 'contractCountInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly Settings`
+  String get monthlySettings {
+    return Intl.message(
+      'Monthly Settings',
+      name: 'monthlySettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overtime Limit`
+  String get overtimeLimit {
+    return Intl.message(
+      'Overtime Limit',
+      name: 'overtimeLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mission Limit`
+  String get missionLimit {
+    return Intl.message(
+      'Mission Limit',
+      name: 'missionLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave Entitlement`
+  String get leaveEntitlement {
+    return Intl.message(
+      'Leave Entitlement',
+      name: 'leaveEntitlement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Early Out Allowance`
+  String get earlyOutAllowance {
+    return Intl.message(
+      'Early Out Allowance',
+      name: 'earlyOutAllowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tardiness Allowance`
+  String get tardinessAllowance {
+    return Intl.message(
+      'Tardiness Allowance',
+      name: 'tardinessAllowance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove shift from day?`
+  String get deleteShiftQuestion {
+    return Intl.message(
+      'Remove shift from day?',
+      name: 'deleteShiftQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove shift from all days?`
+  String get deleteShiftFromAllDaysQuestion {
+    return Intl.message(
+      'Remove shift from all days?',
+      name: 'deleteShiftFromAllDaysQuestion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Initial setup applied successfully`
+  String get initialSetupAppliedSuccessfully {
+    return Intl.message(
+      'Initial setup applied successfully',
+      name: 'initialSetupAppliedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Entry`
+  String get entry {
+    return Intl.message('Entry', name: 'entry', desc: '', args: []);
+  }
+
+  /// `Floating Time`
+  String get floatingTime {
+    return Intl.message(
+      'Floating Time',
+      name: 'floatingTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete From Day`
+  String get deleteFromDay {
+    return Intl.message(
+      'Delete From Day',
+      name: 'deleteFromDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete From All Day`
+  String get deleteFromAllDay {
+    return Intl.message(
+      'Delete From All Day',
+      name: 'deleteFromAllDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conflicting days`
+  String get conflictingDays {
+    return Intl.message(
+      'Conflicting days',
+      name: 'conflictingDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `# days without conflict will be applied`
+  String get daysWithoutConflictWillBeApplied {
+    return Intl.message(
+      '# days without conflict will be applied',
+      name: 'daysWithoutConflictWillBeApplied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift Overlap Report`
+  String get shiftOverlapReport {
+    return Intl.message(
+      'Shift Overlap Report',
+      name: 'shiftOverlapReport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift # conflicts with all selected days`
+  String get shiftConflictsWithAllSelectedDays {
+    return Intl.message(
+      'Shift # conflicts with all selected days',
+      name: 'shiftConflictsWithAllSelectedDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `previous day`
+  String get previousDay {
+    return Intl.message(
+      'previous day',
+      name: 'previousDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `shift # conflicts with # days`
+  String get shiftConflictsWithDays {
+    return Intl.message(
+      'shift # conflicts with # days',
+      name: 'shiftConflictsWithDays',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shift Title`
+  String get shiftTitle {
+    return Intl.message('Shift Title', name: 'shiftTitle', desc: '', args: []);
+  }
+
+  /// `Shift Color`
+  String get shiftColor {
+    return Intl.message('Shift Color', name: 'shiftColor', desc: '', args: []);
+  }
+
+  /// `Entry Time`
+  String get entryTime {
+    return Intl.message('Entry Time', name: 'entryTime', desc: '', args: []);
+  }
+
+  /// `Exit Time`
+  String get exitTime {
+    return Intl.message('Exit Time', name: 'exitTime', desc: '', args: []);
+  }
+
+  /// `Night Shift`
+  String get nightShift {
+    return Intl.message('Night Shift', name: 'nightShift', desc: '', args: []);
+  }
+
+  /// `Shifts that start one night and end the next morning (e.g., 22:00 - 06:00)`
+  String get nightShiftHelper {
+    return Intl.message(
+      'Shifts that start one night and end the next morning (e.g., 22:00 - 06:00)',
+      name: 'nightShiftHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allowed Attendance Methods`
+  String get allowedAttendanceMethods {
+    return Intl.message(
+      'Allowed Attendance Methods',
+      name: 'allowedAttendanceMethods',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat Options`
+  String get repeatOptions {
+    return Intl.message(
+      'Repeat Options',
+      name: 'repeatOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat Type`
+  String get repeatType {
+    return Intl.message('Repeat Type', name: 'repeatType', desc: '', args: []);
+  }
+
+  /// `Shifts will be created on selected weekdays until end of selected year`
+  String get weeklyRepeatTypeHelper {
+    return Intl.message(
+      'Shifts will be created on selected weekdays until end of selected year',
+      name: 'weeklyRepeatTypeHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shifts will be created on selected month days for remaining months of selected year`
+  String get monthlyRepeatTypeHelper {
+    return Intl.message(
+      'Shifts will be created on selected month days for remaining months of selected year',
+      name: 'monthlyRepeatTypeHelper',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Break start/end must both be set`
+  String get breakStartEndMustBothBeSet {
+    return Intl.message(
+      'Break start/end must both be set',
+      name: 'breakStartEndMustBothBeSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one attendance method`
+  String get pickAtLeastOneAttendanceMethod {
+    return Intl.message(
+      'Pick at least one attendance method',
+      name: 'pickAtLeastOneAttendanceMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one weekday`
+  String get pickAtLeastOneWeekday {
+    return Intl.message(
+      'Pick at least one weekday',
+      name: 'pickAtLeastOneWeekday',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick at least one day of month`
+  String get pickAtLeastOneDayOfMonth {
+    return Intl.message(
+      'Pick at least one day of month',
+      name: 'pickAtLeastOneDayOfMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Shift`
+  String get addShift {
+    return Intl.message('Add Shift', name: 'addShift', desc: '', args: []);
+  }
+
+  /// `Initial shift setup`
+  String get initialShiftSetup {
+    return Intl.message(
+      'Initial shift setup',
+      name: 'initialShiftSetup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to apply shift`
+  String get failedToApplyShift {
+    return Intl.message(
+      'Failed to apply shift',
+      name: 'failedToApplyShift',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only this day`
+  String get onlyThisDay {
+    return Intl.message(
+      'Only this day',
+      name: 'onlyThisDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weekly {
+    return Intl.message('Weekly', name: 'weekly', desc: '', args: []);
+  }
+
+  /// `Monthly`
+  String get monthly {
+    return Intl.message('Monthly', name: 'monthly', desc: '', args: []);
+  }
+
+  /// `To make changes, click on the calendar cells.`
+  String get workshiftCalendarInfo {
+    return Intl.message(
+      'To make changes, click on the calendar cells.',
+      name: 'workshiftCalendarInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `WeekDays`
+  String get weekDays {
+    return Intl.message('WeekDays', name: 'weekDays', desc: '', args: []);
+  }
+
+  /// `Days of Month`
+  String get daysOfMonth {
+    return Intl.message(
+      'Days of Month',
+      name: 'daysOfMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes`
+  String get changes {
+    return Intl.message('Changes', name: 'changes', desc: '', args: []);
+  }
+
+  /// `Invoice Details`
+  String get invoiceDetails {
+    return Intl.message(
+      'Invoice Details',
+      name: 'invoiceDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get productsOrServices {
+    return Intl.message(
+      'Products',
+      name: 'productsOrServices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Code`
+  String get productCode {
+    return Intl.message(
+      'Product Code',
+      name: 'productCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax`
+  String get tax {
+    return Intl.message('Tax', name: 'tax', desc: '', args: []);
+  }
+
+  /// `Count`
+  String get count {
+    return Intl.message('Count', name: 'count', desc: '', args: []);
+  }
+
+  /// `Unit`
+  String get unit {
+    return Intl.message('Unit', name: 'unit', desc: '', args: []);
+  }
+
+  /// `Unit Price`
+  String get unitPrice {
+    return Intl.message('Unit Price', name: 'unitPrice', desc: '', args: []);
+  }
+
+  /// `Qty / kg`
+  String get invoiceUnitExample {
+    return Intl.message(
+      'Qty / kg',
+      name: 'invoiceUnitExample',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please add at least one product`
+  String get pleaseAddAtLeastOneProduct {
+    return Intl.message(
+      'Please add at least one product',
+      name: 'pleaseAddAtLeastOneProduct',
       desc: '',
       args: [],
     );

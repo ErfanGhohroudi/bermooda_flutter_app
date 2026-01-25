@@ -9,6 +9,8 @@ import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
 import '../../../crm/customer/customer_info/customer_info_controller.dart';
+import '../../../crm/invoice/domain/entities/invoice.dart';
+import '../../../crm/invoice/presentation/pages/invoice_detail_page.dart';
 import '../../../followup/follow_up_card/follow_up_details/follow_up_details_page.dart';
 import '../../../followup/list/followup_list_controller.dart';
 import '../../../subtask/list/subtask_list_controller.dart';

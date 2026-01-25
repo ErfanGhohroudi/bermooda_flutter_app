@@ -15,7 +15,7 @@ class MemberDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/WorkSpace/WorkSpaceMemberManger",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
@@ -39,7 +39,7 @@ class MemberDatasource {
     try {
       final response = await _apiClient.put(
         "/v1/WorkSpace/WorkSpaceMemberManger/$id",
-        data: dto.toJson(),
+        data: dto.toMap(),
         skipRetry: !withRetry,
       );
 
