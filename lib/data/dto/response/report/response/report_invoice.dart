@@ -29,11 +29,9 @@ class ReportInvoiceReadDto extends BaseHistoryReadDto {
       final Map<String, dynamic> data = json['data'];
 
       switch (dataType) {
-        case "task_factor_data":
-          return InvoiceEntity.fromMap(data);
-        // case "customer_factor_data":
-        case "factor_data":
-          return InvoiceEntity.fromMap(data);
+        case "task_factor_data" || "factor_data":
+          final result = InvoiceReadDto.fromMap(data);
+          return InvoiceEntity.fromDto(result);
         default:
           return null;
       }
@@ -57,13 +55,13 @@ class ReportInvoiceReadDto extends BaseHistoryReadDto {
 
   @override
   List<Object?> get props => [
-        id,
-        type,
-        creator,
-        files,
-        body,
-        date,
-        invoice,
-        persianDateTimeString,
-      ];
+    id,
+    type,
+    creator,
+    files,
+    body,
+    date,
+    invoice,
+    persianDateTimeString,
+  ];
 }

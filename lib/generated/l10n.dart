@@ -2899,6 +2899,61 @@ class S {
     return Intl.message('Customers', name: 'customers', desc: '', args: []);
   }
 
+  /// `Warehouses`
+  String get warehouses {
+    return Intl.message('Warehouses', name: 'warehouses', desc: '', args: []);
+  }
+
+  /// `Warehouse`
+  String get warehouse {
+    return Intl.message('Warehouse', name: 'warehouse', desc: '', args: []);
+  }
+
+  /// `New Warehouse`
+  String get newWarehouse {
+    return Intl.message(
+      'New Warehouse',
+      name: 'newWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Warehouse`
+  String get editWarehouse {
+    return Intl.message(
+      'Edit Warehouse',
+      name: 'editWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warehouse Code`
+  String get warehouseCode {
+    return Intl.message(
+      'Warehouse Code',
+      name: 'warehouseCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capacity`
+  String get capacity {
+    return Intl.message('Capacity', name: 'capacity', desc: '', args: []);
+  }
+
+  /// `Are you sure you want to delete this warehouse?`
+  String get areYouSureToDeleteWarehouse {
+    return Intl.message(
+      'Are you sure you want to delete this warehouse?',
+      name: 'areYouSureToDeleteWarehouse',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Reports`
   String get reports {
     return Intl.message('Reports', name: 'reports', desc: '', args: []);
@@ -6584,6 +6639,81 @@ class S {
     return Intl.message(
       'Days of Month',
       name: 'daysOfMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes`
+  String get changes {
+    return Intl.message('Changes', name: 'changes', desc: '', args: []);
+  }
+
+  /// `Invoice Details`
+  String get invoiceDetails {
+    return Intl.message(
+      'Invoice Details',
+      name: 'invoiceDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get productsOrServices {
+    return Intl.message(
+      'Products',
+      name: 'productsOrServices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product Code`
+  String get productCode {
+    return Intl.message(
+      'Product Code',
+      name: 'productCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tax`
+  String get tax {
+    return Intl.message('Tax', name: 'tax', desc: '', args: []);
+  }
+
+  /// `Count`
+  String get count {
+    return Intl.message('Count', name: 'count', desc: '', args: []);
+  }
+
+  /// `Unit`
+  String get unit {
+    return Intl.message('Unit', name: 'unit', desc: '', args: []);
+  }
+
+  /// `Unit Price`
+  String get unitPrice {
+    return Intl.message('Unit Price', name: 'unitPrice', desc: '', args: []);
+  }
+
+  /// `Qty / kg`
+  String get invoiceUnitExample {
+    return Intl.message(
+      'Qty / kg',
+      name: 'invoiceUnitExample',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please add at least one product`
+  String get pleaseAddAtLeastOneProduct {
+    return Intl.message(
+      'Please add at least one product',
+      name: 'pleaseAddAtLeastOneProduct',
       desc: '',
       args: [],
     );

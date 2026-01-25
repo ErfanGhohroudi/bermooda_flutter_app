@@ -1,3 +1,4 @@
+import 'package:bermooda_business/core/constants.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../app_config.dart';
@@ -73,14 +74,16 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Icon(Icons.close, size: 35, color: Colors.white).onTap(
-                        () {
-                          setState(() {
-                            isShowWorkspaces = false;
-                            routCtrl.closeDrawerIfOpen();
-                          });
-                        },
-                      ).marginOnly(top: 10),
+                      const Icon(Icons.close, size: 35, color: Colors.white)
+                          .onTap(
+                            () {
+                              setState(() {
+                                isShowWorkspaces = false;
+                                routCtrl.closeDrawerIfOpen();
+                              });
+                            },
+                          )
+                          .marginOnly(top: 10),
                     ],
                   ).pSymmetric(horizontal: 6),
 
@@ -101,11 +104,25 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
                       _myBusinesses(),
                       _theme(),
                       _logout(),
-                      if (AppConfig.instance.isDevelopment)
+                      if (AppConfig.instance.isDevelopment) ...[
                         WCard(
                           onTap: changeLanguage,
                           child: const Text("s.changeLanguage"),
                         ),
+                        WCard(
+                          child: const Text("Test Notification"),
+                          onTap: () {
+                            UNotification.showLocalNotification(
+                              const RemoteMessage(
+                                notification: RemoteNotification(title: "Test", body: "It's a notification for test."),
+                              ),
+                              channelId: channelId,
+                              channelName: channelName,
+                              icon: notificationIcon,
+                            );
+                          },
+                        ),
+                      ],
                     ],
                   ).marginSymmetric(horizontal: 6),
                 ],
@@ -119,95 +136,95 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
   }
 
   Widget _avatarAndWorkspaces() => WCard(
-        padding: 10,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    padding: 10,
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// Avatar and full name
+        Row(
           children: [
-            /// Avatar and full name
-            Row(
-              children: [
-                Obx(() => WCircleAvatar(user: myUser.value, showFullName: true, maxLines: 2)).expanded(),
-                Icon(Icons.more_vert_rounded, color: context.theme.hintColor).showMenus([
-                  WPopupMenuItem(
-                    title: '${s.edit} ${s.account}',
-                    icon: AppIcons.editOutline,
-                    onTap: () => showAppDialog(
-                      barrierDismissible: false,
-                      useSafeArea: true,
-                      const AlertDialog(
-                        content: UpdateAccountPage(),
-                      ),
-                    ),
-                  ),
-                  WPopupMenuItem(
-                    title: '${s.edit} ${s.password}',
-                    icon: AppIcons.editOutline,
-                    onTap: () => showAppDialog(
-                      barrierDismissible: false,
-                      useSafeArea: true,
-                      const AlertDialog(
-                        content: ChangePasswordPage(),
-                      ),
-                    ),
-                  ),
-                ]),
-              ],
-            ).marginOnly(bottom: 10),
-
-            /// Change workspace [dropdown]
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: context.theme.primaryColor,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              child: Row(
-                children: [
-                  Obx(
-                    () => haveNotAcceptedWorkspace.value
-                        ? const Row(
-                            children: [
-                              UBadge(showBadge: true, smallSize: 10),
-                              SizedBox(width: 10),
-                            ],
-                          )
-                        : const SizedBox(),
-                  ),
-                  Text(
-                    routCtrl.currentWorkspaceTitle.value,
-                    maxLines: 1,
-                    style: context.textTheme.bodyMedium!.copyWith(color: Colors.white, overflow: TextOverflow.ellipsis),
-                  ).expanded(),
-                  if (routCtrl.isOwnerOfCurrentWorkspace.value) const UImage(AppIcons.crownOutline, size: 20, color: Colors.white),
-                  Icon(
-                    isShowWorkspaces ? Icons.arrow_drop_up_rounded : Icons.arrow_drop_down_rounded,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                ],
-              ),
-            ).onTap(() {
-              setState(() {
-                isShowWorkspaces = !isShowWorkspaces;
-              });
-            }),
-
-            /// Workspaces list
-            if (isShowWorkspaces)
-              Obx(
-                () => Container(
-                  constraints: BoxConstraints(maxHeight: context.height / 2),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: _buildWorkspacesList(context, core.workspaces),
-                    ),
+            Obx(() => WCircleAvatar(user: myUser.value, showFullName: true, maxLines: 2)).expanded(),
+            Icon(Icons.more_vert_rounded, color: context.theme.hintColor).showMenus([
+              WPopupMenuItem(
+                title: '${s.edit} ${s.account}',
+                icon: AppIcons.editOutline,
+                onTap: () => showAppDialog(
+                  barrierDismissible: false,
+                  useSafeArea: true,
+                  const AlertDialog(
+                    content: UpdateAccountPage(),
                   ),
                 ),
-              ).marginSymmetric(horizontal: 10),
+              ),
+              WPopupMenuItem(
+                title: '${s.edit} ${s.password}',
+                icon: AppIcons.editOutline,
+                onTap: () => showAppDialog(
+                  barrierDismissible: false,
+                  useSafeArea: true,
+                  const AlertDialog(
+                    content: ChangePasswordPage(),
+                  ),
+                ),
+              ),
+            ]),
           ],
-        ),
-      ).marginOnly(top: 10);
+        ).marginOnly(bottom: 10),
+
+        /// Change workspace [dropdown]
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: context.theme.primaryColor,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          child: Row(
+            children: [
+              Obx(
+                () => haveNotAcceptedWorkspace.value
+                    ? const Row(
+                        children: [
+                          UBadge(showBadge: true, smallSize: 10),
+                          SizedBox(width: 10),
+                        ],
+                      )
+                    : const SizedBox(),
+              ),
+              Text(
+                routCtrl.currentWorkspaceTitle.value,
+                maxLines: 1,
+                style: context.textTheme.bodyMedium!.copyWith(color: Colors.white, overflow: TextOverflow.ellipsis),
+              ).expanded(),
+              if (routCtrl.isOwnerOfCurrentWorkspace.value) const UImage(AppIcons.crownOutline, size: 20, color: Colors.white),
+              Icon(
+                isShowWorkspaces ? Icons.arrow_drop_up_rounded : Icons.arrow_drop_down_rounded,
+                size: 30,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        ).onTap(() {
+          setState(() {
+            isShowWorkspaces = !isShowWorkspaces;
+          });
+        }),
+
+        /// Workspaces list
+        if (isShowWorkspaces)
+          Obx(
+            () => Container(
+              constraints: BoxConstraints(maxHeight: context.height / 2),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: _buildWorkspacesList(context, core.workspaces),
+                ),
+              ),
+            ),
+          ).marginSymmetric(horizontal: 10),
+      ],
+    ),
+  ).marginOnly(top: 10);
 
   Widget _subscriptionInfo() {
     if (routCtrl.subService.isNoPurchased) {
@@ -235,8 +252,8 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
                   color: routCtrl.subService.isNoPurchased
                       ? AppColors.red
                       : routCtrl.subService.isTrial
-                          ? AppColors.orange
-                          : Colors.grey,
+                      ? AppColors.orange
+                      : Colors.grey,
                 ),
               // WLabel(
               //   text: routCtrl.subService.subscription.purchaseType.getTitle(),
@@ -253,7 +270,11 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
               spacing: 8,
               children: [
                 Text("${s.status}:").bodyMedium(color: context.theme.hintColor),
-                Flexible(child: Text(routCtrl.subService.subscription.status.title).bodyMedium(color: routCtrl.subService.subscription.status.color)),
+                Flexible(
+                  child: Text(
+                    routCtrl.subService.subscription.status.title,
+                  ).bodyMedium(color: routCtrl.subService.subscription.status.color),
+                ),
               ],
             ),
             Row(
@@ -271,7 +292,11 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
               spacing: 8,
               children: [
                 Text("${s.remaining}:").bodyMedium(color: context.theme.hintColor),
-                Flexible(child: Text("${routCtrl.subService.subscription.remainingDays} ${s.days}").bodyMedium(color: context.theme.hintColor)),
+                Flexible(
+                  child: Text(
+                    "${routCtrl.subService.subscription.remainingDays} ${s.days}",
+                  ).bodyMedium(color: context.theme.hintColor),
+                ),
               ],
             ),
           ],
@@ -282,8 +307,8 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
               title: routCtrl.subService.isNoPurchased
                   ? s.buySubscription
                   : routCtrl.subService.isExpired
-                      ? s.renewSubscription
-                      : s.upgradeSubscription,
+                  ? s.renewSubscription
+                  : s.upgradeSubscription,
               titleColor: context.theme.primaryColor,
               borderColor: context.theme.primaryColor,
               borderWidth: 2,
@@ -297,90 +322,96 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
   }
 
   Widget _storage() => WCard(
-        elevation: 0,
-        child: SizedBox(
-          width: double.maxFinite,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            spacing: 6,
+    elevation: 0,
+    child: SizedBox(
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        spacing: 6,
+        children: [
+          Text(s.storage).bodyMedium(),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(s.storage).bodyMedium(),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text("${core.currentWorkspace.value.usedStorage} ${s.gb} ").bodyMedium(),
-                  Text("${s.ofText} ${core.currentWorkspace.value.totalStorage} ${s.gb}").bodySmall(color: context.theme.hintColor),
-                ],
-              ),
-              LinearProgressIndicator(
-                value: core.currentWorkspace.value.totalStorage != 0 ? (core.currentWorkspace.value.usedStorage / core.currentWorkspace.value.totalStorage) : 0,
-                color: core.currentWorkspace.value.totalStorage != 0 && ((core.currentWorkspace.value.usedStorage / core.currentWorkspace.value.totalStorage) < 0.9)
-                    ? AppColors.green
-                    : AppColors.red,
-                borderRadius: BorderRadius.circular(10),
-                backgroundColor: context.theme.dividerColor,
-                minHeight: 8,
-              ),
+              Text("${core.currentWorkspace.value.usedStorage} ${s.gb} ").bodyMedium(),
+              Text("${s.ofText} ${core.currentWorkspace.value.totalStorage} ${s.gb}").bodySmall(color: context.theme.hintColor),
             ],
           ),
-        ),
-      );
+          LinearProgressIndicator(
+            value: core.currentWorkspace.value.totalStorage != 0
+                ? (core.currentWorkspace.value.usedStorage / core.currentWorkspace.value.totalStorage)
+                : 0,
+            color:
+                core.currentWorkspace.value.totalStorage != 0 &&
+                    ((core.currentWorkspace.value.usedStorage / core.currentWorkspace.value.totalStorage) < 0.9)
+                ? AppColors.green
+                : AppColors.red,
+            borderRadius: BorderRadius.circular(10),
+            backgroundColor: context.theme.dividerColor,
+            minHeight: 8,
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _myBusinesses() => WCard(
-        elevation: 0,
-        onTap: () => UNavigator.push(const WorkspaceListPage()),
-        child: ListTile(
-          contentPadding: EdgeInsets.zero,
-          minTileHeight: 20,
-          title: Text(s.myBusinesses, style: context.textTheme.bodyMedium),
-          leading: UImage(
-            AppIcons.businessesOutline,
-            color: context.theme.primaryColorDark,
-            size: 30,
-          ),
-        ),
-      );
+    elevation: 0,
+    onTap: () => UNavigator.push(const WorkspaceListPage()),
+    child: ListTile(
+      contentPadding: EdgeInsets.zero,
+      minTileHeight: 20,
+      title: Text(s.myBusinesses, style: context.textTheme.bodyMedium),
+      leading: UImage(
+        AppIcons.businessesOutline,
+        color: context.theme.primaryColorDark,
+        size: 30,
+      ),
+    ),
+  );
 
   Widget _theme() => WCard(
-        elevation: 0,
-        child: ListTile(
-          contentPadding: EdgeInsets.zero,
-          minTileHeight: 20,
-          title: Text(s.theme, style: context.textTheme.bodyMedium),
-          leading: UImage(
-            AppIcons.moonOutline,
-            color: context.theme.primaryColorDark,
-            size: 30,
-          ),
-          trailing: WSwitch(
-            value: context.isDarkMode,
-            activeTrackColor: context.theme.primaryColor,
-            thumbColor: Colors.black,
-            inactiveThumbColor: Colors.white,
-            thumbIcon: WidgetStatePropertyAll(Icon(
-              context.isDarkMode ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
-              size: 25,
-              color: context.isDarkMode ? Colors.white : AppColors.orange,
-            )),
-            onChanged: (final value) => changeTheme(),
+    elevation: 0,
+    child: ListTile(
+      contentPadding: EdgeInsets.zero,
+      minTileHeight: 20,
+      title: Text(s.theme, style: context.textTheme.bodyMedium),
+      leading: UImage(
+        AppIcons.moonOutline,
+        color: context.theme.primaryColorDark,
+        size: 30,
+      ),
+      trailing: WSwitch(
+        value: context.isDarkMode,
+        activeTrackColor: context.theme.primaryColor,
+        thumbColor: Colors.black,
+        inactiveThumbColor: Colors.white,
+        thumbIcon: WidgetStatePropertyAll(
+          Icon(
+            context.isDarkMode ? Icons.dark_mode_rounded : Icons.light_mode_rounded,
+            size: 25,
+            color: context.isDarkMode ? Colors.white : AppColors.orange,
           ),
         ),
-      );
+        onChanged: (final value) => changeTheme(),
+      ),
+    ),
+  );
 
   Widget _logout() => WCard(
-        elevation: 0,
-        onTap: logoutWithShowDialog,
-        child: ListTile(
-          contentPadding: EdgeInsets.zero,
-          minTileHeight: 20,
-          title: Text(s.logout, style: context.textTheme.bodyMedium),
-          leading: UImage(
-            AppIcons.logout,
-            color: context.theme.primaryColorDark,
-            size: 30,
-          ),
-        ),
-      );
+    elevation: 0,
+    onTap: logoutWithShowDialog,
+    child: ListTile(
+      contentPadding: EdgeInsets.zero,
+      minTileHeight: 20,
+      title: Text(s.logout, style: context.textTheme.bodyMedium),
+      leading: UImage(
+        AppIcons.logout,
+        color: context.theme.primaryColorDark,
+        size: 30,
+      ),
+    ),
+  );
 }

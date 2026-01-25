@@ -56,6 +56,7 @@ class _UpdateLegalCasePageState extends State<UpdateLegalCasePage> {
             maxLength: 2000,
             showCounter: true,
             multiLine: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: 50),
           Obx(

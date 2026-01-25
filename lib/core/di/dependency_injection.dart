@@ -15,6 +15,7 @@ import 'label_datasources.dart';
 import 'common_datasources.dart';
 import 'conversation_datasources.dart';
 import 'subtask_datasources.dart';
+import 'warehouse_datasources.dart';
 
 abstract class DependencyInjector {
   static Future<void> init() async {
@@ -37,6 +38,7 @@ abstract class DependencyInjector {
       HrDatasources.init();
       LegalDatasources.init();
       CommonDatasources.init();
+      WarehouseDatasources.init();
     });
 
     // --- سرویس‌ها (Core Services) ---

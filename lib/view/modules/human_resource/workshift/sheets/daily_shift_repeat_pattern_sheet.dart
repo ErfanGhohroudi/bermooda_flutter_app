@@ -47,6 +47,9 @@ class _DailyShiftRepeatPatternSheetState extends State<DailyShiftRepeatPatternSh
   Set<int> _weekdays = <int>{};
   Set<int> _monthlyDays = <int>{};
 
+  // Cached values for performance optimization
+  late final List<DropdownMenuItem<String>> _timeDropdownItems;
+
   String get _workshiftTitle => [_startTime, _endTime].whereType<String>().join(' - ');
 
   LabelColors get _getSelectedColor => _selectedColor ?? LabelColors.getRandom();
@@ -82,11 +85,14 @@ class _DailyShiftRepeatPatternSheetState extends State<DailyShiftRepeatPatternSh
       _weekdays = pattern.weeklySelectedWeekdays;
       _monthlyDays = pattern.monthlySelectedDays;
     }
+
+    // Cache محاسبات سنگین برای بهینه‌سازی عملکرد
+    final times = DateAndTimeFunctions.generateTimeSlots();
+    _timeDropdownItems = getDropDownMenuItemsFromString(menuItems: times);
   }
 
   @override
   Widget build(final BuildContext context) {
-    final times = DateAndTimeFunctions.generateTimeSlots();
     return UScaffold(
       bottomNavigationBar: UElevatedButton(
         title: widget.isInitialSetup ? s.next : s.addText,
@@ -96,230 +102,249 @@ class _DailyShiftRepeatPatternSheetState extends State<DailyShiftRepeatPatternSh
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 12),
         controller: _scrollCtrl,
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                spacing: 10,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WDropDownFormField<String>(
-                    labelText: s.entryTime,
-                    required: true,
-                    value: _startTime,
-                    items: getDropDownMenuItemsFromString(menuItems: times),
-                    onChanged: (final v) => setState(() => _startTime = v),
-                  ).expanded(),
-                  WDropDownFormField<String>(
-                    labelText: s.exitTime,
-                    required: true,
-                    value: _endTime,
-                    items: getDropDownMenuItemsFromString(menuItems: times),
-                    onChanged: (final v) => setState(() => _endTime = v),
-                  ).expanded(),
-                ],
-              ),
-              const SizedBox(height: 18),
-              WSwitchForm(
-                value: _isNightShift,
-                icon: AppIcons.moonOutline,
-                title: s.nightShift,
-                onChanged: () {},
-              ),
-              const SizedBox(height: 4),
-              Text(s.nightShiftHelper).bodySmall(color: context.theme.hintColor),
-              const SizedBox(height: 12),
-              Text(s.breakText).titleMedium(color: context.theme.hintColor),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: WDropDownFormField<String>(
-                      labelText: s.start,
-                      value: _breakStartTime,
-                      required: _breakEndTime != null,
-                      items: getDropDownMenuItemsFromString(menuItems: times),
-                      onChanged: (final v) => setState(() => _breakStartTime = v),
-                    ),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      WDropDownFormField<String>(
+                        labelText: s.entryTime,
+                        required: true,
+                        value: _startTime,
+                        items: _timeDropdownItems,
+                        onChanged: (final v) => setState(() => _startTime = v),
+                      ).expanded(),
+                      WDropDownFormField<String>(
+                        labelText: s.exitTime,
+                        required: true,
+                        value: _endTime,
+                        items: _timeDropdownItems,
+                        onChanged: (final v) => setState(() => _endTime = v),
+                      ).expanded(),
+                    ],
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: WDropDownFormField<String>(
-                      labelText: s.end,
-                      value: _breakEndTime,
-                      required: _breakStartTime != null,
-                      items: getDropDownMenuItemsFromString(menuItems: times),
-                      onChanged: (final v) => setState(() => _breakEndTime = v),
-                    ),
+                  const SizedBox(height: 18),
+                  WSwitchForm(
+                    value: _isNightShift,
+                    icon: AppIcons.moonOutline,
+                    title: s.nightShift,
+                    onChanged: () {},
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(s.floatingTime).titleMedium(color: context.theme.hintColor),
-              const SizedBox(height: 10),
-              Row(
-                spacing: 10,
-                children: [
-                  WDropDownFormField<ShiftFlexibleTimeDuration>(
-                    labelText: s.entry,
-                    value: _flexibleStartTime,
-                    items: ShiftFlexibleTimeDuration.values
-                        .map(
-                          (final option) => DropdownMenuItem<ShiftFlexibleTimeDuration>(
+                  const SizedBox(height: 4),
+                  Text(s.nightShiftHelper).bodySmall(color: context.theme.hintColor),
+                  const SizedBox(height: 12),
+                  Text(s.breakText).titleMedium(color: context.theme.hintColor),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: WDropDownFormField<String>(
+                          labelText: s.start,
+                          value: _breakStartTime,
+                          required: _breakEndTime != null,
+                          items: _timeDropdownItems,
+                          onChanged: (final v) => setState(() => _breakStartTime = v),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: WDropDownFormField<String>(
+                          labelText: s.end,
+                          value: _breakEndTime,
+                          required: _breakStartTime != null,
+                          items: _timeDropdownItems,
+                          onChanged: (final v) => setState(() => _breakEndTime = v),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(s.floatingTime).titleMedium(color: context.theme.hintColor),
+                  const SizedBox(height: 10),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      WDropDownFormField<ShiftFlexibleTimeDuration>(
+                        labelText: s.entry,
+                        value: _flexibleStartTime,
+                        items: ShiftFlexibleTimeDuration.values
+                            .map(
+                              (final option) => DropdownMenuItem<ShiftFlexibleTimeDuration>(
                             value: option,
                             child: WDropdownItemText(
                               text: option.title,
                             ),
                           ),
                         )
-                        .toList(),
-                    onChanged: (final v) => _flexibleStartTime = v,
-                  ).expanded(),
-                  WDropDownFormField<ShiftFlexibleTimeDuration>(
-                    labelText: s.exit,
-                    value: _flexibleEndTime,
-                    items: ShiftFlexibleTimeDuration.values
-                        .map(
-                          (final option) => DropdownMenuItem<ShiftFlexibleTimeDuration>(
+                            .toList(),
+                        onChanged: (final v) => _flexibleStartTime = v,
+                      ).expanded(),
+                      WDropDownFormField<ShiftFlexibleTimeDuration>(
+                        labelText: s.exit,
+                        value: _flexibleEndTime,
+                        items: ShiftFlexibleTimeDuration.values
+                            .map(
+                              (final option) => DropdownMenuItem<ShiftFlexibleTimeDuration>(
                             value: option,
                             child: WDropdownItemText(
                               text: option.title,
                             ),
                           ),
                         )
-                        .toList(),
-                    onChanged: (final v) => _flexibleEndTime = v,
-                  ).expanded(),
-                ],
-              ),
-              const SizedBox(height: 32),
-              WDropDownFormField<AttendanceMethod>(
-                labelText: s.allowedAttendanceMethods,
-                value: _allowedMethod,
-                required: true,
-                showRequiredIcon: false,
-                items: AttendanceMethod.values
-                    .map(
-                      (final m) => DropdownMenuItem<AttendanceMethod>(
+                            .toList(),
+                        onChanged: (final v) => _flexibleEndTime = v,
+                      ).expanded(),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  WDropDownFormField<AttendanceMethod>(
+                    labelText: s.allowedAttendanceMethods,
+                    value: _allowedMethod,
+                    required: true,
+                    showRequiredIcon: false,
+                    items: AttendanceMethod.values
+                        .map(
+                          (final m) => DropdownMenuItem<AttendanceMethod>(
                         value: m,
                         child: WDropdownItemText(text: m.title),
                       ),
                     )
-                    .toList(),
-                onChanged: (final v) => setState(() => _allowedMethod = v),
+                        .toList(),
+                    onChanged: (final v) => setState(() => _allowedMethod = v),
+                  ),
+                ],
               ),
-              const SizedBox(height: 18),
+            ),
+            const SizedBox(height: 18),
 
-              // ----------------------------------------------------------------
-              // Repeat options
-              // ----------------------------------------------------------------
-              Text(s.repeatOptions).titleMedium(color: context.theme.hintColor),
+            // ----------------------------------------------------------------
+            // Repeat options
+            // ----------------------------------------------------------------
+            Text(s.repeatOptions).titleMedium(color: context.theme.hintColor),
+            const SizedBox(height: 10),
+            WDropDownFormField<WorkshiftRepeatType>(
+              labelText: s.repeatType,
+              value: _repeatType,
+              required: true,
+              showRequiredIcon: false,
+              items: _repeatTypeItems
+                  .map(
+                    (final t) => DropdownMenuItem<WorkshiftRepeatType>(
+                      value: t,
+                      child: WDropdownItemText(text: t.title),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (final v) {
+                if (v == null) return;
+                setState(() => _repeatType = v);
+                if (_repeatType != WorkshiftRepeatType.singleDay) {
+                  _scrollCtrl.animateTo(
+                    _scrollCtrl.position.maxScrollExtent,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 10),
+            if (_repeatType == WorkshiftRepeatType.weekly) ...[
+              Text(s.weeklyRepeatTypeHelper).bodySmall(color: context.theme.hintColor),
               const SizedBox(height: 10),
-              WDropDownFormField<WorkshiftRepeatType>(
-                labelText: s.repeatType,
-                value: _repeatType,
-                required: true,
-                showRequiredIcon: false,
-                items: _repeatTypeItems
-                    .map(
-                      (final t) => DropdownMenuItem<WorkshiftRepeatType>(
-                        value: t,
-                        child: WDropdownItemText(text: t.title),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (final v) {
-                  if (v == null) return;
-                  setState(() => _repeatType = v);
-                  if (_repeatType != WorkshiftRepeatType.singleDay) {
-                    _scrollCtrl.animateTo(
-                      _scrollCtrl.position.maxScrollExtent,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  }
-                },
+              DayOfWeekPicker(
+                selectedWeekdays: _weekdays,
+                onChanged: (final next) => setState(() => _weekdays = next),
               ),
-              const SizedBox(height: 10),
-              if (_repeatType == WorkshiftRepeatType.weekly) ...[
-                Text(s.weeklyRepeatTypeHelper).bodySmall(color: context.theme.hintColor),
-                const SizedBox(height: 10),
-                DayOfWeekPicker(
-                  selectedWeekdays: _weekdays,
-                  onChanged: (final next) => setState(() => _weekdays = next),
-                ),
-              ],
-              if (_repeatType == WorkshiftRepeatType.monthly) ...[
-                Text(s.monthlyRepeatTypeHelper).bodySmall(color: context.theme.hintColor),
-                const SizedBox(height: 10),
-                MonthlyDaysPicker(
-                  selectedDays: _monthlyDays,
-                  onChanged: (final next) => setState(() => _monthlyDays = next),
-                ),
-              ],
-              const SizedBox(height: 18),
             ],
-          ),
+            if (_repeatType == WorkshiftRepeatType.monthly) ...[
+              Text(s.monthlyRepeatTypeHelper).bodySmall(color: context.theme.hintColor),
+              const SizedBox(height: 10),
+              MonthlyDaysPicker(
+                selectedDays: _monthlyDays,
+                onChanged: (final next) => setState(() => _monthlyDays = next),
+              ),
+            ],
+            const SizedBox(height: 18),
+          ],
         ),
       ),
     );
   }
 
-  void _submit() {
-    validateForm(
-      key: _formKey,
-      action: () {
-        if (_startTime == null || _endTime == null) {
-          return AppNavigator.snackbarRed(title: s.error, subtitle: s.requiredField);
-        }
-        if ((_breakStartTime == null) != (_breakEndTime == null)) {
-          return AppNavigator.snackbarRed(
-            title: s.error,
-            subtitle: s.breakStartEndMustBothBeSet,
-          );
-        }
-        if (_allowedMethod == null) {
-          return AppNavigator.snackbarRed(
-            title: s.error,
-            subtitle: s.pickAtLeastOneAttendanceMethod,
-          );
-        }
-        if (_repeatType == WorkshiftRepeatType.weekly && _weekdays.isEmpty) {
-          return AppNavigator.snackbarRed(
-            title: s.error,
-            subtitle: s.pickAtLeastOneWeekday,
-          );
-        }
-        if (_repeatType == WorkshiftRepeatType.monthly && _monthlyDays.isEmpty) {
-          return AppNavigator.snackbarRed(
-            title: s.error,
-            subtitle: s.pickAtLeastOneDayOfMonth,
-          );
-        }
+  /// اعتبارسنجی تمام فیلدهای فرم
+  /// Returns null if validation passes, otherwise returns error message
+  String? _validateFormData() {
+    if (_startTime == null || _endTime == null) {
+      return s.requiredField;
+    }
+    if ((_breakStartTime == null) != (_breakEndTime == null)) {
+      return s.breakStartEndMustBothBeSet;
+    }
+    if (_allowedMethod == null) {
+      return s.pickAtLeastOneAttendanceMethod;
+    }
+    if (_repeatType == WorkshiftRepeatType.weekly && _weekdays.isEmpty) {
+      return s.pickAtLeastOneWeekday;
+    }
+    if (_repeatType == WorkshiftRepeatType.monthly && _monthlyDays.isEmpty) {
+      return s.pickAtLeastOneDayOfMonth;
+    }
+    return null; // اعتبارسنجی موفق
+  }
 
-        final shiftTypeParams = ShiftTypeParams(
-          title: _workshiftTitle,
-          startTime: _startTime!,
-          endTime: _endTime!,
-          color: _getSelectedColor,
-          breakStartTime: _breakStartTime,
-          breakEndTime: _breakEndTime,
-          flexibleStartTime: _flexibleStartTime,
-          flexibleEndTime: _flexibleEndTime,
-          allowedCheckInMethodList: <AttendanceMethod>[_allowedMethod!],
-          allowedCheckOutMethodList: <AttendanceMethod>[_allowedMethod!],
-        );
-
-        Navigator.of(context).pop(
-          DailyShiftRepeatPattern(
-            shiftTypeParams: shiftTypeParams,
-            repeatType: _repeatType,
-            weeklySelectedWeekdays: _repeatType == WorkshiftRepeatType.weekly ? _weekdays : <int>{},
-            monthlySelectedDays: _repeatType == WorkshiftRepeatType.monthly ? _monthlyDays : <int>{},
-          ),
-        );
-      },
+  /// ساخت ShiftTypeParams از داده‌های فرم
+  ShiftTypeParams _buildShiftTypeParams() {
+    return ShiftTypeParams(
+      title: _workshiftTitle,
+      startTime: _startTime!,
+      endTime: _endTime!,
+      color: _getSelectedColor,
+      breakStartTime: _breakStartTime,
+      breakEndTime: _breakEndTime,
+      flexibleStartTime: _flexibleStartTime,
+      flexibleEndTime: _flexibleEndTime,
+      allowedCheckInMethodList: <AttendanceMethod>[_allowedMethod!],
+      allowedCheckOutMethodList: <AttendanceMethod>[_allowedMethod!],
     );
+  }
+
+  /// ساخت DailyShiftRepeatPattern از داده‌های فرم
+  DailyShiftRepeatPattern _buildDailyShiftRepeatPattern(final ShiftTypeParams shiftTypeParams) {
+    return DailyShiftRepeatPattern(
+      shiftTypeParams: shiftTypeParams,
+      repeatType: _repeatType,
+      weeklySelectedWeekdays: _repeatType == WorkshiftRepeatType.weekly ? _weekdays : <int>{},
+      monthlySelectedDays: _repeatType == WorkshiftRepeatType.monthly ? _monthlyDays : <int>{},
+    );
+  }
+
+  /// متد اصلی submit - فقط هماهنگی بین اعتبارسنجی، ساخت مدل و ناوبری
+  void _submit() {
+    // validateForm(
+    //   key: _formKey,
+    //   action: () {
+    final isValid = _formKey.currentState!.validate();
+    if (isValid == false) return;
+    // اعتبارسنجی داده‌ها
+    final validationError = _validateFormData();
+    if (validationError != null) {
+      AppNavigator.snackbarRed(title: s.error, subtitle: validationError);
+      return;
+    }
+
+    // ساخت مدل‌ها
+    final shiftTypeParams = _buildShiftTypeParams();
+    final pattern = _buildDailyShiftRepeatPattern(shiftTypeParams);
+
+    // ناوبری
+    Navigator.of(context).pop(pattern);
+    //   },
+    // );
   }
 }

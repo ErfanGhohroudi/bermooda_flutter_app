@@ -5,7 +5,7 @@ class ShiftTypeReadDto extends Equatable {
   final String slug;
   final String title;
   final String? folderSlug;
-  final LabelColors? color;
+  final LabelColors color;
   final String startTime; // HH:MM
   final String endTime; // HH:MM
   final String? breakStartTime; // HH:MM
@@ -27,7 +27,7 @@ class ShiftTypeReadDto extends Equatable {
     required this.slug,
     required this.title,
     this.folderSlug,
-    this.color,
+    required this.color,
     required this.startTime,
     required this.endTime,
     this.breakStartTime,

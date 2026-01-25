@@ -97,6 +97,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                             final message = controller.messages[index];
                             final valueKey = message.id;
                             final isFeedbackMessage = message is FeedbackDto;
+                            final isSystemMessage = message is MessageDto && message.type == MessageType.system;
 
                             // Memoization برای محاسبات
                             final showFirstChatMessageDateSeparator = (index + 1) == controller.chatMessagesCount;
@@ -117,14 +118,18 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                                   if (showFirstChatMessageDateSeparator || showDateSeparator)
                                     _buildDataTimeSeparator(controller.messages, index),
 
-                                  /// Message Widget
-                                  AutoScrollTag(
-                                    key: ValueKey(valueKey),
-                                    controller: controller.scrollController,
-                                    index: index,
-                                    highlightColor: context.theme.hintColor.withAlpha(50),
-                                    child: isFeedbackMessage ? _buildFeedbackMessage(index) : _buildMessageWidget(index),
-                                  ),
+                                  if (isSystemMessage)
+                                    /// System Message
+                                    _buildSystemMessage(controller.messages, index)
+                                  else
+                                    /// Message Widget
+                                    AutoScrollTag(
+                                      key: ValueKey(valueKey),
+                                      controller: controller.scrollController,
+                                      index: index,
+                                      highlightColor: context.theme.hintColor.withAlpha(50),
+                                      child: isFeedbackMessage ? _buildFeedbackMessage(index) : _buildMessageWidget(index),
+                                    ),
                                 ],
                               ),
                             );
@@ -156,7 +161,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                           UElevatedButton(
                             width: (context.width / 2) - 50,
                             title: s.forward,
-                            icon: const Icon(CupertinoIcons.arrow_turn_up_right, size: 15, color: Colors.white),
+                            icon: const UImage(AppIcons.forward, size: 15, color: Colors.white),
                             onTap: controller.forwardSelectedMessages,
                           ),
                           if (controller.selectedMessageIds.length == 1)
@@ -310,6 +315,19 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
     ],
   ).marginOnly(bottom: 10);
 
+  Widget _buildSystemMessage(final List<MessageEntity> messagesList, final int index) {
+    final message = messagesList[index];
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
+      decoration: BoxDecoration(
+        color: context.theme.primaryColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Text(message.messageText ?? '').bodySmall(),
+    );
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
       preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -332,7 +350,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                 IconButton(
                   onPressed: controller.forwardSelectedMessages,
                   tooltip: s.forward,
-                  icon: const Icon(CupertinoIcons.arrow_turn_up_right, color: Colors.white),
+                  icon: const UImage(AppIcons.forward, color: Colors.white),
                 ),
                 IconButton(
                   onPressed: controller.deleteSelectedMessages,

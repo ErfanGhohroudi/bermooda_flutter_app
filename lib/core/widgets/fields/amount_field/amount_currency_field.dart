@@ -11,6 +11,7 @@ class WAmountCurrencyField extends StatelessWidget {
     // this.initialCurrency,
     this.required = false,
     this.showRequired,
+    this.onChanged,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class WAmountCurrencyField extends StatelessWidget {
   // final CurrencyUnitReadDto? initialCurrency;
   final bool required;
   final bool? showRequired;
+  final ValueChanged<String>? onChanged;
   // final Function(CurrencyUnitReadDto? currency) onChangedCurrency;
 
   @override
@@ -29,6 +31,7 @@ class WAmountCurrencyField extends StatelessWidget {
       currencyText: s.toman,
       required: required,
       showRequired: showRequired,
+      onChanged: onChanged,
     );
     // return Row(
     //   spacing: 10,

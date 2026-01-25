@@ -85,6 +85,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToDeleteProject": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این پروژه را حذف کنید؟",
     ),
+    "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
+      "آیا از حذف این انبار اطمینان دارید؟",
+    ),
     "areYouSureToRemoveMember": MessageLookupByLibrary.simpleMessage(
       "آیا از حذف (تعدیل، اخراج، اتمام قرارداد) این کاربر مطمئن هستید؟ دسترسی او به داشبورد فوراً قطع شده و تمام وظایف تخصیص‌داده‌شده به او باید به شخص دیگری واگذار شود.",
     ),
@@ -154,6 +157,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cannotMoveCompletedSteps": MessageLookupByLibrary.simpleMessage(
       "مراحل تکمیل شده قابل جابجایی نیستند.",
     ),
+    "capacity": MessageLookupByLibrary.simpleMessage("ظرفیت"),
     "cardNumber": MessageLookupByLibrary.simpleMessage("شماره کارت"),
     "caseTypeHelper": MessageLookupByLibrary.simpleMessage(
       "فایل برای مستندسازی و مدیریت روند پرونده‌ها استفاده می‌شود.",
@@ -189,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeTaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "وضعیت وظیفه به \'انجام شده\' تغییر کند؟",
     ),
+    "changes": MessageLookupByLibrary.simpleMessage("تغییرات"),
     "changesSaved": MessageLookupByLibrary.simpleMessage("تغییرات ذخیره شد."),
     "checkIn": MessageLookupByLibrary.simpleMessage("ثبت ورود"),
     "checkOut": MessageLookupByLibrary.simpleMessage("ثبت خروج"),
@@ -243,6 +248,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "copyText": MessageLookupByLibrary.simpleMessage("کپی کردن متن"),
     "correspondence": MessageLookupByLibrary.simpleMessage("مکاتبات اداری"),
+    "count": MessageLookupByLibrary.simpleMessage("تعداد"),
     "countOfCharactersRequired": MessageLookupByLibrary.simpleMessage(
       "حداقل # کاراکتر الزامی است",
     ),
@@ -395,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "editSignatory": MessageLookupByLibrary.simpleMessage("ویرایش امضاکننده"),
     "editSubtask": MessageLookupByLibrary.simpleMessage("ویرایش زیر وظیفه"),
     "editTask": MessageLookupByLibrary.simpleMessage("ویرایش وظیفه"),
+    "editWarehouse": MessageLookupByLibrary.simpleMessage("ویرایش انبار"),
     "edited": MessageLookupByLibrary.simpleMessage("ویرایش شده"),
     "educationInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تحصیلی"),
     "educationalDegree": MessageLookupByLibrary.simpleMessage("مدرک تحصیلی"),
@@ -600,9 +607,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "inviteMembers": MessageLookupByLibrary.simpleMessage("دعوت اعضا"),
     "invoice": MessageLookupByLibrary.simpleMessage("فاکتور"),
+    "invoiceDetails": MessageLookupByLibrary.simpleMessage("جزئیات فاکتور"),
     "invoiceId": MessageLookupByLibrary.simpleMessage("شناسه فاکتور"),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("شماره فاکتور"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("نوع فاکتور"),
+    "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("عدد / کیلوگرم"),
     "invoices": MessageLookupByLibrary.simpleMessage("فاکتور ها"),
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "شماره شبا ایران باید ۲۶ کاراکتر باشد.",
@@ -765,6 +774,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "newSubtask": MessageLookupByLibrary.simpleMessage("زیر وظیفه جدید"),
     "newTask": MessageLookupByLibrary.simpleMessage("وظیفه جدید"),
     "newValue": MessageLookupByLibrary.simpleMessage("مقدار جدید"),
+    "newWarehouse": MessageLookupByLibrary.simpleMessage("انبار جدید"),
     "newWorkShift": MessageLookupByLibrary.simpleMessage("شیفت کاری جدید"),
     "newWorkspace": MessageLookupByLibrary.simpleMessage("کسب‌وکار جدید"),
     "neww": MessageLookupByLibrary.simpleMessage("جدید"),
@@ -856,7 +866,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "کد 6 رقمی ارسال شده به (#) را وارد کنید.",
     ),
     "overallStatistics": MessageLookupByLibrary.simpleMessage("آمار کلی"),
-    "overdue": MessageLookupByLibrary.simpleMessage("تاخیر دار"),
+    "overdue": MessageLookupByLibrary.simpleMessage("تاخیر ها"),
     "overdueFollowups": MessageLookupByLibrary.simpleMessage(
       "پیگیری‌های دارای تاخیر",
     ),
@@ -911,6 +921,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pin": MessageLookupByLibrary.simpleMessage("سنجاق کردن"),
     "planning": MessageLookupByLibrary.simpleMessage("برنامه ریزی"),
+    "pleaseAddAtLeastOneProduct": MessageLookupByLibrary.simpleMessage(
+      "Please add at least one product",
+    ),
     "pleaseSelectAtLeastOneConversation": MessageLookupByLibrary.simpleMessage(
       "لطفاً حداقل یک گفتگو انتخاب کنید",
     ),
@@ -933,6 +946,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "priceSummary": MessageLookupByLibrary.simpleMessage("خلاصه قیمت"),
     "priority": MessageLookupByLibrary.simpleMessage("اولویت"),
     "problemDate": MessageLookupByLibrary.simpleMessage("تاریخ بروز مشکل"),
+    "productCode": MessageLookupByLibrary.simpleMessage("کد کالا"),
+    "productsOrServices": MessageLookupByLibrary.simpleMessage("کالا یا خدمات"),
     "profile": MessageLookupByLibrary.simpleMessage("پروفایل"),
     "progressStatus": MessageLookupByLibrary.simpleMessage("وضعیت پیشرفت"),
     "project": MessageLookupByLibrary.simpleMessage("پروژه"),
@@ -1214,6 +1229,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "task": MessageLookupByLibrary.simpleMessage("وظیفه"),
     "tasks": MessageLookupByLibrary.simpleMessage("وظایف"),
+    "tax": MessageLookupByLibrary.simpleMessage("مالیات"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("مهارت‌های تخصصی"),
     "theme": MessageLookupByLibrary.simpleMessage("تغییر تم"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
@@ -1269,9 +1285,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "unableOpenLink": MessageLookupByLibrary.simpleMessage(
       "امکان باز کردن لینک وجود ندارد.",
     ),
+    "unit": MessageLookupByLibrary.simpleMessage("واحد اندازه گیری"),
     "unitExample": MessageLookupByLibrary.simpleMessage(
       "مثلاً: فروش، توسعه محصول، پشتیبانی",
     ),
+    "unitPrice": MessageLookupByLibrary.simpleMessage("قیمت واحد"),
     "unlabeled": MessageLookupByLibrary.simpleMessage("بدون برچسب"),
     "unpin": MessageLookupByLibrary.simpleMessage("برداشتن سنجاق"),
     "unscheduled": MessageLookupByLibrary.simpleMessage("بدون زمان"),
@@ -1335,6 +1353,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToSubmitSignature": MessageLookupByLibrary.simpleMessage(
       "امضا ثبت شود؟\n * پس از ثبت امضا امکان ویرایش وجود ندارد.",
     ),
+    "warehouse": MessageLookupByLibrary.simpleMessage("انبارداری"),
+    "warehouseCode": MessageLookupByLibrary.simpleMessage("کد انبار"),
+    "warehouses": MessageLookupByLibrary.simpleMessage("انبارها"),
     "warning": MessageLookupByLibrary.simpleMessage("هشدار"),
     "website": MessageLookupByLibrary.simpleMessage("وبسایت"),
     "weekDays": MessageLookupByLibrary.simpleMessage("روزهای هفته"),

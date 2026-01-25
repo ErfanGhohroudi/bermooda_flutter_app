@@ -11,6 +11,7 @@ class WPlusMinusField extends StatefulWidget {
     this.labelText,
     this.range = 1,
     this.defaultValue = 0,
+    this.min = 0,
     this.max = 999999999,
     this.maximumColor,
     this.minimumColor,
@@ -28,6 +29,7 @@ class WPlusMinusField extends StatefulWidget {
   final Function(int value)? onDecrease;
   final int range;
   final int defaultValue;
+  final int min;
   final int max;
   final Color? maximumColor;
   final Color? minimumColor;
@@ -69,7 +71,7 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
 
   void decreaseAmount() {
     FocusManager.instance.primaryFocus?.unfocus();
-    if (currentAmount > widget.range - 1 && widget.enable) {
+    if (currentAmount > widget.min && currentAmount > widget.range - 1 && widget.enable) {
       setState(() {
         currentAmountController.text = (currentAmount - widget.range).toString().separateNumbers3By3();
       });
@@ -103,6 +105,9 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
         return null;
       },
       onChanged: (final value) {
+        if (currentAmount < widget.min) {
+          currentAmountController.text = widget.min.toString();
+        }
         if (currentAmount > widget.max) {
           currentAmountController.text = widget.max.toString();
         }
@@ -116,30 +121,34 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
   }
 
   Widget _addButton() => Center(
-        widthFactor: 1,
-        heightFactor: 1,
-        child: GestureDetector(
-          onTap: increaseAmount,
-          child: widget.addWidget ??
-              UImage(
-                AppIcons.addSquareOutline,
-                color: currentAmount < widget.max ? context.theme.primaryColor : widget.maximumColor ?? context.theme.hintColor,
-                size: 25,
-              ),
-        ),
-      );
+    widthFactor: 1,
+    heightFactor: 1,
+    child: GestureDetector(
+      onTap: increaseAmount,
+      child:
+          widget.addWidget ??
+          UImage(
+            AppIcons.addSquareOutline,
+            color: currentAmount < widget.max ? context.theme.primaryColor : widget.maximumColor ?? context.theme.hintColor,
+            size: 25,
+          ),
+    ),
+  );
 
   Widget _minusButton() => Center(
-        widthFactor: 1,
-        heightFactor: 1,
-        child: GestureDetector(
-          onTap: decreaseAmount,
-          child: widget.minusWidget ??
-              UImage(
-                AppIcons.minusSquareOutline,
-                color: currentAmount > 0 ? AppColors.red : widget.minimumColor ?? context.theme.hintColor,
-                size: 25,
-              ),
-        ),
-      );
+    widthFactor: 1,
+    heightFactor: 1,
+    child: GestureDetector(
+      onTap: decreaseAmount,
+      child:
+          widget.minusWidget ??
+          UImage(
+            AppIcons.minusSquareOutline,
+            color: currentAmount > widget.min && currentAmount > 0
+                ? AppColors.red
+                : widget.minimumColor ?? context.theme.hintColor,
+            size: 25,
+          ),
+    ),
+  );
 }

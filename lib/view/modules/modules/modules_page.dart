@@ -11,18 +11,26 @@ import '../letter/letters/list/letters_list_page.dart';
 import '../members/members_management_page.dart';
 import '../project/list/project_list_page.dart';
 import '../requests/request_main_page.dart';
+import '../warehouse/presentation/pages/warehouse_list_page.dart';
 import 'modules_controller.dart';
 import 'widgets/module_card/module_card.dart';
 import 'widgets/module_grid/expandable_modules_grid.dart';
 
 class ModulesPage extends StatefulWidget {
-  const ModulesPage({super.key});
+  const ModulesPage({
+    this.isBottomSheet = false,
+    super.key,
+  });
+
+  final bool isBottomSheet;
 
   @override
   State<ModulesPage> createState() => _ModulesPageState();
 }
 
 class _ModulesPageState extends State<ModulesPage> with ModulesController {
+  bool get isBottomSheet => widget.isBottomSheet;
+
   @override
   void initState() {
     // fetchAllData();
@@ -39,49 +47,67 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
   Widget build(final BuildContext context) {
     final modules = _getModules();
 
-    return UScaffold(
-      body: modules.isEmpty
-          ? Center(
-              child: Text(s.notActiveModules).titleMedium(),
-            )
-          : WSmartRefresher(
-              enablePullDown: true,
-              onRefresh: fetchAllData,
-              enablePullUp: false,
-              controller: refreshController,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
+    return isBottomSheet
+        ? (modules.isEmpty
+              ? SizedBox(
+                  height: context.height * 0.4,
+                  child: Center(
+                    child: Text(s.notActiveModules).titleMedium(),
+                  ),
+                )
+              : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // if (core.bannerUrls.isNotEmpty)
-                    //   WBannerSlider(
-                    //     imageUrls: core.bannerUrls,
-                    //   ),
-                    // const SizedBox(height: 26),
                     if (isWorkspaceOwner && (subIsNoPurchased || subIsExpired || subWillExpiringSoon)) ...[
                       _subscriptionStatus(),
                       const SizedBox(height: 12),
                     ],
-                    WExpandableCardGrid(modules: modules).paddingSymmetric(horizontal: 16).marginOnly(bottom: 8, top: 12),
-                    // Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   spacing: 18,
-                    //   children: [
-                    //     WNotices(
-                    //       notices: notices,
-                    //       listState: noticesState,
-                    //       onPressedAddButton: () => bottomSheet(
-                    //         child: Container(),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ).pSymmetric(horizontal: 16),
+                    WExpandableCardGrid(modules: modules).marginOnly(bottom: 8, top: 12),
                   ],
-                ),
-              ),
-            ),
-    );
+                ).marginOnly(bottom: 24))
+        : UScaffold(
+            body: modules.isEmpty
+                ? Center(
+                    child: Text(s.notActiveModules).titleMedium(),
+                  )
+                : WSmartRefresher(
+                    enablePullDown: true,
+                    onRefresh: fetchAllData,
+                    enablePullUp: false,
+                    controller: refreshController,
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // if (core.bannerUrls.isNotEmpty)
+                          //   WBannerSlider(
+                          //     imageUrls: core.bannerUrls,
+                          //   ),
+                          // const SizedBox(height: 26),
+                          if (isWorkspaceOwner && (subIsNoPurchased || subIsExpired || subWillExpiringSoon)) ...[
+                            _subscriptionStatus().pSymmetric(horizontal: 16),
+                            const SizedBox(height: 12),
+                          ],
+                          WExpandableCardGrid(modules: modules).paddingSymmetric(horizontal: 16).marginOnly(bottom: 8, top: 12),
+                          // Column(
+                          //   mainAxisSize: MainAxisSize.min,
+                          //   spacing: 18,
+                          //   children: [
+                          //     WNotices(
+                          //       notices: notices,
+                          //       listState: noticesState,
+                          //       onPressedAddButton: () => bottomSheet(
+                          //         child: Container(),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ).pSymmetric(horizontal: 16),
+                        ],
+                      ),
+                    ),
+                  ),
+          );
   }
 
   List<WModuleCard> _getModules() => [
@@ -89,18 +115,21 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
       WModuleCard(
         title: s.staffManagement,
         icon: AppIcons.staffManagementModule,
+        isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const MembersManagementPage()),
       ),
     if (subService.projectModuleIsActive && perService.haveProjectAccess)
       WModuleCard(
         title: s.project,
         icon: AppIcons.projectModule,
+        isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const ProjectListPage()),
       ),
     if (subService.crmModuleIsActive && perService.haveCRMAccess)
       WModuleCard(
         title: s.customers,
         icon: AppIcons.crmModule,
+        isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const CrmCategoriesListPage()),
       ),
     if (subService.hrModuleIsActive) ...[
@@ -108,12 +137,14 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         WModuleCard(
           title: s.humanResources,
           icon: AppIcons.humanResourceModule,
+          isBottomSheet: isBottomSheet,
           onTap: () => UNavigator.push(const HrDepartmentsListPage()),
         ),
       if (subService.requestsModuleIsActive)
         WModuleCard(
           title: s.requests,
           icon: AppIcons.requestModule,
+          isBottomSheet: isBottomSheet,
           onTap: () => UNavigator.push(const RequestMainPage()),
         ),
     ],
@@ -121,6 +152,7 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
       WModuleCard(
         title: s.legal,
         icon: AppIcons.legalModule,
+        isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const LegalDepartmentListPage()),
       ),
     if (AppConfig.instance.isDevelopment)
@@ -128,37 +160,43 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
       WModuleCard(
         title: s.correspondence,
         icon: AppIcons.mailColor,
+        isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const LettersListPage()),
       ),
     if (subService.employmentModuleIsActive && false)
       WModuleCard(
         title: s.employment,
         icon: AppIcons.employmentModule,
+        isBottomSheet: isBottomSheet,
         onTap: () {},
       ),
-    if (false)
+    if (AppConfig.instance.isDevelopment)
       WModuleCard(
-        title: 'انبارداری',
+        title: s.warehouse,
         icon: AppIcons.warehouseModule,
-        onTap: () {},
+        isBottomSheet: isBottomSheet,
+        onTap: () => UNavigator.push(const WarehouseListPage()),
       ),
-    if (subService.marketingModuleIsActive)
+    if (subService.marketingModuleIsActive && AppConfig.instance.isDevelopment)
       // if (subService.marketingModuleIsActive && perService.haveMarketingAccess)
       WModuleCard(
         title: s.marketing,
         icon: AppIcons.marketingModule,
+        isBottomSheet: isBottomSheet,
         onTap: () {},
       ),
     if (false)
       WModuleCard(
         title: 'اسناد من',
         icon: AppIcons.myDocsModule,
+        isBottomSheet: isBottomSheet,
         onTap: () {},
       ),
     if (false)
       WModuleCard(
         title: s.support,
         icon: AppIcons.supportModule,
+        isBottomSheet: isBottomSheet,
         onTap: () {},
       ),
   ];
@@ -185,6 +223,6 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
           Text(subIsNoPurchased ? subIsNoPurchasedText : subStatus.title).bodySmall(color: context.theme.hintColor),
         ],
       ),
-    ).pSymmetric(horizontal: 16);
+    );
   }
 }

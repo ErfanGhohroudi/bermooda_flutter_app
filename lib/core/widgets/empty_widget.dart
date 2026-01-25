@@ -11,6 +11,7 @@ class WEmptyWidget extends StatelessWidget {
     this.buttonIcon,
     this.onTapButton,
     this.buttonWidth,
+    this.iconSize = 130,
   });
 
   final String? title;
@@ -21,13 +22,14 @@ class WEmptyWidget extends StatelessWidget {
   final Widget? buttonIcon;
   final VoidCallback? onTapButton;
   final double? buttonWidth;
+  final double iconSize;
 
   @override
   Widget build(final BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const UImage(AppLottie.emptyList, size: 130),
+        UImage(AppLottie.emptyList, size: iconSize),
         Text(title ?? s.listIsEmpty).bodyMedium(color: titleColor),
         if (showUploadButton)
           UElevatedButton(

@@ -64,13 +64,13 @@ abstract class ShiftOverlapChecker {
   /// این تابع شیفت‌های remote از کل ماه‌های سال و همچنین draftShifts را
   /// در یک Map ترکیب می‌کند تا بتوان تداخل را برای کل سال بررسی کرد.
   static Map<String, Set<String>> buildYearAssignmentsMap({
-    required final YearShiftReadDto yearShift,
+    required final List<MonthShiftReadDto>? yearMonths,
     required final Set<DailyShiftParams> draftShifts,
   }) {
     final Map<String, Set<String>> result = {};
 
     // 1. از شیفت‌های remote (کل ماه‌های سال)
-    for (final month in yearShift.months ?? <MonthShiftReadDto>[]) {
+    for (final month in yearMonths ?? <MonthShiftReadDto>[]) {
       for (final day in month.days ?? <DailyShiftReadDto>[]) {
         final dayKey = _normalizeDayKey(day.dayDate);
         result.putIfAbsent(dayKey, () => <String>{});

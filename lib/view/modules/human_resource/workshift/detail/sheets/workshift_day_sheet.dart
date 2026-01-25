@@ -99,6 +99,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
                       day: widget.day,
                       dayKey: widget.dayKey,
                       nightShiftSegment: NightShiftSegment.end,
+                      onEdit: () => _editShiftTypeFlow(st.slug),
                     );
                   }),
                   // Today's shifts
@@ -112,6 +113,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
                       day: widget.day,
                       dayKey: widget.dayKey,
                       nightShiftSegment: _isNightShift(st) ? NightShiftSegment.start : null,
+                      onEdit: () => _editShiftTypeFlow(st.slug),
                     );
                   }),
                 ],
@@ -133,20 +135,19 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
     );
 
     // If user dismissed: keep previous behavior (create year + navigate).
-    if (pattern == null) return;
+    if (pattern == null) {
+      _lastPattern = null;
+      return;
+    }
 
     // Save pattern for potential retry
     _lastPattern = pattern;
-
-    final yearShift = controller.selectedYearShift.value;
-    if (yearShift == null) return;
 
     AppLoading.showLoading();
     try {
       // ابتدا روزهای تارگت را تولید می‌کنیم (بدون slug شیفت تایپ)
       final List<DailyShiftParams> targetDays = await _generateTargetDaysForOverlapCheck(
         pattern: pattern,
-        yearShift: yearShift,
       );
 
       if (targetDays.isEmpty) {
@@ -154,9 +155,10 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
         return;
       }
 
+      final yearMonths = controller.selectedYearShift.value?.months;
       // ساخت Map شیفت‌های کل سال (remote + draft)
       final yearAssignments = ShiftOverlapChecker.buildYearAssignmentsMap(
-        yearShift: yearShift,
+        yearMonths: yearMonths,
         draftShifts: controller.draftShifts,
       );
 
@@ -240,6 +242,28 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
   }
 
   Future<void> _editShiftTypeFlow(final String targetSlug) async {
+    final st = controller.shiftTypeRegistry[targetSlug];
+    if (st == null) return;
+
+    // Initial Form Pattern
+    _lastPattern = DailyShiftRepeatPattern(
+      shiftTypeParams: ShiftTypeParams(
+        title: st.title,
+        startTime: st.startTime,
+        endTime: st.endTime,
+        color: st.color,
+        allowedCheckInMethodList: st.allowedCheckInMethodList,
+        allowedCheckOutMethodList: st.allowedCheckOutMethodList,
+        breakStartTime: st.breakStartTime,
+        breakEndTime: st.breakEndTime,
+        flexibleStartTime: st.flexibleStartTime,
+        flexibleEndTime: st.flexibleEndTime,
+      ),
+      repeatType: WorkshiftRepeatType.singleDay,
+      weeklySelectedWeekdays: <int>{},
+      monthlySelectedDays: <int>{},
+    );
+
     final pattern = await bottomSheetWithNoScroll<DailyShiftRepeatPattern>(
       title: s.addShift,
       child: DailyShiftRepeatPatternSheet(
@@ -249,20 +273,19 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
     );
 
     // If user dismissed: keep previous behavior (create year + navigate).
-    if (pattern == null) return;
+    if (pattern == null) {
+      _lastPattern = null;
+      return;
+    }
 
     // Save pattern for potential retry
     _lastPattern = pattern;
-
-    final yearShift = controller.selectedYearShift.value;
-    if (yearShift == null) return;
 
     AppLoading.showLoading();
     try {
       // ابتدا روزهای تارگت را تولید می‌کنیم (بدون slug شیفت تایپ)
       final List<DailyShiftParams> targetDays = await _generateTargetDaysForOverlapCheck(
         pattern: pattern,
-        yearShift: yearShift,
       );
 
       if (targetDays.isEmpty) {
@@ -270,9 +293,10 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
         return;
       }
 
+      final yearMonths = controller.selectedYearShift.value?.months;
       // ساخت Map شیفت‌های کل سال (remote + draft)
       final yearAssignments = ShiftOverlapChecker.buildYearAssignmentsMap(
-        yearShift: yearShift,
+        yearMonths: yearMonths,
         draftShifts: controller.draftShifts,
       );
 
@@ -309,46 +333,52 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       // ایجاد شیفت تایپ فقط در صورت وجود روزهای معتبر
       final shiftType = await controller.createShiftTypeAsync(pattern.shiftTypeParams);
 
-      // todo: بررسی اینکه شیفت تایپ تارگت در draft است یا نه.
-      // todo: اگر در draft بود تغییرات لوکال باشد.
-      // todo: اگر نبود باید درخواست بزنی و در ریسپانس فقط توی remoteDailyByDate جایگزین کنیم.
-      // todo: rebuild assignmentsByDate
+      final validDays = overlapResult.validDays;
+      final anyDraft = validDays.any(
+        (final d) => controller.isShiftTypeInDraftOnly(
+          targetSlug,
+          controller.getDayKeyFromDayDate(d.dayDate),
+        ),
+      );
 
-      // فقط روزهای بدون تداخل را اعمال کن
-      // Merge new shift with existing drafts for the same day
-      for (final day in overlapResult.validDays) {
-        final existingDraft = controller.draftShifts.firstWhereOrNull(
-          (final d) => d.dayDate == day.dayDate,
-        );
-
-        if (existingDraft != null) {
-          // Remove old entry and add merged one
-          controller.draftShifts.remove(existingDraft);
-          final mergedSlugs = <String>[
-            ...?existingDraft.shiftTypeSlugList,
-            shiftType.slug,
-          ];
-          controller.draftShifts.add(
-            DailyShiftParams(
-              dayDate: day.dayDate,
-              isHoliday: day.isHoliday,
-              isInMonth: day.isInMonth,
-              shiftTypeSlugList: mergedSlugs,
-            ),
+      if (anyDraft) {
+        for (final day in validDays) {
+          final dayKey = controller.getDayKeyFromDayDate(day.dayDate);
+          if (!controller.isShiftTypeInDraftOnly(targetSlug, dayKey)) continue;
+          final existingDraft = controller.draftShifts.firstWhereOrNull(
+            (final d) => d.dayDate == day.dayDate,
           );
-        } else {
-          // No existing draft, add new one
+          if (existingDraft == null) continue;
+          controller.draftShifts.remove(existingDraft);
+          final slugs = <String>[...?existingDraft.shiftTypeSlugList];
+          slugs.remove(targetSlug);
+          slugs.add(shiftType.slug);
           controller.draftShifts.add(
             DailyShiftParams(
               dayDate: day.dayDate,
               isHoliday: day.isHoliday,
               isInMonth: day.isInMonth,
-              shiftTypeSlugList: <String>[shiftType.slug],
+              shiftTypeSlugList: slugs,
             ),
           );
         }
+        controller.draftShifts.refresh();
+      } else {
+        final daysDatesJalali = validDays.map((final d) => d.dayDate).toList(); // [yyyy-mm-dd] Jalali
+        final success = await controller.replaceShiftTypeForDays(
+          oldShiftTypeSlug: targetSlug,
+          newShiftTypeSlug: shiftType.slug,
+          daysDates: daysDatesJalali,
+          newShiftType: shiftType,
+        );
+
+        if (success == false) {
+          AppLoading.dismissLoading();
+          AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+          // Retry with last pattern
+          _editShiftTypeFlow(targetSlug);
+        }
       }
-      controller.draftShifts.refresh();
 
       // Clear last pattern on success
       _lastPattern = null;
@@ -358,16 +388,15 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       AppLoading.dismissLoading();
       AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
-      _addShiftTypeFlow();
+      _editShiftTypeFlow(targetSlug);
     }
   }
 
   /// تولید لیست روزهای تارگت بدون slug شیفت تایپ (برای بررسی تداخل)
   Future<List<DailyShiftParams>> _generateTargetDaysForOverlapCheck({
     required final DailyShiftRepeatPattern pattern,
-    required final YearShiftReadDto yearShift,
   }) async {
-    final year = yearShift.year;
+    final year = controller.selectedJalaliMonth.value.year;
     final startDate = widget.day;
     final endOfYear = Jalali(year, 12, Jalali(year, 12, 1).monthLength);
 

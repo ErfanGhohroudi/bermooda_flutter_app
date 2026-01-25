@@ -114,4 +114,34 @@ class ShiftTypeDatasource {
     }
     AppLoading.dismissLoading();
   }
+
+  void replaceInDays({
+    required final String oldSlug,
+    required final String newSlug,
+    required final String workshiftSlug,
+    required final List<String> daysDates,
+    required final Function() onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    try {
+      final response = await _apiClient.post(
+        "/v1/HumanResourcesManager/ShiftTypeManager/$oldSlug/BulkReplace/",
+        data: {
+          "workshift_slug": workshiftSlug,
+          "new_shift_type_slug": newSlug,
+          "day_dates": daysDates,
+        },
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse();
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+  }
 }

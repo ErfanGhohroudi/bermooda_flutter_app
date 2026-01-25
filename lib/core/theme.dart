@@ -4,7 +4,8 @@ import 'package:u/utilities.dart';
 import 'constants.dart';
 
 abstract class AppColors {
-  static const Color primaryColor = Color(0xff516BFC);
+  static const Color primaryColor = Color(0xff5d53e4);
+  // static const Color primaryColor = Color(0xff516BFC);
   static const Color red = Color(0xffFF1249);
   static const Color yellow = Color(0xffFFFC31);
   static const Color green = Color(0xff41B40D);
@@ -216,7 +217,7 @@ abstract class AppThemes {
     );
   }
 
-  static ThemeData darkTheme({Locale? locale}) {
+  static ThemeData darkTheme({final Locale? locale}) {
     final currentLocale = locale ?? Get.locale ?? defaultLocale;
     final isPersian = currentLocale.languageCode == "fa";
 
@@ -463,6 +464,7 @@ abstract class AppIcons {
   static const String externalMeeting = "$_base/external_meeting.svg";
   static const String fileOutline = "$_base/file_outline.svg";
   static const String filter = "$_base/filter.svg";
+  static const String forward = "$_base/forward.svg";
   static const String forwardMessage = "$_base/forward_message.svg";
   static const String galleryOutline = "$_base/gallery_outline.svg";
   static const String groupOutline = "$_base/group_outline.svg";
@@ -493,6 +495,9 @@ abstract class AppIcons {
   static const String onlineMeeting = "$_base/online_meeting.svg";
   static const String pendingListOutline = "$_base/pending_list_outline.svg";
   static const String personalPlan = "$_base/personal_plan.svg";
+  static const String pin = "$_base/pin.svg";
+  static const String pinOffOutline = "$_base/pin_off_outline.svg";
+  static const String pinOutline = "$_base/pin_outline.svg";
   static const String presenceOutline = "$_base/presence_outline.svg";
   static const String progressStatusOutline = "$_base/progress_status_outline.svg";
   static const String projectModule = "$_base/project_module.svg";
@@ -524,6 +529,7 @@ abstract class AppIcons {
   static const String walletOutline = "$_base/wallet_outline.svg";
   static const String warehouseModule = "$_base/warehouse_module.svg";
   static const String warningOutline = "$_base/warning_outline.svg";
+  static const String workshift = "$_base/workshift.svg";
 }
 
 abstract class AppLottie {

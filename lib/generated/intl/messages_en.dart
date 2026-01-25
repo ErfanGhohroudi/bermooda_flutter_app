@@ -87,6 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToDeleteProject": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this project?",
     ),
+    "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this warehouse?",
+    ),
     "areYouSureToRemoveMember": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to remove this user? They will immediately lose access to the dashboard, and their assigned tasks will need to be reassigned.",
     ),
@@ -156,6 +159,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "cannotMoveCompletedSteps": MessageLookupByLibrary.simpleMessage(
       "Cannot move completed steps.",
     ),
+    "capacity": MessageLookupByLibrary.simpleMessage("Capacity"),
     "cardNumber": MessageLookupByLibrary.simpleMessage("Card Number"),
     "caseTypeHelper": MessageLookupByLibrary.simpleMessage(
       "The file is used for case documentation and workflow management.",
@@ -189,6 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeTaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "Change task status to \'Done\'?",
     ),
+    "changes": MessageLookupByLibrary.simpleMessage("Changes"),
     "changesSaved": MessageLookupByLibrary.simpleMessage("Changes saved."),
     "checkIn": MessageLookupByLibrary.simpleMessage("Clock-in"),
     "checkOut": MessageLookupByLibrary.simpleMessage("Clock-out"),
@@ -247,6 +252,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "copyText": MessageLookupByLibrary.simpleMessage("Copy Text"),
     "correspondence": MessageLookupByLibrary.simpleMessage("Correspondence"),
+    "count": MessageLookupByLibrary.simpleMessage("Count"),
     "countOfCharactersRequired": MessageLookupByLibrary.simpleMessage(
       "At least # characters required",
     ),
@@ -401,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "editSignatory": MessageLookupByLibrary.simpleMessage("Edit Signatory"),
     "editSubtask": MessageLookupByLibrary.simpleMessage("Edit Subtask"),
     "editTask": MessageLookupByLibrary.simpleMessage("Edit Task"),
+    "editWarehouse": MessageLookupByLibrary.simpleMessage("Edit Warehouse"),
     "edited": MessageLookupByLibrary.simpleMessage("Edited"),
     "educationInfo": MessageLookupByLibrary.simpleMessage("Education Info"),
     "educationalDegree": MessageLookupByLibrary.simpleMessage(
@@ -598,9 +605,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "inviteMembers": MessageLookupByLibrary.simpleMessage("Invite Members"),
     "invoice": MessageLookupByLibrary.simpleMessage("Invoice"),
+    "invoiceDetails": MessageLookupByLibrary.simpleMessage("Invoice Details"),
     "invoiceId": MessageLookupByLibrary.simpleMessage("Invoice ID"),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("Invoice Number"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("Invoice Type"),
+    "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("Qty / kg"),
     "invoices": MessageLookupByLibrary.simpleMessage("Invoices"),
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "Iran\'s IBAN number must be 26 characters long.",
@@ -774,6 +783,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "newSubtask": MessageLookupByLibrary.simpleMessage("New Subtask"),
     "newTask": MessageLookupByLibrary.simpleMessage("New Task"),
     "newValue": MessageLookupByLibrary.simpleMessage("New Value"),
+    "newWarehouse": MessageLookupByLibrary.simpleMessage("New Warehouse"),
     "newWorkShift": MessageLookupByLibrary.simpleMessage("New WorkShift"),
     "newWorkspace": MessageLookupByLibrary.simpleMessage("New Workspace"),
     "neww": MessageLookupByLibrary.simpleMessage("New"),
@@ -926,6 +936,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pin": MessageLookupByLibrary.simpleMessage("Pin"),
     "planning": MessageLookupByLibrary.simpleMessage("Planning"),
+    "pleaseAddAtLeastOneProduct": MessageLookupByLibrary.simpleMessage(
+      "Please add at least one product",
+    ),
     "pleaseSelectAtLeastOneConversation": MessageLookupByLibrary.simpleMessage(
       "Please select at least one conversation",
     ),
@@ -948,6 +961,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "priceSummary": MessageLookupByLibrary.simpleMessage("Price Summary"),
     "priority": MessageLookupByLibrary.simpleMessage("Priority"),
     "problemDate": MessageLookupByLibrary.simpleMessage("Problem Date"),
+    "productCode": MessageLookupByLibrary.simpleMessage("Product Code"),
+    "productsOrServices": MessageLookupByLibrary.simpleMessage("Products"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progressStatus": MessageLookupByLibrary.simpleMessage("Progress Status"),
     "project": MessageLookupByLibrary.simpleMessage("Project"),
@@ -1241,6 +1256,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "task": MessageLookupByLibrary.simpleMessage("Task"),
     "tasks": MessageLookupByLibrary.simpleMessage("Tasks"),
+    "tax": MessageLookupByLibrary.simpleMessage("Tax"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("Technical Skills"),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
@@ -1296,9 +1312,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "unableOpenLink": MessageLookupByLibrary.simpleMessage(
       "Unable to open the link.",
     ),
+    "unit": MessageLookupByLibrary.simpleMessage("Unit"),
     "unitExample": MessageLookupByLibrary.simpleMessage(
       "e.g.: Sales, Product Development, Support",
     ),
+    "unitPrice": MessageLookupByLibrary.simpleMessage("Unit Price"),
     "unlabeled": MessageLookupByLibrary.simpleMessage("Unlabeled"),
     "unpin": MessageLookupByLibrary.simpleMessage("Unpin"),
     "unscheduled": MessageLookupByLibrary.simpleMessage("Unscheduled"),
@@ -1360,6 +1378,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToSubmitSignature": MessageLookupByLibrary.simpleMessage(
       "Submit the signature?\n * Once submitted, it cannot be edited.",
     ),
+    "warehouse": MessageLookupByLibrary.simpleMessage("Warehouse"),
+    "warehouseCode": MessageLookupByLibrary.simpleMessage("Warehouse Code"),
+    "warehouses": MessageLookupByLibrary.simpleMessage("Warehouses"),
     "warning": MessageLookupByLibrary.simpleMessage("Warning"),
     "website": MessageLookupByLibrary.simpleMessage("Website"),
     "weekDays": MessageLookupByLibrary.simpleMessage("WeekDays"),

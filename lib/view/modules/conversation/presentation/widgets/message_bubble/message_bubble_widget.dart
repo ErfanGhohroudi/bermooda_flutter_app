@@ -87,7 +87,7 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
                     mainAxisSize: MainAxisSize.min,
                     spacing: 5,
                     children: [
-                      Icon(CupertinoIcons.arrow_turn_up_right, color: context.theme.hintColor, size: 15),
+                      UImage(AppIcons.forward, color: context.theme.hintColor, size: 15),
                       Flexible(
                         child:
                             Text(
@@ -150,8 +150,8 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
                       fontStyle: FontStyle.italic,
                     ),
                   if (widget.message.isPinned)
-                    Icon(
-                      CupertinoIcons.pin_fill,
+                    UImage(
+                      AppIcons.pin,
                       size: 12,
                       color: isOwn ? Colors.white.withAlpha(150) : context.theme.hintColor,
                     ),
@@ -293,7 +293,7 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
           );
         }
         break;
-      case MessageType.text:
+      case MessageType.text || MessageType.system:
         break;
     }
 

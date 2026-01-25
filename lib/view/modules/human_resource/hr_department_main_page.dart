@@ -1,6 +1,5 @@
 import 'package:u/utilities.dart';
 
-import '../../../app_config.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
@@ -80,7 +79,7 @@ class HrDepartmentMainPage extends StatelessWidget {
               icon: AppIcons.timerOutline,
               title: s.attendance,
             ),
-          if (haveManagerAccess && department.slug != null && AppConfig.instance.isDevelopment)
+          if (haveManagerAccess && department.slug != null)
             _item(
               context: context,
               onTap: () {
@@ -88,7 +87,7 @@ class HrDepartmentMainPage extends StatelessWidget {
                   departmentSlug: department.slug!,
                 ));
               },
-              icon: AppIcons.extensionOutline,
+              icon: AppIcons.workshift,
               title: s.workShift,
             ),
           _item(

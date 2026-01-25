@@ -78,7 +78,6 @@ class CustomersImportPageState extends State<CustomersImportPage> {
                 isActive: isActive,
                 state: isComplete ? StepState.complete : StepState.indexed,
                 title: const SizedBox.shrink(),
-                // title: Text(steps[index], textAlign: TextAlign.center).bodySmall(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
                 label: Text(steps[index], textAlign: TextAlign.center).bodyMedium(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
                 stepStyle: StepStyle(
                   color: isActive ? context.theme.primaryColor : context.theme.dividerColor,

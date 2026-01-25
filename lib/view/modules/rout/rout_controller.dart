@@ -192,10 +192,16 @@ class RoutController extends GetxController {
 
     if (index > maxPageIndex) index = maxPageIndex;
 
-    screen = _buildPageForIndex(index);
-    update(); // به GetBuilder اطلاع می‌دهیم که UI را با کلید جدید بازسازی کند
-
-    currentPageIndex(index);
+    if (index == 2) {
+      bottomSheet(
+        title: s.modules,
+        child: const ModulesPage(isBottomSheet: true),
+      );
+    } else {
+      screen = _buildPageForIndex(index);
+      update(); // به GetBuilder اطلاع می‌دهیم که UI را با کلید جدید بازسازی کند
+      currentPageIndex(index);
+    }
   }
 
   /// For Rebuild Pages After Changed Workspace

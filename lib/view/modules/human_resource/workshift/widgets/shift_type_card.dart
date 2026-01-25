@@ -13,6 +13,7 @@ class WShiftTypeCard extends StatelessWidget {
     required this.controller,
     required this.day,
     required this.dayKey,
+    required this.onEdit,
     this.nightShiftSegment,
     super.key,
   });
@@ -21,6 +22,7 @@ class WShiftTypeCard extends StatelessWidget {
   final WorkshiftDetailController controller;
   final Jalali day;
   final String dayKey;
+  final VoidCallback onEdit;
 
   /// null = day shift, start/end for night shifts
   final NightShiftSegment? nightShiftSegment;
@@ -119,7 +121,7 @@ class WShiftTypeCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final cardColor = shiftType.color?.color ?? context.theme.cardColor;
+    final cardColor = shiftType.color.color;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -149,6 +151,13 @@ class WShiftTypeCard extends StatelessWidget {
               if (controller.haveAdminAccess)
                 WMoreButtonIcon(
                   items: [
+                    WPopupMenuItem(
+                      title: s.edit,
+                      icon: AppIcons.editOutline,
+                      iconColor: AppColors.green,
+                      titleColor: AppColors.green,
+                      onTap: onEdit,
+                    ),
                     WPopupMenuItem(
                       title: s.deleteFromDay,
                       icon: AppIcons.delete,

@@ -95,12 +95,8 @@ enum ConnectionType {
 }
 
 enum InvoiceType {
-  proforma_invoice("Proforma", "پیش‌فاکتور"),
-  sales_invoice("Sales Invoice", "فاکتور فروش"),
-  purchase_invoice("Purchase Invoice", "فاکتور خرید"),
-  returned_invoice("Return / Credit Note", "فاکتور برگشتی"),
-  expense_invoice("Service/Expense Invoice", "فاکتور خدمات/هزینه"),
-  recurring_invoice("Recurring Invoice", "فاکتور دوره‌ای");
+  preinvoice("Proforma", "پیش‌فاکتور"),
+  finalinvoice("Invoice", "فاکتور");
 
   const InvoiceType(this.title, this.titleTr1);
 
@@ -108,6 +104,17 @@ enum InvoiceType {
 
   final String title;
   final String titleTr1;
+
+  static InvoiceType? fromString(final String? type) {
+    switch (type) {
+      case 'preinvoice':
+        return InvoiceType.preinvoice;
+      case 'finalinvoice':
+        return InvoiceType.finalinvoice;
+      default:
+        return null;
+    }
+  }
 }
 
 enum InvoiceStatusType {
@@ -219,7 +226,11 @@ enum LabelColors {
 
   String getTitle() => !isPersianLang ? title : titleTr1;
 
-  static LabelColors getRandom() => values.elementAt(Random().nextInt(values.length));
+  static LabelColors getRandom() {
+    final random = Random().nextInt(values.length);
+    final color = values.elementAt(random);
+    return color;
+  }
 
   static LabelColors fromColorCode(final String? value) {
     if (value == null) return LabelColors.yellow;
@@ -900,6 +911,7 @@ enum AttendanceReportType {
 }
 
 enum MessageType {
+  system,
   text,
   image,
   video,
@@ -909,7 +921,7 @@ enum MessageType {
 
   String? get title {
     switch (this) {
-      case MessageType.text:
+      case MessageType.text || MessageType.system:
         return null;
       case MessageType.image:
         return '📷 ${s.image}';
@@ -926,6 +938,8 @@ enum MessageType {
 
   static MessageType fromString(final String? type) {
     switch (type) {
+      case 'system':
+        return MessageType.system;
       case 'text':
         return MessageType.text;
       case 'image':

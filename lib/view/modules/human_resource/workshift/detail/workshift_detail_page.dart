@@ -66,18 +66,20 @@ class _WorkshiftDetailPageState extends State<WorkshiftDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           spacing: 10,
                           children: [
-                            Text('${'s.changesCount'}:').bodyMedium(color: context.theme.hintColor),
+                            Text('${s.changes}:').bodyMedium(color: context.theme.hintColor),
                             Text("${ctrl.draftShifts.length} ${s.days}").bodyMedium(color: context.theme.primaryColor).bold(),
                           ],
                         ),
                         const SizedBox(height: 12),
                       ],
-                      UElevatedButton(
-                        enable: ctrl.draftShifts.isNotEmpty,
-                        title: s.save,
-                        width: double.maxFinite,
-                        isLoading: ctrl.saveButtonState.isLoading(),
-                        onTap: ctrl.onSave,
+                      Obx(
+                        () => UElevatedButton(
+                          enable: ctrl.draftShifts.isNotEmpty,
+                          title: s.save,
+                          width: double.maxFinite,
+                          isLoading: ctrl.saveButtonState.isLoading(),
+                          onTap: ctrl.onSave,
+                        ),
                       ),
                     ],
                   ),

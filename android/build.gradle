@@ -1,11 +1,13 @@
 buildscript {
     repositories {
+        // Check local Maven cache first (for offline support)
+        mavenLocal()
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
 //        classpath 'com.android.tools.build:gradle:8.3.2'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21'
 //        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0'
@@ -14,6 +16,8 @@ buildscript {
 
 allprojects {
     repositories {
+        // Check local Maven cache first (for offline support)
+        mavenLocal()
         google()
         mavenCentral()
     }

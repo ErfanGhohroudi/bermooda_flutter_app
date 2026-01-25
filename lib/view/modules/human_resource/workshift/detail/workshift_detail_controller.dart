@@ -133,7 +133,7 @@ class WorkshiftDetailController extends GetxController {
     remoteDailyByDate.clear();
     assignmentsByDate.clear();
 
-    selectedYearShift(yearShift);
+    selectedYearShift.value = yearShift;
     onMonthSelected(selectedJalaliMonth.value.month);
   }
 
@@ -210,6 +210,9 @@ class WorkshiftDetailController extends GetxController {
 
   /// Public method to get day key from Jalali date.
   String getDayKeyFromJalali(final Jalali date) => _dayKey(date);
+
+  /// Normalized day key (Jalali yyyy-MM-dd) from Gregorian dayDate.
+  String getDayKeyFromDayDate(final String dayDate) => _normalizeDayKey(dayDate);
 
   // ---------------------------------------------------------------------------
   // Day interactions
@@ -391,6 +394,38 @@ class WorkshiftDetailController extends GetxController {
     return completer.future;
   }
 
+  Future<bool> replaceShiftTypeForDays({
+    required final String oldShiftTypeSlug,
+    required final String newShiftTypeSlug,
+    required final List<String> daysDates,
+    required final ShiftTypeReadDto newShiftType,
+  }) async {
+    final completer = Completer<bool>();
+    shiftTypeDatasource.replaceInDays(
+      oldSlug: oldShiftTypeSlug,
+      newSlug: newShiftTypeSlug,
+      workshiftSlug: workShiftSlug,
+      daysDates: daysDates,
+      onResponse: () {
+        for (final dayDate in daysDates) {
+          final key = _normalizeDayKey(dayDate);
+          final remote = remoteDailyByDate[key];
+          if (remote != null) {
+            final i = remote.shiftTypes.indexWhere((final st) => st.slug == oldShiftTypeSlug);
+            if (i >= 0) {
+              remote.shiftTypes[i] = newShiftType;
+            }
+          }
+        }
+        remoteDailyByDate.refresh();
+        _rebuildAssignmentsForMonth();
+        completer.complete(true);
+      },
+      onError: (final errorResponse) => completer.complete(false),
+    );
+    return completer.future;
+  }
+
   void deleteShiftTypeFromDays(
     final ShiftTypeReadDto shiftType, {
     required final Jalali startDate,
@@ -499,11 +534,15 @@ class WorkshiftDetailController extends GetxController {
 
   void onSave() {
     if (draftShifts.isNotEmpty) {
+      saveButtonState.loading();
       _dailyShiftDatasource.createBulk(
         workshiftSlug: workShiftSlug,
         days: draftShifts.toList(),
-        onResponse: (final response) => UNavigator.back(),
-        onError: (final errorResponse) {},
+        onResponse: (final response) {
+          saveButtonState.loaded();
+          UNavigator.back();
+        },
+        onError: (final errorResponse) => saveButtonState.loaded(),
       );
     }
   }
