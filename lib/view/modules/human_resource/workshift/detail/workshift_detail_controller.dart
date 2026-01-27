@@ -189,6 +189,7 @@ class WorkshiftDetailController extends GetxController {
     assignmentsByDate.refresh();
   }
 
+  // convert gregorian dayDate to normalized day key (yyyy-MM-dd) Jalali
   String _normalizeDayKey(final String raw) {
     // Server `day_date` is Gregorian ISO yyyy-MM-dd. UI keys are Jalali yyyy-MM-dd.
     final parts = raw.split('-');
@@ -381,7 +382,7 @@ class WorkshiftDetailController extends GetxController {
       departmentSlug: departmentSlug,
       dto: shiftTypeParams,
       onResponse: (final response) {
-        final st = response.result;
+        final ShiftTypeReadDto? st = response.result;
         if (st == null) {
           completer.completeError(StateError('Failed to create shift type'));
           return;
@@ -396,18 +397,37 @@ class WorkshiftDetailController extends GetxController {
 
   Future<bool> replaceShiftTypeForDays({
     required final String oldShiftTypeSlug,
-    required final String newShiftTypeSlug,
+    required final ShiftTypeParams newShiftTypeParams,
     required final List<String> daysDates,
-    required final ShiftTypeReadDto newShiftType,
   }) async {
     final completer = Completer<bool>();
     shiftTypeDatasource.replaceInDays(
+      departmentSlug: departmentSlug,
       oldSlug: oldShiftTypeSlug,
-      newSlug: newShiftTypeSlug,
+      newShiftTypeParams: newShiftTypeParams,
       workshiftSlug: workShiftSlug,
       daysDates: daysDates,
-      onResponse: () {
-        for (final dayDate in daysDates) {
+      onResponse: (final String? newShiftTypeSlug, final List<String> replacedDays) {
+        final newShiftType = ShiftTypeReadDto(
+          slug: newShiftTypeSlug ?? '',
+          title: newShiftTypeParams.title,
+          color: newShiftTypeParams.color,
+          startTime: newShiftTypeParams.startTime,
+          endTime: newShiftTypeParams.endTime,
+          breakStartTime: newShiftTypeParams.breakStartTime,
+          breakEndTime: newShiftTypeParams.breakEndTime,
+          flexibleStartTime: newShiftTypeParams.flexibleStartTime,
+          flexibleEndTime: newShiftTypeParams.flexibleEndTime,
+          dailyOvertimeHours: newShiftTypeParams.dailyOvertimeHours,
+          isHoliday: newShiftTypeParams.isHoliday,
+          hasOffShiftAccess: newShiftTypeParams.hasOffShiftAccess,
+          allowedCheckInMethodList: newShiftTypeParams.allowedCheckInMethodList,
+          allowedCheckOutMethodList: newShiftTypeParams.allowedCheckOutMethodList,
+          folderSlug: departmentSlug,
+        );
+        _insertShiftType(newShiftType);
+
+        for (final dayDate in replacedDays) {
           final key = _normalizeDayKey(dayDate);
           final remote = remoteDailyByDate[key];
           if (remote != null) {

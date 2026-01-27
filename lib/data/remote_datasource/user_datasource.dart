@@ -21,7 +21,11 @@ class UserDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException {
+    } on dio.DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+      if (statusCode == 403) {
+        logout();
+      }
       onError(GenericResponse());
     }
     if (withLoading) AppLoading.dismissLoading();

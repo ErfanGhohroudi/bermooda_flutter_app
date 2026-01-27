@@ -38,9 +38,9 @@ class SubtaskListController extends GetxController {
   final Rx<PageState> pageState = PageState.initial.obs;
   final RxList<SubtaskReadDto> subtasks = <SubtaskReadDto>[].obs;
 
-  bool get haveAdminAccess => canEdit && switch (_dataSourceType) {
-    SubtaskDataSourceType.project => _perService.haveProjectAdminAccess,
-    SubtaskDataSourceType.legal => _perService.haveLegalAdminAccess,
+  bool get haveAccess => canEdit && switch (_dataSourceType) {
+    SubtaskDataSourceType.project => _perService.haveProjectAccess,
+    SubtaskDataSourceType.legal => _perService.haveLegalAccess,
   };
 
   @override

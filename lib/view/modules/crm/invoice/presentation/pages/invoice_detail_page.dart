@@ -3,7 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../../../core/core.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../controllers/invoice_detail_controller.dart';
-import '../widgets/invoice_summary.dart';
+import '../widgets/official_invoice_layout.dart';
 
 class InvoiceDetailPage extends StatefulWidget {
   const InvoiceDetailPage({
@@ -45,7 +45,7 @@ class _InvoiceDetailPageState extends State<InvoiceDetailPage> {
           if (ctrl.pageState.isLoaded() && ctrl.invoice.value != null) {
             return SingleChildScrollView(
               padding: const EdgeInsets.all(16),
-              child: InvoiceSummary(invoice: ctrl.invoice.value!),
+              child: OfficialInvoiceLayout(invoice: ctrl.invoice.value!),
             );
           }
 

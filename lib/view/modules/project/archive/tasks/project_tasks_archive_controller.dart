@@ -1,14 +1,14 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/core.dart';
-import '../../../../core/navigator/navigator.dart';
-import '../../../../core/services/permission_service.dart';
-import '../../../../core/utils/enums/enums.dart';
-import '../../../../data/data.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/services/permission_service.dart';
+import '../../../../../core/utils/enums/enums.dart';
+import '../../../../../data/data.dart';
 
-mixin ProjectArchiveController {
+mixin ProjectTasksArchiveController {
   late final String _projectId;
   final TaskArchiveDatasource _datasource = Get.find<TaskArchiveDatasource>();
   final PermissionService _perService = Get.find<PermissionService>();

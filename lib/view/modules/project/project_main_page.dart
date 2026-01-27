@@ -7,7 +7,7 @@ import '../../../core/theme.dart';
 import '../../../data/data.dart';
 
 // import '../../../kanban_board_with_subtasks_and_cache (2).dart';
-import 'archive/project_archive_page.dart';
+import 'archive/tasks/project_tasks_archive_page.dart';
 import 'board/project_board_page.dart';
 import 'my_tasks/my_tasks_page.dart';
 import 'statistics/project_statistics_page.dart';
@@ -74,7 +74,7 @@ class ProjectMainPage extends StatelessWidget {
               context: context,
               onTap: () {
                 UNavigator.push(
-                  ProjectArchivePage(
+                  ProjectTasksArchivePage(
                     projectId: project.id ?? '',
                   ),
                 );

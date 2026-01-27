@@ -50,7 +50,7 @@ class _SubtaskListPageState extends State<SubtaskListPage> {
       floatingActionButtonLocation: isPersianLang
           ? FloatingActionButtonLocation.startFloat
           : FloatingActionButtonLocation.endFloat,
-      floatingActionButton: ctrl.haveAdminAccess
+      floatingActionButton: ctrl.haveAccess
           ? FloatingActionButton(
               heroTag: "createSubtaskFAB",
               tooltip: s.newTask,

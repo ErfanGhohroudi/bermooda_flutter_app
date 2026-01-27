@@ -1,14 +1,14 @@
 import 'package:u/utilities.dart';
 
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/core.dart';
-import '../../../../core/theme.dart';
-import '../../../../core/utils/enums/enums.dart';
-import '../../../../data/data.dart';
-import 'project_archive_controller.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/theme.dart';
+import '../../../../../core/utils/enums/enums.dart';
+import '../../../../../data/data.dart';
+import 'project_tasks_archive_controller.dart';
 
-class ProjectArchivePage extends StatefulWidget {
-  const ProjectArchivePage({
+class ProjectTasksArchivePage extends StatefulWidget {
+  const ProjectTasksArchivePage({
     required this.projectId,
     super.key,
   });
@@ -16,10 +16,10 @@ class ProjectArchivePage extends StatefulWidget {
   final String projectId;
 
   @override
-  State<ProjectArchivePage> createState() => _ProjectArchivePageState();
+  State<ProjectTasksArchivePage> createState() => _ProjectTasksArchivePageState();
 }
 
-class _ProjectArchivePageState extends State<ProjectArchivePage> with ProjectArchiveController {
+class _ProjectTasksArchivePageState extends State<ProjectTasksArchivePage> with ProjectTasksArchiveController {
   @override
   void initState() {
     initialController(widget.projectId);

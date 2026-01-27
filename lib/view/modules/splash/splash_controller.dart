@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../app_config.dart';
 import '../../../core/constants.dart';
 import '../../../core/functions/init_app_functions.dart';
 import '../../../core/functions/update_app_function.dart';
@@ -19,17 +20,21 @@ mixin SplashController {
       Get.put(ConversationsListController(), permanent: true);
     }
 
-    checkAppUpdate(
-      action: () async {
-        if (await isLogin()) {
-          initApp(withConnectWS: true);
-        } else {
-          delay(
-            2000,
-            () => UNavigator.offAll(const LoginPage()),
-          );
-        }
-      },
-    );
+    if (AppConfig.instance.isProduction) {
+      checkAppUpdate(action: checkLogin);
+    } else {
+      checkLogin();
+    }
+  }
+
+  Future<void> checkLogin() async {
+    if (await isLogin()) {
+      initApp(withConnectWS: true);
+    } else {
+      delay(
+        2000,
+        () => UNavigator.offAll(const LoginPage()),
+      );
+    }
   }
 }
