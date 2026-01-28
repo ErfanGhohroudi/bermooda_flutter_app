@@ -67,23 +67,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "archiveRemoved": MessageLookupByLibrary.simpleMessage(
       "بایگانی/حذف شده ها",
     ),
+    "areYouSureToArchiveCategory": MessageLookupByLibrary.simpleMessage(
+      "آیا میخواهید این دسته‌بندی را بایگانی کنید؟",
+    ),
+    "areYouSureToArchiveDepartment": MessageLookupByLibrary.simpleMessage(
+      "آیا میخواهید این واحد را بایگانی کنید؟",
+    ),
+    "areYouSureToArchiveProject": MessageLookupByLibrary.simpleMessage(
+      "آیا میخواهید این پروژه را بایگانی کنید؟",
+    ),
     "areYouSureToChangePhoneNumber": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید شماره همراه را تغییر دهید؟",
     ),
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این کسب‌وکار را حذف کنید؟",
     ),
-    "areYouSureToDeleteCategory": MessageLookupByLibrary.simpleMessage(
-      "آیا میخواهید این دسته‌بندی را حذف کنید؟",
-    ),
     "areYouSureToDeleteCustomer": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این مشتری را حذف کنید؟",
     ),
     "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این پیام را حذف کنید؟",
-    ),
-    "areYouSureToDeleteProject": MessageLookupByLibrary.simpleMessage(
-      "آیا میخواهید این پروژه را حذف کنید؟",
     ),
     "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
       "آیا از حذف این انبار اطمینان دارید؟",

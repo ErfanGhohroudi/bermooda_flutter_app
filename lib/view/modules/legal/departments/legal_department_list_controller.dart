@@ -81,11 +81,11 @@ class LegalDepartmentListController extends GetxController {
     );
   }
 
-  void deleteDepartment(final LegalDepartmentReadDto department) {
+  void archiveDepartment(final LegalDepartmentReadDto department) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureToDeleteCategory,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveDepartment,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         UNavigator.back();

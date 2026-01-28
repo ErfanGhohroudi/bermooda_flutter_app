@@ -1,30 +1,27 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/core.dart';
-import '../../../../core/navigator/navigator.dart';
-import '../../../../core/services/permission_service.dart';
-import '../../../../data/data.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/services/permission_service.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../data/data.dart';
+import '../../list/project_list_controller.dart';
 
-class ArchivedLegalCasesController extends GetxController {
-  ArchivedLegalCasesController({required this.legalDepartmentId});
-
-  late final int legalDepartmentId;
-  final LegalCaseDatasource _datasource = Get.find<LegalCaseDatasource>();
+class ArchivedProjectsController extends GetxController {
+  final ProjectDatasource _datasource = Get.find<ProjectDatasource>();
   final PermissionService _permissionService = Get.find<PermissionService>();
   final RefreshController refreshController = RefreshController();
   final ScrollController scrollController = ScrollController();
   final Rx<bool> showScrollToTop = false.obs;
   final TextEditingController searchCtrl = TextEditingController();
-  final RxList<LegalCaseReadDto> legalCases = <LegalCaseReadDto>[].obs;
+  final RxList<ProjectReadDto> projects = <ProjectReadDto>[].obs;
   final Rx<PageState> pageState = PageState.initial.obs;
   bool _isAtEnd = false;
   int _pageNumber = 1;
 
   bool get isAtEnd => _isAtEnd;
-
-  bool get haveLegalAdminAccess => _permissionService.haveLegalAdminAccess;
+  bool get haveAdminAccess => _permissionService.haveProjectAdminAccess;
 
   @override
   void onInit() {
@@ -55,28 +52,32 @@ class ArchivedLegalCasesController extends GetxController {
     onRefresh();
   }
 
+  void onTryAgain() {
+    pageState.initial();
+    onRefresh();
+  }
+
   void onRefresh() {
     _pageNumber = 1;
-    _getArchivedCases();
+    _getArchivedProjects();
   }
 
   void loadMore() {
     _pageNumber++;
-    _getArchivedCases();
+    _getArchivedProjects();
   }
 
-  void _getArchivedCases() {
-    _datasource.getArchivedCases(
-      contractBoardId: legalDepartmentId.toString(),
+  void _getArchivedProjects() {
+    _datasource.getArchivedProjects(
       pageNumber: _pageNumber,
-      search: searchCtrl.text.trim().isEmpty ? null : searchCtrl.text.trim(),
+      query: searchCtrl.text.trim().isEmpty ? null : searchCtrl.text.trim(),
       onResponse: (final response) {
-        if (legalCases.subject.isClosed || response.resultList == null) return;
+        if (projects.subject.isClosed || response.resultList == null) return;
         if (_pageNumber == 1) {
-          legalCases(response.resultList);
+          projects(response.resultList);
           refreshController.refreshCompleted();
         } else {
-          legalCases.addAll(response.resultList!);
+          projects.addAll(response.resultList!);
         }
 
         if (response.extra?.next == null) {
@@ -102,28 +103,38 @@ class ArchivedLegalCasesController extends GetxController {
     );
   }
 
-  void restoreCase(final int? caseId) {
-    if (!haveLegalAdminAccess) {
+  void restoreProject(final String? projectId) {
+    if (!haveAdminAccess) {
       AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
 
-    if (caseId == null) return;
+    if (projectId == null) return;
 
     appShowYesCancelDialog(
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
         UNavigator.back();
-        _datasource.restoreCase(
-          legalCaseId: caseId,
-          onResponse: (final response) {
-            legalCases.removeWhere((final e) => e.id == caseId);
-            AppNavigator.snackbarGreen(title: s.done, subtitle: '');
-          },
-          onError: (final errorResponse) {},
-        );
+        _restoreProject(projectId);
       },
+    );
+  }
+
+  void _restoreProject(final String projectId) {
+    _datasource.restoreProject(
+      projectId: projectId,
+      onResponse: (final response) {
+        projects.removeWhere((final e) => e.id == projectId);
+        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        
+        // Refresh project list page if it's registered
+        if (Get.isRegistered<ProjectListController>()) {
+          Get.find<ProjectListController>().onRefresh();
+        }
+      },
+      onError: (final errorResponse) {},
+      withRetry: true,
     );
   }
 }

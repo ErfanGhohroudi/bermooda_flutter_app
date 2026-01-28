@@ -1,13 +1,13 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/widgets/widgets.dart';
-import '../../../../../core/core.dart';
-import '../../../../core/theme.dart';
-import '../board/widgets/customer_card/customer_card.dart';
-import 'crm_archive_controller.dart';
+import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../core/theme.dart';
+import '../../board/widgets/customer_card/customer_card.dart';
+import 'crm_archived_customers_controller.dart';
 
-class CrmArchivePage extends StatefulWidget {
-  const CrmArchivePage({
+class CrmArchivedCustomersPage extends StatefulWidget {
+  const CrmArchivedCustomersPage({
     required this.categoryId,
     super.key,
   });
@@ -15,15 +15,15 @@ class CrmArchivePage extends StatefulWidget {
   final String categoryId;
 
   @override
-  State<CrmArchivePage> createState() => _CrmArchivePageState();
+  State<CrmArchivedCustomersPage> createState() => _CrmArchivedCustomersPageState();
 }
 
-class _CrmArchivePageState extends State<CrmArchivePage> {
-  late final CrmArchiveController ctrl;
+class _CrmArchivedCustomersPageState extends State<CrmArchivedCustomersPage> {
+  late final CrmArchivedCustomersController ctrl;
 
   @override
   void initState() {
-    ctrl = Get.put(CrmArchiveController(categoryId: widget.categoryId));
+    ctrl = Get.put(CrmArchivedCustomersController(categoryId: widget.categoryId));
     super.initState();
   }
 

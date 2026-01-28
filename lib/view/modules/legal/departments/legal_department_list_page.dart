@@ -2,8 +2,10 @@ import 'package:u/utilities.dart';
 
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
+import '../archive/departments/archived_legal_departments_page.dart';
 import '../widgets/legal_department_item_card.dart';
 import 'legal_department_list_controller.dart';
 
@@ -39,6 +41,17 @@ class _LegalDepartmentListPageState extends State<LegalDepartmentListPage> {
         appBar: AppBar(
           title: Text(s.legal),
           actions: [
+            Obx(
+              () => ctrl.haveAdminAccess && !ctrl.isReorderEnabled.value
+                  ? IconButton(
+                      tooltip: s.archive,
+                      icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
+                      onPressed: () {
+                        UNavigator.push(const ArchivedLegalDepartmentsPage());
+                      },
+                    )
+                  : const SizedBox.shrink(),
+            ),
             Obx(
               () => IconButton(
                 tooltip: ctrl.isReorderEnabled.value ? s.save : s.reorder,

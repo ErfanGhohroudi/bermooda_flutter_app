@@ -1089,21 +1089,31 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete this project?`
-  String get areYouSureToDeleteProject {
+  /// `Are you sure you want to archive this project?`
+  String get areYouSureToArchiveProject {
     return Intl.message(
-      'Are you sure you want to delete this project?',
-      name: 'areYouSureToDeleteProject',
+      'Are you sure you want to archive this project?',
+      name: 'areYouSureToArchiveProject',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to delete this category?`
-  String get areYouSureToDeleteCategory {
+  /// `Are you sure you want to archive this category?`
+  String get areYouSureToArchiveCategory {
     return Intl.message(
-      'Are you sure you want to delete this category?',
-      name: 'areYouSureToDeleteCategory',
+      'Are you sure you want to archive this category?',
+      name: 'areYouSureToArchiveCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to archive this department?`
+  String get areYouSureToArchiveDepartment {
+    return Intl.message(
+      'Are you sure you want to archive this department?',
+      name: 'areYouSureToArchiveDepartment',
       desc: '',
       args: [],
     );

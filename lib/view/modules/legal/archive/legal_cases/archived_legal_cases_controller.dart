@@ -1,26 +1,30 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/core.dart';
-import '../../../../data/data.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/services/permission_service.dart';
+import '../../../../../data/data.dart';
 
-class CrmArchiveController extends GetxController {
-  CrmArchiveController({required this.categoryId});
+class ArchivedLegalCasesController extends GetxController {
+  ArchivedLegalCasesController({required this.legalDepartmentId});
 
-  late final String categoryId;
-  final CrmArchiveDatasource _datasource = Get.find<CrmArchiveDatasource>();
+  late final int legalDepartmentId;
+  final LegalCaseDatasource _datasource = Get.find<LegalCaseDatasource>();
+  final PermissionService _permissionService = Get.find<PermissionService>();
   final RefreshController refreshController = RefreshController();
   final ScrollController scrollController = ScrollController();
   final Rx<bool> showScrollToTop = false.obs;
   final TextEditingController searchCtrl = TextEditingController();
-  final RxList<CustomerReadDto> customers = <CustomerReadDto>[].obs;
+  final RxList<LegalCaseReadDto> legalCases = <LegalCaseReadDto>[].obs;
   final Rx<PageState> pageState = PageState.initial.obs;
-  final RxBool currentFilter = false.obs;
   bool _isAtEnd = false;
   int _pageNumber = 1;
 
   bool get isAtEnd => _isAtEnd;
+
+  bool get haveLegalAdminAccess => _permissionService.haveLegalAdminAccess;
 
   @override
   void onInit() {
@@ -46,13 +50,6 @@ class CrmArchiveController extends GetxController {
     }
   }
 
-  void setFilter(final bool value) {
-    if (currentFilter.value == value) return;
-    currentFilter(value);
-    pageState.loading();
-    onRefresh();
-  }
-
   void onSearch() {
     pageState.loading();
     onRefresh();
@@ -60,44 +57,26 @@ class CrmArchiveController extends GetxController {
 
   void onRefresh() {
     _pageNumber = 1;
-    getCustomers();
+    _getArchivedCases();
   }
 
   void loadMore() {
     _pageNumber++;
-    getCustomers();
+    _getArchivedCases();
   }
 
-  void updateItem(final CustomerReadDto model) {
-    for (var i = 0; i < customers.length; i++) {
-      if (customers[i].id == model.id) {
-        customers[i] = model;
-        break;
-      }
-    }
-  }
-
-  void insertItem(final CustomerReadDto model) {
-    customers.insert(0, model);
-  }
-
-  void removeItem(final CustomerReadDto model) {
-    customers.removeWhere((final e) => e.id == model.id);
-  }
-
-  void getCustomers() {
-    _datasource.getAllCustomers(
-      categoryId: categoryId,
+  void _getArchivedCases() {
+    _datasource.getArchivedCases(
+      contractBoardId: legalDepartmentId.toString(),
       pageNumber: _pageNumber,
-      isFollowed: currentFilter.value,
-      query: searchCtrl.text.trim(),
+      search: searchCtrl.text.trim().isEmpty ? null : searchCtrl.text.trim(),
       onResponse: (final response) {
-        if (customers.subject.isClosed || response.resultList == null) return;
+        if (legalCases.subject.isClosed || response.resultList == null) return;
         if (_pageNumber == 1) {
-          customers(response.resultList);
+          legalCases(response.resultList);
           refreshController.refreshCompleted();
         } else {
-          customers.addAll(response.resultList!);
+          legalCases.addAll(response.resultList!);
         }
 
         if (response.extra?.next == null) {
@@ -111,36 +90,40 @@ class CrmArchiveController extends GetxController {
         pageState.loaded();
       },
       onError: (final errorResponse) {
+        if (pageState.isInitial()) {
+          pageState.error();
+        }
         if (_pageNumber == 1) {
           refreshController.refreshFailed();
         } else {
           refreshController.loadFailed();
         }
       },
-      withRetry: _pageNumber == 1 && customers.isEmpty,
     );
   }
 
-  void restoreCustomer(final int? id) {
+  void restoreCase(final int? caseId) {
+    if (!haveLegalAdminAccess) {
+      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      return;
+    }
+
+    if (caseId == null) return;
+
     appShowYesCancelDialog(
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
         UNavigator.back();
-        _restoreCustomer(id);
+        _datasource.restoreCase(
+          legalCaseId: caseId,
+          onResponse: (final response) {
+            legalCases.removeWhere((final e) => e.id == caseId);
+            AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+          },
+          onError: (final errorResponse) {},
+        );
       },
-    );
-  }
-
-  void _restoreCustomer(final int? id) {
-    if (id == null) return;
-    _datasource.restoreCustomer(
-      id: id,
-      categoryId: categoryId,
-      onResponse: (final response) {
-        customers.removeWhere((final e) => e.id == id);
-      },
-      onError: (final errorResponse) {},
     );
   }
 }

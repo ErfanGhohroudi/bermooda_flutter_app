@@ -69,23 +69,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "approve": MessageLookupByLibrary.simpleMessage("Approve"),
     "archive": MessageLookupByLibrary.simpleMessage("Archive"),
     "archiveRemoved": MessageLookupByLibrary.simpleMessage("Archive/Removed"),
+    "areYouSureToArchiveCategory": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to archive this category?",
+    ),
+    "areYouSureToArchiveDepartment": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to archive this department?",
+    ),
+    "areYouSureToArchiveProject": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to archive this project?",
+    ),
     "areYouSureToChangePhoneNumber": MessageLookupByLibrary.simpleMessage(
       "Do you want to change the phone number?",
     ),
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "Do you want to delete this business?",
     ),
-    "areYouSureToDeleteCategory": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this category?",
-    ),
     "areYouSureToDeleteCustomer": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this customer?",
     ),
     "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this message?",
-    ),
-    "areYouSureToDeleteProject": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this project?",
     ),
     "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this warehouse?",

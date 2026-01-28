@@ -8,7 +8,7 @@ import '../../../../core/services/permission_service.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
 
-mixin CrmCategoriesListController {
+class CrmCategoriesListController extends GetxController {
   final CrmDatasource _crmDatasource = Get.find<CrmDatasource>();
   final TextEditingController searchController = TextEditingController();
   final RefreshController refreshController = RefreshController();
@@ -19,16 +19,20 @@ mixin CrmCategoriesListController {
   int pageNumber = 1;
   final RxList<CrmCategoryReadDto> categories = <CrmCategoryReadDto>[].obs;
 
-  void disposeItems() {
+  @override
+  void onInit() {
+    super.onInit();
+    _getCategories();
+  }
+
+  @override
+  void onClose() {
     searchController.dispose();
     refreshController.dispose();
     isReorderEnabled.close();
     pageState.close();
     categories.close();
-  }
-
-  void initialController() {
-    _getCategories();
+    super.onClose();
   }
 
   void toggleReorder() {
@@ -86,14 +90,14 @@ mixin CrmCategoriesListController {
     );
   }
 
-  void deleteCategory(
+  void archiveCategory(
     final CrmCategoryReadDto category, {
     required final VoidCallback action,
   }) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureToDeleteCategory,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveCategory,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         UNavigator.back();

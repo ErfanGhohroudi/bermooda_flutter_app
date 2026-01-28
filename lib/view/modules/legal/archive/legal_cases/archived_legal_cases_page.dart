@@ -1,8 +1,8 @@
 import 'package:u/utilities.dart';
 
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/core.dart';
-import '../widgets/legal_case_card/legal_case_card.dart';
+import '../../../../../core/widgets/widgets.dart';
+import '../../../../../core/core.dart';
+import '../../widgets/legal_case_card/legal_case_card.dart';
 import 'archived_legal_cases_controller.dart';
 
 class ArchivedLegalCasesPage extends StatefulWidget {

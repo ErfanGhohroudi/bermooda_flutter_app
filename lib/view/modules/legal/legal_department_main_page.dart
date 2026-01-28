@@ -5,7 +5,7 @@ import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme.dart';
 import '../../../data/data.dart';
-import 'archive/archived_legal_cases_page.dart';
+import 'archive/legal_cases/archived_legal_cases_page.dart';
 import 'board/legal_board_page.dart';
 import 'my_cases/my_cases_page.dart';
 import 'statistics/legal_statistics_page.dart';

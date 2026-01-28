@@ -5,7 +5,7 @@ import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme.dart';
 import '../../../data/data.dart';
-import 'archive/crm_archive_page.dart';
+import 'archive/customers/crm_archived_customers_page.dart';
 import 'board/crm_board_page.dart';
 import 'customers_bank/customers_bank_page.dart';
 import 'my_followups/my_followups_page.dart';
@@ -74,7 +74,7 @@ class CrmCategoryMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(CrmArchivePage(
+                UNavigator.push(CrmArchivedCustomersPage(
                   categoryId: category.id ?? '',
                 ));
               },

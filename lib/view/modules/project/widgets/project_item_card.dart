@@ -1,14 +1,14 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/navigator/navigator.dart';
-import '../../../../../core/utils/enums/enums.dart';
-import '../../../../../core/utils/extensions/money_extensions.dart';
-import '../../../../../core/widgets/widgets.dart';
-import '../../../../../core/core.dart';
-import '../../../../../core/theme.dart';
-import '../../../../../data/data.dart';
-import '../create_update/project_create_update_page.dart';
-import '../../project_main_page.dart';
+import '../../../../core/navigator/navigator.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../core/utils/extensions/money_extensions.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../core/core.dart';
+import '../../../../core/theme.dart';
+import '../../../../data/data.dart';
+import '../list/create_update/project_create_update_page.dart';
+import '../project_main_page.dart';
 
 class ProjectItemCard extends StatefulWidget {
   const ProjectItemCard({
@@ -16,8 +16,10 @@ class ProjectItemCard extends StatefulWidget {
     required this.index,
     required this.isReorderEnabled,
     required this.showMoreIcon,
-    required this.onDelete,
+    required this.onArchive,
     required this.onEdited,
+    this.moreButtonBuilder,
+    this.onTap,
     super.key,
   });
 
@@ -25,8 +27,10 @@ class ProjectItemCard extends StatefulWidget {
   final int index;
   final bool isReorderEnabled;
   final bool showMoreIcon;
-  final VoidCallback onDelete;
+  final VoidCallback onArchive;
   final Function(ProjectReadDto project) onEdited;
+  final WidgetBuilder? moreButtonBuilder;
+  final VoidCallback? onTap;
 
   @override
   State<ProjectItemCard> createState() => _ProjectItemCardState();
@@ -79,7 +83,7 @@ class _ProjectItemCardState extends State<ProjectItemCard> with SingleTickerProv
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      onTap: () {
+      onTap: widget.onTap ?? () {
         if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
         bottomSheet(
@@ -126,36 +130,37 @@ class _ProjectItemCardState extends State<ProjectItemCard> with SingleTickerProv
                 SizeTransition(
                   sizeFactor: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
                   axis: Axis.horizontal,
-                  child:
-                      Container(
-                        width: 35,
-                        height: 35,
-                        color: Colors.transparent,
-                        child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
-                      ).showMenus([
-                        WPopupMenuItem(
-                          title: s.edit,
-                          icon: AppIcons.editOutline,
-                          titleColor: AppColors.green,
-                          iconColor: AppColors.green,
-                          onTap: () {
-                            bottomSheet(
-                              title: s.editProject,
-                              child: ProjectCreateUpdatePage(
-                                project: widget.project,
-                                onResponse: widget.onEdited,
-                              ),
-                            );
-                          },
-                        ),
-                        // WPopupMenuItem(
-                        //   title: s.delete,
-                        //   icon: AppIcons.delete,
-                        //   titleColor: AppColors.red,
-                        //   iconColor: AppColors.red,
-                        //   onTap: widget.onDelete,
-                        // ),
-                      ]),
+                  child: widget.moreButtonBuilder != null
+                      ? Builder(builder: widget.moreButtonBuilder!)
+                      : Container(
+                          width: 35,
+                          height: 35,
+                          color: Colors.transparent,
+                          child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
+                        ).showMenus([
+                          WPopupMenuItem(
+                            title: s.edit,
+                            icon: AppIcons.editOutline,
+                            titleColor: AppColors.green,
+                            iconColor: AppColors.green,
+                            onTap: () {
+                              bottomSheet(
+                                title: s.editProject,
+                                child: ProjectCreateUpdatePage(
+                                  project: widget.project,
+                                  onResponse: widget.onEdited,
+                                ),
+                              );
+                            },
+                          ),
+                          WPopupMenuItem(
+                            title: s.archive,
+                            icon: AppIcons.archiveOutline,
+                            titleColor: AppColors.red,
+                            iconColor: AppColors.red,
+                            onTap: widget.onArchive,
+                          ),
+                        ]),
                 ),
             ],
           ),

@@ -1,13 +1,13 @@
 import 'package:u/utilities.dart';
 
-import '../../../../../core/utils/enums/enums.dart';
-import '../../../../../core/widgets/widgets.dart';
-import '../../../../../core/core.dart';
-import '../../../../../core/navigator/navigator.dart';
-import '../../../../../core/theme.dart';
-import '../../../../../data/data.dart';
-import '../../crm_category_main_page.dart';
-import '../category_create_update/crm_category_create_update_page.dart';
+import '../../../../core/utils/enums/enums.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../../core/core.dart';
+import '../../../../core/navigator/navigator.dart';
+import '../../../../core/theme.dart';
+import '../../../../data/data.dart';
+import '../crm_category_main_page.dart';
+import '../list/category_create_update/crm_category_create_update_page.dart';
 
 class CategoryItemCard extends StatefulWidget {
   const CategoryItemCard({
@@ -15,8 +15,10 @@ class CategoryItemCard extends StatefulWidget {
     required this.index,
     required this.isReorderEnabled,
     required this.showMoreIcon,
-    required this.onDelete,
+    required this.onArchive,
     required this.onEdited,
+    this.moreButtonBuilder,
+    this.onTap,
     super.key,
   });
 
@@ -24,8 +26,10 @@ class CategoryItemCard extends StatefulWidget {
   final int index;
   final bool isReorderEnabled;
   final bool showMoreIcon;
-  final VoidCallback onDelete;
+  final VoidCallback onArchive;
   final Function(CrmCategoryReadDto group) onEdited;
+  final WidgetBuilder? moreButtonBuilder;
+  final VoidCallback? onTap;
 
   @override
   State<CategoryItemCard> createState() => _CategoryItemCardState();
@@ -78,7 +82,7 @@ class _CategoryItemCardState extends State<CategoryItemCard> with SingleTickerPr
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      onTap: () {
+      onTap: widget.onTap ?? () {
         if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
         bottomSheet(
@@ -123,35 +127,37 @@ class _CategoryItemCardState extends State<CategoryItemCard> with SingleTickerPr
                 SizeTransition(
                   sizeFactor: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
                   axis: Axis.horizontal,
-                  child: Container(
-                    width: 35,
-                    height: 35,
-                    color: Colors.transparent,
-                    child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
-                  ).showMenus([
-                    WPopupMenuItem(
-                      title: s.edit,
-                      icon: AppIcons.editOutline,
-                      titleColor: AppColors.green,
-                      iconColor: AppColors.green,
-                      onTap: () {
-                        bottomSheet(
-                          title: s.editCategory,
-                          child: CrmCategoryCreateUpdatePage(
-                            category: widget.category,
-                            onResponse: widget.onEdited,
+                  child: widget.moreButtonBuilder != null
+                      ? Builder(builder: widget.moreButtonBuilder!)
+                      : Container(
+                          width: 35,
+                          height: 35,
+                          color: Colors.transparent,
+                          child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
+                        ).showMenus([
+                          WPopupMenuItem(
+                            title: s.edit,
+                            icon: AppIcons.editOutline,
+                            titleColor: AppColors.green,
+                            iconColor: AppColors.green,
+                            onTap: () {
+                              bottomSheet(
+                                title: s.editCategory,
+                                child: CrmCategoryCreateUpdatePage(
+                                  category: widget.category,
+                                  onResponse: widget.onEdited,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                    // WPopupMenuItem(
-                    //   title: s.delete,
-                    //   icon: AppIcons.delete,
-                    //   titleColor: AppColors.red,
-                    //   iconColor: AppColors.red,
-                    //   onTap: widget.onDelete,
-                    // ),
-                  ]),
+                          WPopupMenuItem(
+                            title: s.archive,
+                            icon: AppIcons.archiveOutline,
+                            titleColor: AppColors.red,
+                            iconColor: AppColors.red,
+                            onTap: widget.onArchive,
+                          ),
+                        ]),
                 ),
             ],
           ),
