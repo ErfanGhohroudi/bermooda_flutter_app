@@ -8,6 +8,7 @@ class WAmountField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     this.currencyText,
+    this.autofocus = false,
     this.required = false,
 
     /// set [false] if you want to hide [*] after [labelText]
@@ -19,6 +20,7 @@ class WAmountField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String? currencyText;
+  final bool autofocus;
   final bool required;
   final bool? showRequired;
   final Function(String value)? onChanged;
@@ -29,12 +31,19 @@ class WAmountField extends StatefulWidget {
 
 class _WAmountFieldState extends State<WAmountField> {
   @override
+  void initState() {
+    widget.controller.text = widget.controller.text.separateNumbers3By3();
+    super.initState();
+  }
+
+  @override
   Widget build(final BuildContext context) {
     final suffixStyle = context.textTheme.bodyMedium?.copyWith(color: context.theme.hintColor);
-    final _currencyText = widget.currencyText != null && widget.currencyText!.isNotEmpty ? "(${widget.currencyText})" : null;
+    final currencyText = widget.currencyText != null && widget.currencyText!.isNotEmpty ? "(${widget.currencyText})" : null;
 
     return UTextFormField(
       initialValue: widget.controller.text,
+      autofocus: widget.autofocus,
       labelText: widget.labelText,
       hintText: "0",
       textAlign: TextAlign.left,
@@ -50,8 +59,8 @@ class _WAmountFieldState extends State<WAmountField> {
         widget.controller.text = value.numericOnly();
         widget.onChanged?.call(value);
       },
-      suffixText: !isPersianLang ? _currencyText : null,
-      prefixText: isPersianLang ? _currencyText : null,
+      suffixText: !isPersianLang ? currencyText : null,
+      prefixText: isPersianLang ? currencyText : null,
       suffixStyle: suffixStyle,
       prefixStyle: suffixStyle,
     );

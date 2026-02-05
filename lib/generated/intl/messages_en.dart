@@ -49,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Add to members list?",
     ),
     "addReviewers": MessageLookupByLibrary.simpleMessage("Assign Reviewers"),
+    "addRow": MessageLookupByLibrary.simpleMessage("Add Row"),
     "addShift": MessageLookupByLibrary.simpleMessage("Add Shift"),
     "addText": MessageLookupByLibrary.simpleMessage("Add"),
     "additionalInfo": MessageLookupByLibrary.simpleMessage("Additional Info"),
@@ -72,6 +73,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToArchiveCategory": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to archive this category?",
     ),
+    "areYouSureToArchiveCustomer": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to archive this customer?",
+    ),
     "areYouSureToArchiveDepartment": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to archive this department?",
     ),
@@ -83,9 +87,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "Do you want to delete this business?",
-    ),
-    "areYouSureToDeleteCustomer": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this customer?",
     ),
     "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this message?",
@@ -143,6 +144,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "businessSize": MessageLookupByLibrary.simpleMessage("Business Size"),
     "businesses": MessageLookupByLibrary.simpleMessage("Businesses"),
     "buySubscription": MessageLookupByLibrary.simpleMessage("Subscribe"),
+    "buyer": MessageLookupByLibrary.simpleMessage("Buyer"),
+    "buyerInfo": MessageLookupByLibrary.simpleMessage("Buyer Information"),
+    "buyerName": MessageLookupByLibrary.simpleMessage("Buyer Name"),
+    "buyerPhoneFormat": MessageLookupByLibrary.simpleMessage(
+      "Buyer phone number must be in format 09xxxxxxxxx",
+    ),
     "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
     "camera": MessageLookupByLibrary.simpleMessage("Camera"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -217,6 +224,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "companyName": MessageLookupByLibrary.simpleMessage("Organization name"),
     "companyNationalID": MessageLookupByLibrary.simpleMessage("National ID"),
+    "completeRequiredFields": MessageLookupByLibrary.simpleMessage(
+      "Complete the required fields.",
+    ),
     "completed": MessageLookupByLibrary.simpleMessage("Completed"),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
@@ -579,7 +589,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "initialShiftSetup": MessageLookupByLibrary.simpleMessage(
       "Initial shift setup",
     ),
+    "installmentCount": MessageLookupByLibrary.simpleMessage(
+      "Installment Count",
+    ),
+    "installmentStartDateRequired": MessageLookupByLibrary.simpleMessage(
+      "Installment start date is required",
+    ),
     "insurance": MessageLookupByLibrary.simpleMessage("Insurance"),
+    "interestRate": MessageLookupByLibrary.simpleMessage("Interest Rate"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
       "Introduction Subject",
     ),
@@ -609,7 +626,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "inviteMembers": MessageLookupByLibrary.simpleMessage("Invite Members"),
     "invoice": MessageLookupByLibrary.simpleMessage("Invoice"),
     "invoiceDetails": MessageLookupByLibrary.simpleMessage("Invoice Details"),
+    "invoiceDetailsStep": MessageLookupByLibrary.simpleMessage("Details"),
     "invoiceId": MessageLookupByLibrary.simpleMessage("Invoice ID"),
+    "invoiceInstallmentsStep": MessageLookupByLibrary.simpleMessage(
+      "Installments",
+    ),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("Invoice Number"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("Invoice Type"),
     "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("Qty / kg"),
@@ -686,6 +707,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "maritalStatus": MessageLookupByLibrary.simpleMessage("Marital Status"),
     "marketing": MessageLookupByLibrary.simpleMessage("Marketing"),
     "married": MessageLookupByLibrary.simpleMessage("Married"),
+    "maxLength": MessageLookupByLibrary.simpleMessage("Maximum length"),
     "maximum": MessageLookupByLibrary.simpleMessage("maximum"),
     "maximumFilesCanSelected": MessageLookupByLibrary.simpleMessage(
       "Maximum # files can be selected.",
@@ -750,6 +772,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "myRequests": MessageLookupByLibrary.simpleMessage("My Requests"),
     "myReviews": MessageLookupByLibrary.simpleMessage("My Reviews"),
     "myTasks": MessageLookupByLibrary.simpleMessage("My Tasks"),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "nationalCodeOrIdBuyer": MessageLookupByLibrary.simpleMessage(
+      "National ID / Code",
+    ),
     "nationalID": MessageLookupByLibrary.simpleMessage("National ID"),
     "nationalIdIsShort": MessageLookupByLibrary.simpleMessage(
       "The national code must be 10 digits",
@@ -906,6 +932,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please make sure both passwords are the same",
     ),
     "payNow": MessageLookupByLibrary.simpleMessage("Pay Now"),
+    "payable": MessageLookupByLibrary.simpleMessage("Payable"),
     "payment": MessageLookupByLibrary.simpleMessage("Payment"),
     "paymentDate": MessageLookupByLibrary.simpleMessage("Payment Date"),
     "paymentFailed": MessageLookupByLibrary.simpleMessage("Payment failed"),
@@ -914,6 +941,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Payment Method",
     ),
     "paymentReceipt": MessageLookupByLibrary.simpleMessage("Payment Receipt"),
+    "paymentTerms": MessageLookupByLibrary.simpleMessage("Payment Terms"),
     "paymentWasSuccessful": MessageLookupByLibrary.simpleMessage(
       "Payment was successful",
     ),
@@ -955,6 +983,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "presence": MessageLookupByLibrary.simpleMessage("Presence"),
     "preview": MessageLookupByLibrary.simpleMessage("Preview"),
+    "previewStep": MessageLookupByLibrary.simpleMessage("Preview"),
     "previous": MessageLookupByLibrary.simpleMessage("Previous"),
     "previousDay": MessageLookupByLibrary.simpleMessage("previous day"),
     "previousMonth": MessageLookupByLibrary.simpleMessage("Previous Month"),
@@ -965,6 +994,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "priority": MessageLookupByLibrary.simpleMessage("Priority"),
     "problemDate": MessageLookupByLibrary.simpleMessage("Problem Date"),
     "productCode": MessageLookupByLibrary.simpleMessage("Product Code"),
+    "productService": MessageLookupByLibrary.simpleMessage("Product / Service"),
     "productsOrServices": MessageLookupByLibrary.simpleMessage("Products"),
     "profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "progressStatus": MessageLookupByLibrary.simpleMessage("Progress Status"),
@@ -1085,6 +1115,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "returnDate": MessageLookupByLibrary.simpleMessage("Return Date"),
     "returnTime": MessageLookupByLibrary.simpleMessage("Return Time"),
     "reviewers": MessageLookupByLibrary.simpleMessage("Reviewers"),
+    "rial": MessageLookupByLibrary.simpleMessage("Rial"),
     "role": MessageLookupByLibrary.simpleMessage("Role"),
     "rowCount": MessageLookupByLibrary.simpleMessage("Row Count"),
     "salaryAndBenefits": MessageLookupByLibrary.simpleMessage(
@@ -1128,6 +1159,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectedModules": MessageLookupByLibrary.simpleMessage("Selected Modules"),
     "selectedUsers": MessageLookupByLibrary.simpleMessage("Selected Users"),
+    "seller": MessageLookupByLibrary.simpleMessage("Seller"),
+    "sellerInfo": MessageLookupByLibrary.simpleMessage("Seller Information"),
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "sendAnonymousMessage": MessageLookupByLibrary.simpleMessage(
       "Send Anonymous Message",
@@ -1160,6 +1193,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Shift Overlap Report",
     ),
     "shiftTitle": MessageLookupByLibrary.simpleMessage("Shift Title"),
+    "shippingCost": MessageLookupByLibrary.simpleMessage("Shipping Cost"),
     "show": MessageLookupByLibrary.simpleMessage("Show"),
     "signatories": MessageLookupByLibrary.simpleMessage("Signatories"),
     "signatures": MessageLookupByLibrary.simpleMessage("Signatures"),
@@ -1193,7 +1227,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "startTimeMustBeSetInFuture": MessageLookupByLibrary.simpleMessage(
       "The start time must be set in the future",
     ),
-    "state": MessageLookupByLibrary.simpleMessage("Province"),
+    "state": MessageLookupByLibrary.simpleMessage("State"),
     "statistics": MessageLookupByLibrary.simpleMessage("Stats"),
     "status": MessageLookupByLibrary.simpleMessage("Status"),
     "step": MessageLookupByLibrary.simpleMessage("Step"),
@@ -1284,6 +1318,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "todo": MessageLookupByLibrary.simpleMessage("To-Do"),
     "toman": MessageLookupByLibrary.simpleMessage("Toman"),
     "total": MessageLookupByLibrary.simpleMessage("Total"),
+    "totalAmountOfProductsServices": MessageLookupByLibrary.simpleMessage(
+      "Total amount",
+    ),
     "totalContracts": MessageLookupByLibrary.simpleMessage("Total Contracts"),
     "totalCount": MessageLookupByLibrary.simpleMessage("Total Count"),
     "totalFollowups": MessageLookupByLibrary.simpleMessage("Total Follow-ups"),
@@ -1330,6 +1367,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "unsuccessfulPayment": MessageLookupByLibrary.simpleMessage("Unsuccessful"),
     "until": MessageLookupByLibrary.simpleMessage("Until"),
     "update": MessageLookupByLibrary.simpleMessage("Update"),
+    "updateInvoiceInfoError": MessageLookupByLibrary.simpleMessage(
+      "Error updating information",
+    ),
     "updateSubTitle": MessageLookupByLibrary.simpleMessage(
       "Update to the latest version and enjoy bug fixes and improved features!",
     ),
@@ -1383,6 +1423,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "warehouse": MessageLookupByLibrary.simpleMessage("Warehouse"),
     "warehouseCode": MessageLookupByLibrary.simpleMessage("Warehouse Code"),
+    "warehouseModuleName": MessageLookupByLibrary.simpleMessage("Warehouse"),
     "warehouses": MessageLookupByLibrary.simpleMessage("Warehouses"),
     "warning": MessageLookupByLibrary.simpleMessage("Warning"),
     "website": MessageLookupByLibrary.simpleMessage("Website"),

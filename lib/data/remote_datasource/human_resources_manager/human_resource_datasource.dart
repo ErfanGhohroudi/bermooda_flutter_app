@@ -27,7 +27,7 @@ class HumanResourceDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -57,7 +57,7 @@ class HumanResourceDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -159,5 +159,59 @@ class HumanResourceDatasource {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
+  }
+
+  void getArchivedDepartments({
+    final int pageNumber = 1,
+    final String? query,
+    final int perPageCount = 20,
+    required final Function(GenericResponse<HRDepartmentReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    try {
+      final response = await _apiClient.get(
+        "/v1/HumanResourcesManager/FolderManager/Archives",
+        queryParameters: {
+          "page_number": pageNumber,
+          "per_page_count": perPageCount,
+          if (query != null && query.isNotEmpty) "search": query,
+        },
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<HRDepartmentReadDto>.fromJson(response.data, fromMap: HRDepartmentReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+  }
+
+  void restoreDepartment({
+    required final String? slug,
+    required final Function(GenericResponse<HRDepartmentReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    AppLoading.showLoading();
+    try {
+      final response = await _apiClient.post(
+        "/v1/HumanResourcesManager/FolderManager/Restore/$slug",
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<HRDepartmentReadDto>.fromJson(response.data, fromMap: HRDepartmentReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    } finally {
+      AppLoading.dismissLoading();
+    }
   }
 }

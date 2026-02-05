@@ -26,5 +26,6 @@ class CrmDatasources {
     Get.lazyPut<GetInvoiceCodeDatasource>(() => GetInvoiceCodeDatasource(), fenix: true);
     Get.lazyPut<ChangeInvoiceStatusDatasource>(() => ChangeInvoiceStatusDatasource(), fenix: true);
     Get.lazyPut<InvoicePreviewDatasource>(() => InvoicePreviewDatasource(), fenix: true);
+    Get.lazyPut<UpdateInvoiceInfoDatasource>(() => UpdateInvoiceInfoDatasource(), fenix: true);
   }
 }

@@ -5,7 +5,9 @@ import '../../../../../../core/widgets/widgets.dart';
 import '../controllers/create_invoice_controller.dart';
 import '../steps/buyer_seller_info_step.dart';
 import '../steps/invoice_details_step.dart';
+import '../steps/invoice_installments_step.dart';
 import '../steps/invoice_preview_step.dart';
+import '../widgets/stepper.dart';
 
 class CreateInvoicePage extends StatefulWidget {
   const CreateInvoicePage({
@@ -36,81 +38,79 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
 
   @override
   Widget build(final BuildContext context) {
-    return UScaffold(
-      appBar: AppBar(title: Text(s.newInvoice)),
-      bottomNavigationBar: _buildButtons(),
-      body: Obx(
-        () {
-          if (ctrl.pageState.isLoading()) {
-            return const Center(child: WCircularLoading());
-          }
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (final didPop, final result) {
+        if (didPop) return;
+        if (ctrl.currentStep.value > 0) {
+          ctrl.previousStep();
+        } else {
+          Navigator.pop(context);
+        }
+      },
+      child: UScaffold(
+        resizeToAvoidBottomInset: true,
+        color: context.theme.cardColor,
+        appBar: AppBar(title: Text(s.newInvoice)),
+        bottomNavigationBar: _buildButtons(),
+        body: Obx(
+          () {
+            if (ctrl.pageState.isLoading()) {
+              return const Center(child: WCircularLoading());
+            }
 
-          if (ctrl.pageState.isError()) {
-            return Center(
-              child: WErrorWidget(
-                onTapButton: ctrl.loadInvoiceCode,
-              ),
-            );
-          }
+            if (ctrl.pageState.isError()) {
+              return Center(
+                child: WErrorWidget(
+                  onTapButton: ctrl.loadInvoiceCodeAndBuyerSellerInfo,
+                ),
+              );
+            }
 
-          return _buildStepper();
-        },
+            return _buildStepper();
+          },
+        ),
       ),
     );
   }
 
   Widget _buildStepper() {
-    return Theme(
-      data: context.theme.copyWith(
-        colorScheme: context.theme.colorScheme.copyWith(
-          primary: context.theme.primaryColor,
-        ),
-        canvasColor: context.theme.scaffoldBackgroundColor,
-      ),
-      child: Obx(
-        () => Stepper(
-          type: StepperType.horizontal,
+    return Obx(
+      () {
+        final stepsLength = ctrl.isInstallmentPaymentTerms ? 4 : 3;
+        final currentStepTitle = ctrl.steps[ctrl.currentStep.value];
+        final currentStepContent = _buildStepContent(ctrl.currentStep.value);
+
+        return WStepper(
+          stepsLength: stepsLength,
           currentStep: ctrl.currentStep.value,
-          stepIconMargin: const EdgeInsets.only(left: 3, right: 3, bottom: 10),
-          elevation: 0,
-          controlsBuilder: (final context, final details) => const SizedBox.shrink(),
-          steps: _buildSteps(),
-        ),
-      ),
+          currentStepTitle: currentStepTitle,
+          currentStepContent: currentStepContent,
+        );
+      },
     );
   }
 
-  List<Step> _buildSteps() {
-    return List.generate(3, (final index) {
-      final isActive = index <= ctrl.currentStep.value;
-      final isComplete = index < ctrl.currentStep.value;
-
-      return Step(
-        isActive: isActive,
-        state: isComplete ? StepState.complete : StepState.indexed,
-        title: const SizedBox.shrink(),
-        label: Text(
-          ctrl.steps[index],
-          textAlign: TextAlign.center,
-        ).bodySmall(color: isActive ? context.theme.primaryColor : context.theme.hintColor),
-        stepStyle: StepStyle(
-          color: isActive ? context.theme.primaryColor : context.theme.dividerColor,
-          connectorColor: context.theme.dividerColor,
-          indexStyle: context.textTheme.bodyMedium?.copyWith(
-            color: isActive ? Colors.white : context.theme.hintColor,
-          ),
-        ),
-        content: _buildStepContent(index),
-      );
-    });
-  }
-
   Widget _buildStepContent(final int step) {
+    if (ctrl.isInstallmentPaymentTerms) {
+      switch (step) {
+        case 0:
+          return InvoiceDetailsStep(ctrl: ctrl);
+        case 1:
+          return InvoiceInstallmentsStep(ctrl: ctrl);
+        case 2:
+          return BuyerSellerInfoStep(ctrl: ctrl);
+        case 3:
+          return InvoicePreviewStep(ctrl: ctrl);
+        default:
+          return const SizedBox.shrink();
+      }
+    }
     switch (step) {
       case 0:
-        return BuyerSellerInfoStep(ctrl: ctrl);
-      case 1:
         return InvoiceDetailsStep(ctrl: ctrl);
+      case 1:
+        return BuyerSellerInfoStep(ctrl: ctrl);
       case 2:
         return InvoicePreviewStep(ctrl: ctrl);
       default:
@@ -123,6 +123,10 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
       top: false,
       child: Obx(
         () {
+          if (!ctrl.pageState.isLoaded()) {
+            return const SizedBox.shrink();
+          }
+
           Widget getButtons() {
             switch (ctrl.currentStep.value) {
               case 0:
@@ -131,7 +135,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                   title: s.next,
                   onTap: ctrl.nextStep,
                 );
-              case 1:
+              case 1 || 2:
                 return Row(
                   spacing: 10,
                   children: [
@@ -146,7 +150,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                     ).expanded(),
                   ],
                 );
-              case 2:
+              case 3:
                 return Row(
                   spacing: 10,
                   children: [
@@ -177,11 +181,9 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
     appShowYesCancelDialog(
       title: 'ثبت فاکتور',
       description: 'آیا از صدور فاکتور مطمئن هستید؟',
-      yesButtonTitle: 'تایید',
-      cancelButtonTitle: 'انصراف',
       onYesButtonTap: () {
         UNavigator.back();
-        ctrl.submitInvoice();
+        ctrl.submitInvoice(context);
       },
     );
   }

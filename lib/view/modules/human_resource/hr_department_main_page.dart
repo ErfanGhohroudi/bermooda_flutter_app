@@ -5,7 +5,7 @@ import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme.dart';
 import '../../../data/data.dart';
-import 'archive/hr_archive_page.dart';
+import 'archive/members/hr_archived_members_page.dart';
 import 'attendance/statistics/monthly_attendance_stats_page.dart';
 import 'board/hr_board_page.dart';
 import 'my_reviews/my_reviews_page.dart';
@@ -93,7 +93,7 @@ class HrDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(HRArchivePage(
+              UNavigator.push(HRArchivedMembersPage(
                 department: department,
               ));
             },

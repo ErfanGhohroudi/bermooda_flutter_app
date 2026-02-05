@@ -97,7 +97,7 @@ class InvoiceEntity extends Equatable {
   final String mainId;
   final String invoiceCode;
   final InvoiceType invoiceType;
-  final PaymentType paymentType;
+  final PaymentTerms paymentType;
   final List<InvoiceProduct> products;
   final String createdDatePersian;
   final InvoiceStatusEntity? status;
@@ -123,7 +123,7 @@ class InvoiceEntity extends Equatable {
         mainId: dto.mainId ?? '',
         invoiceCode: dto.invoiceCode ?? '',
         invoiceType: dto.invoiceType ?? InvoiceType.preinvoice,
-        paymentType: dto.paymentType ?? PaymentType.cash,
+        paymentType: dto.paymentType ?? PaymentTerms.cash,
         products: (dto.product ?? []).map((final p) => InvoiceProduct(
           id: p.id ?? 0,
           title: p.title ?? '',

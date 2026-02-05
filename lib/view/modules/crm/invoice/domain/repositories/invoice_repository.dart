@@ -13,11 +13,14 @@ abstract class InvoiceRepository {
   /// Get invoice by ID
   Future<InvoiceEntity> getInvoiceById(final int invoiceId);
 
+  /// Get invoice buyer and seller information
+  Future<InvoiceBuyerSellerInfo> getInvoiceBuyerAndSellerInfo(final int customerId);
+
   /// Get invoice preview by main ID (public link)
   Future<InvoiceEntity> getInvoicePreview(final String mainId);
 
   /// Create new invoice
-  Future<InvoiceEntity> createInvoice(final Map<String, dynamic> params);
+  Future<InvoiceEntity> createInvoice(final InvoiceParams params);
 
   /// Change invoice status
   Future<InvoiceEntity> changeInvoiceStatus(final int invoiceId, final int statusId);

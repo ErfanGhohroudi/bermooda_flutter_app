@@ -1,11 +1,11 @@
 import 'package:u/utilities.dart';
 
-import '../../../../core/core.dart';
-import '../../../../data/data.dart';
-import '../removed_list/removed_members_list_page.dart';
+import '../../../../../core/core.dart';
+import '../../../../../data/data.dart';
+import '../../removed_list/removed_members_list_page.dart';
 
-class HRArchivePage extends StatelessWidget {
-  const HRArchivePage({
+class HRArchivedMembersPage extends StatelessWidget {
+  const HRArchivedMembersPage({
     required this.department,
     super.key,
   });

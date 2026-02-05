@@ -105,10 +105,10 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
         return null;
       },
       onChanged: (final value) {
-        if (currentAmount < widget.min) {
+        if (currentAmount <= widget.min) {
           currentAmountController.text = widget.min.toString();
         }
-        if (currentAmount > widget.max) {
+        if (currentAmount >= widget.max) {
           currentAmountController.text = widget.max.toString();
         }
         widget.onIncrease?.call(currentAmount);
@@ -123,13 +123,13 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
   Widget _addButton() => Center(
     widthFactor: 1,
     heightFactor: 1,
-    child: GestureDetector(
-      onTap: increaseAmount,
-      child:
+    child: IconButton(
+      onPressed: increaseAmount,
+      icon:
           widget.addWidget ??
-          UImage(
-            AppIcons.addSquareOutline,
-            color: currentAmount < widget.max ? context.theme.primaryColor : widget.maximumColor ?? context.theme.hintColor,
+          Icon(
+            Icons.add_rounded,
+            color: currentAmount < widget.max ? null : (widget.maximumColor ?? context.theme.hintColor),
             size: 25,
           ),
     ),
@@ -138,15 +138,13 @@ class _WPlusMinusFieldState extends State<WPlusMinusField> {
   Widget _minusButton() => Center(
     widthFactor: 1,
     heightFactor: 1,
-    child: GestureDetector(
-      onTap: decreaseAmount,
-      child:
+    child: IconButton(
+      onPressed: decreaseAmount,
+      icon:
           widget.minusWidget ??
-          UImage(
-            AppIcons.minusSquareOutline,
-            color: currentAmount > widget.min && currentAmount > 0
-                ? AppColors.red
-                : widget.minimumColor ?? context.theme.hintColor,
+          Icon(
+            Icons.remove,
+            color: currentAmount > widget.min && currentAmount > 0 ? null : (widget.minimumColor ?? context.theme.hintColor),
             size: 25,
           ),
     ),

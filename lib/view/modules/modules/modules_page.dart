@@ -172,7 +172,7 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
       ),
     if (AppConfig.instance.isDevelopment)
       WModuleCard(
-        title: s.warehouse,
+        title: s.warehouseModuleName,
         icon: AppIcons.warehouseModule,
         isBottomSheet: isBottomSheet,
         onTap: () => UNavigator.push(const WarehouseListPage()),

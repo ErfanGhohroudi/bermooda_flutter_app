@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
@@ -5,9 +6,11 @@ import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../data/data.dart';
 import '../../data/repositories/invoice_repository_impl.dart';
+import '../../domain/usecases/get_invoice_buyer_seller_info.dart';
 import '../../domain/usecases/get_invoice_code.dart';
 import '../../domain/usecases/create_invoice.dart';
 import '../../domain/entities/invoice.dart';
+import '../helpers/murabaha_installment_calculator.dart';
 
 class CreateInvoiceController extends GetxController {
   CreateInvoiceController({required this.customerId});
@@ -15,53 +18,89 @@ class CreateInvoiceController extends GetxController {
   final int customerId;
   final InvoiceRepositoryImpl _repository = InvoiceRepositoryImpl();
   final DropdownDatasource _dropdownDatasource = Get.find<DropdownDatasource>();
-  final CustomerDatasource _customerDatasource = Get.find<CustomerDatasource>();
-  final WorkspaceDatasource _workspaceDatasource = Get.find<WorkspaceDatasource>();
-  final Core _core = Get.find<Core>();
+  final UpdateInvoiceInfoDatasource _updateInvoiceInfoDatasource = Get.find<UpdateInvoiceInfoDatasource>();
 
   late final GetInvoiceCodeUseCase _getInvoiceCodeUseCase = GetInvoiceCodeUseCase(_repository);
+  late final GetInvoiceBuyerSellerInfoUseCase _getInvoiceBuyerSellerInfoUseCase = GetInvoiceBuyerSellerInfoUseCase(_repository);
   late final CreateInvoiceUseCase _createInvoiceUseCase = CreateInvoiceUseCase(_repository);
 
   final Rx<PageState> pageState = PageState.initial.obs;
   final RxString invoiceCode = ''.obs;
   final RxBool isLoading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> step1FormKey = GlobalKey<FormState>();
-  final GlobalKey<FormState> step2FormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> buyerSellerStepFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> detailsStepFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> installmentStepFormKey = GlobalKey<FormState>();
 
   // Stepper
   final RxInt currentStep = 0.obs;
-  final steps = ['اطلاعات خریدار و فروشنده', 'اطلاعات فاکتور', 'پیش‌نمایش'];
+
+  bool get isInstallmentPaymentTerms => selectedPaymentTerms.value == PaymentTerms.installment;
+
+  List<String> get steps =>
+      [
+        s.invoiceDetailsStep,
+        if (isInstallmentPaymentTerms) s.invoiceInstallmentsStep,
+        "${s.buyer}/${s.seller}",
+        s.previewStep,
+      ];
 
   // Form fields - Step 1: Buyer Information
+  BuyerInfo? _buyerInfo;
   final TextEditingController buyerNameController = TextEditingController();
   final TextEditingController buyerPhoneController = TextEditingController();
   final TextEditingController buyerAddressController = TextEditingController();
+  final TextEditingController buyerNationalCodeController = TextEditingController();
+  final TextEditingController buyerEconomicCodeController = TextEditingController();
   Jalali? createdDate;
   Jalali? validityDate;
   final Rxn<DropdownItemReadDto> selectedState = Rxn<DropdownItemReadDto>(null);
   final Rxn<DropdownItemReadDto> selectedCity = Rxn<DropdownItemReadDto>(null);
 
-  // State/City management
+  // State/City management for buyer
   final Rx<PageState> statesState = PageState.loaded.obs;
   final Rx<PageState> citiesState = PageState.loaded.obs;
   final RxList<DropdownItemReadDto> states = <DropdownItemReadDto>[].obs;
   final RxList<DropdownItemReadDto> cities = <DropdownItemReadDto>[].obs;
 
+  // Form fields - Step 1: Seller (Workspace) Information
+  final TextEditingController sellerFullnameController = TextEditingController();
+  final Rx<AuthenticationType> sellerPersonalType = AuthenticationType.person.obs;
+  final TextEditingController sellerEconomicNumberController = TextEditingController();
+  final TextEditingController sellerNationalCodeController = TextEditingController();
+  final TextEditingController sellerRegistrationNumberController = TextEditingController();
+  final TextEditingController sellerPostalCodeController = TextEditingController();
+  final TextEditingController sellerAddressController = TextEditingController();
+  final TextEditingController sellerPhoneController = TextEditingController();
+  final TextEditingController sellerFaxController = TextEditingController();
+  final TextEditingController sellerEmailController = TextEditingController();
+  final TextEditingController sellerShebaController = TextEditingController();
+  final Rxn<DropdownItemReadDto> sellerState = Rxn<DropdownItemReadDto>(null);
+  final Rxn<DropdownItemReadDto> sellerCity = Rxn<DropdownItemReadDto>(null);
+
+  // State/City management for seller
+  final Rx<PageState> sellerStatesState = PageState.loaded.obs;
+  final Rx<PageState> sellerCitiesState = PageState.loaded.obs;
+  final RxList<DropdownItemReadDto> sellerStates = <DropdownItemReadDto>[].obs;
+  final RxList<DropdownItemReadDto> sellerCities = <DropdownItemReadDto>[].obs;
+
   // Seller Information (from workspace)
-  final Rx<WorkspaceInfoReadDto?> workspaceInfo = Rxn<WorkspaceInfoReadDto?>(null);
-  final Rx<PageState> workspaceInfoState = PageState.initial.obs;
+  final Rx<SellerInfo?> sellerInfo = Rxn<SellerInfo?>(null);
+
+  bool get isWorkspaceInfoCompleted => sellerInfo.value?.personalInformationStatus ?? false;
 
   // Form fields - Step 2: Invoice Details
   final TextEditingController invoiceCodeController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController discountController = TextEditingController();
-  final TextEditingController taxesController = TextEditingController();
+  final RxInt discountPercentage = 0.obs;
+  final RxInt taxesPercentage = 0.obs;
+  final RxBool shipping = false.obs;
+  final RxInt shippingCostAmount = 0.obs;
   final TextEditingController shippingCostController = TextEditingController();
-  final TextEditingController interestPercentageController = TextEditingController();
+  final RxInt interestPercentage = 0.obs;
 
   final Rxn<InvoiceType> selectedInvoiceType = Rxn<InvoiceType>(null);
-  final Rxn<PaymentType> selectedPaymentType = Rxn<PaymentType>(null);
+  final Rx<PaymentTerms> selectedPaymentTerms = PaymentTerms.values.first.obs;
   final RxList<InvoiceProduct> products = <InvoiceProduct>[].obs;
   final RxInt expandedProductIndex = (-1).obs;
 
@@ -69,7 +108,7 @@ class CreateInvoiceController extends GetxController {
   int installmentCount = 1;
   Jalali? installmentStartDate;
   int installmentPeriod = 10; // 10, 20, or 30 days
-  final RxList<Map<String, dynamic>> installmentPayments = <Map<String, dynamic>>[].obs;
+  final RxList<InstallmentResult> installmentPayments = <InstallmentResult>[].obs;
 
   // Dates
   Jalali? dateToPay;
@@ -78,128 +117,63 @@ class CreateInvoiceController extends GetxController {
   void onInit() {
     super.onInit();
     createdDate = Jalali.now();
-    loadInvoiceCode();
-    loadStates();
-    loadCustomerInfo();
-    loadWorkspaceInfo();
+    _loadBuyerStates();
+    _loadSellerStates();
+    loadInvoiceCodeAndBuyerSellerInfo();
   }
 
   @override
   void onClose() {
-    pageState.close();
-    invoiceCode.close();
-    isLoading.close();
-    currentStep.close();
-    statesState.close();
-    citiesState.close();
-    states.close();
-    cities.close();
-    workspaceInfo.close();
-    workspaceInfoState.close();
-    installmentPayments.close();
-    selectedState.close();
-    selectedCity.close();
-    selectedInvoiceType.close();
-    selectedPaymentType.close();
-    expandedProductIndex.close();
-
     buyerNameController.dispose();
     buyerPhoneController.dispose();
     buyerAddressController.dispose();
+    buyerNationalCodeController.dispose();
+    buyerEconomicCodeController.dispose();
+    sellerFullnameController.dispose();
+    sellerEconomicNumberController.dispose();
+    sellerNationalCodeController.dispose();
+    sellerRegistrationNumberController.dispose();
+    sellerPostalCodeController.dispose();
+    sellerAddressController.dispose();
+    sellerPhoneController.dispose();
+    sellerFaxController.dispose();
+    sellerEmailController.dispose();
+    sellerShebaController.dispose();
     invoiceCodeController.dispose();
     descriptionController.dispose();
-    discountController.dispose();
-    taxesController.dispose();
     shippingCostController.dispose();
-    interestPercentageController.dispose();
-    products.close();
     super.onClose();
   }
 
-  CustomerReadDto? _customerData;
-
-  Future<void> loadCustomerInfo() async {
-    try {
-      _customerDatasource.getCustomer(
-        customerId: customerId,
-        onResponse: (final response) {
-          if (response.result == null) return;
-          _customerData = response.result!;
-          final customer = response.result!;
-
-          // Fill buyer information from customer
-          buyerNameController.text = customer.fullNameOrCompanyName ?? '';
-          buyerPhoneController.text = customer.phoneNumber ?? '';
-          buyerAddressController.text = customer.address ?? '';
-
-          // Set state and city if states are already loaded
-          if (states.isNotEmpty) {
-            _setCustomerStateAndCity();
-          }
-        },
-        onError: (final errorResponse) {
-          // Silently fail - user can fill manually
-        },
-        withRetry: true,
-      );
-    } catch (e) {
-      // Silently fail - user can fill manually
-    }
-  }
-
-  void _setCustomerStateAndCity() {
-    if (_customerData == null) return;
-    final customer = _customerData!;
+  void _setBuyerStateAndCity() {
+    if (_buyerInfo == null) return;
+    final customer = _buyerInfo!;
 
     // Set state if available
     if (customer.state?.id != null && states.isNotEmpty) {
       final customerStateId = customer.state!.id;
       final matchingState = states.firstWhereOrNull(
-        (final s) => s.id != null && s.id == customerStateId,
+            (final s) => s.id != null && s.id == customerStateId,
       );
       if (matchingState != null) {
         selectedState.value = matchingState;
-        loadCities();
+        _loadBuyerCities();
       }
     }
   }
 
-  Future<void> loadWorkspaceInfo() async {
-    try {
-      workspaceInfoState.loading();
-      final workspaceId = _core.currentWorkspace.value.id;
-      if (workspaceId.isEmpty) {
-        workspaceInfoState.loaded();
-        return;
-      }
-
-      _workspaceDatasource.getAllWorkspaceWithInfo(
-        onResponse: (final workspaceList) {
-          if (workspaceInfoState.subject.isClosed) return;
-          if (workspaceList.isNotEmpty) {
-            workspaceInfo(workspaceList.first);
-          }
-          workspaceInfoState.loaded();
-        },
-        onError: (final errorResponse) {
-          if (workspaceInfoState.subject.isClosed) return;
-          workspaceInfoState.error();
-        },
-        withRetry: true,
-      );
-    } catch (e) {
-      if (workspaceInfoState.subject.isClosed) return;
-      workspaceInfoState.error();
-    }
-  }
-
-  Future<void> loadInvoiceCode() async {
+  Future<void> loadInvoiceCodeAndBuyerSellerInfo() async {
     try {
       pageState.loading();
-      final code = await _getInvoiceCodeUseCase();
+      final results = await Future.wait([
+        _getInvoiceCodeUseCase(),
+        _getInvoiceBuyerSellerInfoUseCase(customerId),
+      ]);
       if (pageState.subject.isClosed) return;
-      invoiceCode(code);
-      invoiceCodeController.text = code;
+      final code = results[0] as String;
+      final buyerSellerInfo = results[1] as InvoiceBuyerSellerInfo;
+      await _setInvoiceCode(code);
+      await _setBuyerSellerInfo(buyerSellerInfo);
       pageState.loaded();
     } catch (e) {
       if (pageState.subject.isClosed) return;
@@ -207,14 +181,56 @@ class CreateInvoiceController extends GetxController {
     }
   }
 
-  Future<void> loadStates() async {
+  Future<void> _setInvoiceCode(final String code) async {
+    invoiceCode(code);
+    invoiceCodeController.text = code;
+  }
+
+  Future<void> _setBuyerSellerInfo(final InvoiceBuyerSellerInfo result) async {
+    _buyerInfo = result.buyerInfo;
+    final customer = result.buyerInfo;
+    // Fill buyer information from customer
+    buyerNameController.text = customer.name;
+    buyerNationalCodeController.text = customer.nationalCode ?? '';
+    buyerEconomicCodeController.text = customer.economicCode ?? '';
+    buyerAddressController.text = customer.address;
+    buyerPhoneController.text = customer.phoneNumber;
+
+    // Set state and city if states are already loaded
+    if (states.isNotEmpty) {
+      _setBuyerStateAndCity();
+    }
+
+    final wsInfo = result.sellerInfo;
+    sellerInfo(wsInfo);
+
+    // Fill seller information from workspace
+    sellerPersonalType.value = wsInfo.normalizedPersonalType;
+    sellerFullnameController.text = wsInfo.name;
+    sellerEconomicNumberController.text = wsInfo.economicNumber ?? '';
+    sellerNationalCodeController.text = wsInfo.nationalCode ?? '';
+    sellerRegistrationNumberController.text = wsInfo.registrationNumber ?? '';
+    sellerAddressController.text = wsInfo.address;
+    sellerPhoneController.text = wsInfo.phoneNumber;
+    sellerPostalCodeController.text = wsInfo.postalCode ?? '';
+    sellerFaxController.text = wsInfo.faxNumber ?? '';
+    sellerEmailController.text = wsInfo.email ?? '';
+    sellerShebaController.text = wsInfo.shebaNumber ?? '';
+
+    // Set seller state and city if states are already loaded
+    if (sellerStates.isNotEmpty) {
+      _setSellerStateAndCity(wsInfo);
+    }
+  }
+
+  Future<void> _loadBuyerStates() async {
     statesState.loading();
     _dropdownDatasource.getAllState(
       onResponse: (final response) {
         states(response.resultList);
         statesState.loaded();
         // After states are loaded, try to set customer's state/city
-        _setCustomerStateAndCity();
+        _setBuyerStateAndCity();
       },
       onError: (final errorResponse) {
         statesState.error();
@@ -223,7 +239,7 @@ class CreateInvoiceController extends GetxController {
     );
   }
 
-  void loadCities() {
+  void _loadBuyerCities() {
     if (selectedState.value == null) return;
     citiesState.loading();
     _dropdownDatasource.getCitiesByStateId(
@@ -232,7 +248,7 @@ class CreateInvoiceController extends GetxController {
         cities(response.resultList);
         citiesState.loaded();
         // After cities are loaded, try to set customer's city
-        if (_customerData != null) {
+        if (_buyerInfo != null) {
           _setCustomerCity();
         }
       },
@@ -243,14 +259,21 @@ class CreateInvoiceController extends GetxController {
     );
   }
 
+  void onSelectBuyerState(final DropdownItemReadDto? value) {
+    selectedState.value = value;
+    selectedCity.value = null;
+    cities.clear();
+    _loadBuyerCities();
+  }
+
   void _setCustomerCity() {
-    if (_customerData == null || cities.isEmpty) return;
-    final customer = _customerData!;
+    if (_buyerInfo == null || cities.isEmpty) return;
+    final customer = _buyerInfo!;
 
     if (customer.city?.id != null) {
       final customerCityId = customer.city!.id;
       final matchingCity = cities.firstWhereOrNull(
-        (final c) => c.id != null && c.id == customerCityId,
+            (final c) => c.id != null && c.id == customerCityId,
       );
       if (matchingCity != null) {
         selectedCity.value = matchingCity;
@@ -258,12 +281,95 @@ class CreateInvoiceController extends GetxController {
     }
   }
 
+  void _loadSellerStates() {
+    sellerStatesState.loading();
+    _dropdownDatasource.getAllState(
+      onResponse: (final response) {
+        sellerStates(response.resultList);
+        sellerStatesState.loaded();
+        // After seller states are loaded, try to set workspace's state/city
+        if (sellerInfo.value != null) {
+          _setSellerStateAndCity(sellerInfo.value!);
+        }
+      },
+      onError: (final errorResponse) {
+        sellerStatesState.error();
+      },
+      withRetry: true,
+    );
+  }
+
+  void _loadSellerCities() {
+    if (sellerState.value == null) return;
+    sellerCitiesState.loading();
+    _dropdownDatasource.getCitiesByStateId(
+      stateId: sellerState.value?.id,
+      onResponse: (final response) {
+        sellerCities(response.resultList);
+        sellerCitiesState.loaded();
+        // After seller cities are loaded, try to set workspace's city
+        if (sellerInfo.value != null) {
+          _setSellerCity(sellerInfo.value!);
+        }
+      },
+      onError: (final errorResponse) {
+        sellerCitiesState.error();
+      },
+      withRetry: true,
+    );
+  }
+
+  void onSelectSellerState(final DropdownItemReadDto? value) {
+    sellerState.value = value;
+    sellerCity.value = null;
+    sellerCities.clear();
+    _loadSellerCities();
+  }
+
+  void _setSellerStateAndCity(final SellerInfo wsInfo) {
+    // Set seller state if available
+    if (wsInfo.state != null && sellerStates.isNotEmpty) {
+      final matchingState = sellerStates.firstWhereOrNull(
+            (final s) => s.id != null && s.id == wsInfo.state?.id,
+      );
+      if (matchingState != null) {
+        sellerState.value = matchingState;
+        _loadSellerCities();
+      }
+    }
+  }
+
+  void _setSellerCity(final SellerInfo wsInfo) {
+    if (sellerCities.isEmpty) return;
+
+    // Set seller city if available
+    if (wsInfo.city != null) {
+      final matchingCity = sellerCities.firstWhereOrNull(
+            (final c) => c.id != null && c.id == wsInfo.city?.id,
+      );
+      if (matchingCity != null) {
+        sellerCity.value = matchingCity;
+      }
+    }
+  }
+
   // Navigation
   void nextStep() {
     if (currentStep.value == 0) {
-      if (!validateStep1()) return;
+      if (!validateDetailsForm()) return;
     } else if (currentStep.value == 1) {
-      if (!validateStep2()) return;
+      if (!validateInstallmentsForm()) return;
+    } else if (isInstallmentPaymentTerms && currentStep.value == 2) {
+      if (!validateBuyerSellerForm()) return;
+      // Call API before proceeding to next step
+      updateInvoiceInfo(
+        onSuccess: () {
+          if (currentStep.value < steps.length - 1) {
+            currentStep(currentStep.value + 1);
+          }
+        },
+      );
+      return;
     }
 
     if (currentStep.value < steps.length - 1) {
@@ -271,47 +377,80 @@ class CreateInvoiceController extends GetxController {
     }
   }
 
+  Future<void> updateInvoiceInfo({required final VoidCallback onSuccess}) async {
+    try {
+      // Build customer_data
+      final customerData = UpdateInvoiceInfoCustomerData(
+        fullnameOrCompanyName: buyerNameController.text.trim(),
+        nationalCode: buyerNationalCodeController.text.trim(),
+        economicCode: buyerEconomicCodeController.text.trim(),
+        stateId: selectedState.value?.id,
+        cityId: selectedCity.value?.id,
+        address: buyerAddressController.text.trim(),
+        phoneNumber: buyerPhoneController.text.trim(),
+      );
+
+      // Build workspace_data only if personalInformationStatus is false
+      UpdateInvoiceInfoWorkspaceData? workspaceData;
+      if (!isWorkspaceInfoCompleted) {
+        workspaceData = UpdateInvoiceInfoWorkspaceData(
+          fullname: sellerFullnameController.text.trim(),
+          normalizedPersonalType: sellerPersonalType.value,
+          registrationNumber: sellerRegistrationNumberController.text.trim(),
+          nationalCode: sellerNationalCodeController.text.trim(),
+          email: sellerEmailController.text.trim(),
+          postalCode: sellerPostalCodeController.text.trim(),
+          phoneNumber: sellerPhoneController.text.trim(),
+          faxNumber: sellerFaxController.text.trim(),
+          economicNumber: sellerEconomicNumberController.text.trim(),
+          address: sellerAddressController.text.trim(),
+          cityId: sellerCity.value?.id,
+          stateId: sellerState.value?.id,
+          shebaNumber: sellerShebaController.text.trim(),
+        );
+      }
+
+      // Build request params
+      final params = UpdateInvoiceInfoParams(
+        customerData: customerData,
+        workspaceData: workspaceData,
+      );
+
+      _updateInvoiceInfoDatasource.updateInvoiceInfo(
+        customerId: customerId,
+        params: params,
+        onResponse: () {
+          onSuccess();
+        },
+        onError: (final errorResponse) {
+          AppNavigator.snackbarRed(
+            title: s.error,
+            subtitle: errorResponse.message.isNotEmpty ? errorResponse.message : s.updateInvoiceInfoError,
+          );
+        },
+        withLoading: true,
+      );
+    } catch (e) {
+      AppNavigator.snackbarRed(
+        title: s.error,
+        subtitle: e.toString(),
+      );
+    }
+  }
+
   void previousStep() {
     if (currentStep.value > 0) {
       currentStep(currentStep.value - 1);
+      // stepperScrollController.jumpTo(0);
     }
-  }
-
-  bool canGoToNextStep() {
-    if (currentStep.value == 0) {
-      return validateStep1();
-    } else if (currentStep.value == 1) {
-      return validateStep2();
-    }
-    return true;
   }
 
   // Validation
-  bool validateStep1() {
-    if (!step1FormKey.currentState!.validate()) {
-      return false;
-    }
-
-    if (buyerNameController.text.trim().isEmpty) {
+  bool validateBuyerSellerForm() {
+    if (!buyerSellerStepFormKey.currentState!.validate()) {
       AppNavigator.snackbarRed(
         title: s.error,
-        subtitle: 'نام مشتری الزامی است',
-      );
-      return false;
-    }
-
-    if (buyerNameController.text.trim().length > 150) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'نام مشتری نباید بیشتر از 150 کاراکتر باشد',
-      );
-      return false;
-    }
-
-    if (buyerPhoneController.text.trim().isEmpty) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'شماره تماس الزامی است',
+        subtitle: s.completeRequiredFields,
       );
       return false;
     }
@@ -321,39 +460,7 @@ class CreateInvoiceController extends GetxController {
     if (!phoneRegex.hasMatch(buyerPhoneController.text.trim())) {
       AppNavigator.snackbarRed(
         title: s.error,
-        subtitle: 'شماره تماس باید به فرمت 09xxxxxxxxx باشد',
-      );
-      return false;
-    }
-
-    if (createdDate == null) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'تاریخ ثبت الزامی است',
-      );
-      return false;
-    }
-
-    if (selectedState.value == null) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'انتخاب استان الزامی است',
-      );
-      return false;
-    }
-
-    if (selectedCity.value == null) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'انتخاب شهر الزامی است',
-      );
-      return false;
-    }
-
-    if (buyerAddressController.text.trim().length > 200) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'آدرس نباید بیشتر از 200 کاراکتر باشد',
+        subtitle: s.buyerPhoneFormat,
       );
       return false;
     }
@@ -361,23 +468,11 @@ class CreateInvoiceController extends GetxController {
     return true;
   }
 
-  bool validateStep2() {
-    if (!step2FormKey.currentState!.validate()) {
-      return false;
-    }
-
-    if (selectedInvoiceType.value == null) {
+  bool validateDetailsForm() {
+    if (!detailsStepFormKey.currentState!.validate()) {
       AppNavigator.snackbarRed(
         title: s.error,
-        subtitle: 'انتخاب نوع فاکتور الزامی است',
-      );
-      return false;
-    }
-
-    if (selectedPaymentType.value == null) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'انتخاب نوع پرداخت الزامی است',
+        subtitle: s.completeRequiredFields,
       );
       return false;
     }
@@ -390,27 +485,19 @@ class CreateInvoiceController extends GetxController {
       return false;
     }
 
-    if (selectedPaymentType.value == PaymentType.installment) {
-      if (installmentCount < 1 || installmentCount > 24) {
-        AppNavigator.snackbarRed(
-          title: s.error,
-          subtitle: 'تعداد اقساط باید بین 1 تا 24 باشد',
-        );
-        return false;
-      }
+    return true;
+  }
 
+  bool validateInstallmentsForm() {
+    if (!installmentStepFormKey.currentState!.validate()) {
+      return false;
+    }
+
+    if (selectedPaymentTerms.value == PaymentTerms.installment) {
       if (installmentStartDate == null) {
         AppNavigator.snackbarRed(
           title: s.error,
-          subtitle: 'تاریخ شروع اقساط الزامی است',
-        );
-        return false;
-      }
-
-      if (interestPercentageController.text.trim().isEmpty) {
-        AppNavigator.snackbarRed(
-          title: s.error,
-          subtitle: 'نرخ بهره الزامی است',
+          subtitle: s.installmentStartDateRequired,
         );
         return false;
       }
@@ -420,93 +507,159 @@ class CreateInvoiceController extends GetxController {
   }
 
   // Calculations
-  int get totalProductsPrice {
-    int total = 0;
+  Decimal get totalProductsPrice {
+    Decimal total = 0.toDecimal();
     for (final product in products) {
-      final price = int.tryParse(product.price.numericOnly()) ?? 0;
-      total += price * product.count;
+      final price = Decimal.tryParse(product.price.numericOnly()) ?? 0.toDecimal();
+      total += price * product.count.toDecimal();
     }
     return total;
   }
 
-  int get discountAmount {
-    if (discountController.text.trim().isEmpty) return 0;
-    final discount = int.tryParse(discountController.text.numericOnly()) ?? 0;
-    // If discount is less than 100, treat as percentage
-    if (discount < 100) {
-      return (totalProductsPrice * (discount / 100)).toInt();
-    }
-    return discount;
+  Decimal get discountAmount {
+    if (discountPercentage.value == 0) return 0.toDecimal();
+    final discount = discountPercentage.value;
+    final discountRate = Decimal.parse((discount / 100).toString());
+    final amount = (totalProductsPrice * discountRate);
+    return amount;
   }
 
-  int get taxAmount {
-    if (taxesController.text.trim().isEmpty) return 0;
-    final tax = int.tryParse(taxesController.text.numericOnly()) ?? 0;
-    // If tax is less than 100, treat as percentage
-    if (tax < 100) {
-      return ((totalProductsPrice - discountAmount) * (tax / 100)).toInt();
-    }
-    return tax;
+  Decimal get taxAmount {
+    if (taxesPercentage.value == 0) return 0.toDecimal();
+    final tax = taxesPercentage.value;
+    final taxRate = Decimal.parse((tax / 100).toString());
+    final amount = (totalProductsPrice - discountAmount) * taxRate;
+    final decimalAmount = Decimal.parse(amount.toString());
+    return decimalAmount;
   }
 
-  int get shippingCostAmount {
-    if (shippingCostController.text.trim().isEmpty) return 0;
-    return int.tryParse(shippingCostController.text.numericOnly()) ?? 0;
+  Decimal get interestAmount {
+    if (selectedPaymentTerms.value != PaymentTerms.installment) return 0.toDecimal();
+    if (interestPercentage.value == 0) return 0.toDecimal();
+
+    final dueDates = [
+      installmentStartDate!,
+      for (int i = 1; i < installmentCount; i++)
+        installmentStartDate!.addDays(installmentPeriod * i),
+    ];
+
+    final calc = MurabahaInstallmentCalculator(
+      principalAmount: finalPrice,
+      annualRate: interestPercentage.value.toDecimal(),
+      invoiceDate: createdDate!,
+      dueDates: dueDates,
+    );
+    return calc.getTotalInterestAmount();
   }
 
-  int get interestAmount {
-    if (selectedPaymentType.value != PaymentType.installment) return 0;
-    if (interestPercentageController.text.trim().isEmpty) return 0;
-    final interest = int.tryParse(interestPercentageController.text.numericOnly()) ?? 0;
-    final baseAmount = totalProductsPrice - discountAmount + taxAmount + shippingCostAmount;
-    return (baseAmount * (interest / 100)).toInt();
-  }
-
-  int get finalPrice {
-    final baseAmount = totalProductsPrice - discountAmount + taxAmount + shippingCostAmount;
-    if (selectedPaymentType.value == PaymentType.installment) {
-      return baseAmount + interestAmount;
-    }
+  Decimal get finalPrice {
+    final totalPrice = totalProductsPrice - discountAmount;
+    final baseAmount = totalPrice + taxAmount + shippingCostAmount.value.toDecimal();
     return baseAmount;
   }
 
+  Decimal get finalPriceWithInterest {
+    if (installmentPayments.isEmpty) return finalPrice;
+
+    List<Jalali> dueDates = [];
+
+    if (installmentPayments.isNotEmpty) {
+      for (final payment in installmentPayments) {
+        dueDates.add(payment.dateToPay);
+      }
+    }
+
+    final calc = MurabahaInstallmentCalculator(
+      principalAmount: finalPrice,
+      annualRate: interestPercentage.value.toDecimal(),
+      invoiceDate: createdDate!,
+      dueDates: dueDates,
+    );
+
+    final amount = calc.getFinalAmountWithInterest();
+
+    return amount;
+  }
+
   // Installment calculation
-  void calculateInstallments() {
-    if (selectedPaymentType.value != PaymentType.installment) {
+  void calculateInstallments({final bool generateNew = false}) {
+    if (selectedPaymentTerms.value != PaymentTerms.installment) {
       installmentPayments.clear();
       return;
     }
 
-    if (installmentCount < 1 || installmentCount > 24) return;
+    if (installmentCount < 1) return;
     if (installmentStartDate == null) return;
+    if (createdDate == null) return;
 
-    final installmentAmount = finalPrice / installmentCount;
-    final payments = <Map<String, dynamic>>[];
+    List<Jalali> dueDates = [];
 
-    var currentDate = installmentStartDate!;
-    for (int i = 0; i < installmentCount; i++) {
-      payments.add({
-        'price': installmentAmount.toStringAsFixed(0),
-        'date_to_pay': currentDate.formatCompactDate(),
-      });
-
-      // Add period days
-      currentDate = currentDate.addDays(installmentPeriod);
+    if (installmentPayments.isNotEmpty && generateNew == false) {
+      for (final payment in installmentPayments) {
+        dueDates.add(payment.dateToPay);
+      }
+    } else {
+      dueDates = [
+        installmentStartDate!,
+        for (int i = 1; i < installmentCount; i++)
+          installmentStartDate!.addDays(installmentPeriod * i),
+      ];
     }
+
+    final calc = MurabahaInstallmentCalculator(
+      principalAmount: finalPrice,
+      annualRate: interestPercentage.value.toDecimal(),
+      invoiceDate: createdDate!,
+      dueDates: dueDates,
+    );
+
+    final payments = calc.calculate();
+
+    // Sort by date to pay
+    payments.sort(
+          (final a, final b) {
+        final aDateToPay = a.dateToPay;
+        final bDateToPay = b.dateToPay;
+        return aDateToPay.compareTo(bDateToPay);
+      },
+    );
 
     installmentPayments.assignAll(payments);
   }
 
+  void onShippingCostFieldChanged() {
+    if (shipping.value == false) {
+      shippingCostAmount(0);
+      return;
+    }
+
+    if (shippingCostController.text
+        .trim()
+        .isEmpty) {
+      shippingCostAmount(0);
+      return;
+    }
+
+    final amount = int.tryParse(shippingCostController.text.numericOnly()) ?? 0;
+    shippingCostAmount(amount);
+  }
+
   // Watch for changes that affect installments
-  void onInstallmentFieldsChanged() {
-    if (selectedPaymentType.value == PaymentType.installment) {
-      calculateInstallments();
+  void onFinancialFieldsChanged() {
+    if (selectedPaymentTerms.value == PaymentTerms.installment) {
+      if (installmentPayments.isNotEmpty) {
+        calculateInstallments();
+      }
+    } else {
+      if (installmentPayments.isNotEmpty) {
+        installmentPayments.clear();
+      }
     }
   }
 
   void addProduct(final InvoiceProduct product) {
     products.add(product);
-    onInstallmentFieldsChanged();
+    onFinancialFieldsChanged();
   }
 
   void removeProduct(final int index) {
@@ -517,72 +670,76 @@ class CreateInvoiceController extends GetxController {
       } else if (expandedProductIndex.value > index) {
         expandedProductIndex.value = expandedProductIndex.value - 1;
       }
-      onInstallmentFieldsChanged();
+      onFinancialFieldsChanged();
     }
   }
 
   void updateProduct(final int index, final InvoiceProduct product) {
     if (index >= 0 && index < products.length) {
       products[index] = product;
-      onInstallmentFieldsChanged();
+      onFinancialFieldsChanged();
     }
   }
 
-  Future<void> submitInvoice() async {
-    if (!validateStep1() || !validateStep2()) return;
+  Future<void> submitInvoice(final BuildContext context) async {
+    if (!validateBuyerSellerForm() || !validateDetailsForm() || !validateInstallmentsForm()) return;
 
     try {
       isLoading(true);
 
       // Build seller_information_data (buyer info for invoice)
-      final sellerInfoData = <String, dynamic>{
-        'fullname_or_company_name': buyerNameController.text.trim(),
-        'phone_number': buyerPhoneController.text.trim(),
-        'state': selectedState.value?.id,
-        'city': selectedCity.value?.id,
-        'address': buyerAddressController.text.trim(),
-      };
+      final sellerInfoData = SellerInformationData(
+        fullnameOrCompanyName: buyerNameController.text.trim(),
+        phoneNumber: buyerPhoneController.text.trim(),
+        state: selectedState.value?.id,
+        city: selectedCity.value?.id,
+        address: buyerAddressController.text.trim(),
+      );
 
-      final params = <String, dynamic>{
-        'customer_id': customerId,
-        'invoice_type': selectedInvoiceType.value?.name,
-        'payment_type': selectedPaymentType.value?.name,
-        'invoice_code': invoiceCodeController.text.trim(),
-        'seller_information_data': sellerInfoData,
-        'product_list': products
-            .map(
-              (final p) => {
-                'title': p.title,
-                'count': p.count,
-                'price': p.price.replaceAll(',', ''),
-                if (p.code != null) 'code': p.code,
-                if (p.unit != null) 'unit': p.unit,
-              },
-            )
-            .toList(),
-        'created_date': createdDate!.toDateTime().toIso8601String(),
-        if (validityDate != null) 'validity_date': validityDate!.toDateTime().toIso8601String(),
-        if (dateToPay != null) 'date_to_pay_jalali': dateToPay!.formatCompactDate(),
-        if (descriptionController.text.trim().isNotEmpty) 'description': descriptionController.text.trim(),
-        if (discountController.text.trim().isNotEmpty)
-          'discount': int.tryParse(discountController.text.trim().replaceAll(',', '')) ?? 0,
-        if (taxesController.text.trim().isNotEmpty) 'taxes': int.tryParse(taxesController.text.trim().replaceAll(',', '')) ?? 0,
-        if (selectedPaymentType.value == PaymentType.installment) ...{
-          if (interestPercentageController.text.trim().isNotEmpty)
-            'interest_percentage': int.tryParse(interestPercentageController.text.trim().replaceAll(',', '')) ?? 0,
-          if (installmentPayments.isNotEmpty) 'installment_payments': installmentPayments,
-        },
-      };
+      // Build product list
+      final productList = products
+          .map(
+            (final p) =>
+            InvoiceProductItem(
+              title: p.title,
+              count: p.count,
+              price: p.price.replaceAll(',', ''),
+              code: p.code,
+              unit: p.unit,
+            ),
+      )
+          .toList();
+
+      // Build params object
+      final params = InvoiceParams(
+        customerId: customerId,
+        invoiceType: selectedInvoiceType.value,
+        paymentType: selectedPaymentTerms.value,
+        invoiceCode: invoiceCodeController.text.trim(),
+        sellerInformationData: sellerInfoData,
+        productList: productList,
+        createdDate: createdDate!.toDateTime().toIso8601String(),
+        validityDate: validityDate?.toDateTime().toIso8601String(),
+        dateToPayJalali: dateToPay?.formatCompactDate(),
+        description: descriptionController.text
+            .trim()
+            .isNotEmpty ? descriptionController.text.trim() : null,
+        discount: discountPercentage.value,
+        taxes: taxesPercentage.value,
+        interestPercentage: interestPercentage.value,
+        installmentPayments: selectedPaymentTerms.value == PaymentTerms.installment && installmentPayments.isNotEmpty
+            ? installmentPayments.toList()
+            : null,
+      );
 
       final result = await _createInvoiceUseCase(params);
       isLoading(false);
 
-      AppNavigator.snackbarGreen(
-        title: s.success,
-        subtitle: 'فاکتور با موفقیت ثبت شد',
-      );
+      AppNavigator.snackbarGreen(title: s.done, subtitle: '');
 
-      Get.back(result: result);
+      if (context.mounted) {
+        Navigator.pop(context, result);
+      }
     } catch (e) {
       isLoading(false);
       AppNavigator.snackbarRed(
@@ -598,12 +755,13 @@ class CreateInvoiceController extends GetxController {
     buyerAddressController.clear();
     invoiceCodeController.text = invoiceCode.value;
     descriptionController.clear();
-    discountController.clear();
-    taxesController.clear();
+    discountPercentage(0);
+    taxesPercentage(0);
     shippingCostController.clear();
-    interestPercentageController.clear();
+    shippingCostAmount(0);
+    interestPercentage(0);
     selectedInvoiceType.value = null;
-    selectedPaymentType.value = null;
+    selectedPaymentTerms.value = PaymentTerms.values.first;
     products.clear();
     createdDate = Jalali.now();
     validityDate = null;

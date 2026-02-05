@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
@@ -39,7 +40,7 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
       );
 
       AppNavigator.snackbarGreen(
-        title: s.success,
+        title: s.done,
         subtitle: 'فاکتور ذخیره شد',
       );
     } catch (e) {
@@ -53,6 +54,7 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   @override
   Widget build(final BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 10, bottom: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 16,
@@ -127,8 +129,7 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
         // Installments (if applicable)
         Obx(
           () {
-            if (widget.ctrl.selectedPaymentType.value == PaymentType.installment &&
-                widget.ctrl.installmentPayments.isNotEmpty) {
+            if (widget.ctrl.selectedPaymentTerms.value == PaymentTerms.installment && widget.ctrl.installmentPayments.isNotEmpty) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -161,29 +162,19 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
               children: [
                 Obx(
                   () {
-                    final wsInfo = widget.ctrl.workspaceInfo.value;
-                    return Text(
-                      wsInfo?.name ?? wsInfo?.title ?? 'نام شرکت',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: context.theme.primaryColor,
-                      ),
-                    );
+                    final wsInfo = widget.ctrl.sellerInfo.value;
+                    return Text(wsInfo?.name ?? '- -').titleMedium(color: context.theme.primaryColor);
                   },
                 ),
-                const SizedBox(height: 8),
                 Obx(
                   () {
-                    final wsInfo = widget.ctrl.workspaceInfo.value;
-                    if (wsInfo?.address != null && wsInfo!.address!.isNotEmpty) {
-                      return Text(
-                        wsInfo.address!,
-                        style: const TextStyle(fontSize: 12),
-                      );
+                    final wsInfo = widget.ctrl.sellerInfo.value;
+                    if (wsInfo!.address.isNotEmpty) {
+                      return Text(wsInfo.address).bodyMedium();
                     }
                     return const SizedBox.shrink();
                   },
@@ -193,23 +184,10 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            spacing: 4,
             children: [
-              Text(
-                'فاکتور',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.primaryColor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.ctrl.invoiceCodeController.text,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Text(s.invoice).titleMedium(color: context.theme.primaryColor),
+              Text(widget.ctrl.invoiceCodeController.text).bodyMedium(),
             ],
           ),
         ],
@@ -231,19 +209,19 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
           if (widget.ctrl.selectedInvoiceType.value != null)
             _infoItem(
               context,
-              'نوع فاکتور',
+              s.invoiceType,
               widget.ctrl.selectedInvoiceType.value?.getTitle() ?? '',
             ),
           if (widget.ctrl.createdDate != null)
             _infoItem(
               context,
-              'تاریخ ثبت',
+              s.dateOfEntry,
               widget.ctrl.createdDate!.formatCompactDate(),
             ),
           if (widget.ctrl.validityDate != null)
             _infoItem(
               context,
-              'تاریخ اعتبار',
+              s.validityDate,
               widget.ctrl.validityDate!.formatCompactDate(),
             ),
         ],
@@ -254,22 +232,10 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   Widget _infoItem(final BuildContext context, final String label, final String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 4,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            color: context.theme.hintColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(label).bodyMedium(color: context.theme.hintColor),
+        Text(value).bodyMedium(),
       ],
     );
   }
@@ -285,21 +251,14 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'خریدار',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: context.theme.primaryColor,
-            ),
-          ),
+          Text(s.buyer).titleMedium(color: context.theme.primaryColor),
           const Divider(height: 16),
-          _infoRow(context, 'نام', widget.ctrl.buyerNameController.text),
-          _infoRow(context, 'شماره تماس', widget.ctrl.buyerPhoneController.text),
+          _infoRow(context, s.name, widget.ctrl.buyerNameController.text),
+          _infoRow(context, s.phoneNumber, widget.ctrl.buyerPhoneController.text),
           Obx(
             () {
               if (widget.ctrl.selectedState.value != null) {
-                return _infoRow(context, 'استان', widget.ctrl.selectedState.value?.title ?? '');
+                return _infoRow(context, s.state, widget.ctrl.selectedState.value?.title ?? '');
               }
               return const SizedBox.shrink();
             },
@@ -307,13 +266,13 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
           Obx(
             () {
               if (widget.ctrl.selectedCity.value != null) {
-                return _infoRow(context, 'شهر', widget.ctrl.selectedCity.value?.title ?? '');
+                return _infoRow(context, s.city, widget.ctrl.selectedCity.value?.title ?? '');
               }
               return const SizedBox.shrink();
             },
           ),
           if (widget.ctrl.buyerAddressController.text.isNotEmpty)
-            _infoRow(context, 'آدرس', widget.ctrl.buyerAddressController.text),
+            _infoRow(context, s.address, widget.ctrl.buyerAddressController.text),
         ],
       ),
     );
@@ -322,7 +281,7 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   Widget _buildSellerInfo(final BuildContext context) {
     return Obx(
       () {
-        final wsInfo = widget.ctrl.workspaceInfo.value;
+        final wsInfo = widget.ctrl.sellerInfo.value;
         if (wsInfo == null) {
           return const SizedBox.shrink();
         }
@@ -337,24 +296,14 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'فروشنده',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.primaryColor,
-                ),
-              ),
+              Text(s.seller).titleMedium(color: context.theme.primaryColor),
               const Divider(height: 16),
-              _infoRow(context, 'نام', wsInfo.name ?? wsInfo.title ?? '-'),
-              if (wsInfo.stateName != null) _infoRow(context, 'استان', wsInfo.stateName!),
-              if (wsInfo.cityName != null) _infoRow(context, 'شهر', wsInfo.cityName!),
-              if (wsInfo.address != null && wsInfo.address!.isNotEmpty)
-                _infoRow(context, 'آدرس', wsInfo.address!),
-              if (wsInfo.phoneNumber != null && wsInfo.phoneNumber!.isNotEmpty)
-                _infoRow(context, 'شماره تماس', wsInfo.phoneNumber!),
-              if (wsInfo.email != null && wsInfo.email!.isNotEmpty)
-                _infoRow(context, 'ایمیل', wsInfo.email!),
+              _infoRow(context, s.name, wsInfo.name),
+              if (wsInfo.state?.title != null) _infoRow(context, s.state, wsInfo.state!.title!),
+              if (wsInfo.city?.title != null) _infoRow(context, s.city, wsInfo.city!.title!),
+              if (wsInfo.address.isNotEmpty) _infoRow(context, s.address, wsInfo.address),
+              if (wsInfo.phoneNumber.isNotEmpty) _infoRow(context, s.phoneNumber, wsInfo.phoneNumber),
+              if (wsInfo.email != null && wsInfo.email!.isNotEmpty) _infoRow(context, s.email, wsInfo.email!),
             ],
           ),
         );
@@ -384,7 +333,7 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
               children: [
                 Expanded(flex: 3, child: Text('شرح کالا/خدمات').bodyMedium(fontWeight: FontWeight.bold)),
                 Expanded(flex: 1, child: Text('تعداد').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 1, child: Text('قیمت واحد').bodyMedium(fontWeight: FontWeight.bold)),
+                Expanded(flex: 1, child: Text(s.unitPrice).bodyMedium(fontWeight: FontWeight.bold)),
                 Expanded(flex: 1, child: Text('مبلغ کل').bodyMedium(fontWeight: FontWeight.bold)),
               ],
             ),
@@ -414,17 +363,11 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
                         Text(product.title).bodyMedium(),
                         if (product.code != null) ...[
                           const SizedBox(height: 4),
-                          Text(
-                            'کد: ${product.code}',
-                            style: TextStyle(fontSize: 11, color: context.theme.hintColor),
-                          ),
+                          Text('کد: ${product.code}').bodyMedium(color: context.theme.hintColor),
                         ],
                         if (product.unit != null) ...[
                           const SizedBox(height: 2),
-                          Text(
-                            'واحد: ${product.unit}',
-                            style: TextStyle(fontSize: 11, color: context.theme.hintColor),
-                          ),
+                          Text('واحد: ${product.unit}').bodyMedium(color: context.theme.hintColor),
                         ],
                       ],
                     ),
@@ -451,26 +394,23 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
       ),
       child: Column(
         children: [
-          _summaryRow('جمع کل محصولات', widget.ctrl.totalProductsPrice.toString().toTomanMoney()),
-          if (widget.ctrl.discountAmount > 0)
-            _summaryRow(s.discount, '-${widget.ctrl.discountAmount.toString().toTomanMoney()}'),
-          if (widget.ctrl.taxAmount > 0)
-            _summaryRow('ارزش افزوده', widget.ctrl.taxAmount.toString().toTomanMoney()),
+          _summaryRow(s.totalAmountOfProductsServices, widget.ctrl.totalProductsPrice.toString().toTomanMoney()),
+          if (widget.ctrl.discountAmount > 0.toDecimal()) _summaryRow(s.discount, '-${widget.ctrl.discountAmount.toString().toTomanMoney()}'),
+          if (widget.ctrl.taxAmount > 0.toDecimal()) _summaryRow('ارزش افزوده', widget.ctrl.taxAmount.toString().toTomanMoney()),
           if (widget.ctrl.shippingCostAmount > 0)
-            _summaryRow('هزینه ارسال', widget.ctrl.shippingCostAmount.toString().toTomanMoney()),
+            _summaryRow(s.shippingCost, widget.ctrl.shippingCostAmount.toString().toTomanMoney()),
           Obx(
             () {
-              if (widget.ctrl.selectedPaymentType.value == PaymentType.installment &&
-                  widget.ctrl.interestAmount > 0) {
-                return _summaryRow('نرخ بهره', widget.ctrl.interestAmount.toString().toTomanMoney());
+              if (widget.ctrl.selectedPaymentTerms.value == PaymentTerms.installment && widget.ctrl.interestAmount > 0.toDecimal()) {
+                return _summaryRow(s.interestRate, widget.ctrl.interestAmount.toString().toTomanMoney());
               }
               return const SizedBox.shrink();
             },
           ),
           const Divider(height: 24),
           _summaryRow(
-            'قابل پرداخت',
-            widget.ctrl.finalPrice.toString().toTomanMoney(),
+            s.payable,
+            widget.ctrl.finalPriceWithInterest.toRialMoney(),
             isBold: true,
             fontSize: 18,
           ),
@@ -512,8 +452,8 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
             child: Row(
               children: [
                 Expanded(flex: 1, child: Text('قسط').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 2, child: Text('تاریخ پرداخت').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 2, child: Text('مبلغ').bodyMedium(fontWeight: FontWeight.bold)),
+                Expanded(flex: 2, child: Text(s.paymentDate).bodyMedium(fontWeight: FontWeight.bold)),
+                Expanded(flex: 2, child: Text(s.amount).bodyMedium(fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -529,8 +469,8 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
               child: Row(
                 children: [
                   Expanded(flex: 1, child: Text('${index + 1}').bodyMedium()),
-                  Expanded(flex: 2, child: Text(payment['date_to_pay'] ?? '').bodyMedium()),
-                  Expanded(flex: 2, child: Text('${payment['price'] ?? ''} ${s.toman}').bodyMedium(fontWeight: FontWeight.bold)),
+                  Expanded(flex: 2, child: Text(payment.dateToPay.formatCompactDate()).bodyMedium()),
+                  Expanded(flex: 2, child: Text('${payment.principalAmount} ${s.toman}').bodyMedium(fontWeight: FontWeight.bold)),
                 ],
               ),
             );
@@ -549,23 +489,10 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
+        spacing: 8,
         children: [
-          Text(
-            'با تشکر از اعتماد شما',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: context.theme.primaryColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'این فاکتور به صورت الکترونیکی صادر شده است',
-            style: TextStyle(
-              fontSize: 11,
-              color: context.theme.hintColor,
-            ),
-          ),
+          Text('با تشکر از اعتماد شما').titleMedium(color: context.theme.primaryColor),
+          Text('این فاکتور به صورت الکترونیکی صادر شده است').bodyMedium(color: context.theme.hintColor),
         ],
       ),
     );
@@ -580,16 +507,10 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
         children: [
           SizedBox(
             width: 80,
-            child: Text(
-              '$label:',
-              style: TextStyle(fontSize: 12, color: context.theme.hintColor),
-            ),
+            child: Text('$label:').bodyMedium(color: context.theme.hintColor),
           ),
           Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 12),
-            ),
+            child: Text(value).bodyMedium(),
           ),
         ],
       ),
@@ -600,11 +521,9 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
     appShowYesCancelDialog(
       title: 'ریست فاکتور',
       description: 'آیا از پاک کردن تمام اطلاعات فرم مطمئن هستید؟',
-      yesButtonTitle: 'بله',
-      cancelButtonTitle: 'انصراف',
       onYesButtonTap: () {
-        widget.ctrl.resetForm();
         UNavigator.back();
+        widget.ctrl.resetForm();
       },
     );
   }

@@ -38,7 +38,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
       );
 
       AppNavigator.snackbarGreen(
-        title: s.success,
+        title: s.done,
         subtitle: 'فاکتور ذخیره شد',
       );
     } catch (e) {
@@ -546,7 +546,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
               Row(
                 children: [
                   Checkbox(
-                    value: widget.invoice.paymentType == PaymentType.cash,
+                    value: widget.invoice.paymentType == PaymentTerms.cash,
                     onChanged: null,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
@@ -558,7 +558,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
               Row(
                 children: [
                   Checkbox(
-                    value: widget.invoice.paymentType == PaymentType.installment,
+                    value: widget.invoice.paymentType == PaymentTerms.installment,
                     onChanged: null,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),

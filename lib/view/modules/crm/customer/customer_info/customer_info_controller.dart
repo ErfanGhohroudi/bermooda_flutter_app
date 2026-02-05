@@ -48,13 +48,13 @@ class CustomerInfoController extends GetxController {
     );
   }
 
-  void delete({
+  void archiveCustomer({
     required final VoidCallback action,
   }) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureToDeleteCustomer,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveCustomer,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         UNavigator.back();

@@ -117,11 +117,11 @@ class _CustomerInfoPageState extends State<CustomerInfoPage> {
                     },
                   ),
                   WPopupMenuItem(
-                    title: s.remove,
-                    icon: AppIcons.delete,
+                    title: s.archive,
+                    icon: AppIcons.archiveOutline,
                     iconColor: AppColors.red,
                     titleColor: AppColors.red,
-                    onTap: () => ctrl.delete(
+                    onTap: () => ctrl.archiveCustomer(
                       action: () {
                         UNavigator.back();
                         widget.onDelete(ctrl.customer.value);

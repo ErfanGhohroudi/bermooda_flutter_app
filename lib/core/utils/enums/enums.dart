@@ -136,11 +136,11 @@ enum InvoiceStatusType {
   final String titleTr1;
 }
 
-enum PaymentType {
+enum PaymentTerms {
   cash("Cash", "نقدی"),
   installment("Installments", "اقساط");
 
-  const PaymentType(this.title, this.titleTr1);
+  const PaymentTerms(this.title, this.titleTr1);
 
   String getTitle() => !isPersianLang ? title : titleTr1;
 

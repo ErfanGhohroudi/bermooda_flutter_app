@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:u/utilities.dart';
 import 'package:dio/dio.dart' as dio;
@@ -60,6 +61,7 @@ part 'dto/params/login_params.dart';
 part 'dto/params/meeting_params.dart';
 part 'dto/params/member_params.dart';
 part 'dto/params/task_params.dart';
+part 'dto/params/invoice_params.dart';
 
 /// response ///////////////////////////////////////////////////////////////////////////////////////////
 // calendar models
@@ -76,6 +78,7 @@ part 'dto/response/crm/customer.dart';
 part 'dto/response/crm/customers_bank_document.dart';
 part 'dto/response/crm/follow_up.dart';
 part 'dto/response/crm/invoice.dart';
+part 'dto/response/crm/invoice_buyer_seller_info.dart';
 part 'dto/response/crm/status_reason.dart';
 // Warehouse models
 part 'dto/response/warehouse/warehouse_dto.dart';
@@ -189,6 +192,7 @@ part 'remote_datasource/customer_finance/send_invoice_sms_datasource.dart';
 part 'remote_datasource/customer_finance/get_invoice_code_datasource.dart';
 part 'remote_datasource/customer_finance/change_invoice_status_datasource.dart';
 part 'remote_datasource/customer_finance/invoice_preview_datasource.dart';
+part 'remote_datasource/customer_finance/update_invoice_info_datasource.dart';
 // Followup
 part 'remote_datasource/followup/follow_up_datasource.dart';
 part 'remote_datasource/followup/customer_follow_up_datasource.dart';

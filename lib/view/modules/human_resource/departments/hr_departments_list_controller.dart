@@ -89,11 +89,11 @@ class HrDepartmentsListController extends GetxController {
     );
   }
 
-  void deleteFolder(final HRDepartmentReadDto department) {
+  void archiveDepartment(final HRDepartmentReadDto department) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveDepartment,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         UNavigator.back();

@@ -70,6 +70,26 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
+  Future<InvoiceBuyerSellerInfo> getInvoiceBuyerAndSellerInfo(final int customerId) {
+    final completer = Completer<InvoiceBuyerSellerInfo>();
+    _invoiceManagerDatasource.getInvoiceInfo(
+      customerId: customerId,
+      onResponse: (final response) {
+        final buyerSellerInfo = response.result;
+        if (buyerSellerInfo == null) {
+          completer.completeError('InvoiceBuyerSellerInfo is null');
+          return;
+        }
+        completer.complete(response.result!);
+      },
+      onError: (final error) {
+        completer.completeError(error);
+      },
+    );
+    return completer.future;
+  }
+
+  @override
   Future<InvoiceEntity> getInvoicePreview(final String mainId) async {
     final completer = Completer<InvoiceEntity>();
     _invoicePreviewDatasource.getInvoicePreview(
@@ -85,10 +105,10 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<InvoiceEntity> createInvoice(final Map<String, dynamic> params) async {
+  Future<InvoiceEntity> createInvoice(final InvoiceParams params) async {
     final completer = Completer<InvoiceEntity>();
     _invoiceManagerDatasource.createInvoice(
-      data: params,
+      params: params,
       onResponse: (final response) {
         completer.complete(_mapInvoiceDtoToEntity(response.result!));
       },

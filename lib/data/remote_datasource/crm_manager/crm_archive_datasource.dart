@@ -65,8 +65,8 @@ class CrmArchiveDatasource {
 
   void getArchivedCategories({
     final int pageNumber = 1,
-    final bool isPaginate = true,
     final String? query,
+    final int perPageCount = 20,
     required final Function(GenericResponse<CrmCategoryReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -75,8 +75,8 @@ class CrmArchiveDatasource {
       final response = await _apiClient.get(
         "/v1/CrmManager/GroupCrmManager/Archives",
         queryParameters: {
-          "is_paginate": isPaginate,
-          "page": pageNumber,
+          "page_number": pageNumber,
+          "per_page_count": perPageCount,
           if (query != null && query.isNotEmpty) "search": query,
         },
         skipRetry: !withRetry,

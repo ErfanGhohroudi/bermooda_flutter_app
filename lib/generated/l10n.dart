@@ -249,6 +249,11 @@ class S {
     return Intl.message('Toman', name: 'toman', desc: '', args: []);
   }
 
+  /// `Rial`
+  String get rial {
+    return Intl.message('Rial', name: 'rial', desc: '', args: []);
+  }
+
   /// `New`
   String get neww {
     return Intl.message('New', name: 'neww', desc: '', args: []);
@@ -914,6 +919,16 @@ class S {
     );
   }
 
+  /// `Complete the required fields.`
+  String get completeRequiredFields {
+    return Intl.message(
+      'Complete the required fields.',
+      name: 'completeRequiredFields',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Invalid number format`
   String get invalidPhoneNumber {
     return Intl.message(
@@ -1079,11 +1094,11 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete this customer?`
-  String get areYouSureToDeleteCustomer {
+  /// `Are you sure you want to archive this customer?`
+  String get areYouSureToArchiveCustomer {
     return Intl.message(
-      'Are you sure you want to delete this customer?',
-      name: 'areYouSureToDeleteCustomer',
+      'Are you sure you want to archive this customer?',
+      name: 'areYouSureToArchiveCustomer',
       desc: '',
       args: [],
     );
@@ -2194,9 +2209,9 @@ class S {
     return Intl.message('Country', name: 'country', desc: '', args: []);
   }
 
-  /// `Province`
+  /// `State`
   String get state {
-    return Intl.message('Province', name: 'state', desc: '', args: []);
+    return Intl.message('State', name: 'state', desc: '', args: []);
   }
 
   /// `City`
@@ -6727,6 +6742,201 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Warehouse`
+  String get warehouseModuleName {
+    return Intl.message(
+      'Warehouse',
+      name: 'warehouseModuleName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seller`
+  String get seller {
+    return Intl.message('Seller', name: 'seller', desc: '', args: []);
+  }
+
+  /// `Buyer`
+  String get buyer {
+    return Intl.message('Buyer', name: 'buyer', desc: '', args: []);
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message('Name', name: 'name', desc: '', args: []);
+  }
+
+  /// `Seller Information`
+  String get sellerInfo {
+    return Intl.message(
+      'Seller Information',
+      name: 'sellerInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buyer Information`
+  String get buyerInfo {
+    return Intl.message(
+      'Buyer Information',
+      name: 'buyerInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buyer Name`
+  String get buyerName {
+    return Intl.message('Buyer Name', name: 'buyerName', desc: '', args: []);
+  }
+
+  /// `National ID / Code`
+  String get nationalCodeOrIdBuyer {
+    return Intl.message(
+      'National ID / Code',
+      name: 'nationalCodeOrIdBuyer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buyer phone number must be in format 09xxxxxxxxx`
+  String get buyerPhoneFormat {
+    return Intl.message(
+      'Buyer phone number must be in format 09xxxxxxxxx',
+      name: 'buyerPhoneFormat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error updating information`
+  String get updateInvoiceInfoError {
+    return Intl.message(
+      'Error updating information',
+      name: 'updateInvoiceInfoError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Maximum length`
+  String get maxLength {
+    return Intl.message(
+      'Maximum length',
+      name: 'maxLength',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Details`
+  String get invoiceDetailsStep {
+    return Intl.message(
+      'Details',
+      name: 'invoiceDetailsStep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installments`
+  String get invoiceInstallmentsStep {
+    return Intl.message(
+      'Installments',
+      name: 'invoiceInstallmentsStep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preview`
+  String get previewStep {
+    return Intl.message('Preview', name: 'previewStep', desc: '', args: []);
+  }
+
+  /// `Installment Count`
+  String get installmentCount {
+    return Intl.message(
+      'Installment Count',
+      name: 'installmentCount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installment start date is required`
+  String get installmentStartDateRequired {
+    return Intl.message(
+      'Installment start date is required',
+      name: 'installmentStartDateRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interest Rate`
+  String get interestRate {
+    return Intl.message(
+      'Interest Rate',
+      name: 'interestRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Terms`
+  String get paymentTerms {
+    return Intl.message(
+      'Payment Terms',
+      name: 'paymentTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Row`
+  String get addRow {
+    return Intl.message('Add Row', name: 'addRow', desc: '', args: []);
+  }
+
+  /// `Product / Service`
+  String get productService {
+    return Intl.message(
+      'Product / Service',
+      name: 'productService',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total amount`
+  String get totalAmountOfProductsServices {
+    return Intl.message(
+      'Total amount',
+      name: 'totalAmountOfProductsServices',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shipping Cost`
+  String get shippingCost {
+    return Intl.message(
+      'Shipping Cost',
+      name: 'shippingCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payable`
+  String get payable {
+    return Intl.message('Payable', name: 'payable', desc: '', args: []);
   }
 }
 

@@ -8,7 +8,7 @@ class InvoiceReadDto {
   String? mainId;
   MainFileReadDto? signatureUrl;
   MainFileReadDto? logoUrl;
-  PaymentType? paymentType;
+  PaymentTerms? paymentType;
   ErInformation? sellerInformation;
   ErInformation? buyerInformation;
   List<Product>? product;
@@ -67,7 +67,7 @@ class InvoiceReadDto {
         mainId: json["main_id"],
         signatureUrl: json["signature_url"] == null ? null : MainFileReadDto.fromMap(json["signature_url"]),
         logoUrl: json["logo_url"] == null ? null : MainFileReadDto.fromMap(json["logo_url"]),
-        paymentType: json["payment_type"] == null ? null : PaymentType.values.firstWhereOrNull((final element) => element.name == json["payment_type"]),
+        paymentType: json["payment_type"] == null ? null : PaymentTerms.values.firstWhereOrNull((final element) => element.name == json["payment_type"]),
         sellerInformation: json["seller_information"] == null ? null : ErInformation.fromJson(json["seller_information"]),
         buyerInformation: json["buyer_information"] == null ? null : ErInformation.fromJson(json["buyer_information"]),
         product: json["product"] == null ? [] : List<Product>.from(json["product"]!.map((final x) => Product.fromJson(x))),

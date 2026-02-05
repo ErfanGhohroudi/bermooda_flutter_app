@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "addReviewers": MessageLookupByLibrary.simpleMessage(
       "افزودن بررسی‌کنندگان",
     ),
+    "addRow": MessageLookupByLibrary.simpleMessage("اضافه کردن ردیف"),
     "addShift": MessageLookupByLibrary.simpleMessage("افزودن شیفت"),
     "addText": MessageLookupByLibrary.simpleMessage("افزودن"),
     "additionalInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تکمیلی"),
@@ -70,6 +71,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToArchiveCategory": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این دسته‌بندی را بایگانی کنید؟",
     ),
+    "areYouSureToArchiveCustomer": MessageLookupByLibrary.simpleMessage(
+      "آیا میخواهید این مشتری را بایگانی کنید؟",
+    ),
     "areYouSureToArchiveDepartment": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این واحد را بایگانی کنید؟",
     ),
@@ -81,9 +85,6 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این کسب‌وکار را حذف کنید؟",
-    ),
-    "areYouSureToDeleteCustomer": MessageLookupByLibrary.simpleMessage(
-      "آیا میخواهید این مشتری را حذف کنید؟",
     ),
     "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این پیام را حذف کنید؟",
@@ -141,6 +142,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "businessSize": MessageLookupByLibrary.simpleMessage("اندازه کسب‌وکار"),
     "businesses": MessageLookupByLibrary.simpleMessage("کسب‌وکار ها"),
     "buySubscription": MessageLookupByLibrary.simpleMessage("خرید اشتراک"),
+    "buyer": MessageLookupByLibrary.simpleMessage("خریدار"),
+    "buyerInfo": MessageLookupByLibrary.simpleMessage("مشخصات خریدار"),
+    "buyerName": MessageLookupByLibrary.simpleMessage("نام خریدار"),
+    "buyerPhoneFormat": MessageLookupByLibrary.simpleMessage(
+      "شماره تماس خریدار باید به فرمت 09xxxxxxxxx باشد",
+    ),
     "calendar": MessageLookupByLibrary.simpleMessage("تقویم"),
     "camera": MessageLookupByLibrary.simpleMessage("دوربین"),
     "cancel": MessageLookupByLibrary.simpleMessage("انصراف"),
@@ -217,6 +224,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "companyName": MessageLookupByLibrary.simpleMessage("نام سازمان"),
     "companyNationalID": MessageLookupByLibrary.simpleMessage("شناسه ملی"),
+    "completeRequiredFields": MessageLookupByLibrary.simpleMessage(
+      "فیلد های الزامی را تکمیل کنید.",
+    ),
     "completed": MessageLookupByLibrary.simpleMessage("انجام شد"),
     "confirm": MessageLookupByLibrary.simpleMessage("تایید"),
     "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
@@ -577,7 +587,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "initialShiftSetup": MessageLookupByLibrary.simpleMessage(
       "تنظیم اولیه شیفت",
     ),
+    "installmentCount": MessageLookupByLibrary.simpleMessage("تعداد اقساط"),
+    "installmentStartDateRequired": MessageLookupByLibrary.simpleMessage(
+      "تاریخ شروع اقساط الزامی است",
+    ),
     "insurance": MessageLookupByLibrary.simpleMessage("بیمه"),
+    "interestRate": MessageLookupByLibrary.simpleMessage("نرخ بهره"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
       "موضوع معرفی‌نامه",
     ),
@@ -611,7 +626,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "inviteMembers": MessageLookupByLibrary.simpleMessage("دعوت اعضا"),
     "invoice": MessageLookupByLibrary.simpleMessage("فاکتور"),
     "invoiceDetails": MessageLookupByLibrary.simpleMessage("جزئیات فاکتور"),
+    "invoiceDetailsStep": MessageLookupByLibrary.simpleMessage(
+      "اطلاعات فاکتور",
+    ),
     "invoiceId": MessageLookupByLibrary.simpleMessage("شناسه فاکتور"),
+    "invoiceInstallmentsStep": MessageLookupByLibrary.simpleMessage("اقساط"),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("شماره فاکتور"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("نوع فاکتور"),
     "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("عدد / کیلوگرم"),
@@ -682,6 +701,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "maritalStatus": MessageLookupByLibrary.simpleMessage("وضعیت تأهل"),
     "marketing": MessageLookupByLibrary.simpleMessage("تبلیغات"),
     "married": MessageLookupByLibrary.simpleMessage("متأهل"),
+    "maxLength": MessageLookupByLibrary.simpleMessage("حداکثر طول"),
     "maximum": MessageLookupByLibrary.simpleMessage("حداکثر"),
     "maximumFilesCanSelected": MessageLookupByLibrary.simpleMessage(
       "حداکثر # فایل قابل انتخاب است.",
@@ -745,6 +765,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "myRequests": MessageLookupByLibrary.simpleMessage("درخواست‌های من"),
     "myReviews": MessageLookupByLibrary.simpleMessage("بررسی‌های من"),
     "myTasks": MessageLookupByLibrary.simpleMessage("وظایف من"),
+    "name": MessageLookupByLibrary.simpleMessage("نام"),
+    "nationalCodeOrIdBuyer": MessageLookupByLibrary.simpleMessage(
+      "کد ملی / شناسه ملی",
+    ),
     "nationalID": MessageLookupByLibrary.simpleMessage("شماره ملی"),
     "nationalIdIsShort": MessageLookupByLibrary.simpleMessage(
       "کد ملی باید ۱۰ رقم باشد",
@@ -893,12 +917,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "لطفاً رمز عبور را به‌درستی تکرار کنید",
     ),
     "payNow": MessageLookupByLibrary.simpleMessage("تایید و پرداخت"),
+    "payable": MessageLookupByLibrary.simpleMessage("قابل پرداخت"),
     "payment": MessageLookupByLibrary.simpleMessage("پرداخت"),
     "paymentDate": MessageLookupByLibrary.simpleMessage("تاریخ پرداخت"),
     "paymentFailed": MessageLookupByLibrary.simpleMessage("پرداخت انجام نشد"),
     "paymentMethod": MessageLookupByLibrary.simpleMessage("نوع پرداخت"),
     "paymentMethodLabel": MessageLookupByLibrary.simpleMessage("روش پرداخت"),
     "paymentReceipt": MessageLookupByLibrary.simpleMessage("رسید پرداخت"),
+    "paymentTerms": MessageLookupByLibrary.simpleMessage("شرایط پرداخت"),
     "paymentWasSuccessful": MessageLookupByLibrary.simpleMessage(
       "پرداخت با موفقیت انجام شد",
     ),
@@ -925,7 +951,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pin": MessageLookupByLibrary.simpleMessage("سنجاق کردن"),
     "planning": MessageLookupByLibrary.simpleMessage("برنامه ریزی"),
     "pleaseAddAtLeastOneProduct": MessageLookupByLibrary.simpleMessage(
-      "Please add at least one product",
+      "لطفاً حداقل یک محصول اضافه کنید",
     ),
     "pleaseSelectAtLeastOneConversation": MessageLookupByLibrary.simpleMessage(
       "لطفاً حداقل یک گفتگو انتخاب کنید",
@@ -940,6 +966,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "presence": MessageLookupByLibrary.simpleMessage("حضور"),
     "preview": MessageLookupByLibrary.simpleMessage("پیش‌نمایش"),
+    "previewStep": MessageLookupByLibrary.simpleMessage("پیش‌نمایش"),
     "previous": MessageLookupByLibrary.simpleMessage("قبلی"),
     "previousDay": MessageLookupByLibrary.simpleMessage("روز قبل"),
     "previousMonth": MessageLookupByLibrary.simpleMessage("ماه قبل"),
@@ -950,6 +977,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "priority": MessageLookupByLibrary.simpleMessage("اولویت"),
     "problemDate": MessageLookupByLibrary.simpleMessage("تاریخ بروز مشکل"),
     "productCode": MessageLookupByLibrary.simpleMessage("کد کالا"),
+    "productService": MessageLookupByLibrary.simpleMessage("کالا / خدمات"),
     "productsOrServices": MessageLookupByLibrary.simpleMessage("کالا یا خدمات"),
     "profile": MessageLookupByLibrary.simpleMessage("پروفایل"),
     "progressStatus": MessageLookupByLibrary.simpleMessage("وضعیت پیشرفت"),
@@ -1062,6 +1090,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "returnDate": MessageLookupByLibrary.simpleMessage("تاریخ بازگشت"),
     "returnTime": MessageLookupByLibrary.simpleMessage("ساعت بازگشت"),
     "reviewers": MessageLookupByLibrary.simpleMessage("بررسی‌کنندگان"),
+    "rial": MessageLookupByLibrary.simpleMessage("ريال"),
     "role": MessageLookupByLibrary.simpleMessage("سمت"),
     "rowCount": MessageLookupByLibrary.simpleMessage("تعداد سطرها"),
     "salaryAndBenefits": MessageLookupByLibrary.simpleMessage("حقوق و مزایا"),
@@ -1103,6 +1132,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "ماژول های انتخاب شده",
     ),
     "selectedUsers": MessageLookupByLibrary.simpleMessage("کاربران انتخاب شده"),
+    "seller": MessageLookupByLibrary.simpleMessage("فروشنده"),
+    "sellerInfo": MessageLookupByLibrary.simpleMessage("مشخصات فروشنده"),
     "send": MessageLookupByLibrary.simpleMessage("ارسال"),
     "sendAnonymousMessage": MessageLookupByLibrary.simpleMessage(
       "ارسال پیام ناشناس",
@@ -1135,6 +1166,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "گزارش تداخل شیفت",
     ),
     "shiftTitle": MessageLookupByLibrary.simpleMessage("عنوان شیفت"),
+    "shippingCost": MessageLookupByLibrary.simpleMessage("هزینه ارسال"),
     "show": MessageLookupByLibrary.simpleMessage("نمایش"),
     "signatories": MessageLookupByLibrary.simpleMessage("امضاکنندگان"),
     "signatures": MessageLookupByLibrary.simpleMessage("امضا‌ها"),
@@ -1232,7 +1264,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "task": MessageLookupByLibrary.simpleMessage("وظیفه"),
     "tasks": MessageLookupByLibrary.simpleMessage("وظایف"),
-    "tax": MessageLookupByLibrary.simpleMessage("مالیات"),
+    "tax": MessageLookupByLibrary.simpleMessage("ارزش افزوده"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("مهارت‌های تخصصی"),
     "theme": MessageLookupByLibrary.simpleMessage("تغییر تم"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
@@ -1255,6 +1287,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "todo": MessageLookupByLibrary.simpleMessage("برای انجام"),
     "toman": MessageLookupByLibrary.simpleMessage("تومان"),
     "total": MessageLookupByLibrary.simpleMessage("مجموع"),
+    "totalAmountOfProductsServices": MessageLookupByLibrary.simpleMessage(
+      "جمع کل کالا/خدمات",
+    ),
     "totalContracts": MessageLookupByLibrary.simpleMessage(
       "تعداد کل قراردادها",
     ),
@@ -1305,6 +1340,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "until": MessageLookupByLibrary.simpleMessage("تا"),
     "update": MessageLookupByLibrary.simpleMessage("بروزرسانی"),
+    "updateInvoiceInfoError": MessageLookupByLibrary.simpleMessage(
+      "خطا در به‌روزرسانی اطلاعات",
+    ),
     "updateSubTitle": MessageLookupByLibrary.simpleMessage(
       "با بروزرسانی به نسخه جدید، از رفع مشکلات و قابلیت‌های بهبودیافته لذت ببرید!",
     ),
@@ -1356,8 +1394,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "wantToSubmitSignature": MessageLookupByLibrary.simpleMessage(
       "امضا ثبت شود؟\n * پس از ثبت امضا امکان ویرایش وجود ندارد.",
     ),
-    "warehouse": MessageLookupByLibrary.simpleMessage("انبارداری"),
+    "warehouse": MessageLookupByLibrary.simpleMessage("انبار"),
     "warehouseCode": MessageLookupByLibrary.simpleMessage("کد انبار"),
+    "warehouseModuleName": MessageLookupByLibrary.simpleMessage("انبارداری"),
     "warehouses": MessageLookupByLibrary.simpleMessage("انبارها"),
     "warning": MessageLookupByLibrary.simpleMessage("هشدار"),
     "website": MessageLookupByLibrary.simpleMessage("وبسایت"),

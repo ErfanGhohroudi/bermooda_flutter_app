@@ -293,7 +293,11 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                         children: [
                           IconButton(
                             icon: const UImage(AppIcons.editOutline, color: AppColors.green),
-                            style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+                            style: IconButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
                             onPressed: () => addOrEditSignatoryOrParty(
                               model: member,
                               action: (final model) {
@@ -307,7 +311,11 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                           ),
                           IconButton(
                             icon: const UImage(AppIcons.delete, color: AppColors.red),
-                            style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+                            style: IconButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
                             onPressed: () => appShowYesCancelDialog(
                               title: s.delete,
                               description: s.areYouSureYouWantToDeleteItem,
