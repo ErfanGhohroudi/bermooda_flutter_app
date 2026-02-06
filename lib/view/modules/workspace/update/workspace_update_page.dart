@@ -140,7 +140,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                     //     validator: validateMinLength(
                     //       3,
                     //       requiredMessage: s.requiredField,
-                    //       minLengthMessage: s.isShort.replaceAll("#", "3"),
+                    //       minLengthMessage: s.isShort("3"),
                     //     ),
                     //     maxLength: 30,
                     //     formatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9_.]'))],
@@ -280,7 +280,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           validator: validateMinLength(
             authenticationType.isPerson() ? 10 : 11,
             requiredMessage: s.requiredField,
-            minLengthMessage: s.isShort.replaceAll('#', authenticationType.isPerson() ? '10' : '11'),
+            minLengthMessage: s.isShort(authenticationType.isPerson() ? '10' : '11'),
           ),
         ),
 
@@ -296,7 +296,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
             validator: validateMinLength(
               6,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '6'),
+              minLengthMessage: s.isShort('6'),
             ),
           ),
 
@@ -312,7 +312,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
             validator: validateMinLength(
               12,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '12'),
+              minLengthMessage: s.isShort('12'),
             ),
           ),
 

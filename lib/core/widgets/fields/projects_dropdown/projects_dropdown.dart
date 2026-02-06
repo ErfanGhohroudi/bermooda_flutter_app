@@ -110,7 +110,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
   /// متد کمکی برای ساخت آیتم "ایجاد پروژه جدید"
   DropdownMenuItem<ProjectReadDto> _buildCreateProjectMenuItem() {
     return DropdownMenuItem<ProjectReadDto>(
-      value: ProjectReadDto(),
+      value: const ProjectReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,

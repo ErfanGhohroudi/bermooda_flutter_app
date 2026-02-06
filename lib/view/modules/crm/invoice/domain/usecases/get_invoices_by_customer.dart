@@ -7,5 +7,5 @@ class GetInvoicesByCustomerUseCase {
 
   final InvoiceRepository repository;
 
-  Future<List<InvoiceEntity>> call(int customerId) => repository.getInvoicesByCustomer(customerId);
+  Future<List<InvoiceEntity>> call(final int customerId) => repository.getInvoicesByCustomer(customerId);
 }

@@ -15,7 +15,7 @@ class UpdateDatasource {
       if (response.isOk) {
         onResponse(GenericResponse<AppUpdateReadDto>.fromJson(response.data, fromMap: AppUpdateReadDto.fromMap));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       return;
     }
   }

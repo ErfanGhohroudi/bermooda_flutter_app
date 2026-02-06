@@ -160,7 +160,7 @@ class BuyerSellerInfoStep extends StatelessWidget {
                 10,
                 required: true,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort.replaceAll('#', '10'),
+                minLengthMessage: s.isShort('10'),
               ),
             ),
 
@@ -367,11 +367,11 @@ class BuyerSellerInfoStep extends StatelessWidget {
         // State
         Obx(
           () => WDropDownFormField<DropdownItemReadDto>(
-            labelText: ctrl.statesState.isLoaded() ? s.state : s.loading,
+            labelText: ctrl.buyerStatesState.isLoaded() ? s.state : s.loading,
             value: ctrl.selectedState.value,
             showSearchField: true,
             required: true,
-            items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: ctrl.states),
+            items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: ctrl.buyerStates),
             onChanged: ctrl.onSelectBuyerState,
           ),
         ),
@@ -380,7 +380,7 @@ class BuyerSellerInfoStep extends StatelessWidget {
         Obx(
           () => WDropDownFormField<DropdownItemReadDto>(
             enable: ctrl.selectedState.value != null,
-            labelText: ctrl.citiesState.isLoaded() ? s.city : s.loading,
+            labelText: ctrl.buyerCitiesState.isLoaded() ? s.city : s.loading,
             value: ctrl.selectedCity.value,
             showSearchField: true,
             required: true,

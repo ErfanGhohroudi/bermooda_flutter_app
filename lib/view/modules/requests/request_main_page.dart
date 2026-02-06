@@ -34,9 +34,9 @@ class _RequestMainPageState extends State<RequestMainPage> with SingleTickerProv
 
   void _initialPages() {
     _pages = [
-      LazyKeepAliveTabView(builder: () => RequestListPage(pageType: RequestListPageType.myRequests)),
-      LazyKeepAliveTabView(builder: () => RequestListPage(pageType: RequestListPageType.myReviews)),
-      LazyKeepAliveTabView(builder: () => RequestListPage(pageType: RequestListPageType.archive)),
+      LazyKeepAliveTabView(builder: () => const RequestListPage(pageType: RequestListPageType.myRequests)),
+      LazyKeepAliveTabView(builder: () => const RequestListPage(pageType: RequestListPageType.myReviews)),
+      LazyKeepAliveTabView(builder: () => const RequestListPage(pageType: RequestListPageType.archive)),
     ];
   }
 

@@ -1,7 +1,3 @@
-import 'dart:io';
-import 'dart:math';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:u/utilities.dart';
 
 part 'src/animated_child.dart';

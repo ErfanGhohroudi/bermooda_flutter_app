@@ -93,7 +93,7 @@ class _WShebaNumberFieldState extends State<WShebaNumberField> {
 
     // 3. بررسی حداقل طول (کوتاه‌ترین IBAN مربوط به نروژ با ۱۵ کاراکتر است)
     if (iban.length < 15) {
-      return s.isShort.replaceAll("#", "15");
+      return s.isShort("15");
     }
 
     // بررسی طول مشخص برای شبا ایران (اختیاری ولی توصیه می‌شود)

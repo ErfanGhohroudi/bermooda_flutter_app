@@ -128,7 +128,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
   /// متد کمکی برای ساخت آیتم
   DropdownMenuItem<DropdownItemReadDto> _buildCreateMenuItem() {
     return DropdownMenuItem<DropdownItemReadDto>(
-      value: DropdownItemReadDto(),
+      value: const DropdownItemReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,

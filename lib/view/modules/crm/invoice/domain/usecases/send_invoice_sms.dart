@@ -6,5 +6,5 @@ class SendInvoiceSmsUseCase {
 
   final InvoiceRepository repository;
 
-  Future<void> call(int invoiceId) => repository.sendInvoiceSms(invoiceId);
+  Future<void> call(final int invoiceId) => repository.sendInvoiceSms(invoiceId);
 }

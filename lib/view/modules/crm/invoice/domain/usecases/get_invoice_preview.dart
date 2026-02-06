@@ -7,5 +7,5 @@ class GetInvoicePreviewUseCase {
 
   final InvoiceRepository repository;
 
-  Future<InvoiceEntity> call(String mainId) => repository.getInvoicePreview(mainId);
+  Future<InvoiceEntity> call(final String mainId) => repository.getInvoicePreview(mainId);
 }

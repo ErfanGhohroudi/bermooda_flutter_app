@@ -524,13 +524,13 @@ class S {
     );
   }
 
-  /// `# is required`
-  String get isRequired {
+  /// `{item} is required`
+  String isRequired(Object item) {
     return Intl.message(
-      '# is required',
+      '$item is required',
       name: 'isRequired',
       desc: '',
-      args: [],
+      args: [item],
     );
   }
 
@@ -814,23 +814,13 @@ class S {
     return Intl.message('Color', name: 'color', desc: '', args: []);
   }
 
-  /// `This # is already exist`
-  String get thisIsExist {
+  /// `This {item} is already exist`
+  String thisIsExist(Object item) {
     return Intl.message(
-      'This # is already exist',
+      'This $item is already exist',
       name: 'thisIsExist',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `At least # characters required`
-  String get countOfCharactersRequired {
-    return Intl.message(
-      'At least # characters required',
-      name: 'countOfCharactersRequired',
-      desc: '',
-      args: [],
+      args: [item],
     );
   }
 
@@ -959,13 +949,13 @@ class S {
     );
   }
 
-  /// `The entered value is too short (minimum # characters)`
-  String get isShort {
+  /// `The entered value is too short (minimum {length} characters)`
+  String isShort(Object length) {
     return Intl.message(
-      'The entered value is too short (minimum # characters)',
+      'The entered value is too short (minimum $length characters)',
       name: 'isShort',
       desc: '',
-      args: [],
+      args: [length],
     );
   }
 
@@ -1154,13 +1144,13 @@ class S {
     );
   }
 
-  /// `Enter the 6-digit code sent to (#).`
-  String get otpInfoText {
+  /// `Enter the 6-digit code sent to ({phoneNumber}).`
+  String otpInfoText(Object phoneNumber) {
     return Intl.message(
-      'Enter the 6-digit code sent to (#).',
+      'Enter the 6-digit code sent to ($phoneNumber).',
       name: 'otpInfoText',
       desc: '',
-      args: [],
+      args: [phoneNumber],
     );
   }
 
@@ -1434,13 +1424,13 @@ class S {
     );
   }
 
-  /// `Change subtask progress to '#'?`
-  String get changeSubtaskProgressTo {
+  /// `Change subtask progress to '{percentage}'?`
+  String changeSubtaskProgressTo(Object percentage) {
     return Intl.message(
-      'Change subtask progress to \'#\'?',
+      'Change subtask progress to \'$percentage\'?',
       name: 'changeSubtaskProgressTo',
       desc: '',
-      args: [],
+      args: [percentage],
     );
   }
 
@@ -1454,13 +1444,13 @@ class S {
     );
   }
 
-  /// `Change step to (#)?`
-  String get changeStep {
+  /// `Change step to ({step})?`
+  String changeStep(Object step) {
     return Intl.message(
-      'Change step to (#)?',
+      'Change step to ($step)?',
       name: 'changeStep',
       desc: '',
-      args: [],
+      args: [step],
     );
   }
 
@@ -2194,13 +2184,13 @@ class S {
     );
   }
 
-  /// `Switched to (#) business`
-  String get SwitchedBusiness {
+  /// `Switched to ({name}) business`
+  String switchedBusiness(Object name) {
     return Intl.message(
-      'Switched to (#) business',
-      name: 'SwitchedBusiness',
+      'Switched to ($name) business',
+      name: 'switchedBusiness',
       desc: '',
-      args: [],
+      args: [name],
     );
   }
 
@@ -2389,13 +2379,13 @@ class S {
     );
   }
 
-  /// `Dear #, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.`
-  String get authenticationNeedsDialogText {
+  /// `Dear {name}, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.`
+  String authenticationNeedsDialogText(Object name) {
     return Intl.message(
-      'Dear #, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.',
+      'Dear $name, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.',
       name: 'authenticationNeedsDialogText',
       desc: '',
-      args: [],
+      args: [name],
     );
   }
 
@@ -2839,13 +2829,13 @@ class S {
     );
   }
 
-  /// `Maximum # files can be selected.`
-  String get maximumFilesCanSelected {
+  /// `Maximum {count} files can be selected.`
+  String maximumFilesCanSelected(Object count) {
     return Intl.message(
-      'Maximum # files can be selected.',
+      'Maximum $count files can be selected.',
       name: 'maximumFilesCanSelected',
       desc: '',
-      args: [],
+      args: [count],
     );
   }
 
@@ -5444,23 +5434,23 @@ class S {
     );
   }
 
-  /// `You are # early.`
-  String get youAreEarly {
+  /// `You are {time} early.`
+  String youAreEarly(Object time) {
     return Intl.message(
-      'You are # early.',
+      'You are $time early.',
       name: 'youAreEarly',
       desc: '',
-      args: [],
+      args: [time],
     );
   }
 
-  /// `You are # late.`
-  String get youAreLate {
+  /// `You are {time} late.`
+  String youAreLate(Object time) {
     return Intl.message(
-      'You are # late.',
+      'You are $time late.',
       name: 'youAreLate',
       desc: '',
-      args: [],
+      args: [time],
     );
   }
 
@@ -6429,13 +6419,13 @@ class S {
     );
   }
 
-  /// `# days without conflict will be applied`
-  String get daysWithoutConflictWillBeApplied {
+  /// `{count} days without conflict will be applied`
+  String daysWithoutConflictWillBeApplied(Object count) {
     return Intl.message(
-      '# days without conflict will be applied',
+      '$count days without conflict will be applied',
       name: 'daysWithoutConflictWillBeApplied',
       desc: '',
-      args: [],
+      args: [count],
     );
   }
 
@@ -6449,13 +6439,13 @@ class S {
     );
   }
 
-  /// `Shift # conflicts with all selected days`
-  String get shiftConflictsWithAllSelectedDays {
+  /// `Shift {name} conflicts with all selected days`
+  String shiftConflictsWithAllSelectedDays(Object name) {
     return Intl.message(
-      'Shift # conflicts with all selected days',
+      'Shift $name conflicts with all selected days',
       name: 'shiftConflictsWithAllSelectedDays',
       desc: '',
-      args: [],
+      args: [name],
     );
   }
 
@@ -6469,13 +6459,13 @@ class S {
     );
   }
 
-  /// `shift # conflicts with # days`
-  String get shiftConflictsWithDays {
+  /// `shift {name} conflicts with {count} days`
+  String shiftConflictsWithDays(Object name, Object count) {
     return Intl.message(
-      'shift # conflicts with # days',
+      'shift $name conflicts with $count days',
       name: 'shiftConflictsWithDays',
       desc: '',
-      args: [],
+      args: [name, count],
     );
   }
 
@@ -6937,6 +6927,106 @@ class S {
   /// `Payable`
   String get payable {
     return Intl.message('Payable', name: 'payable', desc: '', args: []);
+  }
+
+  /// `Total after Discount`
+  String get totalPriceAfterDiscount {
+    return Intl.message(
+      'Total after Discount',
+      name: 'totalPriceAfterDiscount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total with Tax`
+  String get totalWithTax {
+    return Intl.message(
+      'Total with Tax',
+      name: 'totalWithTax',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice saved`
+  String get invoiceSaved {
+    return Intl.message(
+      'Invoice saved',
+      name: 'invoiceSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error saving invoice`
+  String get errorSavingInvoice {
+    return Intl.message(
+      'Error saving invoice',
+      name: 'errorSavingInvoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PDF successfully saved at:\n{path}`
+  String pdfSavedAt(Object path) {
+    return Intl.message(
+      'PDF successfully saved at:\n$path',
+      name: 'pdfSavedAt',
+      desc: '',
+      args: [path],
+    );
+  }
+
+  /// `"The installment interest for this invoice has been calculated definitively and distributed equally among the installments."`
+  String get installmentInterestNotice {
+    return Intl.message(
+      '"The installment interest for this invoice has been calculated definitively and distributed equally among the installments."',
+      name: 'installmentInterestNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sales Invoice for Goods and Services`
+  String get salesInvoiceTitle {
+    return Intl.message(
+      'Sales Invoice for Goods and Services',
+      name: 'salesInvoiceTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thank you for your trust`
+  String get thanksForTrust {
+    return Intl.message(
+      'Thank you for your trust',
+      name: 'thanksForTrust',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This invoice has been issued electronically`
+  String get electronicInvoiceNotice {
+    return Intl.message(
+      'This invoice has been issued electronically',
+      name: 'electronicInvoiceNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Installments`
+  String get installments {
+    return Intl.message(
+      'Installments',
+      name: 'installments',
+      desc: '',
+      args: [],
+    );
   }
 }
 

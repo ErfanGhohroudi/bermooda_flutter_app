@@ -131,7 +131,7 @@ mixin CreateEditMeetingController {
         if (selectedStartTime == null) s.startTime,
         if (selectedEndTime == null) s.endTime,
       ];
-      AppNavigator.snackbarRed(title: s.warning, subtitle: s.isRequired.replaceAll("#", "(${subtitle.join(" , ")})"));
+      AppNavigator.snackbarRed(title: s.warning, subtitle: s.isRequired("(${subtitle.join(" , ")})"));
     }
   }
 
@@ -218,7 +218,7 @@ mixin CreateEditMeetingController {
     if (phoneNumberController.text.isPhoneNumber) {
       final i = selectedPhoneNumbersList.indexOf(phoneNumberController.text);
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.phoneNumber));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.phoneNumber));
       }
       selectedPhoneNumbersList.add(phoneNumberController.text);
       phoneNumberController.clear();
@@ -238,7 +238,7 @@ mixin CreateEditMeetingController {
     if (emailController.text != '' && emailController.text.isEmail) {
       final i = selectedEmailsList.indexOf(emailController.text.toLowerCase());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.email));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.email));
       }
       emailController.text = emailController.text.replaceAll(' ', '');
       selectedEmailsList.add(emailController.text.toLowerCase());

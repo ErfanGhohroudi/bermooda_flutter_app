@@ -293,7 +293,7 @@ class _WSpeedDialState extends State<WSpeedDial> with SingleTickerProviderStateM
     }
   }
 
-  toggleOverlay() {
+  void toggleOverlay() {
     if (_open) {
       _controller.reverse().whenComplete(() {
         overlayEntry?.remove();

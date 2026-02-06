@@ -59,7 +59,7 @@ class DocumentsTab extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: controller.uploadDocument,
                   icon: const Icon(Icons.upload_outlined, size: 18),
-                  label: Text("s.uploadDocument"),
+                  label: const Text("s.uploadDocument"),
                 ),
               ],
             ),
@@ -124,14 +124,14 @@ class DocumentsTab extends StatelessWidget {
                 const SizedBox(width: 8),
                 DropdownButton<String>(
                   value: 'all',
-                  items: [
+                  items: const [
                     DropdownMenuItem(value: 'all', child: Text("s.all")),
                     DropdownMenuItem(value: 'pdf', child: Text("s.pdf")),
                     DropdownMenuItem(value: 'image', child: Text("s.image")),
                     DropdownMenuItem(value: 'word', child: Text("s.word")),
                     DropdownMenuItem(value: 'excel', child: Text("s.excel")),
                   ],
-                  onChanged: (value) {},
+                  onChanged: (final value) {},
                 ),
               ],
             ),
@@ -170,7 +170,7 @@ class DocumentsTab extends StatelessWidget {
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: controller.documents.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (final context, final index) {
                       final document = controller.documents[index];
                       return _buildDocumentCard(document, context);
                     },
@@ -182,7 +182,7 @@ class DocumentsTab extends StatelessWidget {
   }
 
   Widget _buildDocumentStat(
-      String label, String value, IconData icon, Color color) {
+      final String label, final String value, final IconData icon, final Color color) {
     return WCard(
       child: Column(
         children: [
@@ -209,7 +209,7 @@ class DocumentsTab extends StatelessWidget {
   }
 
   Widget _buildDocumentCard(
-      Map<String, dynamic> document, BuildContext context) {
+      final Map<String, dynamic> document, final BuildContext context) {
     return WCard(
       margin: const EdgeInsets.only(bottom: 12),
       child: Column(
@@ -240,7 +240,7 @@ class DocumentsTab extends StatelessWidget {
                 ),
               ),
               WMoreButtonIcon<String>(
-                onSelected: (value) {
+                onSelected: (final value) {
                   switch (value) {
                     case 'view':
                       _viewDocument(document);
@@ -257,22 +257,22 @@ class DocumentsTab extends StatelessWidget {
                   }
                 },
                 items: [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'view',
                     child: Row(
                       children: [
-                        const Icon(Icons.visibility_outlined, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.visibility_outlined, size: 20),
+                        SizedBox(width: 8),
                         Text("s.view"),
                       ],
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'download',
                     child: Row(
                       children: [
-                        const Icon(Icons.download_outlined, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.download_outlined, size: 20),
+                        SizedBox(width: 8),
                         Text("s.download"),
                       ],
                     ),
@@ -334,7 +334,7 @@ class DocumentsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildDocumentIcon(String type) {
+  Widget _buildDocumentIcon(final String type) {
     IconData icon;
     Color color;
 
@@ -370,7 +370,7 @@ class DocumentsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildDocumentStatusChip(String status) {
+  Widget _buildDocumentStatusChip(final String status) {
     Color color;
     switch (status.toLowerCase()) {
       case 'active':
@@ -406,20 +406,20 @@ class DocumentsTab extends StatelessWidget {
 
   int _getPdfCount() {
     return controller.documents
-        .where((doc) => doc['type']?.toLowerCase() == 'pdf')
+        .where((final doc) => doc['type']?.toLowerCase() == 'pdf')
         .length;
   }
 
   int _getImageCount() {
     return controller.documents
-        .where((doc) => doc['type']?.toLowerCase() == 'image')
+        .where((final doc) => doc['type']?.toLowerCase() == 'image')
         .length;
   }
 
-  void _viewDocument(Map<String, dynamic> document) {
+  void _viewDocument(final Map<String, dynamic> document) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
+      builder: (final context) => AlertDialog(
         title: Text(document['name'] ?? "s.document"),
         content: SingleChildScrollView(
           child: Column(
@@ -437,21 +437,21 @@ class DocumentsTab extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("s.close"),
+            child: const Text("s.close"),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);
               controller.downloadDocument(document);
             },
-            child: Text("s.download"),
+            child: const Text("s.download"),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, String? value) {
+  Widget _buildDetailRow(final String label, final String? value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -475,17 +475,17 @@ class DocumentsTab extends StatelessWidget {
     );
   }
 
-  void _editDocument(Map<String, dynamic> document) {
+  void _editDocument(final Map<String, dynamic> document) {
     // Navigate to edit document page
     controller.showSuccess("s.documentEdited");
   }
 
-  void _deleteDocument(Map<String, dynamic> document) {
+  void _deleteDocument(final Map<String, dynamic> document) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.deleteDocument"),
-        content: Text("s.deleteDocumentConfirmation"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.deleteDocument"),
+        content: const Text("s.deleteDocumentConfirmation"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

@@ -418,7 +418,7 @@ class _CustomerCreateUpdatePageState extends State<CustomerCreateUpdatePage> wit
                 10,
                 required: false,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort.replaceAll('#', '10'),
+                minLengthMessage: s.isShort('10'),
               ),
             ),
 

@@ -7,5 +7,5 @@ class UpdateInvoiceStatusUseCase {
 
   final InvoiceRepository repository;
 
-  Future<InvoiceEntity> call(int invoiceId, int statusId) => repository.changeInvoiceStatus(invoiceId, statusId);
+  Future<InvoiceEntity> call(final int invoiceId, final int statusId) => repository.changeInvoiceStatus(invoiceId, statusId);
 }

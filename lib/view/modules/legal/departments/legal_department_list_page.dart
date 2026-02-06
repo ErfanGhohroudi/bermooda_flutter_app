@@ -2,7 +2,6 @@ import 'package:u/utilities.dart';
 
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
-import '../../../../core/navigator/navigator.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
 import '../archive/departments/archived_legal_departments_page.dart';

@@ -20,11 +20,43 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(name) =>
+      "Dear ${name}, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.";
+
+  static String m1(step) => "Change step to (${step})?";
+
+  static String m2(percentage) =>
+      "Change subtask progress to \'${percentage}\'?";
+
+  static String m3(count) => "${count} days without conflict will be applied";
+
+  static String m4(item) => "${item} is required";
+
+  static String m5(length) =>
+      "The entered value is too short (minimum ${length} characters)";
+
+  static String m6(count) => "Maximum ${count} files can be selected.";
+
+  static String m7(phoneNumber) =>
+      "Enter the 6-digit code sent to (${phoneNumber}).";
+
+  static String m8(path) => "PDF successfully saved at:\n${path}";
+
+  static String m9(name) => "Shift ${name} conflicts with all selected days";
+
+  static String m10(name, count) =>
+      "shift ${name} conflicts with ${count} days";
+
+  static String m11(name) => "Switched to (${name}) business";
+
+  static String m12(item) => "This ${item} is already exist";
+
+  static String m13(time) => "You are ${time} early.";
+
+  static String m14(time) => "You are ${time} late.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "SwitchedBusiness": MessageLookupByLibrary.simpleMessage(
-      "Switched to (#) business",
-    ),
     "absence": MessageLookupByLibrary.simpleMessage("Absence"),
     "accept": MessageLookupByLibrary.simpleMessage("Accept"),
     "accessLevels": MessageLookupByLibrary.simpleMessage("Access Levels"),
@@ -113,9 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendance": MessageLookupByLibrary.simpleMessage("Attendance"),
     "attendanceRate": MessageLookupByLibrary.simpleMessage("Attendance Rate"),
     "audio": MessageLookupByLibrary.simpleMessage("Audio"),
-    "authenticationNeedsDialogText": MessageLookupByLibrary.simpleMessage(
-      "Dear #, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.",
-    ),
+    "authenticationNeedsDialogText": m0,
     "availableOnAdvancedPlan": MessageLookupByLibrary.simpleMessage(
       "This feature is only available on the Advanced plan.",
     ),
@@ -190,13 +220,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Review Request",
     ),
     "changeStatus": MessageLookupByLibrary.simpleMessage("Change status?"),
-    "changeStep": MessageLookupByLibrary.simpleMessage("Change step to (#)?"),
+    "changeStep": m1,
     "changeStepStatus": MessageLookupByLibrary.simpleMessage(
       "Change step status?",
     ),
-    "changeSubtaskProgressTo": MessageLookupByLibrary.simpleMessage(
-      "Change subtask progress to \'#\'?",
-    ),
+    "changeSubtaskProgressTo": m2,
     "changeSubtaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "Change subtask status to \'Done\'?",
     ),
@@ -266,9 +294,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyText": MessageLookupByLibrary.simpleMessage("Copy Text"),
     "correspondence": MessageLookupByLibrary.simpleMessage("Correspondence"),
     "count": MessageLookupByLibrary.simpleMessage("Count"),
-    "countOfCharactersRequired": MessageLookupByLibrary.simpleMessage(
-      "At least # characters required",
-    ),
     "country": MessageLookupByLibrary.simpleMessage("Country"),
     "coverageStartDate": MessageLookupByLibrary.simpleMessage(
       "Coverage Start Date",
@@ -330,9 +355,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "day": MessageLookupByLibrary.simpleMessage("Day"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),
     "daysOfMonth": MessageLookupByLibrary.simpleMessage("Days of Month"),
-    "daysWithoutConflictWillBeApplied": MessageLookupByLibrary.simpleMessage(
-      "# days without conflict will be applied",
-    ),
+    "daysWithoutConflictWillBeApplied": m3,
     "deadline": MessageLookupByLibrary.simpleMessage("Deadline"),
     "decline": MessageLookupByLibrary.simpleMessage("Decline"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -426,6 +449,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "educationalDegree": MessageLookupByLibrary.simpleMessage(
       "Educational Degree",
     ),
+    "electronicInvoiceNotice": MessageLookupByLibrary.simpleMessage(
+      "This invoice has been issued electronically",
+    ),
     "email": MessageLookupByLibrary.simpleMessage("Email"),
     "emergencyInfoText": MessageLookupByLibrary.simpleMessage(
       "In case of emergency and if the user is unreachable, this person will be contacted.",
@@ -467,6 +493,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorNetConnection": MessageLookupByLibrary.simpleMessage(
       "Please check your internet connection",
+    ),
+    "errorSavingInvoice": MessageLookupByLibrary.simpleMessage(
+      "Error saving invoice",
     ),
     "exactAddress": MessageLookupByLibrary.simpleMessage("Exact Address"),
     "exactLocation": MessageLookupByLibrary.simpleMessage("Exact Location"),
@@ -592,9 +621,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "installmentCount": MessageLookupByLibrary.simpleMessage(
       "Installment Count",
     ),
+    "installmentInterestNotice": MessageLookupByLibrary.simpleMessage(
+      "\"The installment interest for this invoice has been calculated definitively and distributed equally among the installments.\"",
+    ),
     "installmentStartDateRequired": MessageLookupByLibrary.simpleMessage(
       "Installment start date is required",
     ),
+    "installments": MessageLookupByLibrary.simpleMessage("Installments"),
     "insurance": MessageLookupByLibrary.simpleMessage("Insurance"),
     "interestRate": MessageLookupByLibrary.simpleMessage("Interest Rate"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
@@ -632,16 +665,15 @@ class MessageLookup extends MessageLookupByLibrary {
       "Installments",
     ),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("Invoice Number"),
+    "invoiceSaved": MessageLookupByLibrary.simpleMessage("Invoice saved"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("Invoice Type"),
     "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("Qty / kg"),
     "invoices": MessageLookupByLibrary.simpleMessage("Invoices"),
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "Iran\'s IBAN number must be 26 characters long.",
     ),
-    "isRequired": MessageLookupByLibrary.simpleMessage("# is required"),
-    "isShort": MessageLookupByLibrary.simpleMessage(
-      "The entered value is too short (minimum # characters)",
-    ),
+    "isRequired": m4,
+    "isShort": m5,
     "itemType": MessageLookupByLibrary.simpleMessage("Item Type"),
     "jobDescriptionAndResponsibilities": MessageLookupByLibrary.simpleMessage(
       "Job Description and Responsibilities",
@@ -709,9 +741,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "married": MessageLookupByLibrary.simpleMessage("Married"),
     "maxLength": MessageLookupByLibrary.simpleMessage("Maximum length"),
     "maximum": MessageLookupByLibrary.simpleMessage("maximum"),
-    "maximumFilesCanSelected": MessageLookupByLibrary.simpleMessage(
-      "Maximum # files can be selected.",
-    ),
+    "maximumFilesCanSelected": m6,
     "medias": MessageLookupByLibrary.simpleMessage("Medias"),
     "medicalCertificateRequired": MessageLookupByLibrary.simpleMessage(
       "Medical Certificate (PDF/JPG)*",
@@ -906,9 +936,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "otpCodeNotReceived": MessageLookupByLibrary.simpleMessage(
       "Didn\'t receive the code?",
     ),
-    "otpInfoText": MessageLookupByLibrary.simpleMessage(
-      "Enter the 6-digit code sent to (#).",
-    ),
+    "otpInfoText": m7,
     "overallStatistics": MessageLookupByLibrary.simpleMessage("Overall Stats"),
     "overdue": MessageLookupByLibrary.simpleMessage("overdue"),
     "overdueFollowups": MessageLookupByLibrary.simpleMessage(
@@ -945,6 +973,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentWasSuccessful": MessageLookupByLibrary.simpleMessage(
       "Payment was successful",
     ),
+    "pdfSavedAt": m8,
     "pending": MessageLookupByLibrary.simpleMessage("Pending"),
     "pendingInvitation": MessageLookupByLibrary.simpleMessage(
       "Invitation Pending Approval",
@@ -1123,6 +1152,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "salaryType": MessageLookupByLibrary.simpleMessage("Salary Type"),
     "salesForecast": MessageLookupByLibrary.simpleMessage("Sales Forecast"),
+    "salesInvoiceTitle": MessageLookupByLibrary.simpleMessage(
+      "Sales Invoice for Goods and Services",
+    ),
     "salesProbability": MessageLookupByLibrary.simpleMessage(
       "Sales Probability",
     ),
@@ -1183,12 +1215,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "share": MessageLookupByLibrary.simpleMessage("Share"),
     "shiftColor": MessageLookupByLibrary.simpleMessage("Shift Color"),
-    "shiftConflictsWithAllSelectedDays": MessageLookupByLibrary.simpleMessage(
-      "Shift # conflicts with all selected days",
-    ),
-    "shiftConflictsWithDays": MessageLookupByLibrary.simpleMessage(
-      "shift # conflicts with # days",
-    ),
+    "shiftConflictsWithAllSelectedDays": m9,
+    "shiftConflictsWithDays": m10,
     "shiftOverlapReport": MessageLookupByLibrary.simpleMessage(
       "Shift Overlap Report",
     ),
@@ -1284,6 +1312,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swipeToCheckOut": MessageLookupByLibrary.simpleMessage(
       "Swipe to clock-out",
     ),
+    "switchedBusiness": m11,
     "tapEnterToAdd": MessageLookupByLibrary.simpleMessage(
       "* Tap the Enter key on your keyboard to add.",
     ),
@@ -1295,13 +1324,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "tasks": MessageLookupByLibrary.simpleMessage("Tasks"),
     "tax": MessageLookupByLibrary.simpleMessage("Tax"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("Technical Skills"),
+    "thanksForTrust": MessageLookupByLibrary.simpleMessage(
+      "Thank you for your trust",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
       "This date has already been added.",
     ),
-    "thisIsExist": MessageLookupByLibrary.simpleMessage(
-      "This # is already exist",
-    ),
+    "thisIsExist": m12,
     "time": MessageLookupByLibrary.simpleMessage("Time"),
     "timeMustBeSetInFuture": MessageLookupByLibrary.simpleMessage(
       "The time must be set in the future",
@@ -1326,7 +1356,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "totalFollowups": MessageLookupByLibrary.simpleMessage("Total Follow-ups"),
     "totalMonthly": MessageLookupByLibrary.simpleMessage("Total monthly"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("Total Price"),
+    "totalPriceAfterDiscount": MessageLookupByLibrary.simpleMessage(
+      "Total after Discount",
+    ),
     "totalTasks": MessageLookupByLibrary.simpleMessage("Total Tasks"),
+    "totalWithTax": MessageLookupByLibrary.simpleMessage("Total with Tax"),
     "totalWorkHours": MessageLookupByLibrary.simpleMessage("Total Work Hours"),
     "transactionNumber": MessageLookupByLibrary.simpleMessage(
       "Transaction Number",
@@ -1448,8 +1482,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "year": MessageLookupByLibrary.simpleMessage("Year"),
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-    "youAreEarly": MessageLookupByLibrary.simpleMessage("You are # early."),
-    "youAreLate": MessageLookupByLibrary.simpleMessage("You are # late."),
+    "youAreEarly": m13,
+    "youAreLate": m14,
     "youAreNotMemberOfThisGroup": MessageLookupByLibrary.simpleMessage(
       "You are not a member of this group.",
     ),

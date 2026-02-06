@@ -6,5 +6,5 @@ class PayInstallmentUseCase {
 
   final InvoiceRepository repository;
 
-  Future<void> call(Map<String, dynamic> params) => repository.payInstallments(params);
+  Future<void> call(final Map<String, dynamic> params) => repository.payInstallments(params);
 }

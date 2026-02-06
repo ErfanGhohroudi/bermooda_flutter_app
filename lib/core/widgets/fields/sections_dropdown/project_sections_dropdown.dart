@@ -132,7 +132,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
   // متد کمکی برای ساخت آیتم "ایجاد بخش جدید"
   DropdownMenuItem<ProjectSectionReadDto> _buildCreateSectionMenuItem() {
     return DropdownMenuItem<ProjectSectionReadDto>(
-      value: ProjectSectionReadDto(),
+      value: const ProjectSectionReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,

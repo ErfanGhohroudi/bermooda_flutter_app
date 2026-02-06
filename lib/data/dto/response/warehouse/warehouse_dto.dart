@@ -84,7 +84,7 @@ class WarehouseReadDto {
             : null,
         members: json['members'] != null
             ? List<UserReadDto>.from(
-                json['members'].map((x) => UserReadDto.fromMap(x)))
+                json['members'].map((final x) => UserReadDto.fromMap(x)))
             : null,
         created: json['created'],
       );

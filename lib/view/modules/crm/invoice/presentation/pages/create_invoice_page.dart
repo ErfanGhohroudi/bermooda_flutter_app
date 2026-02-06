@@ -77,7 +77,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
   Widget _buildStepper() {
     return Obx(
       () {
-        final stepsLength = ctrl.isInstallmentPaymentTerms ? 4 : 3;
+        final stepsLength = ctrl.stepTypes.length;
         final currentStepTitle = ctrl.steps[ctrl.currentStep.value];
         final currentStepContent = _buildStepContent(ctrl.currentStep.value);
 
@@ -92,29 +92,16 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
   }
 
   Widget _buildStepContent(final int step) {
-    if (ctrl.isInstallmentPaymentTerms) {
-      switch (step) {
-        case 0:
-          return InvoiceDetailsStep(ctrl: ctrl);
-        case 1:
-          return InvoiceInstallmentsStep(ctrl: ctrl);
-        case 2:
-          return BuyerSellerInfoStep(ctrl: ctrl);
-        case 3:
-          return InvoicePreviewStep(ctrl: ctrl);
-        default:
-          return const SizedBox.shrink();
-      }
-    }
-    switch (step) {
-      case 0:
+    final type = ctrl.stepTypes[step];
+    switch (type) {
+      case InvoiceStepType.details:
         return InvoiceDetailsStep(ctrl: ctrl);
-      case 1:
+      case InvoiceStepType.installments:
+        return InvoiceInstallmentsStep(ctrl: ctrl);
+      case InvoiceStepType.buyerSeller:
         return BuyerSellerInfoStep(ctrl: ctrl);
-      case 2:
+      case InvoiceStepType.preview:
         return InvoicePreviewStep(ctrl: ctrl);
-      default:
-        return const SizedBox.shrink();
     }
   }
 
@@ -128,47 +115,50 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
           }
 
           Widget getButtons() {
-            switch (ctrl.currentStep.value) {
-              case 0:
-                return UElevatedButton(
-                  width: double.maxFinite,
+            final type = ctrl.stepTypes[ctrl.currentStep.value];
+            final isFirst = ctrl.currentStep.value == 0;
+            final isLast = ctrl.currentStep.value == ctrl.stepTypes.length - 1;
+
+            if (isFirst) {
+              return UElevatedButton(
+                width: double.maxFinite,
+                title: s.next,
+                onTap: ctrl.nextStep,
+              );
+            }
+
+            if (isLast) {
+              return Row(
+                spacing: 10,
+                children: [
+                  UElevatedButton(
+                    title: s.previous,
+                    backgroundColor: context.theme.hintColor,
+                    onTap: ctrl.previousStep,
+                  ).expanded(),
+                  UElevatedButton(
+                    title: 'ثبت فاکتور',
+                    isLoading: ctrl.isLoading.value,
+                    onTap: () => _showSubmitConfirmation(),
+                  ).expanded(),
+                ],
+              );
+            }
+
+            return Row(
+              spacing: 10,
+              children: [
+                UElevatedButton(
+                  title: s.previous,
+                  backgroundColor: context.theme.hintColor,
+                  onTap: ctrl.previousStep,
+                ).expanded(),
+                UElevatedButton(
                   title: s.next,
                   onTap: ctrl.nextStep,
-                );
-              case 1 || 2:
-                return Row(
-                  spacing: 10,
-                  children: [
-                    UElevatedButton(
-                      title: s.previous,
-                      backgroundColor: context.theme.hintColor,
-                      onTap: ctrl.previousStep,
-                    ).expanded(),
-                    UElevatedButton(
-                      title: s.next,
-                      onTap: ctrl.nextStep,
-                    ).expanded(),
-                  ],
-                );
-              case 3:
-                return Row(
-                  spacing: 10,
-                  children: [
-                    UElevatedButton(
-                      title: s.previous,
-                      backgroundColor: context.theme.hintColor,
-                      onTap: ctrl.previousStep,
-                    ).expanded(),
-                    UElevatedButton(
-                      title: 'ثبت فاکتور',
-                      isLoading: ctrl.isLoading.value,
-                      onTap: () => _showSubmitConfirmation(),
-                    ).expanded(),
-                  ],
-                );
-              default:
-                return const SizedBox.shrink();
-            }
+                ).expanded(),
+              ],
+            );
           }
 
           return getButtons().pOnly(left: 16, right: 16, bottom: 24, top: 16);

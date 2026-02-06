@@ -78,7 +78,7 @@ class _WTextFieldState extends State<WTextField> {
         widget.minLength,
         required: widget.required,
         requiredMessage: s.requiredField,
-        minLengthMessage: s.isShort.replaceAll('#', widget.minLength.toString()),
+        minLengthMessage: s.isShort(widget.minLength.toString()),
       ),
       formatters: [NoLeadingSpaceInputFormatter()],
       onChanged: (final value) {

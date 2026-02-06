@@ -20,11 +20,42 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'fa';
 
+  static String m0(name) =>
+      "${name} عزیز برای دسترسی به داشبورد تخصصی کسب‌وکار خود نیاز به تکمیل اطلاعات کسب‌وکار و فعال سازی داشبورد است.";
+
+  static String m1(step) => "مرحله به (${step}) تغییر کند؟";
+
+  static String m2(percentage) =>
+      "درصد پیشرفت زیر وظیفه به \'${percentage}\' تغییر کند؟";
+
+  static String m3(count) => "${count} روز بدون تداخل اعمال خواهد شد";
+
+  static String m4(item) => "${item} الزامی است";
+
+  static String m5(length) =>
+      "مقدار وارد شده کوتاه است (حداقل ${length} کاراکتر)";
+
+  static String m6(count) => "حداکثر ${count} فایل قابل انتخاب است.";
+
+  static String m7(phoneNumber) =>
+      "کد 6 رقمی ارسال شده به (${phoneNumber}) را وارد کنید.";
+
+  static String m8(path) => "PDF با موفقیت در مسیر زیر ذخیره شد:\n${path}";
+
+  static String m9(name) => "شیفت ${name} با تمام روزهای انتخابی تداخل دارد";
+
+  static String m10(name, count) => "شیفت ${name} با ${count} روز تداخل دارد";
+
+  static String m11(name) => "کسب‌وکار تغییر کرد به (${name})";
+
+  static String m12(item) => "این ${item} درحال حاضر وجود دارد";
+
+  static String m13(time) => "شما ${time} زودتر وارد شدید.";
+
+  static String m14(time) => "شما ${time} دیرتر وارد شدید.";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "SwitchedBusiness": MessageLookupByLibrary.simpleMessage(
-      "کسب‌وکار تغییر کرد به (#)",
-    ),
     "absence": MessageLookupByLibrary.simpleMessage("غیبت"),
     "accept": MessageLookupByLibrary.simpleMessage("پذیرفتن"),
     "accessLevels": MessageLookupByLibrary.simpleMessage("سطح دسترسی ها"),
@@ -111,9 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendance": MessageLookupByLibrary.simpleMessage("حضور و غیاب"),
     "attendanceRate": MessageLookupByLibrary.simpleMessage("نرخ حضور"),
     "audio": MessageLookupByLibrary.simpleMessage("صدا"),
-    "authenticationNeedsDialogText": MessageLookupByLibrary.simpleMessage(
-      "# عزیز برای دسترسی به داشبورد تخصصی کسب‌وکار خود نیاز به تکمیل اطلاعات کسب‌وکار و فعال سازی داشبورد است.",
-    ),
+    "authenticationNeedsDialogText": m0,
     "availableOnAdvancedPlan": MessageLookupByLibrary.simpleMessage(
       "این قابلیت در پلن پیشرفته فعال است.",
     ),
@@ -188,15 +217,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "بررسی درخواست",
     ),
     "changeStatus": MessageLookupByLibrary.simpleMessage("وضعیت تغییر کند؟"),
-    "changeStep": MessageLookupByLibrary.simpleMessage(
-      "مرحله به (#) تغییر کند؟",
-    ),
+    "changeStep": m1,
     "changeStepStatus": MessageLookupByLibrary.simpleMessage(
       "وضعیت مرحله تغییر کند؟",
     ),
-    "changeSubtaskProgressTo": MessageLookupByLibrary.simpleMessage(
-      "درصد پیشرفت زیر وظیفه به \'#\' تغییر کند؟",
-    ),
+    "changeSubtaskProgressTo": m2,
     "changeSubtaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "وضعیت زیر وظیفه به \'انجام شده\' تغییر کند؟",
     ),
@@ -262,9 +287,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "copyText": MessageLookupByLibrary.simpleMessage("کپی کردن متن"),
     "correspondence": MessageLookupByLibrary.simpleMessage("مکاتبات اداری"),
     "count": MessageLookupByLibrary.simpleMessage("تعداد"),
-    "countOfCharactersRequired": MessageLookupByLibrary.simpleMessage(
-      "حداقل # کاراکتر الزامی است",
-    ),
     "country": MessageLookupByLibrary.simpleMessage("کشور"),
     "coverageStartDate": MessageLookupByLibrary.simpleMessage(
       "تاریخ شروع پوشش",
@@ -320,9 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "day": MessageLookupByLibrary.simpleMessage("روز"),
     "days": MessageLookupByLibrary.simpleMessage("روز"),
     "daysOfMonth": MessageLookupByLibrary.simpleMessage("روزهای ماه"),
-    "daysWithoutConflictWillBeApplied": MessageLookupByLibrary.simpleMessage(
-      "# روز بدون تداخل اعمال خواهد شد",
-    ),
+    "daysWithoutConflictWillBeApplied": m3,
     "deadline": MessageLookupByLibrary.simpleMessage("مهلت"),
     "decline": MessageLookupByLibrary.simpleMessage("رد کردن"),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -418,6 +438,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "edited": MessageLookupByLibrary.simpleMessage("ویرایش شده"),
     "educationInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تحصیلی"),
     "educationalDegree": MessageLookupByLibrary.simpleMessage("مدرک تحصیلی"),
+    "electronicInvoiceNotice": MessageLookupByLibrary.simpleMessage(
+      "این فاکتور به صورت الکترونیکی صادر شده است",
+    ),
     "email": MessageLookupByLibrary.simpleMessage("ایمیل"),
     "emergencyInfoText": MessageLookupByLibrary.simpleMessage(
       "در مواقع ضروری و در صورت عدم دسترسی به کاربر، از طریق این فرد برای برقراری ارتباط اقدام خواهد شد.",
@@ -457,6 +480,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorNetConnection": MessageLookupByLibrary.simpleMessage(
       "لطفاً وضعیت اینترنت خود را بررسی کنید",
+    ),
+    "errorSavingInvoice": MessageLookupByLibrary.simpleMessage(
+      "خطا در ذخیره فاکتور",
     ),
     "exactAddress": MessageLookupByLibrary.simpleMessage(
       "محل مراجعه (آدرس دقیق)",
@@ -588,9 +614,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "تنظیم اولیه شیفت",
     ),
     "installmentCount": MessageLookupByLibrary.simpleMessage("تعداد اقساط"),
+    "installmentInterestNotice": MessageLookupByLibrary.simpleMessage(
+      "«سود اقساط این فاکتور به‌صورت قطعی محاسبه و به‌طور مساوی بین اقساط توزیع شده است.»",
+    ),
     "installmentStartDateRequired": MessageLookupByLibrary.simpleMessage(
       "تاریخ شروع اقساط الزامی است",
     ),
+    "installments": MessageLookupByLibrary.simpleMessage("اقساط"),
     "insurance": MessageLookupByLibrary.simpleMessage("بیمه"),
     "interestRate": MessageLookupByLibrary.simpleMessage("نرخ بهره"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
@@ -632,16 +662,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceId": MessageLookupByLibrary.simpleMessage("شناسه فاکتور"),
     "invoiceInstallmentsStep": MessageLookupByLibrary.simpleMessage("اقساط"),
     "invoiceNumber": MessageLookupByLibrary.simpleMessage("شماره فاکتور"),
+    "invoiceSaved": MessageLookupByLibrary.simpleMessage("فاکتور ذخیره شد"),
     "invoiceType": MessageLookupByLibrary.simpleMessage("نوع فاکتور"),
     "invoiceUnitExample": MessageLookupByLibrary.simpleMessage("عدد / کیلوگرم"),
     "invoices": MessageLookupByLibrary.simpleMessage("فاکتور ها"),
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "شماره شبا ایران باید ۲۶ کاراکتر باشد.",
     ),
-    "isRequired": MessageLookupByLibrary.simpleMessage("# الزامی است"),
-    "isShort": MessageLookupByLibrary.simpleMessage(
-      "مقدار وارد شده کوتاه است (حداقل # کاراکتر)",
-    ),
+    "isRequired": m4,
+    "isShort": m5,
     "itemType": MessageLookupByLibrary.simpleMessage("نوع کالا"),
     "jobDescriptionAndResponsibilities": MessageLookupByLibrary.simpleMessage(
       "شرح وظایف و مسئولیت‌ها",
@@ -703,9 +732,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "married": MessageLookupByLibrary.simpleMessage("متأهل"),
     "maxLength": MessageLookupByLibrary.simpleMessage("حداکثر طول"),
     "maximum": MessageLookupByLibrary.simpleMessage("حداکثر"),
-    "maximumFilesCanSelected": MessageLookupByLibrary.simpleMessage(
-      "حداکثر # فایل قابل انتخاب است.",
-    ),
+    "maximumFilesCanSelected": m6,
     "medias": MessageLookupByLibrary.simpleMessage("تصاویر"),
     "medicalCertificateRequired": MessageLookupByLibrary.simpleMessage(
       "گواهی پزشک (PDF/JPG)*",
@@ -889,9 +916,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "otpCodeNotReceived": MessageLookupByLibrary.simpleMessage(
       "کد را دریافت نکردید؟",
     ),
-    "otpInfoText": MessageLookupByLibrary.simpleMessage(
-      "کد 6 رقمی ارسال شده به (#) را وارد کنید.",
-    ),
+    "otpInfoText": m7,
     "overallStatistics": MessageLookupByLibrary.simpleMessage("آمار کلی"),
     "overdue": MessageLookupByLibrary.simpleMessage("تاخیر ها"),
     "overdueFollowups": MessageLookupByLibrary.simpleMessage(
@@ -928,6 +953,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentWasSuccessful": MessageLookupByLibrary.simpleMessage(
       "پرداخت با موفقیت انجام شد",
     ),
+    "pdfSavedAt": m8,
     "pending": MessageLookupByLibrary.simpleMessage("در انتظار"),
     "pendingInvitation": MessageLookupByLibrary.simpleMessage(
       "در انتظار تایید دعوتنامه",
@@ -1096,6 +1122,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "salaryAndBenefits": MessageLookupByLibrary.simpleMessage("حقوق و مزایا"),
     "salaryType": MessageLookupByLibrary.simpleMessage("نوع حقوق"),
     "salesForecast": MessageLookupByLibrary.simpleMessage("پیش‌بینی فروش"),
+    "salesInvoiceTitle": MessageLookupByLibrary.simpleMessage(
+      "صورتحساب فروش کالا و خدمات",
+    ),
     "salesProbability": MessageLookupByLibrary.simpleMessage("احتمال فروش"),
     "sampleData": MessageLookupByLibrary.simpleMessage("نمونه داده‌ها"),
     "save": MessageLookupByLibrary.simpleMessage("ذخیره"),
@@ -1156,12 +1185,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "settings": MessageLookupByLibrary.simpleMessage("تنظیمات"),
     "share": MessageLookupByLibrary.simpleMessage("اشتراک گذاری"),
     "shiftColor": MessageLookupByLibrary.simpleMessage("رنگ شیفت"),
-    "shiftConflictsWithAllSelectedDays": MessageLookupByLibrary.simpleMessage(
-      "شیفت # با تمام روزهای انتخابی تداخل دارد",
-    ),
-    "shiftConflictsWithDays": MessageLookupByLibrary.simpleMessage(
-      "شیفت # با # روز تداخل دارد",
-    ),
+    "shiftConflictsWithAllSelectedDays": m9,
+    "shiftConflictsWithDays": m10,
     "shiftOverlapReport": MessageLookupByLibrary.simpleMessage(
       "گزارش تداخل شیفت",
     ),
@@ -1255,6 +1280,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swipeToCheckOut": MessageLookupByLibrary.simpleMessage(
       "برای ثبت خروج بکشید",
     ),
+    "switchedBusiness": m11,
     "tapEnterToAdd": MessageLookupByLibrary.simpleMessage(
       "* برای اضافه شدن، دکمه Enter کیبورد را بزنید.",
     ),
@@ -1266,13 +1292,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "tasks": MessageLookupByLibrary.simpleMessage("وظایف"),
     "tax": MessageLookupByLibrary.simpleMessage("ارزش افزوده"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("مهارت‌های تخصصی"),
+    "thanksForTrust": MessageLookupByLibrary.simpleMessage(
+      "با تشکر از اعتماد شما",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("تغییر تم"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
       "این تاریخ قبلاً اضافه شده است.",
     ),
-    "thisIsExist": MessageLookupByLibrary.simpleMessage(
-      "این # درحال حاضر وجود دارد",
-    ),
+    "thisIsExist": m12,
     "time": MessageLookupByLibrary.simpleMessage("ساعت"),
     "timeMustBeSetInFuture": MessageLookupByLibrary.simpleMessage(
       "زمان باید برای آینده باشد",
@@ -1299,7 +1326,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "totalMonthly": MessageLookupByLibrary.simpleMessage("مجموع ماهانه"),
     "totalPrice": MessageLookupByLibrary.simpleMessage("قیمت کل"),
+    "totalPriceAfterDiscount": MessageLookupByLibrary.simpleMessage(
+      "مبلغ کل پس از تخفیف",
+    ),
     "totalTasks": MessageLookupByLibrary.simpleMessage("تعداد کل وظایف"),
+    "totalWithTax": MessageLookupByLibrary.simpleMessage("جمع کل با مالیات"),
     "totalWorkHours": MessageLookupByLibrary.simpleMessage("ساعات کاری کل"),
     "transactionNumber": MessageLookupByLibrary.simpleMessage("شماره تراکنش"),
     "transfer": MessageLookupByLibrary.simpleMessage("انتقال"),
@@ -1421,12 +1452,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "year": MessageLookupByLibrary.simpleMessage("سال"),
     "yes": MessageLookupByLibrary.simpleMessage("بله"),
-    "youAreEarly": MessageLookupByLibrary.simpleMessage(
-      "شما # زودتر وارد شدید.",
-    ),
-    "youAreLate": MessageLookupByLibrary.simpleMessage(
-      "شما # دیرتر وارد شدید.",
-    ),
+    "youAreEarly": m13,
+    "youAreLate": m14,
     "youAreNotMemberOfThisGroup": MessageLookupByLibrary.simpleMessage(
       "شما عضو این گروه نیستید.",
     ),

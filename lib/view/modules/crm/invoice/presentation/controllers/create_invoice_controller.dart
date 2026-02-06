@@ -12,6 +12,8 @@ import '../../domain/usecases/create_invoice.dart';
 import '../../domain/entities/invoice.dart';
 import '../helpers/murabaha_installment_calculator.dart';
 
+enum InvoiceStepType { details, installments, buyerSeller, preview }
+
 class CreateInvoiceController extends GetxController {
   CreateInvoiceController({required this.customerId});
 
@@ -37,16 +39,28 @@ class CreateInvoiceController extends GetxController {
 
   bool get isInstallmentPaymentTerms => selectedPaymentTerms.value == PaymentTerms.installment;
 
-  List<String> get steps =>
-      [
-        s.invoiceDetailsStep,
-        if (isInstallmentPaymentTerms) s.invoiceInstallmentsStep,
-        "${s.buyer}/${s.seller}",
-        s.previewStep,
-      ];
+  List<InvoiceStepType> get stepTypes => [
+    InvoiceStepType.details,
+    if (isInstallmentPaymentTerms) InvoiceStepType.installments,
+    if (!isWorkspaceInfoCompleted) InvoiceStepType.buyerSeller,
+    InvoiceStepType.preview,
+  ];
+
+  List<String> get steps => stepTypes.map((final type) {
+    switch (type) {
+      case InvoiceStepType.details:
+        return s.invoiceDetailsStep;
+      case InvoiceStepType.installments:
+        return s.invoiceInstallmentsStep;
+      case InvoiceStepType.buyerSeller:
+        return "${s.buyer}/${s.seller}";
+      case InvoiceStepType.preview:
+        return s.previewStep;
+    }
+  }).toList();
 
   // Form fields - Step 1: Buyer Information
-  BuyerInfo? _buyerInfo;
+  BuyerInfo? buyerInfo;
   final TextEditingController buyerNameController = TextEditingController();
   final TextEditingController buyerPhoneController = TextEditingController();
   final TextEditingController buyerAddressController = TextEditingController();
@@ -58,9 +72,9 @@ class CreateInvoiceController extends GetxController {
   final Rxn<DropdownItemReadDto> selectedCity = Rxn<DropdownItemReadDto>(null);
 
   // State/City management for buyer
-  final Rx<PageState> statesState = PageState.loaded.obs;
-  final Rx<PageState> citiesState = PageState.loaded.obs;
-  final RxList<DropdownItemReadDto> states = <DropdownItemReadDto>[].obs;
+  final Rx<PageState> buyerStatesState = PageState.loaded.obs;
+  final Rx<PageState> buyerCitiesState = PageState.loaded.obs;
+  final RxList<DropdownItemReadDto> buyerStates = <DropdownItemReadDto>[].obs;
   final RxList<DropdownItemReadDto> cities = <DropdownItemReadDto>[].obs;
 
   // Form fields - Step 1: Seller (Workspace) Information
@@ -146,14 +160,14 @@ class CreateInvoiceController extends GetxController {
   }
 
   void _setBuyerStateAndCity() {
-    if (_buyerInfo == null) return;
-    final customer = _buyerInfo!;
+    if (buyerInfo == null) return;
+    final customer = buyerInfo!;
 
     // Set state if available
-    if (customer.state?.id != null && states.isNotEmpty) {
+    if (customer.state?.id != null && buyerStates.isNotEmpty) {
       final customerStateId = customer.state!.id;
-      final matchingState = states.firstWhereOrNull(
-            (final s) => s.id != null && s.id == customerStateId,
+      final matchingState = buyerStates.firstWhereOrNull(
+        (final s) => s.id != null && s.id == customerStateId,
       );
       if (matchingState != null) {
         selectedState.value = matchingState;
@@ -187,7 +201,7 @@ class CreateInvoiceController extends GetxController {
   }
 
   Future<void> _setBuyerSellerInfo(final InvoiceBuyerSellerInfo result) async {
-    _buyerInfo = result.buyerInfo;
+    buyerInfo = result.buyerInfo;
     final customer = result.buyerInfo;
     // Fill buyer information from customer
     buyerNameController.text = customer.name;
@@ -197,7 +211,7 @@ class CreateInvoiceController extends GetxController {
     buyerPhoneController.text = customer.phoneNumber;
 
     // Set state and city if states are already loaded
-    if (states.isNotEmpty) {
+    if (buyerStates.isNotEmpty) {
       _setBuyerStateAndCity();
     }
 
@@ -224,16 +238,16 @@ class CreateInvoiceController extends GetxController {
   }
 
   Future<void> _loadBuyerStates() async {
-    statesState.loading();
+    buyerStatesState.loading();
     _dropdownDatasource.getAllState(
       onResponse: (final response) {
-        states(response.resultList);
-        statesState.loaded();
+        buyerStates(response.resultList);
+        buyerStatesState.loaded();
         // After states are loaded, try to set customer's state/city
         _setBuyerStateAndCity();
       },
       onError: (final errorResponse) {
-        statesState.error();
+        buyerStatesState.error();
       },
       withRetry: true,
     );
@@ -241,19 +255,19 @@ class CreateInvoiceController extends GetxController {
 
   void _loadBuyerCities() {
     if (selectedState.value == null) return;
-    citiesState.loading();
+    buyerCitiesState.loading();
     _dropdownDatasource.getCitiesByStateId(
       stateId: selectedState.value?.id,
       onResponse: (final response) {
         cities(response.resultList);
-        citiesState.loaded();
+        buyerCitiesState.loaded();
         // After cities are loaded, try to set customer's city
-        if (_buyerInfo != null) {
+        if (buyerInfo != null) {
           _setCustomerCity();
         }
       },
       onError: (final errorResponse) {
-        citiesState.error();
+        buyerCitiesState.error();
       },
       withRetry: true,
     );
@@ -267,8 +281,8 @@ class CreateInvoiceController extends GetxController {
   }
 
   void _setCustomerCity() {
-    if (_buyerInfo == null || cities.isEmpty) return;
-    final customer = _buyerInfo!;
+    if (buyerInfo == null || cities.isEmpty) return;
+    final customer = buyerInfo!;
 
     if (customer.city?.id != null) {
       final customerCityId = customer.city!.id;
@@ -355,21 +369,27 @@ class CreateInvoiceController extends GetxController {
 
   // Navigation
   void nextStep() {
-    if (currentStep.value == 0) {
-      if (!validateDetailsForm()) return;
-    } else if (currentStep.value == 1) {
-      if (!validateInstallmentsForm()) return;
-    } else if (isInstallmentPaymentTerms && currentStep.value == 2) {
-      if (!validateBuyerSellerForm()) return;
-      // Call API before proceeding to next step
-      updateInvoiceInfo(
-        onSuccess: () {
-          if (currentStep.value < steps.length - 1) {
-            currentStep(currentStep.value + 1);
-          }
-        },
-      );
-      return;
+    final currentType = stepTypes[currentStep.value];
+
+    switch (currentType) {
+      case InvoiceStepType.details:
+        if (!validateDetailsForm()) return;
+      case InvoiceStepType.installments:
+        if (!validateInstallmentsForm()) return;
+      case InvoiceStepType.buyerSeller:
+        if (!validateBuyerSellerForm()) return;
+        // Call API before proceeding to next step
+        updateInvoiceInfo(
+          onSuccess: () {
+            if (currentStep.value < steps.length - 1) {
+              currentStep(currentStep.value + 1);
+            }
+          },
+        );
+        return;
+      case InvoiceStepType.preview:
+        // No next step for preview
+        return;
     }
 
     if (currentStep.value < steps.length - 1) {
@@ -447,6 +467,7 @@ class CreateInvoiceController extends GetxController {
 
   // Validation
   bool validateBuyerSellerForm() {
+    if (isWorkspaceInfoCompleted) return true;
     if (!buyerSellerStepFormKey.currentState!.validate()) {
       AppNavigator.snackbarRed(
         title: s.error,
@@ -508,16 +529,16 @@ class CreateInvoiceController extends GetxController {
 
   // Calculations
   Decimal get totalProductsPrice {
-    Decimal total = 0.toDecimal();
+    Decimal total = Decimal.zero;
     for (final product in products) {
-      final price = Decimal.tryParse(product.price.numericOnly()) ?? 0.toDecimal();
+      final price = Decimal.tryParse(product.price.numericOnly()) ?? Decimal.zero;
       total += price * product.count.toDecimal();
     }
     return total;
   }
 
   Decimal get discountAmount {
-    if (discountPercentage.value == 0) return 0.toDecimal();
+    if (discountPercentage.value == 0) return Decimal.zero;
     final discount = discountPercentage.value;
     final discountRate = Decimal.parse((discount / 100).toString());
     final amount = (totalProductsPrice * discountRate);
@@ -525,7 +546,7 @@ class CreateInvoiceController extends GetxController {
   }
 
   Decimal get taxAmount {
-    if (taxesPercentage.value == 0) return 0.toDecimal();
+    if (taxesPercentage.value == 0) return Decimal.zero;
     final tax = taxesPercentage.value;
     final taxRate = Decimal.parse((tax / 100).toString());
     final amount = (totalProductsPrice - discountAmount) * taxRate;
@@ -534,8 +555,10 @@ class CreateInvoiceController extends GetxController {
   }
 
   Decimal get interestAmount {
-    if (selectedPaymentTerms.value != PaymentTerms.installment) return 0.toDecimal();
-    if (interestPercentage.value == 0) return 0.toDecimal();
+    if (selectedPaymentTerms.value != PaymentTerms.installment) return Decimal.zero;
+    if (interestPercentage.value == 0) return Decimal.zero;
+    if (installmentStartDate == null) return Decimal.zero;
+    if (createdDate == null) return Decimal.zero;
 
     final dueDates = [
       installmentStartDate!,
@@ -560,6 +583,7 @@ class CreateInvoiceController extends GetxController {
 
   Decimal get finalPriceWithInterest {
     if (installmentPayments.isEmpty) return finalPrice;
+    if (createdDate == null) return finalPrice;
 
     List<Jalali> dueDates = [];
 
@@ -617,7 +641,7 @@ class CreateInvoiceController extends GetxController {
 
     // Sort by date to pay
     payments.sort(
-          (final a, final b) {
+      (final a, final b) {
         final aDateToPay = a.dateToPay;
         final bDateToPay = b.dateToPay;
         return aDateToPay.compareTo(bDateToPay);
@@ -633,9 +657,7 @@ class CreateInvoiceController extends GetxController {
       return;
     }
 
-    if (shippingCostController.text
-        .trim()
-        .isEmpty) {
+    if (shippingCostController.text.trim().isEmpty) {
       shippingCostAmount(0);
       return;
     }
@@ -699,15 +721,14 @@ class CreateInvoiceController extends GetxController {
       // Build product list
       final productList = products
           .map(
-            (final p) =>
-            InvoiceProductItem(
+            (final p) => InvoiceProductItem(
               title: p.title,
               count: p.count,
               price: p.price.replaceAll(',', ''),
               code: p.code,
               unit: p.unit,
             ),
-      )
+          )
           .toList();
 
       // Build params object
@@ -721,9 +742,7 @@ class CreateInvoiceController extends GetxController {
         createdDate: createdDate!.toDateTime().toIso8601String(),
         validityDate: validityDate?.toDateTime().toIso8601String(),
         dateToPayJalali: dateToPay?.formatCompactDate(),
-        description: descriptionController.text
-            .trim()
-            .isNotEmpty ? descriptionController.text.trim() : null,
+        description: descriptionController.text.trim().isNotEmpty ? descriptionController.text.trim() : null,
         discount: discountPercentage.value,
         taxes: taxesPercentage.value,
         interestPercentage: interestPercentage.value,
@@ -747,32 +766,5 @@ class CreateInvoiceController extends GetxController {
         subtitle: e.toString(),
       );
     }
-  }
-
-  void resetForm() {
-    buyerNameController.clear();
-    buyerPhoneController.clear();
-    buyerAddressController.clear();
-    invoiceCodeController.text = invoiceCode.value;
-    descriptionController.clear();
-    discountPercentage(0);
-    taxesPercentage(0);
-    shippingCostController.clear();
-    shippingCostAmount(0);
-    interestPercentage(0);
-    selectedInvoiceType.value = null;
-    selectedPaymentTerms.value = PaymentTerms.values.first;
-    products.clear();
-    createdDate = Jalali.now();
-    validityDate = null;
-    dateToPay = null;
-    selectedState.value = null;
-    selectedCity.value = null;
-    cities.clear();
-    installmentCount = 1;
-    installmentStartDate = null;
-    installmentPeriod = 10;
-    installmentPayments.clear();
-    currentStep(0);
   }
 }

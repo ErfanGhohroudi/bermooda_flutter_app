@@ -7,6 +7,6 @@ class UpdateWarehouseUseCase {
 
   final WarehouseRepository repository;
 
-  Future<Warehouse> call(int id, Map<String, dynamic> params) =>
+  Future<Warehouse> call(final int id, final Map<String, dynamic> params) =>
       repository.updateWarehouse(id, params);
 }

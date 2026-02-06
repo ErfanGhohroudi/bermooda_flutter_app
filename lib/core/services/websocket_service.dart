@@ -229,7 +229,7 @@ class WebSocketService with WidgetsBindingObserver {
       try {
         final WorkspaceReadDto model = WorkspaceReadDto.fromMap(jsonData['data']['current_workspace']);
         if (_core.currentWorkspace.value.id != model.id) {
-          AppNavigator.snackbarGreen(title: '', subtitle: s.SwitchedBusiness.replaceAll('#', model.title ?? ''));
+          AppNavigator.snackbarGreen(title: '', subtitle: s.switchedBusiness(model.title ?? ''));
           initApp(currentWorkspaceChanged: true);
         }
       } catch (e) {

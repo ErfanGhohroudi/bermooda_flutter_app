@@ -68,7 +68,7 @@ class InstallmentResult {
 
   Map<String, dynamic> toMap() => <String, dynamic>{
     'date_to_pay': dateToPay.formatCompactDate(),
-    'price': principalAmount.toStringAsFixed(0),
+    'price': totalAmount.toStringAsFixed(0),
   };
 }
 

@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:bermooda_business/core/utils/extensions/money_extensions.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/helpers/open_file_helpers.dart';

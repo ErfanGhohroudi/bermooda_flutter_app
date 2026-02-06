@@ -131,7 +131,7 @@ class ForgotPasswordHelper {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              s.otpInfoText.replaceAll('#', phoneNumber),
+              s.otpInfoText(phoneNumber),
               textAlign: TextAlign.center,
             ).titleMedium(),
             const SizedBox(height: 18),
@@ -155,7 +155,7 @@ class ForgotPasswordHelper {
                 validator: validateMinLength(
                   6,
                   requiredMessage: s.requiredField,
-                  minLengthMessage: s.isShort.replaceAll('#', '6'),
+                  minLengthMessage: s.isShort('6'),
                 ),
                 onCompleted: (final code) {
                   buttonState.loading();

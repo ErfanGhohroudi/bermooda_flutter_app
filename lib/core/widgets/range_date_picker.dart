@@ -1,7 +1,7 @@
 part of "widgets.dart";
 
 class WRangeDatePicker extends StatefulWidget {
-  WRangeDatePicker({
+  const WRangeDatePicker({
     required this.onConfirm,
     this.startDate,
     this.initialDate,

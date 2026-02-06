@@ -115,7 +115,7 @@ class EmploymentTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("s.contractDetails").titleMedium().bold(),
+                  const Text("s.contractDetails").titleMedium().bold(),
                   const SizedBox(height: 16),
                   _buildContractInfo(),
                 ],
@@ -127,7 +127,7 @@ class EmploymentTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("s.workSchedule").titleMedium().bold(),
+                  const Text("s.workSchedule").titleMedium().bold(),
                   const SizedBox(height: 16),
                   _buildWorkScheduleInfo(),
                 ],
@@ -139,7 +139,7 @@ class EmploymentTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("s.benefitsAndCompensation").titleMedium().bold(),
+                  const Text("s.benefitsAndCompensation").titleMedium().bold(),
                   const SizedBox(height: 16),
                   _buildBenefitsInfo(),
                 ],
@@ -151,7 +151,7 @@ class EmploymentTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("s.employmentHistory").titleMedium().bold(),
+                  const Text("s.employmentHistory").titleMedium().bold(),
                   const SizedBox(height: 16),
                   _buildEmploymentHistory(),
                 ],
@@ -164,12 +164,12 @@ class EmploymentTab extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("s.emergencyActions").titleMedium(color: AppColors.red).bold(),
+                    const Text("s.emergencyActions").titleMedium(color: AppColors.red).bold(),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
                       onPressed: _suspendEmployee,
                       icon: const Icon(Icons.pause_circle_outline),
-                      label: Text("s.suspendEmployee"),
+                      label: const Text("s.suspendEmployee"),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: Colors.orange,
                         side: const BorderSide(color: Colors.orange),
@@ -344,12 +344,12 @@ class EmploymentTab extends StatelessWidget {
     showDialog(
       context: Get.context!,
       builder: (final context) => AlertDialog(
-        title: Text("s.suspendEmployee").titleMedium().bold(),
+        title: const Text("s.suspendEmployee").titleMedium().bold(),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           spacing: 16,
           children: [
-            Text("s.suspendEmployeeConfirmation").bodyMedium(),
+            const Text("s.suspendEmployeeConfirmation").bodyMedium(),
             TextField(
               decoration: InputDecoration(
                 labelText: "s.reason",
@@ -381,7 +381,7 @@ class EmploymentTab extends StatelessWidget {
               Navigator.pop(context);
               controller.showSuccess("s.employeeSuspended");
             },
-            child: Text("s.suspend", style: const TextStyle(color: Colors.orange)),
+            child: const Text("s.suspend", style: TextStyle(color: Colors.orange)),
           ),
         ],
       ),

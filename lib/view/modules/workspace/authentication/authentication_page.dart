@@ -41,7 +41,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
           mainAxisSize: MainAxisSize.min,
           spacing: 18,
           children: [
-            Text("توجه: برای صدور فاکتور نیاز به تکمیل اطلاعات زیر است.").bodyMedium(color: context.theme.hintColor),
+            const Text("توجه: برای صدور فاکتور نیاز به تکمیل اطلاعات زیر است.").bodyMedium(color: context.theme.hintColor),
 
             /// AuthenticationType
             WRadioGroup<AuthenticationType>(
@@ -93,7 +93,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
       validator: validateMinLength(
         authenticationType.isPerson() ? 10 : 11,
         requiredMessage: s.requiredField,
-        minLengthMessage: s.isShort.replaceAll('#', authenticationType.isPerson() ? '10' : '11'),
+        minLengthMessage: s.isShort(authenticationType.isPerson() ? '10' : '11'),
       ),
     ),
     if (authenticationType.isLegal()) ...[
@@ -108,7 +108,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
         validator: validateMinLength(
           6,
           requiredMessage: s.requiredField,
-          minLengthMessage: s.isShort.replaceAll('#', '6'),
+          minLengthMessage: s.isShort('6'),
         ),
       ),
 
@@ -124,7 +124,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
         validator: validateMinLength(
           12,
           requiredMessage: s.requiredField,
-          minLengthMessage: s.isShort.replaceAll('#', '12'),
+          minLengthMessage: s.isShort('12'),
         ),
       ),
 
@@ -141,7 +141,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
           // validator: validateMinLength(
           //   11,
           //   requiredMessage: s.requiredField,
-          //   minLengthMessage: s.isShort.replaceAll('#', '11'),
+          //   minLengthMessage: s.isShort('11'),
           // ),
         ),
     ],

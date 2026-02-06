@@ -20,10 +20,10 @@ class WNewRequestCardExample extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           UNavigator.push(CreateRequestPage(
-            onResponse: (request) {},
+            onResponse: (final request) {},
           ));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -45,7 +45,7 @@ class WNewRequestCardExample extends StatelessWidget {
               request: _createEmploymentRequest(),
               onTap: () =>
                   _navigateToDetail(context, _createEmploymentRequest()),
-              onSelectedNewStatus: (StatusType value) {},
+              onSelectedNewStatus: (final StatusType value) {},
             ),
 
             const SizedBox(height: 24),
@@ -135,7 +135,7 @@ class WNewRequestCardExample extends StatelessWidget {
   EmploymentRequestEntity _createEmploymentRequest() {
     return EmploymentRequestEntity(
       slug: "1",
-      requestingUser: UserReadDto(id: '', fullName: "محسنیییییییییی"),
+      requestingUser: const UserReadDto(id: '', fullName: "محسنیییییییییی"),
       categoryType: RequestCategoryType.employment,
       description: 'درخواست استخدام برای پست برنامه‌نویس Flutter',
       status: StatusType.pending,
@@ -164,7 +164,7 @@ class WNewRequestCardExample extends StatelessWidget {
   LeaveAttendanceRequestEntity _createLeaveRequest() {
     return LeaveAttendanceRequestEntity(
       slug: "2",
-      requestingUser: UserReadDto(id: ''),
+      requestingUser: const UserReadDto(id: ''),
       categoryType: RequestCategoryType.leave_attendance,
       description: 'درخواست مرخصی استحقاقی',
       status: StatusType.approved,
@@ -178,7 +178,7 @@ class WNewRequestCardExample extends StatelessWidget {
   MissionWorkRequestEntity _createMissionRequest() {
     return MissionWorkRequestEntity(
       slug: "3",
-      requestingUser: UserReadDto(id: ''),
+      requestingUser: const UserReadDto(id: ''),
       categoryType: RequestCategoryType.missions_work,
       description: 'مأموریت برون‌شهری برای شرکت در کنفرانس',
       status: StatusType.pending,
@@ -196,7 +196,7 @@ class WNewRequestCardExample extends StatelessWidget {
   WelfareFinancialRequestEntity _createWelfareRequest() {
     return WelfareFinancialRequestEntity(
       slug: "4",
-      requestingUser: UserReadDto(id: ''),
+      requestingUser: const UserReadDto(id: ''),
       categoryType: RequestCategoryType.welfare_financial,
       description: 'درخواست وام مسکن',
       status: StatusType.pending,
@@ -212,7 +212,7 @@ class WNewRequestCardExample extends StatelessWidget {
   SupportProcurementRequestEntity _createSupportRequest() {
     return SupportProcurementRequestEntity(
       slug: "5",
-      requestingUser: UserReadDto(id: ''),
+      requestingUser: const UserReadDto(id: ''),
       categoryType: RequestCategoryType.support_logistics,
       description: 'درخواست خرید لپ‌تاپ جدید',
       status: StatusType.pending,
@@ -227,7 +227,7 @@ class WNewRequestCardExample extends StatelessWidget {
   GeneralRequestEntity _createGeneralRequest() {
     return GeneralRequestEntity(
       slug: "6",
-      requestingUser: UserReadDto(id: ''),
+      requestingUser: const UserReadDto(id: ''),
       categoryType: RequestCategoryType.general_requests,
       description: 'درخواست گواهی اشتغال',
       status: StatusType.approved,

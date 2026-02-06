@@ -135,7 +135,7 @@ mixin SubtaskCardController {
       return;
     }
     appShowYesCancelDialog(
-      description: s.changeSubtaskProgressTo.replaceAll("#", "$value%"),
+      description: s.changeSubtaskProgressTo("$value%"),
       onYesButtonTap: () {
         UNavigator.back();
         _changeProgress(value, onResponse);

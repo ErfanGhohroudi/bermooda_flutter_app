@@ -391,7 +391,7 @@ mixin CreateRequestController {
     if (responsibilityController.text.trim() != '') {
       final i = mainResponsibilitiesList.indexOf(responsibilityController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.responsibility));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.responsibility));
       }
       mainResponsibilitiesList.add(responsibilityController.text.trim());
       responsibilityController.clear();
@@ -411,7 +411,7 @@ mixin CreateRequestController {
     if (technicalSkillController.text.trim() != '') {
       final i = technicalSkillsList.indexOf(technicalSkillController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.skill));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.skill));
       }
       technicalSkillsList.add(technicalSkillController.text.trim());
       technicalSkillController.clear();
@@ -431,7 +431,7 @@ mixin CreateRequestController {
     if (softSkillController.text.trim() != '') {
       final i = softSkillsList.indexOf(softSkillController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.skill));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.skill));
       }
       softSkillsList.add(softSkillController.text.trim());
       softSkillController.clear();
@@ -451,7 +451,7 @@ mixin CreateRequestController {
     if (requiredForeignLanguageController.text.trim() != '') {
       final i = softSkillsList.indexOf(requiredForeignLanguageController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.language));
+        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.language));
       }
       softSkillsList.add(requiredForeignLanguageController.text.trim());
       requiredForeignLanguageController.clear();

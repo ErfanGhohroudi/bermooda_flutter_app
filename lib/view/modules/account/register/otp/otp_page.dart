@@ -54,7 +54,7 @@ class _OtpPageState extends State<OtpPage> with OtpController {
 
             /// Info
             Text(
-              s.otpInfoText.replaceAll('#', phoneNumber),
+              s.otpInfoText(phoneNumber),
               textAlign: TextAlign.center,
             ).titleMedium().marginOnly(bottom: 50),
 
@@ -76,7 +76,7 @@ class _OtpPageState extends State<OtpPage> with OtpController {
               validator: validateMinLength(
                 6,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort.replaceAll('#', '6'),
+                minLengthMessage: s.isShort('6'),
               ),
               onCompleted: (final code) {
                 onSubmit();

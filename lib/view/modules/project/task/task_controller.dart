@@ -13,7 +13,7 @@ mixin TaskController {
   final Rx<PageState> buttonState = PageState.loaded.obs;
   final bool haveAdminAccess = Get.find<PermissionService>().haveProjectAdminAccess;
   late int? taskId;
-  final Rx<TaskReadDto> task = TaskReadDto().obs;
+  final Rx<TaskReadDto> task = const TaskReadDto().obs;
   final Rx<PageState> projectsState = PageState.loaded.obs;
   List<ProjectReadDto> projects = [];
 

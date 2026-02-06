@@ -111,118 +111,125 @@ class InvoiceDetailsStep extends StatelessWidget {
                 border: Border.all(color: context.theme.dividerColor, width: 2),
                 borderRadius: BorderRadiusGeometry.circular(6),
               ),
-              child: Scrollbar(
-                trackVisibility: true,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: context.width - 32,
-                    ),
-                    child: IntrinsicWidth(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // Table Header
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            // color: Colors.grey.shade200,
-                            color: context.theme.primaryColor.withValues(alpha: 0.1),
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: productRowCellsWidth[0],
-                                    child: Text(
-                                      s.productService,
-                                      textAlign: TextAlign.center,
-                                    ).bodySmall(fontSize: 10).alignAtCenter(),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                  const VerticalDivider(),
-                                  SizedBox(
-                                    width: productRowCellsWidth[1],
-                                    child: Text(
-                                      s.productCode,
-                                      textAlign: TextAlign.center,
-                                    ).bodySmall(fontSize: 10).alignAtCenter(),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                  const VerticalDivider(),
-                                  SizedBox(
-                                    width: productRowCellsWidth[2],
-                                    child: Text(s.count, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                  const VerticalDivider(),
-                                  SizedBox(
-                                    width: productRowCellsWidth[3],
-                                    child: Text(s.unit, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                  const VerticalDivider(),
-                                  SizedBox(
-                                    width: productRowCellsWidth[4],
-                                    child: Text(s.unitPrice, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                  const VerticalDivider(),
-                                  SizedBox(
-                                    width: productRowCellsWidth[5],
-                                    child: Row(
-                                      children: [
-                                        Text('${s.totalPrice} ', textAlign: TextAlign.center).bodySmall(fontSize: 10),
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            borderRadius: BorderRadius.circular(12),
+              child: Theme(
+                data: ThemeData(
+                  scrollbarTheme: context.theme.scrollbarTheme.copyWith(
+                    thumbColor: const WidgetStatePropertyAll(AppColors.green),
+                  ),
+                ),
+                child: Scrollbar(
+                  trackVisibility: true,
+                  thumbVisibility: true,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: context.width - 32,
+                      ),
+                      child: IntrinsicWidth(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Table Header
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              // color: Colors.grey.shade200,
+                              color: context.theme.primaryColor.withValues(alpha: 0.1),
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: productRowCellsWidth[0],
+                                      child: Text(
+                                        s.productService,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[1],
+                                      child: Text(
+                                        s.productCode,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[2],
+                                      child: Text(s.count, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[3],
+                                      child: Text(s.unit, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[4],
+                                      child: Text(s.unitPrice, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[5],
+                                      child: Row(
+                                        children: [
+                                          Text('${s.totalPrice} ', textAlign: TextAlign.center).bodySmall(fontSize: 10),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade300,
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            child: Text(s.rial).bodySmall(fontSize: 10),
                                           ),
-                                          child: Text(s.rial).bodySmall(fontSize: 10),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Products Table Rows
+                            Obx(
+                              () {
+                                if (ctrl.products.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Column(
+                                  children: ctrl.products.asMap().entries.map((final entry) {
+                                    return _buildProductRow(context, entry.key, entry.value);
+                                  }).toList(),
+                                );
+                              },
+                            ),
+
+                            // Add Row Button
+                            Container(
+                              height: 50,
+                              padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 12),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.grey.shade300),
+                                ),
+                              ),
+                              child: InkWell(
+                                onTap: () => _showAddProductDialog(context),
+                                child: Row(
+                                  spacing: 4,
+                                  children: [
+                                    Text(s.addRow).bodyMedium(color: context.theme.primaryColor),
+                                    UImage(
+                                      AppIcons.addSquareOutline,
+                                      color: context.theme.primaryColor,
+                                      size: 20,
                                     ),
-                                  ).pSymmetric(vertical: headerCellPadding),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-
-                          // Products Table Rows
-                          Obx(
-                            () {
-                              if (ctrl.products.isEmpty) {
-                                return const SizedBox.shrink();
-                              }
-                              return Column(
-                                children: ctrl.products.asMap().entries.map((final entry) {
-                                  return _buildProductRow(context, entry.key, entry.value);
-                                }).toList(),
-                              );
-                            },
-                          ),
-
-                          // Add Row Button
-                          Container(
-                            height: 50,
-                            padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 12),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(color: Colors.grey.shade300),
-                              ),
-                            ),
-                            child: InkWell(
-                              onTap: () => _showAddProductDialog(context),
-                              child: Row(
-                                spacing: 4,
-                                children: [
-                                  Text(s.addRow).bodyMedium(color: context.theme.primaryColor),
-                                  UImage(
-                                    AppIcons.addSquareOutline,
-                                    color: context.theme.primaryColor,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

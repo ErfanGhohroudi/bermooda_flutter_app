@@ -77,7 +77,7 @@ class _WImageFilesState extends State<WImageFiles> {
     if (remainingSlots <= 0) {
       AppNavigator.snackbarRed(
         title: s.warning,
-        subtitle: s.maximumFilesCanSelected.replaceAll('#', widget.maxFilesCount.toString()),
+        subtitle: s.maximumFilesCanSelected(widget.maxFilesCount.toString()),
       );
       return;
     }

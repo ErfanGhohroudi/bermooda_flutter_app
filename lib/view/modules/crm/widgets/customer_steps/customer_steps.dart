@@ -25,7 +25,7 @@ class CustomerSteps extends StatelessWidget {
     required final StepReadDto step,
     required final Function(CustomerReadDto customer) onResponse,
   }) => appShowYesCancelDialog(
-    description: s.changeStep.replaceAll('#', step.title?.trim() ?? '--'),
+    description: s.changeStep(step.title?.trim() ?? '--'),
     onYesButtonTap: () {
       UNavigator.back();
       Get.find<CustomerDatasource>().changeCustomerStep(

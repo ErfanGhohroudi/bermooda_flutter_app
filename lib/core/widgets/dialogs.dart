@@ -76,7 +76,7 @@ void showWorkspaceIsNotAuthenticatedDialog({final VoidCallback? onPop}) {
             children: [
               const UImage(AppLottie.error, size: 100),
               Text(
-                s.authenticationNeedsDialogText.replaceAll('#', core.userReadDto.value.fullName ?? ''),
+                s.authenticationNeedsDialogText(core.userReadDto.value.fullName ?? ''),
                 textAlign: TextAlign.center,
               ).titleMedium().marginOnly(bottom: 30),
               UElevatedButton(

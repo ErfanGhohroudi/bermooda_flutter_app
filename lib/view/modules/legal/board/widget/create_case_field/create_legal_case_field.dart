@@ -73,7 +73,7 @@ class _CreateLegalCaseFieldState extends State<CreateLegalCaseField> {
         focusNode: focusNode,
         formatters: [NoLeadingSpaceInputFormatter()],
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: validateMinLength(3, required: false, minLengthMessage: s.isShort.replaceAll('#', '3')),
+        validator: validateMinLength(3, required: false, minLengthMessage: s.isShort('3')),
         onTapOutside: (final event) => _onSubmit(),
         suffixIcon: Icon(CupertinoIcons.add_circled, size: 30, color: context.theme.primaryColor).onTap(_onSubmit),
       ),

@@ -139,7 +139,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
             // Serial Number (right side in RTL)
             Row(
               children: [
-                Text(
+                const Text(
                   'شماره سریال :',
                   style: TextStyle(
                     fontSize: 14,
@@ -167,7 +167,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
             // Date (left side in RTL)
             Row(
               children: [
-                Text(
+                const Text(
                   'تاریخ :',
                   style: TextStyle(
                     fontSize: 14,
@@ -196,7 +196,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
         ),
         const SizedBox(height: 24),
         // Title centered
-        Text(
+        const Text(
           'صورتحساب فروش کالا و خدمات',
           style: TextStyle(
             fontSize: 20,
@@ -220,7 +220,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Title centered
-          Center(
+          const Center(
             child: Text(
               'مشخصات فروشنده',
               style: TextStyle(
@@ -285,7 +285,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Title centered
-          Center(
+          const Center(
             child: Text(
               'مشخصات خریدار',
               style: TextStyle(
@@ -379,13 +379,13 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
     }
 
     // Calculate totals for each product
-    final productTotals = widget.invoice.products.map((product) {
+    final productTotals = widget.invoice.products.map((final product) {
       final unitPrice = _parsePrice(product.price);
       final total = product.count * unitPrice;
       return total;
     }).toList();
 
-    final totalProductsPrice = productTotals.fold<int>(0, (sum, price) => sum + price);
+    final totalProductsPrice = productTotals.fold<int>(0, (final sum, final price) => sum + price);
     final discountAmount = widget.invoice.discount ?? 0;
     final taxAmount = widget.invoice.taxes ?? 0;
     final totalAfterDiscount = totalProductsPrice - discountAmount;
@@ -394,7 +394,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
+        const Center(
           child: Text(
             'مشخصات کالا یا خدمات مورد معامله',
             style: TextStyle(
@@ -446,7 +446,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
                   ],
                 ),
                 // Product rows
-                ...widget.invoice.products.asMap().entries.map((entry) {
+                ...widget.invoice.products.asMap().entries.map((final entry) {
                   final index = entry.key;
                   final product = entry.value;
                   final unitPrice = _parsePrice(product.price);
@@ -532,7 +532,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'شرایط و نحوه فروش :',
             style: TextStyle(
               fontSize: 14,
@@ -583,7 +583,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'توضیحات :',
             style: TextStyle(
               fontSize: 14,
@@ -622,7 +622,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
               border: Border.all(color: Colors.grey.shade400, width: 1.5),
               borderRadius: BorderRadius.circular(4),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -648,7 +648,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
               border: Border.all(color: Colors.grey.shade400, width: 1.5),
               borderRadius: BorderRadius.circular(4),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(

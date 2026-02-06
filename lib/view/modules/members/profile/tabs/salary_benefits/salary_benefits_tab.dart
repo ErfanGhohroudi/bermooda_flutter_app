@@ -57,13 +57,13 @@ class SalaryBenefitsTab extends StatelessWidget {
                     ElevatedButton.icon(
                       onPressed: controller.addSalaryRecord,
                       icon: const Icon(Icons.add, size: 18),
-                      label: Text("s.addSalary"),
+                      label: const Text("s.addSalary"),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton.icon(
                       onPressed: controller.addBenefit,
                       icon: const Icon(Icons.add, size: 18),
-                      label: Text("s.addBenefit"),
+                      label: const Text("s.addBenefit"),
                     ),
                   ],
                 ),
@@ -76,14 +76,14 @@ class SalaryBenefitsTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 16,
                 children: [
-                  Text("s.currentSalary").titleMedium().bold(),
+                  const Text("s.currentSalary").titleMedium().bold(),
                   Row(
                     spacing: 16,
                     children: [
                       Expanded(
                         child: _buildSalaryInfo(
                           label: "s.baseSalary",
-                          value: '${_formatCurrency(_getCurrentBaseSalary())}',
+                          value: _formatCurrency(_getCurrentBaseSalary()),
                           icon: Icons.account_balance_wallet_outlined,
                           color: Colors.blue,
                         ),
@@ -91,7 +91,7 @@ class SalaryBenefitsTab extends StatelessWidget {
                       Expanded(
                         child: _buildSalaryInfo(
                           label: "s.totalBenefits",
-                          value: '${_formatCurrency(_getTotalBenefits())}',
+                          value: _formatCurrency(_getTotalBenefits()),
                           icon: Icons.card_giftcard_outlined,
                           color: Colors.green,
                         ),
@@ -104,7 +104,7 @@ class SalaryBenefitsTab extends StatelessWidget {
                       Expanded(
                         child: _buildSalaryInfo(
                           label: "s.grossSalary",
-                          value: '${_formatCurrency(_getGrossSalary())}',
+                          value: _formatCurrency(_getGrossSalary()),
                           icon: Icons.trending_up_outlined,
                           color: Colors.orange,
                         ),
@@ -112,7 +112,7 @@ class SalaryBenefitsTab extends StatelessWidget {
                       Expanded(
                         child: _buildSalaryInfo(
                           label: "s.netSalary",
-                          value: '${_formatCurrency(_getNetSalary())}',
+                          value: _formatCurrency(_getNetSalary()),
                           icon: Icons.account_balance_outlined,
                           color: Colors.purple,
                         ),
@@ -132,10 +132,10 @@ class SalaryBenefitsTab extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("s.salaryHistory").titleMedium().bold(),
+                      const Text("s.salaryHistory").titleMedium().bold(),
                       TextButton(
                         onPressed: controller.addSalaryRecord,
-                        child: Text("s.addRecord"),
+                        child: const Text("s.addRecord"),
                       ),
                     ],
                   ),
@@ -184,10 +184,10 @@ class SalaryBenefitsTab extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("s.benefits").titleMedium().bold(),
+                      const Text("s.benefits").titleMedium().bold(),
                       TextButton(
                         onPressed: controller.addBenefit,
-                        child: Text("s.addBenefit"),
+                        child: const Text("s.addBenefit"),
                       ),
                     ],
                   ),
@@ -266,7 +266,7 @@ class SalaryBenefitsTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(salary['month'] ?? "- -").titleMedium().bold(),
-              Text('${_formatCurrency(salary['total'] ?? 0)}').titleMedium(color: Colors.green).bold(),
+              Text(_formatCurrency(salary['total'] ?? 0)).titleMedium(color: Colors.green).bold(),
             ],
           ),
           Row(
@@ -275,13 +275,13 @@ class SalaryBenefitsTab extends StatelessWidget {
               Expanded(
                 child: _buildSalaryDetail(
                   label: "s.baseSalary",
-                  value: '${_formatCurrency(salary['baseSalary'] ?? 0)}',
+                  value: _formatCurrency(salary['baseSalary'] ?? 0),
                 ),
               ),
               Expanded(
                 child: _buildSalaryDetail(
                   label: "s.bonus",
-                  value: '${_formatCurrency(salary['bonus'] ?? 0)}',
+                  value: _formatCurrency(salary['bonus'] ?? 0),
                 ),
               ),
             ],
@@ -324,7 +324,7 @@ class SalaryBenefitsTab extends StatelessWidget {
               spacing: 4,
               children: [
                 Text(benefit['type'] ?? "- -").titleMedium().bold(),
-                Text('${_formatCurrency(benefit['amount'] ?? 0)}').bodyLarge(color: AppColors.green).bold(),
+                Text(_formatCurrency(benefit['amount'] ?? 0)).bodyLarge(color: AppColors.green).bold(),
               ],
             ),
           ),
@@ -424,8 +424,8 @@ class SalaryBenefitsTab extends StatelessWidget {
     showDialog(
       context: Get.context!,
       builder: (final context) => AlertDialog(
-        title: Text("s.deleteBenefit"),
-        content: Text("s.deleteBenefitConfirmation"),
+        title: const Text("s.deleteBenefit"),
+        content: const Text("s.deleteBenefitConfirmation"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
