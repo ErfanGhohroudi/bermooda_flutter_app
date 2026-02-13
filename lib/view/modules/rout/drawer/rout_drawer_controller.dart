@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../core/core.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../data/data.dart';
 import '../../subscription/subscription_page.dart';
 import '../rout_controller.dart';
@@ -56,6 +57,6 @@ mixin RoutDrawerController {
   }
 
   void navigateToSubscription() {
-    UNavigator.push(SubscriptionPage(workspaceId: core.currentWorkspace.value.id));
+    AppNavigator.push(SubscriptionPage(workspaceId: core.currentWorkspace.value.id));
   }
 }

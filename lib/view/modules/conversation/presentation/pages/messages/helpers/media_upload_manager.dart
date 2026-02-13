@@ -315,7 +315,7 @@ class MediaUploadManager {
   }
 
   void _showSizeLimitError() {
-    AppNavigator.snackbarRed(
+    AppSnackBar.snackbarRed(
       title: s.error,
       subtitle:
           "${s.fileSizeExceedsTheAllowedLimit} "
@@ -380,7 +380,7 @@ class MediaUploadManager {
       // Handle 413 (Payload Too Large) separately
       if (statusCode == 413) {
         errorMessage = s.fileSizeExceedsTheAllowedLimit;
-        AppNavigator.snackbarRed(title: s.error, subtitle: errorMessage);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: errorMessage);
       } else {
         // Extract error message from response
         if (responseData is Map<String, dynamic>) {
@@ -474,7 +474,7 @@ class MediaUploadManager {
 
     final file = File(message.localFilePath!);
     if (!await file.exists()) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.fileNotFound);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.fileNotFound);
       return;
     }
 

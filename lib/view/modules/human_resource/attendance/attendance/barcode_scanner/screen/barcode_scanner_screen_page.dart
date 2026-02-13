@@ -2,6 +2,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../../core/core.dart';
+import '../../../../../../../core/navigator/navigator.dart';
 import '../../../../../../../core/theme.dart';
 
 
@@ -105,7 +106,7 @@ class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> with Widget
                     widget.action(newBarcode);
 
                     /// Navigate back after a successful scan
-                    UNavigator.back();
+                    AppNavigator.back();
                   }
                 }
               },

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/extensions/color_extension.dart';
 import '../../../../../core/widgets/image_files.dart';
 import '../../../../../core/services/permission_service.dart';
@@ -10,9 +11,9 @@ import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
 import '../../../crm/customer/customer_info/customer_info_controller.dart';
 import '../../../crm/invoice/domain/entities/invoice.dart';
-import '../../../crm/invoice/presentation/pages/invoice_detail_page.dart';
-import '../../../followup/follow_up_card/follow_up_details/follow_up_details_page.dart';
-import '../../../followup/list/followup_list_controller.dart';
+import '../../../followup/presentation/controllers/follow_up_card_controller.dart';
+import '../../../followup/presentation/pages/follow_up_details_page.dart';
+import '../../../followup/presentation/controllers/followup_list_controller.dart';
 import '../../../subtask/list/subtask_list_controller.dart';
 import '../../controllers/crm/crm_customer_reports_controller.dart';
 import '../../controllers/legal/legal_case_reports_controller.dart';

@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
@@ -25,6 +26,7 @@ class InvoiceDetailsStep extends StatelessWidget {
     30, // count
     30, // unit
     60, // unit price
+    60, // discount
     170, // total price
   ];
 
@@ -72,6 +74,8 @@ class InvoiceDetailsStep extends StatelessWidget {
                       controller: ctrl.invoiceCodeController,
                       labelText: s.invoiceId,
                       enabled: false,
+                      required: true,
+                      showRequired: false,
                       maxLength: 50,
                     ).expanded(),
                   ],
@@ -94,6 +98,7 @@ class InvoiceDetailsStep extends StatelessWidget {
                     WDatePickerField(
                       labelText: s.validityDate,
                       initialValue: ctrl.validityDate?.formatCompactDate(),
+                      showYearSelector: true,
                       required: true,
                       onConfirm: (final date, final formattedDate) {
                         ctrl.validityDate = date;
@@ -166,11 +171,22 @@ class InvoiceDetailsStep extends StatelessWidget {
                                     const VerticalDivider(),
                                     SizedBox(
                                       width: productRowCellsWidth[4],
-                                      child: Text(s.unitPrice, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                      child: Text(
+                                        s.unitPrice,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
                                     ).pSymmetric(vertical: headerCellPadding),
                                     const VerticalDivider(),
                                     SizedBox(
                                       width: productRowCellsWidth[5],
+                                      child: Text(
+                                        s.discount,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[6],
                                       child: Row(
                                         children: [
                                           Text('${s.totalPrice} ', textAlign: TextAlign.center).bodySmall(fontSize: 10),
@@ -249,7 +265,15 @@ class InvoiceDetailsStep extends StatelessWidget {
                       // Total Products Price
                       _calculationRow(
                         s.totalAmountOfProductsServices,
-                        ctrl.totalProductsPrice.toString().toRialMoney(),
+                        ctrl.totalProductsPriceAfterDiscount.toString().toRialMoney(),
+                      ),
+
+                      // Products Discount
+                      _calculationRow(
+                        "${s.discount} (${s.productsOrServices})",
+                        ("${ctrl.totalProductsDiscountAmount > 0.toDecimal() ? "ـ " : ''}${ctrl.totalProductsDiscountAmount}")
+                            .toRialMoney(),
+                        color: AppColors.red,
                       ),
 
                       // Discount Amount
@@ -299,14 +323,18 @@ class InvoiceDetailsStep extends StatelessWidget {
                               title: s.shippingCost,
                               onChanged: (final value) {
                                 ctrl.shipping(value);
+                                if (ctrl.shipping.value) {
+                                  ctrl.shippingCostFocusNode.requestFocus();
+                                }
                                 ctrl.onShippingCostFieldChanged();
                               },
                             ),
                             if (ctrl.shipping.value)
                               WAmountCurrencyField(
                                 controller: ctrl.shippingCostController,
-                                autofocus: true,
+                                focusNode: ctrl.shippingCostFocusNode,
                                 labelText: '',
+                                required: ctrl.shipping.value,
                                 currencyText: s.rial,
                                 onChanged: (final value) {
                                   ctrl.onShippingCostFieldChanged();
@@ -390,7 +418,8 @@ class InvoiceDetailsStep extends StatelessWidget {
 
   Widget _buildProductRow(final BuildContext context, final int index, final InvoiceProduct product) {
     final price = int.tryParse(product.price.numericOnly()) ?? 0;
-    final total = (price * product.count).toString().toRialMoney();
+    final discount = int.tryParse(product.discount?.numericOnly() ?? '0') ?? 0;
+    final total = ((price * product.count) - discount).toString().toRialMoney();
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -430,6 +459,11 @@ class InvoiceDetailsStep extends StatelessWidget {
             const VerticalDivider(),
             SizedBox(
               width: productRowCellsWidth[5],
+              child: Text(product.discount?.separateNumbers3By3() ?? '0').bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[6],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -467,6 +501,7 @@ class InvoiceDetailsStep extends StatelessWidget {
     final codeController = TextEditingController(text: product.code ?? '');
     final unitController = TextEditingController(text: product.unit ?? '');
     final priceController = TextEditingController(text: product.price);
+    final discountController = TextEditingController(text: product.discount);
     int count = product.count;
 
     bottomSheet(
@@ -483,7 +518,6 @@ class InvoiceDetailsStep extends StatelessWidget {
                 controller: titleController,
                 labelText: s.productService,
                 required: true,
-                showRequired: false,
               ),
               WTextField(
                 controller: codeController,
@@ -506,7 +540,11 @@ class InvoiceDetailsStep extends StatelessWidget {
                 labelText: s.unitPrice,
                 currencyText: s.rial,
                 required: true,
-                showRequired: false,
+              ),
+              WAmountCurrencyField(
+                controller: discountController,
+                labelText: s.discount,
+                currencyText: s.rial,
               ),
               Row(
                 spacing: 10,
@@ -514,7 +552,7 @@ class InvoiceDetailsStep extends StatelessWidget {
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: () => UNavigator.back(),
+                    onTap: () => AppNavigator.back(),
                   ).expanded(),
                   UElevatedButton(
                     title: s.save,
@@ -526,12 +564,13 @@ class InvoiceDetailsStep extends StatelessWidget {
                             id: product.id,
                             title: titleController.text.trim(),
                             count: count,
-                            price: priceController.text.trim(),
+                            price: priceController.text.trim().numericOnly(),
+                            discount: discountController.text.trim().isEmpty ? null : discountController.text.trim().numericOnly(),
                             unit: unitController.text.trim().isEmpty ? null : unitController.text.trim(),
                             code: codeController.text.trim().isEmpty ? null : codeController.text.trim(),
                           );
                           ctrl.updateProduct(index, updatedProduct);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                       );
                     },
@@ -550,6 +589,7 @@ class InvoiceDetailsStep extends StatelessWidget {
     final productIdController = TextEditingController();
     final productTitleController = TextEditingController();
     final productPriceController = TextEditingController();
+    final productDiscountController = TextEditingController();
     final productUnitController = TextEditingController();
     final productCodeController = TextEditingController();
     int productCount = 1;
@@ -593,13 +633,18 @@ class InvoiceDetailsStep extends StatelessWidget {
                 required: true,
                 showRequired: false,
               ),
+              WAmountCurrencyField(
+                controller: productDiscountController,
+                labelText: s.discount,
+                currencyText: s.rial,
+              ),
               Row(
                 spacing: 10,
                 children: [
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: () => UNavigator.back(),
+                    onTap: () => AppNavigator.back(),
                   ).expanded(),
                   UElevatedButton(
                     title: s.addText,
@@ -611,13 +656,16 @@ class InvoiceDetailsStep extends StatelessWidget {
                             id: int.tryParse(productIdController.text.trim()) ?? 0,
                             title: productTitleController.text.trim(),
                             count: productCount,
-                            price: productPriceController.text.trim(),
+                            price: productPriceController.text.trim().numericOnly(),
+                            discount: productDiscountController.text.trim().isEmpty
+                                ? null
+                                : productDiscountController.text.trim().numericOnly(),
                             unit: productUnitController.text.trim().isEmpty ? null : productUnitController.text.trim(),
                             code: productCodeController.text.trim().isEmpty ? null : productCodeController.text.trim(),
                           );
 
                           ctrl.addProduct(product);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                       );
                     },

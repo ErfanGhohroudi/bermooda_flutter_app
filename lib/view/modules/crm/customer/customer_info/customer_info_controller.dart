@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/services/permission_service.dart';
@@ -57,7 +58,7 @@ class CustomerInfoController extends GetxController {
       yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _datasource.delete(
           id: customer.value.id!,
           onResponse: action,

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/fields/fields.dart';
 import '../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../../../core/core.dart';
@@ -73,7 +74,7 @@ class _UpdateAccountPageState extends State<UpdateAccountPage> with UpdateAccoun
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: UNavigator.back,
+                  onTap: AppNavigator.back,
                 ).expanded(),
                 const SizedBox(width: 10),
                 Obx(

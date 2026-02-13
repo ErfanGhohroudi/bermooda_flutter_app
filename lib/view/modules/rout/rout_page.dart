@@ -3,6 +3,7 @@ import 'package:u/utilities.dart';
 
 import '../../../core/constants.dart';
 import '../../../core/core.dart';
+import '../../../core/navigator/navigator.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../human_resource/attendance/attendance/attendance_page.dart';
@@ -253,7 +254,7 @@ class _RoutPageState extends State<RoutPageState> {
                           workspace: workspace,
                           isSelected: isSelected,
                           onTap: () {
-                            UNavigator.back();
+                            AppNavigator.back();
                             ctrl.changeCurrentWorkspace(workspace);
                           },
                         );

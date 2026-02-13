@@ -15,6 +15,7 @@ class WExpansionTile extends StatefulWidget {
     this.titleColor,
     this.iconColor,
     this.showDivider = true,
+    this.curve = Curves.easeInOutExpo,
     super.key,
   });
 
@@ -31,6 +32,7 @@ class WExpansionTile extends StatefulWidget {
   final Function(bool value) onChanged;
   final ScrollController? scrollController;
   final bool showDivider;
+  final Curve curve;
 
   @override
   State<WExpansionTile> createState() => _WExpansionTileState();
@@ -82,7 +84,7 @@ class _WExpansionTileState extends State<WExpansionTile> {
             trailing: AnimatedRotation(
               turns: isOpen.value ? (isPersianLang ? 0.5 : 0) : (isPersianLang ? 0 : 0.5),
               duration: 500.milliseconds,
-              curve: Curves.easeInOutExpo,
+              curve: widget.curve,
               child: Icon(Icons.keyboard_arrow_down_rounded, color: context.theme.hintColor),
             ),
             onTap: () {
@@ -108,7 +110,7 @@ class _WExpansionTileState extends State<WExpansionTile> {
           if (isOpen.value && !widget.showDivider) const SizedBox(height: 18),
           AnimatedSize(
             duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOutExpo,
+            curve: widget.curve,
             child: SizedBox(
               width: double.infinity,
               child: isOpen.value ? widget.child : const SizedBox.shrink(),

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/fields/sections_dropdown/project_sections_dropdown.dart';
@@ -53,15 +54,15 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
       canPop: false,
       onPopInvokedWithResult: (final didPop, final result) {
         if (didPop) return;
-        if (!ctrl.isChanged || !ctrl.pageState.isLoaded()) return UNavigator.back();
+        if (!ctrl.isChanged || !ctrl.pageState.isLoaded()) return AppNavigator.back();
 
         appShowYesCancelDialog(
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
+            AppNavigator.back();
             widget.onSubtasksChanged?.call(ctrl.subtasks);
             Future.delayed(const Duration(milliseconds: 10), () {
-              UNavigator.back();
+              AppNavigator.back();
             });
           },
         );
@@ -80,7 +81,7 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
                         onPressed: () => ctrl.delete(
                           action: () {
                             widget.onDelete(ctrl.task!);
-                            UNavigator.back();
+                            AppNavigator.back();
                           },
                         ),
                       ).marginOnly(bottom: 6),
@@ -93,7 +94,7 @@ class _CreateUpdateTaskPageState extends State<CreateUpdateTaskPage> {
                         onTap: () => ctrl.onSubmit(
                           onResponse: (final model) {
                             widget.onResponse(model);
-                            UNavigator.back();
+                            AppNavigator.back();
                           },
                         ),
                       ).pOnly(left: 16, right: 16, bottom: 24),

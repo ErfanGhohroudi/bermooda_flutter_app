@@ -425,7 +425,7 @@ abstract class ShiftOverlapChecker {
   /// }
   /// ```
   static void showAllDaysOverlapError({required final String newShiftTitle}) {
-    AppNavigator.snackbarRed(
+    AppSnackBar.snackbarRed(
       title: s.error,
       subtitle: s.shiftConflictsWithAllSelectedDays(newShiftTitle),
     );

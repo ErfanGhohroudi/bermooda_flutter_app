@@ -98,7 +98,7 @@ mixin AttendanceController {
 
   /// Register Attendance by qr_code
   void _pushToScannerScreen(final AttendanceModalType actionType) {
-    UNavigator.push(BarcodeScannerScreen(
+    AppNavigator.push(BarcodeScannerScreen(
       action: (final uuid) => _changeActivityStatus(
         actionType: actionType,
         method: AttendanceMethod.qr_code,
@@ -135,9 +135,9 @@ mixin AttendanceController {
         uuid: uuid,
       ),
       onResponse: (final response) async {
-        UNavigator.back();
+        AppNavigator.back();
         delay(50, () {
-          AppNavigator.snackbarGreen(title: s.done, subtitle: response.message);
+          AppSnackBar.snackbarGreen(title: s.done, subtitle: response.message);
         });
       },
       onError: (final errorResponse) async {
@@ -159,13 +159,13 @@ mixin AttendanceController {
 
       return position;
     } on TimeoutException {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.locationTimeLimit,
       );
       return null;
     } catch (e) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.locationFailedError,
       );

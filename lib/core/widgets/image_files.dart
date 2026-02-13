@@ -14,6 +14,8 @@ class WImageFiles extends StatefulWidget {
     this.removable = true,
     this.itemsSize = 70,
     this.maxFilesCount = 10,
+    this.maxFileSizeMB = 100,
+    this.allowedExtensions,
     super.key,
   });
 
@@ -24,6 +26,8 @@ class WImageFiles extends StatefulWidget {
   final bool removable;
   final double itemsSize;
   final int maxFilesCount;
+  final int maxFileSizeMB;
+  final List<String>? allowedExtensions;
 
   static void checkFileUploading({
     required final bool isUploadingFile,
@@ -39,7 +43,7 @@ class WImageFiles extends StatefulWidget {
     //   return true;
     // }
 
-    if (isUploadingFile) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.uploading);
+    if (isUploadingFile) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.uploading);
 
     // if (!isAllFilesUploaded()) {
     //   appShowYesCancelDialog(
@@ -71,11 +75,11 @@ class _WImageFilesState extends State<WImageFiles> {
   }
 
   Future<void> pickFilesWithSizeLimit() async {
-    const maxFileSizeMB = 100;
+    final maxFileSizeMB = widget.maxFileSizeMB;
 
     final remainingSlots = widget.maxFilesCount - displayedList.length;
     if (remainingSlots <= 0) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.warning,
         subtitle: s.maximumFilesCanSelected(widget.maxFilesCount.toString()),
       );
@@ -84,7 +88,8 @@ class _WImageFilesState extends State<WImageFiles> {
 
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
-      type: FileType.any,
+      type: widget.allowedExtensions != null && widget.allowedExtensions!.isNotEmpty ? FileType.custom : FileType.any,
+      allowedExtensions: widget.allowedExtensions,
     );
 
     if (result != null) {
@@ -120,7 +125,7 @@ class _WImageFilesState extends State<WImageFiles> {
       if (mounted) setState(() {});
 
       if (rejectedFiles.isNotEmpty) {
-        AppNavigator.snackbarRed(
+        AppSnackBar.snackbarRed(
           title: s.invalidFile,
           subtitle: '${s.invalidFileInfo}\n\n${rejectedFiles.join('\n')}',
         );

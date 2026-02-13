@@ -3,6 +3,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../core/core.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/services/permission_service.dart';
 import '../../../../data/data.dart';
 import '../../reports/controllers/legal/legal_case_reports_controller.dart';
@@ -50,7 +51,7 @@ class ContractController extends GetxController {
   }
 
   void navigateToCreateContractPage() {
-    UNavigator.push(const CreateContractPage());
+    AppNavigator.push(const CreateContractPage());
   }
 
   void createContract(
@@ -80,7 +81,7 @@ class ContractController extends GetxController {
     appShowYesCancelDialog(
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _datasource.delete(
           contractId: contract.value!.id,
           onResponse: () {

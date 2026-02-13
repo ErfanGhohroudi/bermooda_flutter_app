@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -28,7 +29,7 @@ class _HrDepartmentsListPageState extends State<HrDepartmentsListPage> {
         if (ctrl.isReorderEnabled.value) {
           ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
@@ -41,7 +42,7 @@ class _HrDepartmentsListPageState extends State<HrDepartmentsListPage> {
                       tooltip: s.archive,
                       icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
                       onPressed: () {
-                        UNavigator.push(const ArchivedHrDepartmentsPage());
+                        AppNavigator.push(const ArchivedHrDepartmentsPage());
                       },
                     )
                   : const SizedBox.shrink(),

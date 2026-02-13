@@ -17,9 +17,9 @@ mixin ChangeCustomerStateController {
       ),
       onResponse: (final response) {
         onResponse(response.result!);
-        UNavigator.back();
+        AppNavigator.back();
         delay(100, () {
-          AppNavigator.snackbarGreen(
+          AppSnackBar.snackbarGreen(
             title: s.done,
             subtitle: s.customerAddedToArchiveList,
           );

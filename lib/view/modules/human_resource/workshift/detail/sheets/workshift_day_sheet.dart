@@ -235,7 +235,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       AppLoading.dismissLoading();
     } catch (e) {
       AppLoading.dismissLoading();
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
       _addShiftTypeFlow();
     }
@@ -375,7 +375,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
 
         if (success == false) {
           AppLoading.dismissLoading();
-          AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
           // Retry with last pattern
           _editShiftTypeFlow(targetSlug, onRetry: true);
         }
@@ -387,7 +387,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       AppLoading.dismissLoading();
     } catch (e) {
       AppLoading.dismissLoading();
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
       _editShiftTypeFlow(targetSlug, onRetry: true);
     }

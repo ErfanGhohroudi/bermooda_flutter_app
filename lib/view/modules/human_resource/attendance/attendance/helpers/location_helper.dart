@@ -28,7 +28,7 @@ class LocationHelper {
                 width: navigatorKey.currentContext!.width,
                 title: s.settings,
                 onTap: () async {
-                  UNavigator.back();
+                  AppNavigator.back();
                   await Geolocator.openLocationSettings();
                   return;
                 },
@@ -64,7 +64,7 @@ class LocationHelper {
                 width: navigatorKey.currentContext!.width,
                 title: s.confirm,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   _checkLocationPermission(permission, action: action);
                 },
               ),
@@ -81,7 +81,7 @@ class LocationHelper {
       if (permission == LocationPermission.denied) {
         // If user denied permission
         _actionSliderController.reset();
-        return AppNavigator.snackbarRed(title: s.error, subtitle: s.locationIsRequiredToAttendance);
+        return AppSnackBar.snackbarRed(title: s.error, subtitle: s.locationIsRequiredToAttendance);
       }
     }
 
@@ -118,12 +118,12 @@ class LocationHelper {
               UElevatedButton(
                 title: s.cancel,
                 backgroundColor: navigatorKey.currentContext!.theme.hintColor,
-                onTap: UNavigator.back,
+                onTap: AppNavigator.back,
               ).expanded(),
               UElevatedButton(
                 title: s.settings,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   Geolocator.openAppSettings();
                 },
               ).expanded(),

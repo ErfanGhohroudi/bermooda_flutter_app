@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/utils/extensions/money_extensions.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../domain/entities/invoice.dart';
 import 'invoice_product_list.dart';
@@ -24,7 +25,7 @@ class InvoiceSummary extends StatelessWidget {
             children: [
               Text(invoice.invoiceCode).titleLarge(),
               const SizedBox(height: 8),
-              Text('${s.date}: ${invoice.createdDatePersian}').bodyMedium(),
+              Text('${s.date}: ${invoice.invoiceDate}').bodyMedium(),
               if (invoice.status != null) ...[
                 const SizedBox(height: 8),
                 Text('${s.status}: ${invoice.status!.title}').bodyMedium(),
@@ -34,25 +35,22 @@ class InvoiceSummary extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         InvoiceProductList(products: invoice.products),
-        if (invoice.factorPrice != null) ...[
-          const SizedBox(height: 16),
-          WCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(s.priceSummary).titleMedium(),
-                const SizedBox(height: 8),
-                _priceRow(s.totalPrice, invoice.factorPrice!.factorPrice ?? ''),
-                if (invoice.discount != null && invoice.discount! > 0)
-                  _priceRow(s.discount, invoice.factorPrice!.discountPrice ?? ''),
-                if (invoice.taxes != null && invoice.taxes! > 0)
-                  _priceRow(s.tax, invoice.factorPrice!.taxesPrice ?? ''),
-                const Divider(),
-                _priceRow(s.finalPrice, invoice.factorPrice!.finalPrice ?? '', isBold: true),
-              ],
-            ),
+        const SizedBox(height: 16),
+        WCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(s.priceSummary).titleMedium(),
+              const SizedBox(height: 8),
+              _priceRow(s.totalPrice, invoice.factorPrice.factorPrice.toString().toRialMoney()),
+              if (invoice.discountPercentage > 0)
+                _priceRow(s.discount, invoice.factorPrice.discountPrice.toString().toRialMoney()),
+              if (invoice.taxesPercentage > 0) _priceRow(s.tax, invoice.factorPrice.taxesPrice.toString().toRialMoney()),
+              const Divider(),
+              _priceRow(s.finalPrice, invoice.factorPrice.finalPrice.toString().toRialMoney(), isBold: true),
+            ],
           ),
-        ],
+        ),
       ],
     );
   }
@@ -64,7 +62,7 @@ class InvoiceSummary extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label).bodyMedium(),
-          Text(value).bodyMedium(fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
+          Text(value).bodyMedium(fontWeight: isBold ? FontWeight.bold : null),
         ],
       ),
     );

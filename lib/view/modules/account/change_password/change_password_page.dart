@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/fields/fields.dart';
 import '../../../../core/core.dart';
 import 'change_password_controller.dart';
@@ -53,7 +54,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> with ChangePass
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: UNavigator.back,
+                  onTap: AppNavigator.back,
                 ).expanded(),
                 const SizedBox(width: 10),
                 Obx(

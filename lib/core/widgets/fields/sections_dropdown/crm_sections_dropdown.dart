@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
+import '../../../navigator/navigator.dart';
 import '../../../utils/extensions/color_extension.dart';
 import '../../../core.dart';
 import '../../../theme.dart';
@@ -152,7 +153,7 @@ class _WCrmSectionsDropDownFormFieldState extends State<WCrmSectionsDropDownForm
         ),
       ).onTap(
         () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(
             50,
             () {
@@ -188,7 +189,7 @@ class _WCrmSectionsDropDownFormFieldState extends State<WCrmSectionsDropDownForm
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -206,7 +207,7 @@ class _WCrmSectionsDropDownFormFieldState extends State<WCrmSectionsDropDownForm
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -216,7 +217,7 @@ class _WCrmSectionsDropDownFormFieldState extends State<WCrmSectionsDropDownForm
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteSection(
                             sections[index],
                             action: () {

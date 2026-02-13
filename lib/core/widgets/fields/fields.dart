@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:u/utilities.dart';
 
+import '../../navigator/navigator.dart';
 import '../../utils/extensions/date_extensions.dart';
 import '../../core.dart';
 import '../../functions/date_picker_functions.dart';
@@ -19,3 +21,4 @@ part 'plus_minus_field.dart';
 part 'range_date_picker_field.dart';
 part 'sheba_number_field.dart';
 part 'text_field.dart';
+part 'time_picker_field.dart';

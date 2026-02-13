@@ -2,22 +2,33 @@ import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/loading/loading.dart';
 import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/utils/enums/enums.dart';
+import '../../../../../../core/utils/extensions/date_extensions.dart';
+import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../data/data.dart';
+import '../../data/params/invoice_params.dart';
 import '../../data/repositories/invoice_repository_impl.dart';
 import '../../domain/usecases/get_invoice_buyer_seller_info.dart';
 import '../../domain/usecases/get_invoice_code.dart';
 import '../../domain/usecases/create_invoice.dart';
 import '../../domain/entities/invoice.dart';
 import '../helpers/murabaha_installment_calculator.dart';
+import '../sheets/create_installments_table_sheet.dart';
+import 'invoice_list_controller.dart';
 
 enum InvoiceStepType { details, installments, buyerSeller, preview }
 
 class CreateInvoiceController extends GetxController {
-  CreateInvoiceController({required this.customerId});
+  CreateInvoiceController({
+    required this.customerId,
+    this.invoice,
+  });
 
   final int customerId;
+  final InvoiceEntity? invoice;
+
   final InvoiceRepositoryImpl _repository = InvoiceRepositoryImpl();
   final DropdownDatasource _dropdownDatasource = Get.find<DropdownDatasource>();
   final UpdateInvoiceInfoDatasource _updateInvoiceInfoDatasource = Get.find<UpdateInvoiceInfoDatasource>();
@@ -42,7 +53,7 @@ class CreateInvoiceController extends GetxController {
   List<InvoiceStepType> get stepTypes => [
     InvoiceStepType.details,
     if (isInstallmentPaymentTerms) InvoiceStepType.installments,
-    if (!isWorkspaceInfoCompleted) InvoiceStepType.buyerSeller,
+    if (!isWorkspaceInfoCompleted || !isBuyerInfoCompleted) InvoiceStepType.buyerSeller,
     InvoiceStepType.preview,
   ];
 
@@ -59,17 +70,15 @@ class CreateInvoiceController extends GetxController {
     }
   }).toList();
 
-  // Form fields - Step 1: Buyer Information
+  // Form fields - Buyer Information
   BuyerInfo? buyerInfo;
   final TextEditingController buyerNameController = TextEditingController();
   final TextEditingController buyerPhoneController = TextEditingController();
   final TextEditingController buyerAddressController = TextEditingController();
   final TextEditingController buyerNationalCodeController = TextEditingController();
   final TextEditingController buyerEconomicCodeController = TextEditingController();
-  Jalali? createdDate;
-  Jalali? validityDate;
-  final Rxn<DropdownItemReadDto> selectedState = Rxn<DropdownItemReadDto>(null);
-  final Rxn<DropdownItemReadDto> selectedCity = Rxn<DropdownItemReadDto>(null);
+  final Rxn<DropdownItemReadDto> buyerState = Rxn<DropdownItemReadDto>(null);
+  final Rxn<DropdownItemReadDto> buyerCity = Rxn<DropdownItemReadDto>(null);
 
   // State/City management for buyer
   final Rx<PageState> buyerStatesState = PageState.loaded.obs;
@@ -77,7 +86,7 @@ class CreateInvoiceController extends GetxController {
   final RxList<DropdownItemReadDto> buyerStates = <DropdownItemReadDto>[].obs;
   final RxList<DropdownItemReadDto> cities = <DropdownItemReadDto>[].obs;
 
-  // Form fields - Step 1: Seller (Workspace) Information
+  // Form fields - Seller (Workspace) Information
   final TextEditingController sellerFullnameController = TextEditingController();
   final Rx<AuthenticationType> sellerPersonalType = AuthenticationType.person.obs;
   final TextEditingController sellerEconomicNumberController = TextEditingController();
@@ -103,37 +112,87 @@ class CreateInvoiceController extends GetxController {
 
   bool get isWorkspaceInfoCompleted => sellerInfo.value?.personalInformationStatus ?? false;
 
-  // Form fields - Step 2: Invoice Details
+  bool get isBuyerInfoCompleted =>
+      buyerInfo != null &&
+      buyerInfo!.name.isNotEmpty &&
+      (buyerInfo!.nationalCode ?? '').isNotEmpty &&
+      buyerInfo!.state != null &&
+      buyerInfo!.city != null &&
+      buyerInfo!.address.isNotEmpty &&
+      buyerInfo!.phoneNumber.isNotEmpty;
+
+  // Form fields - Invoice Details
+  Jalali? createdDate;
+  Jalali? validityDate;
   final TextEditingController invoiceCodeController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final RxInt discountPercentage = 0.obs;
   final RxInt taxesPercentage = 0.obs;
   final RxBool shipping = false.obs;
   final RxInt shippingCostAmount = 0.obs;
+  final FocusNode shippingCostFocusNode = FocusNode();
   final TextEditingController shippingCostController = TextEditingController();
   final RxInt interestPercentage = 0.obs;
 
   final Rxn<InvoiceType> selectedInvoiceType = Rxn<InvoiceType>(null);
   final Rx<PaymentTerms> selectedPaymentTerms = PaymentTerms.values.first.obs;
   final RxList<InvoiceProduct> products = <InvoiceProduct>[].obs;
-  final RxInt expandedProductIndex = (-1).obs;
+  final RxInt _expandedProductIndex = (-1).obs;
 
   // Installment fields
   int installmentCount = 1;
   Jalali? installmentStartDate;
-  int installmentPeriod = 10; // 10, 20, or 30 days
-  final RxList<InstallmentResult> installmentPayments = <InstallmentResult>[].obs;
+  int installmentPeriod = 1; // 1, 2, or 3 months
+  final RxList<InstallmentParams> installmentPayments = <InstallmentParams>[].obs;
 
-  // Dates
-  Jalali? dateToPay;
+  // Late Penalty fields
+  final RxBool latePenaltyEnabled = false.obs;
+  final RxInt latePenaltyRate = 0.obs;
+  final TextEditingController latePenaltyCapController = TextEditingController();
+
+  final Rxn<MainFileReadDto> signatureFile = Rxn<MainFileReadDto>(null);
 
   @override
   void onInit() {
-    super.onInit();
     createdDate = Jalali.now();
+    if (invoice != null) {
+      _setValuesFromInvoice(invoice!);
+    }
     _loadBuyerStates();
     _loadSellerStates();
     loadInvoiceCodeAndBuyerSellerInfo();
+    super.onInit();
+  }
+
+  void _setValuesFromInvoice(final InvoiceEntity invoice) {
+    createdDate = invoice.invoiceDate.toJalali();
+    validityDate = invoice.validityDatePersian.toJalali();
+    descriptionController.text = invoice.description ?? '';
+    discountPercentage(invoice.discountPercentage);
+    taxesPercentage(invoice.taxesPercentage);
+
+    shipping(invoice.shippingCost > 0);
+    shippingCostAmount(invoice.shippingCost);
+    shippingCostController.text = invoice.shippingCost.toString();
+    interestPercentage(invoice.interestPercentage);
+    selectedInvoiceType(invoice.invoiceType);
+    selectedPaymentTerms(invoice.paymentType);
+    products(invoice.products);
+    installmentCount = invoice.installments.length;
+    installmentStartDate = invoice.installments.firstOrNull?.dateToPay;
+    if (invoice.installments.isNotEmpty) {
+      final installmentList = invoice.installments.map((final e) {
+        if (e.dateToPay == null) {
+          return InstallmentParams(dateToPay: e.dateToPay!, totalAmount: e.price);
+        }
+        return null;
+      }).whereType<InstallmentParams>().toList();
+      installmentPayments(installmentList);
+    }
+    latePenaltyEnabled(invoice.latePenaltyEnabled);
+    latePenaltyRate(invoice.latePenaltyRate);
+    latePenaltyCapController.text = invoice.latePenaltyCap.toString();
+    signatureFile.value = invoice.signatureFile;
   }
 
   @override
@@ -156,6 +215,8 @@ class CreateInvoiceController extends GetxController {
     invoiceCodeController.dispose();
     descriptionController.dispose();
     shippingCostController.dispose();
+    shippingCostFocusNode.dispose();
+    latePenaltyCapController.dispose();
     super.onClose();
   }
 
@@ -170,7 +231,7 @@ class CreateInvoiceController extends GetxController {
         (final s) => s.id != null && s.id == customerStateId,
       );
       if (matchingState != null) {
-        selectedState.value = matchingState;
+        buyerState.value = matchingState;
         _loadBuyerCities();
       }
     }
@@ -254,10 +315,10 @@ class CreateInvoiceController extends GetxController {
   }
 
   void _loadBuyerCities() {
-    if (selectedState.value == null) return;
+    if (buyerState.value == null) return;
     buyerCitiesState.loading();
     _dropdownDatasource.getCitiesByStateId(
-      stateId: selectedState.value?.id,
+      stateId: buyerState.value?.id,
       onResponse: (final response) {
         cities(response.resultList);
         buyerCitiesState.loaded();
@@ -274,8 +335,8 @@ class CreateInvoiceController extends GetxController {
   }
 
   void onSelectBuyerState(final DropdownItemReadDto? value) {
-    selectedState.value = value;
-    selectedCity.value = null;
+    buyerState.value = value;
+    buyerCity.value = null;
     cities.clear();
     _loadBuyerCities();
   }
@@ -287,10 +348,10 @@ class CreateInvoiceController extends GetxController {
     if (customer.city?.id != null) {
       final customerCityId = customer.city!.id;
       final matchingCity = cities.firstWhereOrNull(
-            (final c) => c.id != null && c.id == customerCityId,
+        (final c) => c.id != null && c.id == customerCityId,
       );
       if (matchingCity != null) {
-        selectedCity.value = matchingCity;
+        buyerCity.value = matchingCity;
       }
     }
   }
@@ -344,7 +405,7 @@ class CreateInvoiceController extends GetxController {
     // Set seller state if available
     if (wsInfo.state != null && sellerStates.isNotEmpty) {
       final matchingState = sellerStates.firstWhereOrNull(
-            (final s) => s.id != null && s.id == wsInfo.state?.id,
+        (final s) => s.id != null && s.id == wsInfo.state?.id,
       );
       if (matchingState != null) {
         sellerState.value = matchingState;
@@ -359,7 +420,7 @@ class CreateInvoiceController extends GetxController {
     // Set seller city if available
     if (wsInfo.city != null) {
       final matchingCity = sellerCities.firstWhereOrNull(
-            (final c) => c.id != null && c.id == wsInfo.city?.id,
+        (final c) => c.id != null && c.id == wsInfo.city?.id,
       );
       if (matchingCity != null) {
         sellerCity.value = matchingCity;
@@ -368,14 +429,22 @@ class CreateInvoiceController extends GetxController {
   }
 
   // Navigation
-  void nextStep() {
+  void nextStep() async {
     final currentType = stepTypes[currentStep.value];
 
     switch (currentType) {
       case InvoiceStepType.details:
         if (!validateDetailsForm()) return;
+        if (isInstallmentPaymentTerms && installmentPayments.isEmpty) {
+          final isValid = await _createInstallmentsTable();
+          if (isValid == false) return;
+        }
       case InvoiceStepType.installments:
         if (!validateInstallmentsForm()) return;
+        if (installmentPayments.isEmpty) {
+          AppSnackBar.snackbarRed(title: s.error, subtitle: s.pleaseAddAtLeastOne(s.installment.toLowerCase()));
+          return;
+        }
       case InvoiceStepType.buyerSeller:
         if (!validateBuyerSellerForm()) return;
         // Call API before proceeding to next step
@@ -400,20 +469,20 @@ class CreateInvoiceController extends GetxController {
   Future<void> updateInvoiceInfo({required final VoidCallback onSuccess}) async {
     try {
       // Build customer_data
-      final customerData = UpdateInvoiceInfoCustomerData(
+      final customerData = UpdateInvoiceInfoCustomerDataParams(
         fullnameOrCompanyName: buyerNameController.text.trim(),
         nationalCode: buyerNationalCodeController.text.trim(),
-        economicCode: buyerEconomicCodeController.text.trim(),
-        stateId: selectedState.value?.id,
-        cityId: selectedCity.value?.id,
+        economicCode: buyerEconomicCodeController.text.trim().isNotEmpty ? buyerEconomicCodeController.text.trim() : null,
+        stateId: buyerState.value?.id,
+        cityId: buyerCity.value?.id,
         address: buyerAddressController.text.trim(),
         phoneNumber: buyerPhoneController.text.trim(),
       );
 
       // Build workspace_data only if personalInformationStatus is false
-      UpdateInvoiceInfoWorkspaceData? workspaceData;
+      UpdateInvoiceInfoWorkspaceDataParams? workspaceData;
       if (!isWorkspaceInfoCompleted) {
-        workspaceData = UpdateInvoiceInfoWorkspaceData(
+        workspaceData = UpdateInvoiceInfoWorkspaceDataParams(
           fullname: sellerFullnameController.text.trim(),
           normalizedPersonalType: sellerPersonalType.value,
           registrationNumber: sellerRegistrationNumberController.text.trim(),
@@ -439,11 +508,19 @@ class CreateInvoiceController extends GetxController {
       _updateInvoiceInfoDatasource.updateInvoiceInfo(
         customerId: customerId,
         params: params,
-        onResponse: () {
-          onSuccess();
+        onResponse: () async {
+          try {
+            AppLoading.showLoading();
+            final buyerSellerInfo = await _getInvoiceBuyerSellerInfoUseCase(customerId);
+            AppLoading.dismissLoading();
+            await _setBuyerSellerInfo(buyerSellerInfo);
+            onSuccess();
+          } catch (e) {
+            AppSnackBar.snackbarRed(title: s.error, subtitle: s.updateInvoiceInfoError);
+          }
         },
         onError: (final errorResponse) {
-          AppNavigator.snackbarRed(
+          AppSnackBar.snackbarRed(
             title: s.error,
             subtitle: errorResponse.message.isNotEmpty ? errorResponse.message : s.updateInvoiceInfoError,
           );
@@ -451,7 +528,7 @@ class CreateInvoiceController extends GetxController {
         withLoading: true,
       );
     } catch (e) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: e.toString(),
       );
@@ -461,7 +538,6 @@ class CreateInvoiceController extends GetxController {
   void previousStep() {
     if (currentStep.value > 0) {
       currentStep(currentStep.value - 1);
-      // stepperScrollController.jumpTo(0);
     }
   }
 
@@ -469,7 +545,7 @@ class CreateInvoiceController extends GetxController {
   bool validateBuyerSellerForm() {
     if (isWorkspaceInfoCompleted) return true;
     if (!buyerSellerStepFormKey.currentState!.validate()) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.completeRequiredFields,
       );
@@ -479,7 +555,7 @@ class CreateInvoiceController extends GetxController {
     // Validate phone format: 09xxxxxxxxx
     final phoneRegex = RegExp(r'^09\d{9}$');
     if (!phoneRegex.hasMatch(buyerPhoneController.text.trim())) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.buyerPhoneFormat,
       );
@@ -491,7 +567,7 @@ class CreateInvoiceController extends GetxController {
 
   bool validateDetailsForm() {
     if (!detailsStepFormKey.currentState!.validate()) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.completeRequiredFields,
       );
@@ -499,9 +575,9 @@ class CreateInvoiceController extends GetxController {
     }
 
     if (products.isEmpty) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
-        subtitle: s.pleaseAddAtLeastOneProduct,
+        subtitle: s.pleaseAddAtLeastOne(s.product.toLowerCase()),
       );
       return false;
     }
@@ -516,10 +592,25 @@ class CreateInvoiceController extends GetxController {
 
     if (selectedPaymentTerms.value == PaymentTerms.installment) {
       if (installmentStartDate == null) {
-        AppNavigator.snackbarRed(
+        AppSnackBar.snackbarRed(
           title: s.error,
           subtitle: s.installmentStartDateRequired,
         );
+        return false;
+      }
+
+      if (latePenaltyEnabled.value && latePenaltyRate.value == 0) {
+        AppSnackBar.snackbarRed(
+          title: s.error,
+          subtitle: s.penaltyRateCannotBeZero,
+        );
+        return false;
+      }
+
+      // Check if total installments match final price (optional but recommended)
+      if (installmentPayments.isNotEmpty && installmentsImbalance != Decimal.zero) {
+        // We might just show a warning or auto-adjust the last installment
+        AppSnackBar.snackbarRed(title: s.error, subtitle: s.sumOfInstallmentsIsNotEqualToInvoicePrice);
         return false;
       }
     }
@@ -527,12 +618,48 @@ class CreateInvoiceController extends GetxController {
     return true;
   }
 
+  bool validateSignatureImage() {
+    if (selectedInvoiceType.value == InvoiceType.finalinvoice && signatureFile.value == null) {
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.isRequired(s.signatureImage));
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<bool> _createInstallmentsTable() async {
+    final created = await bottomSheet<bool>(
+      child: CreateInstallmentsTableSheet(ctrl: this),
+    );
+
+    return created == true;
+  }
+
   // Calculations
-  Decimal get totalProductsPrice {
+  Decimal get totalProductsPriceBeforeDiscount {
     Decimal total = Decimal.zero;
     for (final product in products) {
       final price = Decimal.tryParse(product.price.numericOnly()) ?? Decimal.zero;
-      total += price * product.count.toDecimal();
+      total += (price * product.count.toDecimal());
+    }
+    return total;
+  }
+
+  Decimal get totalProductsPriceAfterDiscount {
+    Decimal total = Decimal.zero;
+    for (final product in products) {
+      final price = Decimal.tryParse(product.price.numericOnly()) ?? Decimal.zero;
+      final discount = Decimal.tryParse(product.discount?.numericOnly() ?? '0') ?? Decimal.zero;
+      total += (price * product.count.toDecimal()) - discount;
+    }
+    return total;
+  }
+
+  Decimal get totalProductsDiscountAmount {
+    Decimal total = Decimal.zero;
+    for (final InvoiceProduct product in products) {
+      final discount = Decimal.tryParse(product.discount?.numericOnly() ?? '0') ?? Decimal.zero;
+      total += discount;
     }
     return total;
   }
@@ -541,7 +668,7 @@ class CreateInvoiceController extends GetxController {
     if (discountPercentage.value == 0) return Decimal.zero;
     final discount = discountPercentage.value;
     final discountRate = Decimal.parse((discount / 100).toString());
-    final amount = (totalProductsPrice * discountRate);
+    final amount = (totalProductsPriceAfterDiscount * discountRate);
     return amount;
   }
 
@@ -549,7 +676,7 @@ class CreateInvoiceController extends GetxController {
     if (taxesPercentage.value == 0) return Decimal.zero;
     final tax = taxesPercentage.value;
     final taxRate = Decimal.parse((tax / 100).toString());
-    final amount = (totalProductsPrice - discountAmount) * taxRate;
+    final amount = (totalProductsPriceAfterDiscount - discountAmount) * taxRate;
     final decimalAmount = Decimal.parse(amount.toString());
     return decimalAmount;
   }
@@ -560,11 +687,20 @@ class CreateInvoiceController extends GetxController {
     if (installmentStartDate == null) return Decimal.zero;
     if (createdDate == null) return Decimal.zero;
 
-    final dueDates = [
-      installmentStartDate!,
-      for (int i = 1; i < installmentCount; i++)
-        installmentStartDate!.addDays(installmentPeriod * i),
-    ];
+    List<Jalali> dueDates = [];
+
+    if (installmentPayments.isNotEmpty) {
+      final instalments = List<InstallmentParams>.from(installmentPayments);
+      instalments.sort((final a, final b) => a.dateToPay.compareTo(b.dateToPay));
+      for (final payment in instalments) {
+        dueDates.add(payment.dateToPay);
+      }
+    } else {
+      dueDates = [
+        installmentStartDate!,
+        for (int i = 1; i < installmentCount; i++) installmentStartDate!.addMonths(installmentPeriod * i),
+      ];
+    }
 
     final calc = MurabahaInstallmentCalculator(
       principalAmount: finalPrice,
@@ -576,7 +712,7 @@ class CreateInvoiceController extends GetxController {
   }
 
   Decimal get finalPrice {
-    final totalPrice = totalProductsPrice - discountAmount;
+    final totalPrice = totalProductsPriceAfterDiscount - discountAmount;
     final baseAmount = totalPrice + taxAmount + shippingCostAmount.value.toDecimal();
     return baseAmount;
   }
@@ -605,6 +741,15 @@ class CreateInvoiceController extends GetxController {
     return amount;
   }
 
+  Decimal get installmentsImbalance {
+    if (installmentPayments.isEmpty) return Decimal.zero;
+    final totalInstallments = installmentPayments.fold(
+      Decimal.zero,
+      (final prev, final element) => prev + element.totalAmount,
+    );
+    return finalPriceWithInterest - totalInstallments;
+  }
+
   // Installment calculation
   void calculateInstallments({final bool generateNew = false}) {
     if (selectedPaymentTerms.value != PaymentTerms.installment) {
@@ -625,8 +770,7 @@ class CreateInvoiceController extends GetxController {
     } else {
       dueDates = [
         installmentStartDate!,
-        for (int i = 1; i < installmentCount; i++)
-          installmentStartDate!.addDays(installmentPeriod * i),
+        for (int i = 1; i < installmentCount; i++) installmentStartDate!.addMonths(installmentPeriod * i),
       ];
     }
 
@@ -651,6 +795,95 @@ class CreateInvoiceController extends GetxController {
     installmentPayments.assignAll(payments);
   }
 
+  void addInstallment(final Decimal amount, final Jalali date, [final bool balancing = true]) {
+    final newInstallment = InstallmentParams(
+      totalAmount: amount,
+      dateToPay: date,
+    );
+    installmentPayments.add(newInstallment);
+
+    _sortInstallments();
+
+    if (balancing && installmentPayments.length > 1) {
+      final index = installmentPayments.indexOf(newInstallment);
+      _balanceAfterEdit(index, amount);
+    }
+  }
+
+  void _sortInstallments() {
+    installmentPayments.sort((final a, final b) => a.dateToPay.compareTo(b.dateToPay));
+  }
+
+  void removeInstallment(final int index) {
+    if (index >= 0 && index < installmentPayments.length) {
+      installmentPayments.removeAt(index);
+
+      _sortInstallments();
+
+      // طبق مستند: سرشکن کردن مبلغ قسط حذف شده به تمام اقساط باقیمانده به طور مساوی
+      if (installmentPayments.isNotEmpty) {
+        final currentTotal = installmentPayments.fold(Decimal.zero, (final sum, final e) => sum + e.totalAmount);
+        final diff = currentTotal - finalPriceWithInterest;
+        final share = (diff / installmentPayments.length.toDecimal()).toDecimal(scaleOnInfinitePrecision: 0);
+
+        Decimal distributed = Decimal.zero;
+
+        for (int i = 0; i < installmentPayments.length; i++) {
+          final bool isLast = i == installmentPayments.length - 1;
+          final amountToSubtract = isLast ? (diff - distributed) : share;
+
+          final current = installmentPayments[i];
+          installmentPayments[i] = current.copyWith(
+            totalAmount: current.totalAmount - amountToSubtract,
+          );
+          distributed += amountToSubtract;
+        }
+      }
+    }
+  }
+
+  void updateInstallment(final int index, final Decimal amount, final Jalali date, [final bool balancing = true]) {
+    if (index >= 0 && index < installmentPayments.length) {
+      final updated = installmentPayments[index].copyWith(
+        totalAmount: amount,
+        dateToPay: date,
+      );
+      installmentPayments[index] = updated;
+
+      _sortInstallments();
+
+      if (balancing && installmentPayments.length > 1) {
+        final newIndex = installmentPayments.indexOf(updated);
+        _balanceAfterEdit(newIndex, amount);
+      }
+    }
+  }
+
+  void _balanceAfterEdit(final int editedIndex, final Decimal newAmount) {
+    final otherCount = installmentPayments.length - 1;
+    if (otherCount <= 0) return;
+
+    // مبلغ باقیمانده کل (مبلغ کل قابل پرداخت منهای مبلغ جدید قسط ویرایش شده)
+    final remainingTotal = finalPriceWithInterest - newAmount;
+    // تقسیم بر تعداد سایر اقساط
+    final share = (remainingTotal / otherCount.toDecimal()).toDecimal(scaleOnInfinitePrecision: 0);
+
+    Decimal distributed = Decimal.zero;
+    for (int i = 0; i < installmentPayments.length; i++) {
+      if (i == editedIndex) continue;
+
+      final bool isLastOther = (editedIndex == installmentPayments.length - 1)
+          ? (i == installmentPayments.length - 2)
+          : (i == installmentPayments.length - 1);
+
+      final amountToSet = isLastOther ? (remainingTotal - distributed) : share;
+
+      final current = installmentPayments[i];
+      installmentPayments[i] = current.copyWith(totalAmount: amountToSet);
+      distributed += amountToSet;
+    }
+  }
+
   void onShippingCostFieldChanged() {
     if (shipping.value == false) {
       shippingCostAmount(0);
@@ -668,14 +901,8 @@ class CreateInvoiceController extends GetxController {
 
   // Watch for changes that affect installments
   void onFinancialFieldsChanged() {
-    if (selectedPaymentTerms.value == PaymentTerms.installment) {
-      if (installmentPayments.isNotEmpty) {
-        calculateInstallments();
-      }
-    } else {
-      if (installmentPayments.isNotEmpty) {
-        installmentPayments.clear();
-      }
+    if (selectedPaymentTerms.value != PaymentTerms.installment && installmentPayments.isNotEmpty) {
+      installmentPayments.clear();
     }
   }
 
@@ -687,10 +914,10 @@ class CreateInvoiceController extends GetxController {
   void removeProduct(final int index) {
     if (index >= 0 && index < products.length) {
       products.removeAt(index);
-      if (expandedProductIndex.value == index) {
-        expandedProductIndex.value = -1;
-      } else if (expandedProductIndex.value > index) {
-        expandedProductIndex.value = expandedProductIndex.value - 1;
+      if (_expandedProductIndex.value == index) {
+        _expandedProductIndex.value = -1;
+      } else if (_expandedProductIndex.value > index) {
+        _expandedProductIndex.value = _expandedProductIndex.value - 1;
       }
       onFinancialFieldsChanged();
     }
@@ -703,68 +930,74 @@ class CreateInvoiceController extends GetxController {
     }
   }
 
-  Future<void> submitInvoice(final BuildContext context) async {
-    if (!validateBuyerSellerForm() || !validateDetailsForm() || !validateInstallmentsForm()) return;
+  Future<void> submitInvoice() async {
+    if (!validateSignatureImage()) return;
 
-    try {
-      isLoading(true);
+    await appShowYesCancelDialog(
+      title: s.issueInvoice,
+      description: s.issueInvoiceConfirmation,
+      onYesButtonTap: () async {
+        AppNavigator.back();
+        try {
+          isLoading(true);
 
-      // Build seller_information_data (buyer info for invoice)
-      final sellerInfoData = SellerInformationData(
-        fullnameOrCompanyName: buyerNameController.text.trim(),
-        phoneNumber: buyerPhoneController.text.trim(),
-        state: selectedState.value?.id,
-        city: selectedCity.value?.id,
-        address: buyerAddressController.text.trim(),
-      );
+          // Build product list
+          final productList = products
+              .map(
+                (final InvoiceProduct p) => InvoiceProductParams(
+                  title: p.title,
+                  count: p.count,
+                  price: p.price.replaceAll(',', ''),
+                  discount: p.discount?.replaceAll(',', ''),
+                  code: p.code,
+                  unit: p.unit,
+                ),
+              )
+              .toList();
 
-      // Build product list
-      final productList = products
-          .map(
-            (final p) => InvoiceProductItem(
-              title: p.title,
-              count: p.count,
-              price: p.price.replaceAll(',', ''),
-              code: p.code,
-              unit: p.unit,
-            ),
-          )
-          .toList();
+          // Build params object
+          final params = InvoiceParams(
+            customerId: customerId,
+            invoiceType: selectedInvoiceType.value,
+            paymentType: selectedPaymentTerms.value,
+            invoiceCode: invoiceCodeController.text.trim(),
+            productList: productList,
+            createdDate: createdDate!.toDateTime().toIso8601String(),
+            validityDate: validityDate?.toDateTime().toIso8601String(),
+            signatureId: signatureFile.value?.fileId,
+            description: descriptionController.text.trim().isNotEmpty ? descriptionController.text.trim() : null,
+            discount: discountPercentage.value,
+            taxes: taxesPercentage.value,
+            shipping: shipping.value,
+            shippingCost: shippingCostAmount.value,
+            interestPercentage: interestPercentage.value,
+            latePenaltyEnabled: latePenaltyEnabled.value,
+            latePenaltyRate: latePenaltyRate.value,
+            latePenaltyCap: latePenaltyCapController.text.trim().replaceAll(',', '').isNotEmpty
+                ? latePenaltyCapController.text.trim().replaceAll(',', '')
+                : null,
+            installmentPayments: selectedPaymentTerms.value == PaymentTerms.installment && installmentPayments.isNotEmpty
+                ? installmentPayments.toList()
+                : null,
+          );
 
-      // Build params object
-      final params = InvoiceParams(
-        customerId: customerId,
-        invoiceType: selectedInvoiceType.value,
-        paymentType: selectedPaymentTerms.value,
-        invoiceCode: invoiceCodeController.text.trim(),
-        sellerInformationData: sellerInfoData,
-        productList: productList,
-        createdDate: createdDate!.toDateTime().toIso8601String(),
-        validityDate: validityDate?.toDateTime().toIso8601String(),
-        dateToPayJalali: dateToPay?.formatCompactDate(),
-        description: descriptionController.text.trim().isNotEmpty ? descriptionController.text.trim() : null,
-        discount: discountPercentage.value,
-        taxes: taxesPercentage.value,
-        interestPercentage: interestPercentage.value,
-        installmentPayments: selectedPaymentTerms.value == PaymentTerms.installment && installmentPayments.isNotEmpty
-            ? installmentPayments.toList()
-            : null,
-      );
+          final result = await _createInvoiceUseCase(params);
+          isLoading(false);
 
-      final result = await _createInvoiceUseCase(params);
-      isLoading(false);
+          if (Get.isRegistered<InvoiceListController>()) {
+            Get.find<InvoiceListController>().addInvoice(result);
+          }
 
-      AppNavigator.snackbarGreen(title: s.done, subtitle: '');
-
-      if (context.mounted) {
-        Navigator.pop(context, result);
-      }
-    } catch (e) {
-      isLoading(false);
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: e.toString(),
-      );
-    }
+          AppNavigator.back();
+          AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
+        } catch (e) {
+          isLoading(false);
+          AppSnackBar.snackbarRed(
+            title: s.error,
+            subtitle: e.toString(),
+          );
+        }
+      },
+    );
   }
 }

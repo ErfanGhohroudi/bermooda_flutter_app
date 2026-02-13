@@ -133,6 +133,7 @@ class WebSocketService with WidgetsBindingObserver {
             _pingPong(jsonData);
             _setUnreadMessagesCount(jsonData);
             _changeCurrentWorkspace(jsonData);
+            _updateCurrentWorkspace(jsonData);
             _showSnackBar(jsonData);
           } catch (e, s) {
             developer.log('❌ Error parsing WebSocket message: e: $e \n s: $s');
@@ -229,8 +230,22 @@ class WebSocketService with WidgetsBindingObserver {
       try {
         final WorkspaceReadDto model = WorkspaceReadDto.fromMap(jsonData['data']['current_workspace']);
         if (_core.currentWorkspace.value.id != model.id) {
-          AppNavigator.snackbarGreen(title: '', subtitle: s.switchedBusiness(model.title ?? ''));
+          AppSnackBar.snackbarGreen(title: '', subtitle: s.switchedBusiness(model.title ?? ''));
           initApp(currentWorkspaceChanged: true);
+        }
+      } catch (e) {
+        developer.log("❌ (Core WebSocket) Error parsing [WorkspaceReadDto] model: e => $e");
+      }
+    }
+  }
+
+  @Deprecated('Not synced with real response message')
+  void _updateCurrentWorkspace(final Map<String, dynamic> jsonData) {
+    if (jsonData['data_type'] == 'update_current_workspace') {
+      try {
+        final WorkspaceReadDto model = WorkspaceReadDto.fromMap(jsonData['data']['current_workspace']);
+        if (_core.currentWorkspace.value.id == model.id) {
+          _core.updateCurrentWorkspace(model);
         }
       } catch (e) {
         developer.log("❌ (Core WebSocket) Error parsing [WorkspaceReadDto] model: e => $e");
@@ -243,19 +258,19 @@ class WebSocketService with WidgetsBindingObserver {
     switch (dataType) {
       case "warning":
         final message = jsonData['message'] as String? ?? '';
-        AppNavigator.snackbarOrange(title: s.warning, subtitle: message);
+        AppSnackBar.snackbarOrange(title: s.warning, subtitle: message);
         break;
       case "info":
         final message = jsonData['message'] as String? ?? '';
-        AppNavigator.snackbar(title: '', subtitle: message);
+        AppSnackBar.snackbar(title: '', subtitle: message);
         break;
       case "success":
         final message = jsonData['message'] as String? ?? '';
-        AppNavigator.snackbarGreen(title: s.done, subtitle: message);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: message);
         break;
       case "error":
         final message = jsonData['message'] as String? ?? '';
-        AppNavigator.snackbarRed(title: s.error, subtitle: message);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: message);
         break;
     }
   }

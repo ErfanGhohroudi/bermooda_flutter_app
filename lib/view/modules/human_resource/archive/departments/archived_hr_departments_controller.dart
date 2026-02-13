@@ -105,7 +105,7 @@ class ArchivedHrDepartmentsController extends GetxController {
 
   void restoreDepartment(final String? slug) {
     if (!haveAdminAccess) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
 
@@ -115,7 +115,7 @@ class ArchivedHrDepartmentsController extends GetxController {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restoreDepartment(slug);
       },
     );
@@ -126,7 +126,7 @@ class ArchivedHrDepartmentsController extends GetxController {
       slug: slug,
       onResponse: (final response) {
         departments.removeWhere((final e) => e.slug == slug);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
         
         // Refresh departments list page if it's registered
         if (Get.isRegistered<HrDepartmentsListController>()) {

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/extensions/money_extensions.dart';
 import '../../../../../core/widgets/expansion_tile_group/expantion_tile_group.dart';
 import '../../../../../core/utils/extensions/color_extension.dart';
@@ -102,7 +103,7 @@ class _CustomerInfoPageState extends State<CustomerInfoPage> {
                     iconColor: AppColors.green,
                     titleColor: AppColors.green,
                     onTap: () {
-                      UNavigator.push(
+                      AppNavigator.push(
                         CustomerCreateUpdatePage(
                           customer: ctrl.customer.value,
                           categoryId: ctrl.customer.value.crmCategoryId ?? '',
@@ -123,7 +124,7 @@ class _CustomerInfoPageState extends State<CustomerInfoPage> {
                     titleColor: AppColors.red,
                     onTap: () => ctrl.archiveCustomer(
                       action: () {
-                        UNavigator.back();
+                        AppNavigator.back();
                         widget.onDelete(ctrl.customer.value);
                       },
                     ),

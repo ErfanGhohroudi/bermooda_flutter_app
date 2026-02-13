@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -60,7 +61,7 @@ class _MembersListPageState extends State<MembersListPage> {
           ? FloatingActionButton(
               heroTag: "membersListFAB",
               onPressed: () {
-                UNavigator.push(
+                AppNavigator.push(
                   /// For add new member
                   InviteMemberPage(
                     showDepartmentField: true,
@@ -77,7 +78,7 @@ class _MembersListPageState extends State<MembersListPage> {
       bottomNavigationBar: controller.isBottomSheet
           ? UElevatedButton(
               title: s.done,
-              onTap: () => UNavigator.back(),
+              onTap: () => AppNavigator.back(),
             )
           : null,
       body: Stack(
@@ -139,7 +140,7 @@ class _MembersListPageState extends State<MembersListPage> {
     return WCard(
       showBorder: true,
       onTap: () {
-        UNavigator.push(ProfilePage(memberId: member.id));
+        AppNavigator.push(ProfilePage(memberId: member.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

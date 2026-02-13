@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/core.dart';
 import '../details/legal_case_details_controller.dart';
@@ -74,7 +75,7 @@ class _UpdateLegalCasePageState extends State<UpdateLegalCasePage> {
                       description: _descriptionController.text,
                       onSuccess: () {
                         _isSaving(false);
-                        UNavigator.back();
+                        AppNavigator.back();
                       },
                       onFailure: () => _isSaving(false),
                     );

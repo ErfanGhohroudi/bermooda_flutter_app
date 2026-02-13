@@ -55,7 +55,7 @@ class WorkshiftDetailController extends GetxController {
     if (initialSetup) {
       // Keep it simple: one-time info toast on entry after initial auto-populate.
       Future<void>.delayed(const Duration(milliseconds: 300), () {
-        AppNavigator.snackbarGreen(title: s.done, subtitle: s.initialSetupAppliedSuccessfully);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: s.initialSetupAppliedSuccessfully);
       });
     }
     super.onInit();
@@ -327,7 +327,7 @@ class WorkshiftDetailController extends GetxController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
 
         final keysToRemove = <String>{};
         for (var day = startDate; day.compareTo(endDate) <= 0; day = day.addDays(1)) {
@@ -458,7 +458,7 @@ class WorkshiftDetailController extends GetxController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         shiftTypeDatasource.deleteFromDays(
           slug: shiftType.slug,
           workshiftSlug: workShiftSlug,
@@ -471,7 +471,7 @@ class WorkshiftDetailController extends GetxController {
               endDate: endDate,
               isAllDays: isAllDays,
             );
-            AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
+            AppSnackBar.snackbarGreen(title: s.done, subtitle: s.changesSaved);
           },
           onError: (final errorResponse) {},
           withRetry: true,
@@ -560,7 +560,7 @@ class WorkshiftDetailController extends GetxController {
         days: draftShifts.toList(),
         onResponse: (final response) {
           saveButtonState.loaded();
-          UNavigator.back();
+          AppNavigator.back();
         },
         onError: (final errorResponse) => saveButtonState.loaded(),
       );

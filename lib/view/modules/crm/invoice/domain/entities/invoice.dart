@@ -2,68 +2,12 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../data/data.dart';
+import '../enums/invoice_status.dart';
+import 'installment.dart';
+import 'invoice_product.dart';
 
-/// Domain Entity for Invoice Product
-class InvoiceProduct extends Equatable {
-  const InvoiceProduct({
-    required this.id,
-    required this.title,
-    required this.count,
-    required this.price,
-    this.code,
-    this.unit,
-  });
-
-  final int id;
-  final String title;
-  final int count;
-  final String price;
-  final String? code;
-  final String? unit;
-
-  @override
-  List<Object?> get props => [id, title, count, price, code, unit];
-}
-
-/// Domain Entity for Invoice Status
-class InvoiceStatusEntity extends Equatable {
-  const InvoiceStatusEntity({
-    required this.id,
-    required this.title,
-    required this.colorCode,
-  });
-
-  final int id;
-  final String title;
-  final String colorCode;
-
-  @override
-  List<Object?> get props => [id, title, colorCode];
-}
-
-/// Domain Entity for Installment
-class InstallmentEntity extends Equatable {
-  const InstallmentEntity({
-    required this.id,
-    required this.price,
-    required this.dateToPayPersian,
-    required this.isPaid,
-    this.datePayedPersian,
-    this.documentOfPayment,
-    this.order,
-  });
-
-  final int id;
-  final String price;
-  final String dateToPayPersian;
-  final bool isPaid;
-  final String? datePayedPersian;
-  final MainFileReadDto? documentOfPayment;
-  final int? order;
-
-  @override
-  List<Object?> get props => [id, price, dateToPayPersian, isPaid, datePayedPersian, documentOfPayment, order];
-}
+export 'installment.dart';
+export 'invoice_product.dart';
 
 /// Domain Entity for Invoice
 class InvoiceEntity extends Equatable {
@@ -71,138 +15,206 @@ class InvoiceEntity extends Equatable {
     required this.id,
     required this.mainId,
     required this.invoiceCode,
+    required this.invoiceDate,
     required this.invoiceType,
     required this.paymentType,
     required this.products,
-    required this.createdDatePersian,
+    required this.factorPrice,
+    this.invoiceUrl,
     this.status,
     this.buyerInformation,
     this.sellerInformation,
-    this.discount,
-    this.taxes,
-    this.factorPrice,
+    this.discountPercentage = 0,
+    this.taxesPercentage = 0,
+    this.shippingCost = 0,
     this.validityDatePersian,
-    this.dateToPayPersian,
-    this.datePayedPersian,
     this.description,
-    this.installments,
-    this.interestPercentage,
+    this.installments = const [],
+    this.interestPercentage = 0,
     this.signatureFile,
+    this.isPaid = false,
+    this.isSuspended = false,
+    this.isOver = false,
+    this.suspendedAt,
+    this.suspendedReason,
+    this.latePenaltyEnabled = false,
+    this.latePenaltyRate = 0,
+    this.latePenaltyCap,
+    this.paymentRecord,
     this.logoFile,
-    this.qrCode,
-    this.isPaid,
   });
 
   final int id;
   final String mainId;
   final String invoiceCode;
+  final String invoiceDate;
   final InvoiceType invoiceType;
   final PaymentTerms paymentType;
   final List<InvoiceProduct> products;
-  final String createdDatePersian;
-  final InvoiceStatusEntity? status;
+  final String? invoiceUrl;
+  final InvoiceStatus? status;
   final ErInformation? buyerInformation;
   final ErInformation? sellerInformation;
-  final int? discount;
-  final int? taxes;
-  final FactorPrice? factorPrice;
+  final int discountPercentage;
+  final int taxesPercentage;
+  final int shippingCost;
+  final FactorPrice factorPrice;
   final String? validityDatePersian;
-  final String? dateToPayPersian;
-  final String? datePayedPersian;
   final String? description;
-  final List<InstallmentEntity>? installments;
-  final int? interestPercentage;
-  final String? signatureFile;
-  final String? logoFile;
-  final MainFileReadDto? qrCode;
-  final bool? isPaid;
+  final List<InstallmentEntity> installments;
+  final int interestPercentage;
+  final MainFileReadDto? signatureFile;
+  final bool isPaid;
+  final bool isSuspended;
+  final bool isOver;
+  final DateTime? suspendedAt;
+  final String? suspendedReason;
+  final bool latePenaltyEnabled;
+  final int latePenaltyRate;
+  final String? latePenaltyCap;
+  final PaymentRecord? paymentRecord;
+  final MainFileReadDto? logoFile;
 
-  factory InvoiceEntity.fromDto(final InvoiceReadDto dto) =>
-      InvoiceEntity(
-        id: dto.id ?? 0,
-        mainId: dto.mainId ?? '',
-        invoiceCode: dto.invoiceCode ?? '',
-        invoiceType: dto.invoiceType ?? InvoiceType.preinvoice,
-        paymentType: dto.paymentType ?? PaymentTerms.cash,
-        products: (dto.product ?? []).map((final p) => InvoiceProduct(
-          id: p.id ?? 0,
-          title: p.title ?? '',
-          count: p.count ?? 0,
-          price: p.price ?? '',
-          code: p.code,
-          unit: p.unit,
-        )).toList(),
-        createdDatePersian: dto.createdDatePersian ?? '',
-        status: dto.status != null
-            ? InvoiceStatusEntity(
-          id: dto.status!.id,
-          title: dto.status!.title,
-          colorCode: dto.status!.colorCode,
+  factory InvoiceEntity.fromDto(final InvoiceReadDto dto) => InvoiceEntity(
+    id: dto.id ?? 0,
+    mainId: dto.mainId ?? '',
+    invoiceCode: dto.invoiceCode ?? '',
+    invoiceDate: dto.invoiceDate ?? '',
+    invoiceType: dto.invoiceType ?? InvoiceType.preinvoice,
+    paymentType: dto.paymentType ?? PaymentTerms.cash,
+    products: (dto.products ?? [])
+        .map(
+          (final Product p) => InvoiceProduct(
+            id: p.id ?? 0,
+            title: p.title ?? '',
+            count: p.count ?? 0,
+            price: p.price ?? '',
+            code: p.code,
+            unit: p.unit,
+          ),
         )
-            : null,
-        buyerInformation: dto.buyerInformation,
-        sellerInformation: dto.sellerInformation,
-        discount: dto.discount,
-        taxes: dto.taxes,
-        factorPrice: dto.factorPrice,
-        validityDatePersian: dto.validityDatePersian,
-        description: dto.description,
-        installments: dto.installments != null
-            ? (dto.installments as List).map((final i) {
-          if (i is Map<String, dynamic>) {
-            final installment = Installment.fromJson(i);
-            return InstallmentEntity(
-              id: installment.id ?? 0,
-              price: installment.price ?? '',
-              dateToPayPersian: installment.dateToPayPersian ?? '',
-              isPaid: installment.isPaid ?? false,
-              datePayedPersian: installment.datePayedPersian,
-              documentOfPayment: installment.documentOfPayment,
-            );
-          }
-          return null;
-        }).whereType<InstallmentEntity>().toList()
-            : null,
-        interestPercentage: dto.interestPercentage,
-        signatureFile: dto.signatureFile,
-        logoFile: dto.logoFile,
-        qrCode: dto.qrCode,
-        isPaid: dto.installments != null
-            ? (dto.installments as List).every((final i) {
-          if (i is Map<String, dynamic>) {
-            final installment = Installment.fromJson(i);
-            return installment.isPaid ?? false;
-          }
-          return false;
-        })
-            : null,
-      );
+        .toList(),
+    factorPrice: dto.factorPrice ?? FactorPrice(),
+    invoiceUrl: dto.invoiceUrl,
+    status: dto.invoiceType == InvoiceType.finalinvoice && dto.status != null
+        ? InvoiceStatus.fromString(dto.status!)
+        : dto.invoiceType == InvoiceType.preinvoice && dto.preInvoiceStatus != null
+        ? InvoiceStatus.fromString(dto.preInvoiceStatus!)
+        : null,
+    buyerInformation: dto.buyerInformation,
+    sellerInformation: dto.sellerInformation,
+    discountPercentage: dto.discount ?? 0,
+    taxesPercentage: dto.taxes ?? 0,
+    shippingCost: dto.shippingCost ?? 0,
+    validityDatePersian: dto.validityDatePersian,
+    description: dto.description,
+    installments: (dto.installments ?? []).map((final e) => InstallmentEntity.fromDto(e)).toList(),
+    interestPercentage: dto.interestPercentage ?? 0,
+    signatureFile: dto.signatureFile,
+    isPaid: dto.isPaid ?? false,
+    isSuspended: dto.isSuspended ?? false,
+    isOver: dto.isOver ?? false,
+    suspendedAt: dto.suspendedAt,
+    suspendedReason: dto.suspendedReason,
+    latePenaltyEnabled: dto.latePenaltyEnabled ?? false,
+    latePenaltyRate: int.tryParse(dto.latePenaltyRate?.split('.').firstOrNull ?? '') ?? 0,
+    latePenaltyCap: dto.latePenaltyCap,
+    paymentRecord: dto.paymentRecord,
+    logoFile: dto.logoFile,
+  );
+
+  InvoiceEntity copyWith({
+    final String? invoiceCode,
+    final String? invoiceDate,
+    final InvoiceType? invoiceType,
+    final PaymentTerms? paymentType,
+    final List<InvoiceProduct>? products,
+    final String? invoiceUrl,
+    final InvoiceStatus? status,
+    final ErInformation? buyerInformation,
+    final ErInformation? sellerInformation,
+    final int? discountPercentage,
+    final int? taxesPercentage,
+    final int? shippingCost,
+    final FactorPrice? factorPrice,
+    final String? validityDatePersian,
+    final String? description,
+    final List<InstallmentEntity>? installments,
+    final int? interestPercentage,
+    final MainFileReadDto? signatureFile,
+    final bool? isPaid,
+    final bool? isSuspended,
+    final bool? isOver,
+    final DateTime? suspendedAt,
+    final String? suspendedReason,
+    final bool? latePenaltyEnabled,
+    final int? latePenaltyRate,
+    final String? latePenaltyCap,
+    final PaymentRecord? paymentRecord,
+    final MainFileReadDto? logoFile,
+  }) => InvoiceEntity(
+    id: id,
+    mainId: mainId,
+    invoiceCode: invoiceCode ?? this.invoiceCode,
+    invoiceDate: invoiceDate ?? this.invoiceDate,
+    invoiceType: invoiceType ?? this.invoiceType,
+    paymentType: paymentType ?? this.paymentType,
+    products: products ?? this.products,
+    invoiceUrl: invoiceUrl ?? this.invoiceUrl,
+    status: status ?? this.status,
+    buyerInformation: buyerInformation ?? this.buyerInformation,
+    sellerInformation: sellerInformation ?? this.sellerInformation,
+    discountPercentage: discountPercentage ?? this.discountPercentage,
+    taxesPercentage: taxesPercentage ?? this.taxesPercentage,
+    shippingCost: shippingCost ?? this.shippingCost,
+    factorPrice: factorPrice ?? this.factorPrice,
+    validityDatePersian: validityDatePersian ?? this.validityDatePersian,
+    description: description ?? this.description,
+    installments: installments ?? this.installments,
+    interestPercentage: interestPercentage ?? this.interestPercentage,
+    signatureFile: signatureFile ?? this.signatureFile,
+    isPaid: isPaid ?? this.isPaid,
+    isSuspended: isSuspended ?? this.isSuspended,
+    isOver: isOver ?? this.isOver,
+    suspendedAt: suspendedAt ?? this.suspendedAt,
+    suspendedReason: suspendedReason ?? this.suspendedReason,
+    latePenaltyEnabled: latePenaltyEnabled ?? this.latePenaltyEnabled,
+    latePenaltyRate: latePenaltyRate ?? this.latePenaltyRate,
+    latePenaltyCap: latePenaltyCap ?? this.latePenaltyCap,
+    paymentRecord: paymentRecord ?? this.paymentRecord,
+    logoFile: logoFile ?? this.logoFile,
+  );
 
   @override
-  List<Object?> get props =>
-      [
-        id,
-        mainId,
-        invoiceCode,
-        invoiceType,
-        paymentType,
-        products,
-        createdDatePersian,
-        status,
-        buyerInformation,
-        sellerInformation,
-        discount,
-        taxes,
-        factorPrice,
-        validityDatePersian,
-        dateToPayPersian,
-        datePayedPersian,
-        description,
-        installments,
-        interestPercentage,
-        signatureFile,
-        logoFile,
-        qrCode,
-        isPaid,
-      ];
+  List<Object?> get props => [
+    id,
+    mainId,
+    invoiceCode,
+    invoiceType,
+    paymentType,
+    products,
+    invoiceUrl,
+    status,
+    buyerInformation,
+    sellerInformation,
+    discountPercentage,
+    taxesPercentage,
+    shippingCost,
+    factorPrice,
+    validityDatePersian,
+    description,
+    installments,
+    interestPercentage,
+    signatureFile,
+    isPaid,
+    isSuspended,
+    isOver,
+    suspendedAt,
+    suspendedReason,
+    latePenaltyEnabled,
+    latePenaltyRate,
+    latePenaltyCap,
+    paymentRecord,
+    logoFile,
+  ];
 }

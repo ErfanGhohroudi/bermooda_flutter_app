@@ -31,37 +31,36 @@ Future<void> appShowYesCancelDialog({
   final Color? yesBackgroundColor,
   final bool barrierDismissible = true,
   final TextAlign? descriptionTextAlign,
-}) async =>
-    await showDialog(
-      context: navigatorKey.currentContext!,
-      barrierDismissible: barrierDismissible,
-      builder: (final BuildContext context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        title: title != '' ? Text(title).titleMedium() : null,
-        content: Text(description, style: descriptionTextStyle ?? context.textTheme.bodyMedium!, textAlign: descriptionTextAlign),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: <Widget>[
-          SizedBox(
-            child: UElevatedButton(
-              width: navigatorKey.currentContext!.width / 4,
-              backgroundColor: cancelBackgroundColor ?? context.theme.hintColor,
-              onTap: onCancelButtonTap ?? UNavigator.back,
-              title: cancelButtonTitle ?? s.cancel,
-              textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
-            ),
-          ),
-          SizedBox(
-            child: UElevatedButton(
-              width: navigatorKey.currentContext!.width / 4,
-              backgroundColor: yesBackgroundColor,
-              onTap: onYesButtonTap,
-              title: yesButtonTitle ?? s.yes,
-              textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
-            ),
-          ),
-        ],
+}) async => await showDialog(
+  context: navigatorKey.currentContext!,
+  barrierDismissible: barrierDismissible,
+  builder: (final BuildContext context) => AlertDialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    title: title != '' ? Text(title).titleMedium() : null,
+    content: Text(description, style: descriptionTextStyle ?? context.textTheme.bodyMedium!, textAlign: descriptionTextAlign),
+    actionsAlignment: MainAxisAlignment.center,
+    actions: <Widget>[
+      SizedBox(
+        child: UElevatedButton(
+          width: navigatorKey.currentContext!.width / 4,
+          backgroundColor: cancelBackgroundColor ?? context.theme.hintColor,
+          onTap: onCancelButtonTap ?? AppNavigator.back,
+          title: cancelButtonTitle ?? s.cancel,
+          textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
+        ),
       ),
-    );
+      SizedBox(
+        child: UElevatedButton(
+          width: navigatorKey.currentContext!.width / 4,
+          backgroundColor: yesBackgroundColor,
+          onTap: onYesButtonTap,
+          title: yesButtonTitle ?? s.yes,
+          textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
+        ),
+      ),
+    ],
+  ),
+);
 
 void showWorkspaceIsNotAuthenticatedDialog({final VoidCallback? onPop}) {
   final core = Get.find<Core>();
@@ -83,19 +82,21 @@ void showWorkspaceIsNotAuthenticatedDialog({final VoidCallback? onPop}) {
                 width: navigatorKey.currentContext!.width,
                 title: s.settings,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
-                      UNavigator.push(WorkspaceListPage(
-                        push: true,
-                        onPop: () {
-                          if (core.currentWorkspace.value.authStatus.isAuth()) {
-                            UNavigator.back();
-                          }
-                          onPop?.call();
-                        },
-                      ));
+                      AppNavigator.push(
+                        WorkspaceListPage(
+                          push: true,
+                          onPop: () {
+                            if (core.currentWorkspace.value.authStatus.isAuth()) {
+                              AppNavigator.back();
+                            }
+                            onPop?.call();
+                          },
+                        ),
+                      );
                     },
                   );
                 },
@@ -108,10 +109,12 @@ void showWorkspaceIsNotAuthenticatedDialog({final VoidCallback? onPop}) {
   }
 }
 
+/// if [required] == true , save button just will be show when file is selected.
 void showUploadSignatureDialog({
   required final MainFileReadDto? file,
-  required final VoidCallback onSaved,
+  required final Function(MainFileReadDto? file) onSaved,
   required final Function(MainFileReadDto? file) onFileUpdated,
+  final bool required = false,
 }) {
   bool isUploadingFile = false;
   MainFileReadDto? signature = file;
@@ -128,7 +131,7 @@ void showUploadSignatureDialog({
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              UImage(AppIcons.closeCircle, size: 30, color: context.theme.primaryColorDark).onTap(UNavigator.back),
+              Icon(CupertinoIcons.clear_circled_solid, size: 30, color: context.theme.primaryColorDark).onTap(AppNavigator.back),
               const Divider().marginOnly(bottom: 12),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -139,7 +142,11 @@ void showUploadSignatureDialog({
                     width: context.width,
                     backgroundColor: context.isDarkMode ? Colors.white : Colors.black87,
                     titleColor: !context.isDarkMode ? Colors.white : Colors.black87,
-                    icon: Icon(Icons.add_circle_outline_rounded, color: !context.isDarkMode ? Colors.white : Colors.black87, size: 25),
+                    icon: Icon(
+                      Icons.add_circle_outline_rounded,
+                      color: !context.isDarkMode ? Colors.white : Colors.black87,
+                      size: 25,
+                    ),
                     onTap: () async {
                       final result = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 70);
                       if (result != null) {
@@ -169,7 +176,7 @@ void showUploadSignatureDialog({
                                 clearButtonText: s.clear,
                                 onSave: (final fileData, final isEmpty) {
                                   if (isEmpty) {
-                                    AppNavigator.snackbarRed(title: s.warning, subtitle: s.uploadSignatureFirst);
+                                    AppSnackBar.snackbarRed(title: s.warning, subtitle: s.uploadSignatureFirst);
                                     return;
                                   }
                                   setState(() {
@@ -179,14 +186,14 @@ void showUploadSignatureDialog({
                                     );
                                     imageKey = UniqueKey();
                                   });
-                                  UNavigator.back();
+                                  AppNavigator.back();
                                 },
                               ),
                               UElevatedButton(
                                 title: s.cancel,
                                 width: context.width,
                                 backgroundColor: context.theme.hintColor,
-                                onTap: UNavigator.back,
+                                onTap: AppNavigator.back,
                               ),
                             ],
                           ),
@@ -218,7 +225,7 @@ void showUploadSignatureDialog({
                     isUploadingFile = value;
                   },
                 ).marginOnly(bottom: 12),
-              if (signature != null)
+              if (required == false || signature != null)
                 UElevatedButton(
                   title: s.save,
                   width: context.width,
@@ -226,13 +233,7 @@ void showUploadSignatureDialog({
                     WImageFiles.checkFileUploading(
                       isUploadingFile: isUploadingFile,
                       action: () {
-                        appShowYesCancelDialog(
-                          description: s.wantToSubmitSignature,
-                          onYesButtonTap: () {
-                            UNavigator.back();
-                            onSaved();
-                          },
-                        );
+                        onSaved(signature);
                       },
                     );
                   },

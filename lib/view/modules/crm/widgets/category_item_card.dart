@@ -83,7 +83,7 @@ class _CategoryItemCardState extends State<CategoryItemCard> with SingleTickerPr
     return WCard(
       showBorder: true,
       onTap: widget.onTap ?? () {
-        if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
+        if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
         bottomSheet(
           child: CrmCategoryMainPage(

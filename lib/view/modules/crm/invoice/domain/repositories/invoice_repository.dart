@@ -1,4 +1,6 @@
 import '../../../../../../data/data.dart';
+import '../../data/params/invoice_params.dart';
+import '../../data/params/pay_invoice_params.dart';
 import '../entities/invoice.dart';
 
 /// Repository interface for Invoice operations
@@ -16,39 +18,20 @@ abstract class InvoiceRepository {
   /// Get invoice buyer and seller information
   Future<InvoiceBuyerSellerInfo> getInvoiceBuyerAndSellerInfo(final int customerId);
 
-  /// Get invoice preview by main ID (public link)
-  Future<InvoiceEntity> getInvoicePreview(final String mainId);
-
   /// Create new invoice
   Future<InvoiceEntity> createInvoice(final InvoiceParams params);
 
-  /// Change invoice status
-  Future<InvoiceEntity> changeInvoiceStatus(final int invoiceId, final int statusId);
+  /// Pay invoice (cash/installment payment)
+  Future<GenericResponse<PaymentRecord>> payInvoice(final String invoiceMainId, final PayInvoiceParams params);
 
-  /// Get invoice statuses by group CRM ID
-  Future<List<InvoiceStatusReadDto>> getInvoiceStatuses(final int groupCrmId);
+  /// Suspend invoice
+  Future<InvoiceEntity> suspendInvoice(final int invoiceId, final String reason, final int? documentId);
 
-  /// Create invoice status
-  Future<InvoiceStatusReadDto> createInvoiceStatus(final Map<String, dynamic> params);
-
-  /// Update invoice status
-  Future<InvoiceStatusReadDto> updateInvoiceStatus(final int statusId, final Map<String, dynamic> params);
-
-  /// Delete invoice status
-  Future<void> deleteInvoiceStatus(final int statusId);
-
-  /// Get installments by invoice ID
-  Future<List<Installment>> getInstallments(final int invoiceId);
-
-  /// Pay installments
-  Future<void> payInstallments(final Map<String, dynamic> params);
-
-  /// Get payment info for invoice
-  Future<InvoiceEntity> getPaymentInfo(final int invoiceId);
-
-  /// Pay invoice (cash payment)
-  Future<InvoiceEntity> payInvoice(final int invoiceId, final Map<String, dynamic> params);
-
-  /// Send invoice link via SMS
-  Future<void> sendInvoiceSms(final int invoiceId);
+  /// Payment verification : if invoice is installments; [installmentId] is Required.
+  Future<InvoiceEntity> paymentVerification(
+    final int recordId,
+    final bool verify,
+    final String reason,
+    final int? installmentId,
+  );
 }

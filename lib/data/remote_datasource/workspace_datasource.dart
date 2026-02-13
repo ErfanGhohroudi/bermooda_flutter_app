@@ -33,8 +33,8 @@ class WorkspaceDatasource {
     final bool withRetry = false,
   }) async {
     try {
-      final response = await _apiClient.put(
-        '/v1/WorkSpace/WorkSpaceManager/$id',
+      final response = await _apiClient.post(
+        '/v1/WorkSpace/UpdateRequiredInfo/$id',
         data: {
           ...dto.toMap(),
           ...authDto.toMap(),

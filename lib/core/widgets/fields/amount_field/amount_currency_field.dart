@@ -7,7 +7,7 @@ class WAmountCurrencyField extends StatelessWidget {
   const WAmountCurrencyField({
     required this.controller,
     required this.labelText,
-    this.autofocus = false,
+    this.focusNode,
     this.currencyText,
     // this.initialCurrency,
     this.required = false,
@@ -19,7 +19,7 @@ class WAmountCurrencyField extends StatelessWidget {
 
   final TextEditingController controller;
   final String labelText;
-  final bool autofocus;
+  final FocusNode? focusNode;
 
   /// default is toman
   final String? currencyText;
@@ -35,7 +35,7 @@ class WAmountCurrencyField extends StatelessWidget {
   Widget build(final BuildContext context) {
     return WAmountField(
       controller: controller,
-      autofocus: autofocus,
+      focusNode: focusNode,
       labelText: labelText,
       currencyText: currencyText ?? s.toman,
       required: required,

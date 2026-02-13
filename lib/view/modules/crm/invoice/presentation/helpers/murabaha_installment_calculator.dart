@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:u/utils/shamsi_date/src/jalali/jalali_date.dart';
 
-import '../../../../../../data/data.dart';
+import '../../data/params/invoice_params.dart';
 
 class MurabahaInstallmentCalculator {
   final Decimal principalAmount; // قیمت نقدی
@@ -16,8 +16,8 @@ class MurabahaInstallmentCalculator {
     required this.dueDates,
   });
 
-  List<InstallmentResult> calculate() {
-    final List<InstallmentResult> schedule = [];
+  List<InstallmentParams> calculate() {
+    final List<InstallmentParams> schedule = [];
 
     if (dueDates.isEmpty) return schedule;
 
@@ -59,11 +59,12 @@ class MurabahaInstallmentCalculator {
       final Decimal profitForThisInstallment =
       isLast ? totalProfit - paidProfit : profitPerInstallment;
 
+      final totalAmount = principalForThisInstallment + profitForThisInstallment;
+
       schedule.add(
-        InstallmentResult(
+        InstallmentParams(
           dateToPay: dueDates[i],
-          principalAmount: principalForThisInstallment,
-          profitAmount: profitForThisInstallment,
+          totalAmount: totalAmount,
         ),
       );
 

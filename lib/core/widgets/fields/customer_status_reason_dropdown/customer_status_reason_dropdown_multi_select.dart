@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
+import '../../../navigator/navigator.dart';
 import '../../../utils/extensions/color_extension.dart';
 import '../../../utils/enums/enums.dart';
 import '../../../core.dart';
@@ -243,7 +244,7 @@ class _ReasonsMultiSelectDialogState extends State<_ReasonsMultiSelectDialog> {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: UNavigator.back,
+                  onTap: AppNavigator.back,
                 ).expanded(),
                 UElevatedButton(
                   title: s.confirm,
@@ -295,7 +296,7 @@ class _ReasonsMultiSelectDialogState extends State<_ReasonsMultiSelectDialog> {
                 yesButtonTitle: s.delete,
                 yesBackgroundColor: AppColors.red,
                 onYesButtonTap: () {
-                  UNavigator.back(); // بستن دیالوگ تایید
+                  AppNavigator.back(); // بستن دیالوگ تایید
                   widget.onDelete(label, () {
                     // حذف از لیست‌های موقت و اصلی
                     setState(() {

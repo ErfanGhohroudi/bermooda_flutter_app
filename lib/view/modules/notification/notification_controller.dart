@@ -111,7 +111,7 @@ mixin NotificationController {
   void onTabNotification(final INotificationReadDto notification) {
     if (notification is TaskNotificationReadDto) {
       if (notification.task?.projectId == null) return;
-      UNavigator.push(
+      AppNavigator.push(
         TaskDetailsPage(
           projectId: notification.task!.projectId!,
           task: notification.task!,
@@ -122,7 +122,7 @@ mixin NotificationController {
       return;
     } else if (notification is SubtaskNotificationReadDto) {
       if (notification.subtask?.taskData?.projectId == null) return;
-      UNavigator.push(
+      AppNavigator.push(
         TaskDetailsPage(
           projectId: notification.subtask!.projectId!,
           task: notification.subtask!.taskData!,
@@ -135,11 +135,11 @@ mixin NotificationController {
     } else if (notification is CustomerNotificationReadDto || notification is FollowupNotificationReadDto) {
       return;
     } else {
-      AppNavigator.snackbarRed(title: s.warning, subtitle: 'در این نسخه امکان باز کردن این اعلان وجود ندارد');
+      AppSnackBar.snackbarRed(title: s.warning, subtitle: 'در این نسخه امکان باز کردن این اعلان وجود ندارد');
       return;
     }
 
-    // UNavigator.push(
+    // AppNavigator.push(
     //   LetterDetailPage(
     //     mail: LetterReadDto(recipients: []),
     //     mailId: notification.customData?.mailId,

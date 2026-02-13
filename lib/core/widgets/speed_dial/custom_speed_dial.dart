@@ -1,5 +1,7 @@
 import 'package:u/utilities.dart';
 
+import '../../navigator/navigator.dart';
+
 part 'src/animated_child.dart';
 part 'src/animated_floating_button.dart';
 part 'src/background_overlay.dart';

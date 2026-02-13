@@ -79,7 +79,7 @@ mixin CrmCreateUpdateSectionController {
       key: formKey,
       action: () {
         if (steps.length < 2) {
-          AppNavigator.snackbarRed(title: s.error, subtitle: s.stepLengthError);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: s.stepLengthError);
           return;
         }
 
@@ -100,7 +100,7 @@ mixin CrmCreateUpdateSectionController {
       colorCode: selectedColor.colorCode,
       iconId: selectedIcon?.fileId,
       stepList: steps,
-      onResponse: (final response) => UNavigator.back(),
+      onResponse: (final response) => AppNavigator.back(),
       onError: (final errorResponse) => buttonState.loaded(),
     );
   }
@@ -113,7 +113,7 @@ mixin CrmCreateUpdateSectionController {
       colorCode: selectedColor.colorCode,
       iconId: selectedIcon?.fileId,
       stepList: steps,
-      onResponse: (final response) => UNavigator.back(),
+      onResponse: (final response) => AppNavigator.back(),
       onError: (final errorResponse) => buttonState.loaded(),
     );
   }
@@ -148,7 +148,7 @@ mixin CrmCreateUpdateSectionController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete();
       },
     );
@@ -157,7 +157,7 @@ mixin CrmCreateUpdateSectionController {
   void _delete() {
     _crmSectionDatasource.delete(
       id: section?.data?.id,
-      onResponse: () => UNavigator.back(),
+      onResponse: () => AppNavigator.back(),
       onError: (final errorResponse) {},
       withRetry: true,
     );

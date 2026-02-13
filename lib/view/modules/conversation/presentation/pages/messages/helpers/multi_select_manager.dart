@@ -64,7 +64,7 @@ class MultiSelectManager {
         .toList();
 
     if (textMessages.isEmpty) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: s.noTextMessagesSelected,
       );
@@ -79,25 +79,25 @@ class MultiSelectManager {
   void forwardSelectedMessages() {
     if (controller.isAnonymousBot) return;
     if (controller.selectedMessageIds.isEmpty) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
       return;
     }
 
     final messageIds = controller.selectedMessageIds.toList();
-    UNavigator.push(ForwardConversationSelectionPage(messageIds: messageIds));
+    AppNavigator.push(ForwardConversationSelectionPage(messageIds: messageIds));
     exitMultiSelectMode();
   }
 
   void forwardSelectedMessage(final MessageDto message) {
     if (controller.isAnonymousBot) return;
-    UNavigator.push(ForwardConversationSelectionPage(messageIds: [message.id]));
+    AppNavigator.push(ForwardConversationSelectionPage(messageIds: [message.id]));
     exitMultiSelectMode();
   }
 
   void deleteSelectedMessages() {
     if (controller.isAnonymousBot) return;
     if (controller.selectedMessageIds.isEmpty) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
       return;
     }
 
@@ -109,7 +109,7 @@ class MultiSelectManager {
           .any((final m) => m.isOwner == false);
 
       if (isThereOtherMemberMessages) {
-        AppNavigator.snackbarRed(
+        AppSnackBar.snackbarRed(
           title: s.error,
           subtitle: s.notAllowedDeleteOtherUsersMessages,
         );
@@ -121,7 +121,7 @@ class MultiSelectManager {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         for (String messageId in controller.selectedMessageIds) {
           controller.deleteMessage(messageId);
         }

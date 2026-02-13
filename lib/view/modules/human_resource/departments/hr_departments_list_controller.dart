@@ -96,7 +96,7 @@ class HrDepartmentsListController extends GetxController {
       yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(department);
       },
     );
@@ -120,7 +120,7 @@ class HrDepartmentsListController extends GetxController {
       departments: departments,
       onResponse: (final response) {
         isReorderEnabled(!isReorderEnabled.value);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: s.changesSaved);
         pageState.refresh();
       },
       onError: (final errorResponse) {},

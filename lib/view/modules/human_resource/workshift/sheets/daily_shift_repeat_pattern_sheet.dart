@@ -334,7 +334,7 @@ class _DailyShiftRepeatPatternSheetState extends State<DailyShiftRepeatPatternSh
     // اعتبارسنجی داده‌ها
     final validationError = _validateFormData();
     if (validationError != null) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: validationError);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: validationError);
       return;
     }
 

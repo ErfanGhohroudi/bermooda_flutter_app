@@ -22,7 +22,7 @@ void showAttendanceBottomSheet() async {
       child: const AttendancePage(),
     );
   }
-  AppNavigator.snackbarRed(title: s.error, subtitle: s.hRModuleIsRequired);
+  AppSnackBar.snackbarRed(title: s.error, subtitle: s.hRModuleIsRequired);
 }
 
 class AttendancePage extends StatefulWidget {

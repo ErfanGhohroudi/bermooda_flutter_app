@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
 import '../../../../data/remote_datasource/label/interfaces/label_interface.dart';
+import '../../../navigator/navigator.dart';
 import '../../../utils/extensions/color_extension.dart';
 import '../../../core.dart';
 import '../../../theme.dart';
@@ -251,7 +252,7 @@ class _LabelsMultiSelectDialogState extends State<_LabelsMultiSelectDialog> {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: UNavigator.back,
+                  onTap: AppNavigator.back,
                 ).expanded(),
                 UElevatedButton(
                   title: s.confirm,
@@ -303,7 +304,7 @@ class _LabelsMultiSelectDialogState extends State<_LabelsMultiSelectDialog> {
                 yesButtonTitle: s.delete,
                 yesBackgroundColor: AppColors.red,
                 onYesButtonTap: () {
-                  UNavigator.back(); // بستن دیالوگ تایید
+                  AppNavigator.back(); // بستن دیالوگ تایید
                   widget.onDelete(label, () {
                     // حذف از لیست‌های موقت و اصلی
                     setState(() {

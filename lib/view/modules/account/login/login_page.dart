@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
 import '../../../../core/core.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> with LoginController {
                 WTextButton2(
                   text: s.signup,
                   onPressed: () {
-                    UNavigator.push(const SignupPage());
+                    AppNavigator.push(const SignupPage());
                   },
                 ),
               ],

@@ -8,6 +8,8 @@ Future<T?> bottomSheet<T>({
   final bool withBottomKeyboardPadding = true,
   final String title = '',
   final double horizontalPadding = 16,
+  final double bottomPadding = 24,
+  final double topPadding = 12,
   final double minHeight = 0.0,
   final double? maxHeight,
   final Color? backgroundColor,
@@ -39,7 +41,7 @@ Future<T?> bottomSheet<T>({
         padding: EdgeInsets.only(
           left: horizontalPadding,
           right: horizontalPadding,
-          bottom: (withBottomKeyboardPadding ? MediaQuery.of(navigatorKey.currentContext!).viewInsets.bottom : 0) + 24,
+          bottom: (withBottomKeyboardPadding ? MediaQuery.of(navigatorKey.currentContext!).viewInsets.bottom : 0) + bottomPadding,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -57,7 +59,7 @@ Future<T?> bottomSheet<T>({
               ),
             Flexible(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 12),
+                padding: EdgeInsets.only(top: topPadding),
                 child: Builder(
                   builder: childBuilder ?? (final context) => child ?? const SizedBox.shrink(),
                 ),

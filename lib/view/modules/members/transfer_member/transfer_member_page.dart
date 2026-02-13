@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
@@ -72,7 +73,7 @@ class _TransferMemberPageState extends State<TransferMemberPage> with TransferMe
                 member: widget.member,
                 onResponse: (final member) {
                   widget.onResponse(member);
-                  UNavigator.back();
+                  AppNavigator.back();
                 },
               ),
             ).marginOnly(top: 100),

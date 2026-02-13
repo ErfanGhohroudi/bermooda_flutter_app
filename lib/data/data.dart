@@ -4,6 +4,7 @@ import 'package:u/utilities.dart';
 import 'package:dio/dio.dart' as dio;
 
 import '../core/functions/user_functions.dart';
+import '../view/modules/crm/invoice/data/params/invoice_params.dart';
 import '../view/modules/crm/invoice/domain/entities/invoice.dart';
 import '../view/modules/human_resource/workshift/enums/shift_flexible_time_duration.dart';
 import '../view/modules/subscription/enums/max_contract_count.dart';
@@ -61,7 +62,6 @@ part 'dto/params/login_params.dart';
 part 'dto/params/meeting_params.dart';
 part 'dto/params/member_params.dart';
 part 'dto/params/task_params.dart';
-part 'dto/params/invoice_params.dart';
 
 /// response ///////////////////////////////////////////////////////////////////////////////////////////
 // calendar models
@@ -185,13 +185,8 @@ part 'remote_datasource/label/customer_invoice_label_datasource.dart';
 part 'remote_datasource/label/customer_contract_label_datasource.dart';
 // Customer_Finance
 part 'remote_datasource/customer_finance/invoice_manager_datasource.dart';
-part 'remote_datasource/customer_finance/invoice_status_manager_datasource.dart';
-part 'remote_datasource/customer_finance/installment_datasource.dart';
 part 'remote_datasource/customer_finance/pay_invoice_datasource.dart';
-part 'remote_datasource/customer_finance/send_invoice_sms_datasource.dart';
 part 'remote_datasource/customer_finance/get_invoice_code_datasource.dart';
-part 'remote_datasource/customer_finance/change_invoice_status_datasource.dart';
-part 'remote_datasource/customer_finance/invoice_preview_datasource.dart';
 part 'remote_datasource/customer_finance/update_invoice_info_datasource.dart';
 // Followup
 part 'remote_datasource/followup/follow_up_datasource.dart';

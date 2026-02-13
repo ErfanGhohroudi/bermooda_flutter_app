@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../data/data.dart';
 
@@ -35,7 +36,7 @@ mixin ChangePasswordController {
       confirmNewPassword: confirmPassController.text,
       onResponse: () async {
         await SecureStorageService.savePassword(confirmPassController.text);
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) {
         buttonState.loaded();

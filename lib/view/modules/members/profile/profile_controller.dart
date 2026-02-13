@@ -118,7 +118,7 @@ class ProfileController extends GetxController {
       title: s.removeMember,
       description: s.areYouSureToRemoveMember,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _archiveMember();
       },
     );
@@ -132,7 +132,7 @@ class ProfileController extends GetxController {
         if (Get.isRegistered<MembersListController>()) {
           Get.find<MembersListController>().deleteMember(currentMember.value);
         }
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) {},
       withRetry: true,
@@ -141,7 +141,7 @@ class ProfileController extends GetxController {
 
   void editPersonalInfo() {
     // Navigate to edit personal info page
-    UNavigator.push(
+    AppNavigator.push(
       InviteMemberPage(
         member: currentMember.value,
         department: department,
@@ -301,6 +301,6 @@ class ProfileController extends GetxController {
   }
 
   void showSuccess(final String message) {
-    AppNavigator.snackbarGreen(title: s.done, subtitle: message);
+    AppSnackBar.snackbarGreen(title: s.done, subtitle: message);
   }
 }

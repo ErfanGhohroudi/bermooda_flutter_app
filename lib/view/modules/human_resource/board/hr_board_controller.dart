@@ -274,7 +274,7 @@ class HRBoardController extends GetxController {
         onError: (final errorResponse) {},
       );
     } else {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.connectionLost);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.connectionLost);
     }
   }
 
@@ -287,7 +287,7 @@ class HRBoardController extends GetxController {
 
   /// For add new member
   void navigateToInviteMemberPage() {
-    UNavigator.push(
+    AppNavigator.push(
       InviteMemberPage(
         department: department,
         onResponse: (final member) {},

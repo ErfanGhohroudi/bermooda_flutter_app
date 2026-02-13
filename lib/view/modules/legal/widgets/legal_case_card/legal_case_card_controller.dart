@@ -22,7 +22,7 @@ mixin LegalCaseCardController {
 
   void navigateToLegalCasePage() {
     delay(200, () {
-      UNavigator.push(
+      AppNavigator.push(
         LegalCasePage(
           legalCase: legalCase.value,
           canEdit: true,
@@ -35,10 +35,10 @@ mixin LegalCaseCardController {
     appShowYesCancelDialog(
       description: s.changeLegalCaseStatusDialogDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _datasource.changeLegalCaseStatusToCompleted(
           legalCaseId: legalCase.value.id,
-          onResponse: () => AppNavigator.snackbarGreen(title: s.done, subtitle: ''),
+          onResponse: () => AppSnackBar.snackbarGreen(title: s.done, subtitle: ''),
           onError: (final errorResponse) {},
         );
       },
@@ -50,10 +50,10 @@ mixin LegalCaseCardController {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back(); // close dialog
+        AppNavigator.back(); // close dialog
         _datasource.delete(
           caseId: legalCase.value.id,
-          onResponse: () => AppNavigator.snackbarGreen(title: s.done, subtitle: ''),
+          onResponse: () => AppSnackBar.snackbarGreen(title: s.done, subtitle: ''),
           onError: (final errorResponse) {},
         );
       },

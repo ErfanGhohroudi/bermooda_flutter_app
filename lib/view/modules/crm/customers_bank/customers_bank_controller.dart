@@ -1,6 +1,7 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -114,7 +115,7 @@ class CustomersBankController extends GetxController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(docId);
       },
     );
@@ -137,7 +138,7 @@ class CustomersBankController extends GetxController {
   void navigateToDocumentImportedCustomersPage(final CustomersBankDocument document) {
     if (document.id == null) return;
 
-    UNavigator.push(
+    AppNavigator.push(
       ImportedCostumerListPage(
         categoryId: categoryId,
         documentId: document.id,

@@ -8,7 +8,7 @@ class WAmountField extends StatefulWidget {
     required this.controller,
     required this.labelText,
     this.currencyText,
-    this.autofocus = false,
+    this.focusNode,
     this.required = false,
 
     /// set [false] if you want to hide [*] after [labelText]
@@ -20,7 +20,7 @@ class WAmountField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String? currencyText;
-  final bool autofocus;
+  final FocusNode? focusNode;
   final bool required;
   final bool? showRequired;
   final Function(String value)? onChanged;
@@ -43,7 +43,7 @@ class _WAmountFieldState extends State<WAmountField> {
 
     return UTextFormField(
       initialValue: widget.controller.text,
-      autofocus: widget.autofocus,
+      focusNode: widget.focusNode,
       labelText: widget.labelText,
       hintText: "0",
       textAlign: TextAlign.left,

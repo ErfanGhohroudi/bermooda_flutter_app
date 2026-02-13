@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/upload_and_show_image.dart';
@@ -88,6 +89,7 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                   labelText: s.validityDate,
                   initialValue: params.expireDate,
                   startDate: Jalali.now(),
+                  showYearSelector: true,
                   required: true,
                   onConfirm: (final date, final compactFormatterDate) {
                     params = params.copyWith(expireDate: compactFormatterDate);
@@ -320,7 +322,7 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                               title: s.delete,
                               description: s.areYouSureYouWantToDeleteItem,
                               onYesButtonTap: () {
-                                UNavigator.back();
+                                AppNavigator.back();
                                 final members = List<SignerDto>.from(params.members);
                                 members.removeAt(index);
                                 setState(() {

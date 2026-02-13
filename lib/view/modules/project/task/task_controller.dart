@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/services/permission_service.dart';
@@ -61,7 +62,7 @@ mixin TaskController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _taskDatasource.delete(
           taskId: taskId,
           onResponse: action,
@@ -73,7 +74,7 @@ mixin TaskController {
 
   void updateTaskCategory() {
     if (selectedSection != null) {
-      UNavigator.back();
+      AppNavigator.back();
       buttonState.loading();
 
       _taskDatasource.update(

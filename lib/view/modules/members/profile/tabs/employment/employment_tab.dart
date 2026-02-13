@@ -56,7 +56,7 @@ class EmploymentTab extends StatelessWidget {
                 Text(s.employment).titleMedium().bold(),
                 IconButton(
                   tooltip: s.edit,
-                  onPressed: () => AppNavigator.snackbarGreen(title: s.done, subtitle: "Edited"),
+                  onPressed: () => AppSnackBar.snackbarGreen(title: s.done, subtitle: "Edited"),
                   icon: const UImage(AppIcons.editOutline, color: AppColors.green),
                 ),
               ],

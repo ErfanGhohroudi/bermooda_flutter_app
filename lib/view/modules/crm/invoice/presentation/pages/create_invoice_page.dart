@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
 import '../../../../../../core/widgets/widgets.dart';
+import '../../domain/entities/invoice.dart';
 import '../controllers/create_invoice_controller.dart';
 import '../steps/buyer_seller_info_step.dart';
 import '../steps/invoice_details_step.dart';
@@ -12,10 +13,12 @@ import '../widgets/stepper.dart';
 class CreateInvoicePage extends StatefulWidget {
   const CreateInvoicePage({
     required this.customerId,
+    this.invoice,
     super.key,
   });
 
   final int customerId;
+  final InvoiceEntity? invoice;
 
   @override
   State<CreateInvoicePage> createState() => _CreateInvoicePageState();
@@ -26,7 +29,12 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
 
   @override
   void initState() {
-    ctrl = Get.put(CreateInvoiceController(customerId: widget.customerId));
+    ctrl = Get.put(
+      CreateInvoiceController(
+        customerId: widget.customerId,
+        invoice: widget.invoice,
+      ),
+    );
     super.initState();
   }
 
@@ -115,7 +123,7 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
           }
 
           Widget getButtons() {
-            final type = ctrl.stepTypes[ctrl.currentStep.value];
+            // final type = ctrl.stepTypes[ctrl.currentStep.value];
             final isFirst = ctrl.currentStep.value == 0;
             final isLast = ctrl.currentStep.value == ctrl.stepTypes.length - 1;
 
@@ -137,9 +145,9 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
                     onTap: ctrl.previousStep,
                   ).expanded(),
                   UElevatedButton(
-                    title: 'ثبت فاکتور',
+                    title: s.issueInvoice,
                     isLoading: ctrl.isLoading.value,
-                    onTap: () => _showSubmitConfirmation(),
+                    onTap: ctrl.submitInvoice,
                   ).expanded(),
                 ],
               );
@@ -164,17 +172,6 @@ class _CreateInvoicePageState extends State<CreateInvoicePage> {
           return getButtons().pOnly(left: 16, right: 16, bottom: 24, top: 16);
         },
       ),
-    );
-  }
-
-  void _showSubmitConfirmation() {
-    appShowYesCancelDialog(
-      title: 'ثبت فاکتور',
-      description: 'آیا از صدور فاکتور مطمئن هستید؟',
-      onYesButtonTap: () {
-        UNavigator.back();
-        ctrl.submitInvoice(context);
-      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/enums/enums.dart';
 import '../../../../../data/data.dart';
 import '../../departments/legal_department_list_controller.dart';
@@ -53,7 +54,7 @@ mixin LegalDepartmentAddMemberController {
           }
         }
         buttonState.loaded();
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) => buttonState.loaded(),
       withRetry: true,

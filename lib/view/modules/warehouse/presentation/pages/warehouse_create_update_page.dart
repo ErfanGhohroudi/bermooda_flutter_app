@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../domain/entities/warehouse.dart';
@@ -98,7 +99,7 @@ class _WarehouseCreateUpdatePageState extends State<WarehouseCreateUpdatePage> w
               onTap: () => onSubmit(
                 onResponse: (final warehouse) {
                   widget.onResponse(warehouse);
-                  UNavigator.back();
+                  AppNavigator.back();
                 },
               ),
             ),

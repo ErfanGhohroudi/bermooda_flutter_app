@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/enums/request_enums.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../data/data.dart';
@@ -19,7 +20,7 @@ class WNewRequestCardExample extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          UNavigator.push(CreateRequestPage(
+          AppNavigator.push(CreateRequestPage(
             onResponse: (final request) {},
           ));
         },

@@ -62,7 +62,7 @@ class _DepartmentCreateUpdatePageState extends State<DepartmentCreateUpdatePage>
           ),
           WMembersPickerFormField(
             labelText: s.accessibleMembers,
-            helperText: s.humanResourcesAccessibleMembersHelper,
+            helperText: s.accessibleMembersHelper(s.department.toLowerCase()),
             filterByPermissionName: PermissionName.humanResources,
             showSelf: true,
             selectedMembers: selectedMembers,

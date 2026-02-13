@@ -82,7 +82,7 @@ class MessageWebSocketHandler {
               }
               markAsRead();
             } catch (e) {
-              AppNavigator.snackbarRed(title: s.error, subtitle: e.toString());
+              AppSnackBar.snackbarRed(title: s.error, subtitle: e.toString());
             }
           }
           break;
@@ -110,7 +110,7 @@ class MessageWebSocketHandler {
               controller.isLoadingMore(false);
               delay(1000, () => controller.connectionState(ChatConnectionType.done));
             } catch (e) {
-              AppNavigator.snackbarRed(title: s.error, subtitle: e.toString());
+              AppSnackBar.snackbarRed(title: s.error, subtitle: e.toString());
             }
           }
           break;
@@ -260,7 +260,7 @@ class MessageWebSocketHandler {
           if (controller.isAnonymousBot) return;
           final conversationId = message['conversation_id'];
           if (controller.conversation.value.id == conversationId) {
-            UNavigator.back();
+            AppNavigator.back();
           }
           break;
 
@@ -274,14 +274,14 @@ class MessageWebSocketHandler {
 
         case 'member_added_successfully':
           if (controller.isAnonymousBot) return;
-          AppNavigator.snackbarGreen(
+          AppSnackBar.snackbarGreen(
             title: s.done,
             subtitle: s.memberAddedSuccessfully,
           );
           break;
         case 'feedback_sent':
           if (controller.isAnonymousBot && message["success"] == true) {
-            AppNavigator.snackbarGreen(
+            AppSnackBar.snackbarGreen(
               title: s.done,
               subtitle: s.messageSentSuccessfully,
             );
@@ -290,7 +290,7 @@ class MessageWebSocketHandler {
 
         case 'member_removed_success':
           if (controller.isAnonymousBot) return;
-          AppNavigator.snackbarGreen(
+          AppSnackBar.snackbarGreen(
             title: s.done,
             subtitle: s.memberRemovedSuccessfully,
           );
@@ -298,7 +298,7 @@ class MessageWebSocketHandler {
 
         case 'error':
           final errorMessage = message['message'] as String? ?? s.error422;
-          AppNavigator.snackbarRed(title: s.error, subtitle: errorMessage);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: errorMessage);
           break;
       }
     } catch (e) {

@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../data/data.dart';
+import '../navigator/navigator.dart';
 import '../services/websocket_service.dart';
 import '../../view/modules/splash/splash_page.dart';
 import '../widgets/widgets.dart';
@@ -44,7 +45,7 @@ void logoutWithShowDialog() {
     title: s.warning,
     description: s.areYouSureYouWantToLogOut,
     onYesButtonTap: () {
-      UNavigator.back();
+      AppNavigator.back();
       logout();
     },
   );
@@ -59,7 +60,7 @@ Future<void> logout() async {
   WebSocketService().disconnect();
   ULocalStorage.set(AppConstants.isLogin, false);
   Get.find<Core>().clearWorkspaces();
-  UNavigator.offAll(const SplashPage());
+  AppNavigator.offAll(const SplashPage());
 }
 
 /// Add FCM token

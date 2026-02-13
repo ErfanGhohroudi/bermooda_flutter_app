@@ -37,12 +37,12 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
         'فاکتور ${widget.invoice.invoiceCode}',
       );
 
-      AppNavigator.snackbarGreen(
+      AppSnackBar.snackbarGreen(
         title: s.done,
         subtitle: 'فاکتور ذخیره شد',
       );
     } catch (e) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: 'خطا در ذخیره فاکتور',
       );
@@ -183,7 +183,7 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    widget.invoice.createdDatePersian,
+                    widget.invoice.invoiceDate,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -386,8 +386,8 @@ class _OfficialInvoiceLayoutState extends State<OfficialInvoiceLayout> {
     }).toList();
 
     final totalProductsPrice = productTotals.fold<int>(0, (final sum, final price) => sum + price);
-    final discountAmount = widget.invoice.discount ?? 0;
-    final taxAmount = widget.invoice.taxes ?? 0;
+    final discountAmount = widget.invoice.discountPercentage;
+    final taxAmount = widget.invoice.taxesPercentage;
     final totalAfterDiscount = totalProductsPrice - discountAmount;
     final totalWithTax = totalAfterDiscount + taxAmount;
 

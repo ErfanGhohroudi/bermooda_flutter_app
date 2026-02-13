@@ -17,7 +17,14 @@ class HistoryInvoiceCard extends StatelessWidget {
     final InvoiceEntity? invoice = model.invoice;
 
     return baseCard(
-      onTap: invoice != null ? () => UNavigator.push(InvoiceDetailPage(invoiceId: invoice.id)) : null,
+      onTap: invoice != null && (invoice.invoiceUrl?.isURL ?? false)
+          ? () => launchUrl(
+              Uri.parse(invoice.invoiceUrl!),
+              mode: LaunchMode.inAppBrowserView,
+              webOnlyWindowName: kIsWeb ? "_self" : null,
+              browserConfiguration: const BrowserConfiguration(showTitle: true),
+            )
+          : null,
       showStartMargin: showStartMargin,
       children: [
         baseHeader(context, model),
@@ -32,7 +39,7 @@ class HistoryInvoiceCard extends StatelessWidget {
                 if (invoice?.status != null)
                   WLabel(
                     text: invoice?.status!.title,
-                    color: invoice?.status!.colorCode.toColor(),
+                    color: invoice?.status!.color,
                   ),
               ],
             ),
@@ -49,7 +56,7 @@ class HistoryInvoiceCard extends StatelessWidget {
             context: context,
             title: s.amount,
             value: Text(
-              invoice?.factorPrice?.finalPrice ?? '- -',
+              invoice?.factorPrice.finalPrice.toString().toRialMoney() ?? '- -',
             ).bodyMedium(),
           ),
         ],

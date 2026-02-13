@@ -138,4 +138,18 @@ extension DateTimeExtentions<T> on DateTime? {
     final formatter = jalaliDate.formatter;
     return '${formatter.yyyy}/${formatter.mm}/${formatter.dd}';
   }
+
+  String? get toJalaliDateStringWithMonthName {
+    if (this == null) return null;
+    final jalaliDate = Jalali.fromDateTime(this!);
+    return '${jalaliDate.day} ${jalaliDate.month.getJalaliMonthNameFaEn()} ${jalaliDate.year}';
+  }
+}
+
+extension JalaliDateExtentions<T> on Jalali? {
+  String? get toDateStringWithMonthName {
+    if (this == null) return null;
+    final jalaliDate = this!;
+    return '${jalaliDate.day} ${jalaliDate.month.getJalaliMonthNameFaEn()} ${jalaliDate.year}';
+  }
 }

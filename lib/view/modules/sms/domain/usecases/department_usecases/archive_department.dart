@@ -1,0 +1,10 @@
+import '../../repositories/sms_panel_repository.dart';
+
+/// UseCase for archive a department
+class ArchiveDepartmentUseCase {
+  ArchiveDepartmentUseCase(this.repository);
+
+  final SmsPanelRepository repository;
+
+  Future<void> call(final int id) => repository.archiveDepartment(id);
+}

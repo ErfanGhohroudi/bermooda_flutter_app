@@ -19,7 +19,7 @@ class GroupSettingsPage extends StatelessWidget {
     _core = Get.find();
     final myMember = controller.conversation.value.members.firstWhereOrNull((final e) => e.user.id == _core.userReadDto.value.id);
     if (myMember == null) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.youAreNotMemberOfThisGroup);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.youAreNotMemberOfThisGroup);
       throw Exception("_myMember == null");
     }
 
@@ -113,7 +113,7 @@ class GroupSettingsPage extends StatelessWidget {
     return SliverToBoxAdapter(
       child: haveAdminAccess
           ? InkWell(
-              onTap: () => UNavigator.push(AddMemberToGroupPage(conversation: controller.conversation.value.copyWith())),
+              onTap: () => AppNavigator.push(AddMemberToGroupPage(conversation: controller.conversation.value.copyWith())),
               child: Row(
                 spacing: 12,
                 children: [
@@ -194,7 +194,7 @@ class GroupSettingsPage extends StatelessWidget {
           _headerActionButton(
             labelText: s.editGroup,
             icon: AppIcons.editOutline,
-            onTap: () => UNavigator.push(CreateUpdateGroupPage(model: controller.conversation.value)),
+            onTap: () => AppNavigator.push(CreateUpdateGroupPage(model: controller.conversation.value)),
           ),
       ],
     );

@@ -33,7 +33,7 @@ class MessageSearchManager {
         controller.scrollManager.scrollToMessage(messageId);
       }
     } catch (e) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: e.toString());
+      AppSnackBar.snackbarRed(title: s.error, subtitle: e.toString());
     }
   }
 

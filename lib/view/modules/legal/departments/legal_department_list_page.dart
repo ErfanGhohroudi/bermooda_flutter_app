@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -33,7 +34,7 @@ class _LegalDepartmentListPageState extends State<LegalDepartmentListPage> {
         if (ctrl.isReorderEnabled.value) {
           ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
@@ -46,7 +47,7 @@ class _LegalDepartmentListPageState extends State<LegalDepartmentListPage> {
                       tooltip: s.archive,
                       icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
                       onPressed: () {
-                        UNavigator.push(const ArchivedLegalDepartmentsPage());
+                        AppNavigator.push(const ArchivedLegalDepartmentsPage());
                       },
                     )
                   : const SizedBox.shrink(),

@@ -137,7 +137,7 @@ class _UploadAndShowImageState extends State<WProfileUploadAndShowImage> {
           _uploadFailed = true;
         });
         widget.uploadStatus(_uploading);
-        AppNavigator.snackbarRed(title: s.error, subtitle: "${s.failed}: ${fileModel.originalName}");
+        AppSnackBar.snackbarRed(title: s.error, subtitle: "${s.failed}: ${fileModel.originalName}");
       },
       onCancel: () {
         if (!mounted) return;
@@ -255,7 +255,7 @@ class _UploadAndShowImageState extends State<WProfileUploadAndShowImage> {
               }
             } else {
               if (widget.showImageFullScreen) {
-                UNavigator.push(
+                AppNavigator.push(
                   ImagesViewPage(
                     protectData: widget.protectData,
                     medias: [

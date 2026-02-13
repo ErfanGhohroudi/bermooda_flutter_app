@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -36,7 +37,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
         if (ctrl.isReorderEnabled.value) {
           ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
@@ -49,7 +50,7 @@ class _ProjectListPageState extends State<ProjectListPage> {
                       tooltip: s.archive,
                       icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
                       onPressed: () {
-                        UNavigator.push(const ArchivedProjectsPage());
+                        AppNavigator.push(const ArchivedProjectsPage());
                       },
                     )
                   : const SizedBox.shrink(),

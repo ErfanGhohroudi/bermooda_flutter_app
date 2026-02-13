@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
 import '../../../../data/remote_datasource/label/interfaces/label_interface.dart';
+import '../../../navigator/navigator.dart';
 import '../../../utils/extensions/color_extension.dart';
 import '../../../core.dart';
 import '../../../theme.dart';
@@ -175,7 +176,7 @@ class _WLabelsDropDownFormFieldNewState extends State<WLabelsDropDownFormFieldNe
             ),
           ).onTap(
             () {
-              UNavigator.back();
+              AppNavigator.back();
               delay(
                 50,
                 () {
@@ -211,7 +212,7 @@ class _WLabelsDropDownFormFieldNewState extends State<WLabelsDropDownFormFieldNe
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -229,7 +230,7 @@ class _WLabelsDropDownFormFieldNewState extends State<WLabelsDropDownFormFieldNe
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -239,7 +240,7 @@ class _WLabelsDropDownFormFieldNewState extends State<WLabelsDropDownFormFieldNe
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteLabel(
                             labels[index],
                             action: () {

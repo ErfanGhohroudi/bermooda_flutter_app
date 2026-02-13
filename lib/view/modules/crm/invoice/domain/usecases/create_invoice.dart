@@ -1,4 +1,4 @@
-import '../../../../../../data/data.dart';
+import '../../data/params/invoice_params.dart';
 import '../entities/invoice.dart';
 import '../repositories/invoice_repository.dart';
 

@@ -45,13 +45,14 @@ class _WPopupMenuItemState extends State<WPopupMenuItem> {
               widget.iconData,
               color: widget.iconColor ?? (context.isDarkMode ? Colors.white : Colors.black87),
               size: 25,
+              weight: 1.5,
             ),
       minTileHeight: 10,
       shape: const ContinuousRectangleBorder(),
       horizontalTitleGap: 12,
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       onTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         delay(
           50,
           widget.onTap,

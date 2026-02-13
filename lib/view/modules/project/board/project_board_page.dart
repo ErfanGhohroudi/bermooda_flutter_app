@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/extensions/color_extension.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/kanban_board/kanban_board.dart';
@@ -88,7 +89,7 @@ class _ProjectBoardPageState extends State<ProjectBoardPage> {
             textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
           )
           .onTap(
-            () => UNavigator.push(ProjectPendingListPage(controller: ctrl)),
+            () => AppNavigator.push(ProjectPendingListPage(controller: ctrl)),
           );
 
   Widget _sectionBuilder(final Section<ProjectSectionReadDto, TaskReadDto> section) => Container(

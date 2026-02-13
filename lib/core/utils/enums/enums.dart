@@ -115,25 +115,9 @@ enum InvoiceType {
         return null;
     }
   }
-}
 
-enum InvoiceStatusType {
-  draft("Draft", "پیش‌نویس"),
-  approved("Approved", "تأییدشده"),
-  sent("Sent", "ارسال‌شده"),
-  awaiting_payment("Awaiting Payment", "در انتظار پرداخت"),
-  partially_paid("Partially Paid", "قسط پرداخت‌شده"),
-  paids("Paid", "پرداخت‌شده کامل"),
-  overdue("Overdue", "معوق / دیرکرد"),
-  cancelled("Cancelled", "لغو شده"),
-  refunded("Credited/Refunded", "اعتباری/برگشتی");
-
-  const InvoiceStatusType(this.title, this.titleTr1);
-
-  String getTitle() => !isPersianLang ? title : titleTr1;
-
-  final String title;
-  final String titleTr1;
+  bool get isPreInvoice => this == InvoiceType.preinvoice;
+  bool get isFinalInvoice => this == InvoiceType.finalinvoice;
 }
 
 enum PaymentTerms {
@@ -368,6 +352,7 @@ enum PermissionName {
   project("Project", "پروژه", "project board"),
   crm("Customers", "مشتریان", "crm"),
   humanResources("Human Resources (HR)", "سرمایه انسانی (HR)", "human_resources"),
+  sms("SMS", "پیامک", "SMS"),
   legal("Legal", "حقوقی", "LGL");
 
   const PermissionName(this.title, this.titleTr1, this.value);

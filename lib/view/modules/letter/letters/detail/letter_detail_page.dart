@@ -1,6 +1,7 @@
 import 'package:flutter_html/flutter_html.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/enums/enums.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/image_files.dart';
@@ -85,114 +86,115 @@ class _LetterDetailPageState extends State<LetterDetailPage> with LetterDetailCo
   }
 
   Widget _header() => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              spacing: 6,
-              children: [
-                SizedBox(
-                  height: 60,
-                  child: UImage(mail.value.mailImage?.url ?? '', size: 60),
-                ).marginOnly(bottom: padding),
-                _headerItem(
-                  title: s.sender,
-                  value: mail.value.senderFullname ?? '- -',
-                ),
-                _headerItem(
-                  title: s.title,
-                  value: mail.value.title ?? '- -',
-                ),
-              ],
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 6,
+          children: [
+            SizedBox(
+              height: 60,
+              child: UImage(mail.value.mailImage?.url ?? '', size: 60),
+            ).marginOnly(bottom: padding),
+            _headerItem(
+              title: s.sender,
+              value: mail.value.senderFullname ?? '- -',
             ),
-          ),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              spacing: 6,
-              children: [
-                _headerItem(
-                  title: s.letterNumber,
-                  value: mail.value.id.toString(),
-                ),
-                _headerItem(
-                  title: s.date,
-                  value: mail.value.jtime ?? '- -',
-                ),
-                _headerItem(
-                  title: s.attachment,
-                  value: mail.value.files.isNullOrEmpty() ? s.noAttachment : s.hasAttachment,
-                ),
-              ],
+            _headerItem(
+              title: s.title,
+              value: mail.value.title ?? '- -',
             ),
-          ),
-        ],
-      );
+          ],
+        ),
+      ),
+      Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          spacing: 6,
+          children: [
+            _headerItem(
+              title: s.letterNumber,
+              value: mail.value.id.toString(),
+            ),
+            _headerItem(
+              title: s.date,
+              value: mail.value.jtime ?? '- -',
+            ),
+            _headerItem(
+              title: s.attachment,
+              value: mail.value.files.isNullOrEmpty() ? s.noAttachment : s.hasAttachment,
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
 
   Widget _headerItem({
     required final String title,
     required final String value,
-  }) =>
-      RichText(
-        text: TextSpan(
-          style: context.textTheme.bodyMedium,
-          children: [
-            TextSpan(
-              text: '$title : ',
-              style: context.textTheme.bodyMedium!.copyWith(color: context.theme.hintColor),
-            ),
-            TextSpan(
-              text: value,
-            ),
-          ],
+  }) => RichText(
+    text: TextSpan(
+      style: context.textTheme.bodyMedium,
+      children: [
+        TextSpan(
+          text: '$title : ',
+          style: context.textTheme.bodyMedium!.copyWith(color: context.theme.hintColor),
         ),
-        textAlign: TextAlign.justify,
-      );
+        TextSpan(
+          text: value,
+        ),
+      ],
+    ),
+    textAlign: TextAlign.justify,
+  );
 
   Widget _content() => Directionality(
-        textDirection: TextDirection.rtl,
-        child: Html(
-          data: mail.value.mailText,
-          onLinkTap: (final url, final attributes, final element) {
-            if (url?.isURL ?? false) ULaunch.launchURL(url!);
-          },
-          style: {
-            "body": Style(
-              fontSize: FontSize.medium,
-              fontFamily: context.textTheme.bodyMedium!.fontFamily,
-              color: context.textTheme.bodyMedium!.color,
-            ),
-            "ol": Style(
-              // لیست عددی
-              padding: HtmlPaddings.only(right: 24), // لیست فاصله بگیره
-              // direction: TextDirection.rtl,
-              // textAlign: TextAlign.right,
-            ),
-            "ul": Style(
-              // لیست نقطه ای
-              padding: HtmlPaddings.only(right: 24), // لیست فاصله بگیره
-              // direction: TextDirection.rtl,
-              // textAlign: TextAlign.right,
-            ),
-            "li": Style(
-              color: context.textTheme.bodyMedium!.color,
-              fontSize: FontSize.medium,
-              // direction: TextDirection.rtl,
-              // textAlign: TextAlign.right,
-            ),
-            "span": Style(
-                // color: context.textTheme.bodyMedium!.color,
-                ),
-          },
+    textDirection: TextDirection.rtl,
+    child: Html(
+      data: mail.value.mailText,
+      onLinkTap: (final url, final attributes, final element) {
+        if (url?.isURL ?? false) ULaunch.launchURL(url!);
+      },
+      style: {
+        "body": Style(
+          fontSize: FontSize.medium,
+          fontFamily: context.textTheme.bodyMedium!.fontFamily,
+          color: context.textTheme.bodyMedium!.color,
         ),
-      );
+        "ol": Style(
+          // لیست عددی
+          padding: HtmlPaddings.only(right: 24), // لیست فاصله بگیره
+          // direction: TextDirection.rtl,
+          // textAlign: TextAlign.right,
+        ),
+        "ul": Style(
+          // لیست نقطه ای
+          padding: HtmlPaddings.only(right: 24), // لیست فاصله بگیره
+          // direction: TextDirection.rtl,
+          // textAlign: TextAlign.right,
+        ),
+        "li": Style(
+          color: context.textTheme.bodyMedium!.color,
+          fontSize: FontSize.medium,
+          // direction: TextDirection.rtl,
+          // textAlign: TextAlign.right,
+        ),
+        "span": Style(
+          // color: context.textTheme.bodyMedium!.color,
+        ),
+      },
+    ),
+  );
 
   Widget _signatures() {
-    final List<Recipient> signatures = mail.value.recipients.where((final element) => element.recipientType == RecipientType.sign).toList();
+    final List<Recipient> signatures = mail.value.recipients
+        .where((final element) => element.recipientType == RecipientType.sign)
+        .toList();
 
     return signatures.isNotEmpty
         ? Column(
@@ -224,34 +226,52 @@ class _LetterDetailPageState extends State<LetterDetailPage> with LetterDetailCo
                                 height: context.width / 5.5,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(color: e.user?.id == core.userReadDto.value.id ? context.theme.primaryColor : context.theme.dividerColor),
+                                  border: Border.all(
+                                    color: e.user?.id == core.userReadDto.value.id
+                                        ? context.theme.primaryColor
+                                        : context.theme.dividerColor,
+                                  ),
                                 ),
                                 child: Icon(
                                   Icons.add_rounded,
                                   size: 30,
-                                  color: e.user?.id == core.userReadDto.value.id ? context.theme.primaryColor : context.theme.dividerColor,
+                                  color: e.user?.id == core.userReadDto.value.id
+                                      ? context.theme.primaryColor
+                                      : context.theme.dividerColor,
                                 ),
                               ).onTap(
                                 () {
                                   if (e.user?.id == core.userReadDto.value.id) {
                                     showUploadSignatureDialog(
                                       file: mySignature,
+                                      required: true,
                                       onFileUpdated: (final file) {
                                         mySignature = file;
                                       },
-                                      onSaved: () => addSignature(
-                                        recipient: e,
-                                        action: () {
-                                          widget.onUpdated(mail.value);
-                                        },
-                                      ),
+                                      onSaved: (final file) {
+                                        appShowYesCancelDialog(
+                                          description: s.wantToSubmitSignature,
+                                          onYesButtonTap: () {
+                                            AppNavigator.back();
+                                            addSignature(
+                                              recipient: e,
+                                              action: () {
+                                                widget.onUpdated(mail.value);
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
                                     );
                                   }
                                 },
                               ),
                             const SizedBox(height: 10),
                             Flexible(
-                              child: Text(e.user?.fullName ?? '- -', maxLines: 2).bodyMedium(overflow: TextOverflow.ellipsis).withTooltip(e.user?.fullName ?? '- -'),
+                              child: Text(
+                                e.user?.fullName ?? '- -',
+                                maxLines: 2,
+                              ).bodyMedium(overflow: TextOverflow.ellipsis).withTooltip(e.user?.fullName ?? '- -'),
                             ),
                           ],
                         ),
@@ -285,49 +305,48 @@ class _LetterDetailPageState extends State<LetterDetailPage> with LetterDetailCo
   Widget _changeMailStatusWidget(
     final List<MailStatus> statusList,
     final List<UserReadDto> userList,
-  ) =>
-      StatefulBuilder(
-        builder: (final context, final setState) => Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 18,
+  ) => StatefulBuilder(
+    builder: (final context, final setState) => Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 18,
+      children: [
+        if (mail.value.creator?.id == core.userReadDto.value.id)
+          WDropDownFormField<String>(
+            value: selectedStatus?.title,
+            labelText: s.status,
+            items: getDropDownMenuItemsFromString(menuItems: statusList.map((final e) => e.title!).toList()),
+            onChanged: (final value) {
+              selectedStatus = statusList.firstWhereOrNull((final e) => e.title == value);
+            },
+          ),
+        WMembersPickerFormField(
+          labelText: 'ارجاع',
+          members: userList,
+          selectedMembers: selectedUsersList,
+          onConfirm: (final list) {
+            selectedUsersList = list;
+          },
+        ),
+        Row(
+          spacing: 10,
           children: [
-            if (mail.value.creator?.id == core.userReadDto.value.id)
-              WDropDownFormField<String>(
-                value: selectedStatus?.title,
-                labelText: s.status,
-                items: getDropDownMenuItemsFromString(menuItems: statusList.map((final e) => e.title!).toList()),
-                onChanged: (final value) {
-                  selectedStatus = statusList.firstWhereOrNull((final e) => e.title == value);
-                },
-              ),
-            WMembersPickerFormField(
-              labelText: 'ارجاع',
-              members: userList,
-              selectedMembers: selectedUsersList,
-              onConfirm: (final list) {
-                selectedUsersList = list;
+            UElevatedButton(
+              title: s.cancel,
+              backgroundColor: context.theme.hintColor,
+              onTap: AppNavigator.back,
+            ).expanded(),
+            UElevatedButton(
+              title: s.save,
+              onTap: () {
+                if (selectedStatus != null || selectedUsersList.isNotEmpty) {
+                  AppNavigator.back();
+                  changeStatus();
+                }
               },
-            ),
-            Row(
-              spacing: 10,
-              children: [
-                UElevatedButton(
-                  title: s.cancel,
-                  backgroundColor: context.theme.hintColor,
-                  onTap: UNavigator.back,
-                ).expanded(),
-                UElevatedButton(
-                  title: s.save,
-                  onTap: () {
-                    if (selectedStatus != null || selectedUsersList.isNotEmpty) {
-                      UNavigator.back();
-                      changeStatus();
-                    }
-                  },
-                ).expanded(),
-              ],
-            ),
+            ).expanded(),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }

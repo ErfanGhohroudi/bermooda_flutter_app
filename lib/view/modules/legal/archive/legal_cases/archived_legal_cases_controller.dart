@@ -104,7 +104,7 @@ class ArchivedLegalCasesController extends GetxController {
 
   void restoreCase(final int? caseId) {
     if (!haveLegalAdminAccess) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
 
@@ -114,12 +114,12 @@ class ArchivedLegalCasesController extends GetxController {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _datasource.restoreCase(
           legalCaseId: caseId,
           onResponse: (final response) {
             legalCases.removeWhere((final e) => e.id == caseId);
-            AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+            AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
           },
           onError: (final errorResponse) {},
         );

@@ -1,6 +1,7 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -62,7 +63,7 @@ mixin ImportedCostumerListController {
       title: s.sendToBoard,
       description: isSingleSelect ? s.sendThisCustomerToBoardDialogDescription : s.sendSelectedCustomersToBoardDialogDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _sendToBoard(id: id);
       },
     );
@@ -78,7 +79,7 @@ mixin ImportedCostumerListController {
       title: s.delete,
       description: isSingleSelect ? s.deleteThisCustomerDialogDescription : s.deleteSelectedCustomersDialogDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(id: id);
       },
     );

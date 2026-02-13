@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../../core/navigator/navigator.dart';
 import '../../../../../../../data/data.dart';
 import '../../../../data/dto/conversation_dtos.dart';
 import '../conversation_messages_controller.dart';
@@ -124,7 +125,7 @@ class AnonymousFeedbackBottomSheetController extends GetxController {
       selectedPriority.value,
     );
 
-    UNavigator.back();
+    AppNavigator.back();
   }
 
   @override

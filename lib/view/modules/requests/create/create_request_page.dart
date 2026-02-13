@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/fields/amount_field/amount_field.dart';
 import '../../../../core/utils/enums/request_enums_extensions.dart';
 import '../../../../core/widgets/fields/fields.dart';
@@ -48,8 +49,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         appShowYesCancelDialog(
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
-            UNavigator.back();
+            AppNavigator.back();
+            AppNavigator.back();
           },
         );
       },
@@ -63,7 +64,7 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             onTap: () => onSubmit(
               onResponse: (final request) {
                 widget.onResponse(request);
-                UNavigator.back();
+                AppNavigator.back();
               },
             ),
           ).pOnly(left: 16, right: 16, bottom: 24),

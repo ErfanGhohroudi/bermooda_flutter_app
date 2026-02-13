@@ -47,7 +47,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -217,7 +217,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -341,7 +341,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -358,7 +358,7 @@ class ForgotPasswordHelper {
                             onResponse: () {
                               buttonState.loaded();
                               Navigator.pop(context);
-                              AppNavigator.snackbarGreen(title: s.done, subtitle: s.passwordChanged);
+                              AppSnackBar.snackbarGreen(title: s.done, subtitle: s.passwordChanged);
                             },
                             onError: () => buttonState.loaded(),
                           );

@@ -2,6 +2,7 @@ import 'package:bermooda_business/core/constants.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../app_config.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
@@ -359,7 +360,7 @@ class _RoutDrawerPageState extends State<RoutDrawerPage> with RoutDrawerControll
 
   Widget _myBusinesses() => WCard(
     elevation: 0,
-    onTap: () => UNavigator.push(const WorkspaceListPage()),
+    onTap: () => AppNavigator.push(const WorkspaceListPage()),
     child: ListTile(
       contentPadding: EdgeInsets.zero,
       minTileHeight: 20,

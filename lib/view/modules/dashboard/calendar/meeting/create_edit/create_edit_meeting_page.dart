@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/image_files.dart';
 import '../../../../../../core/utils/extensions/color_extension.dart';
@@ -53,9 +54,9 @@ class _CreateEditMeetingPageState extends State<CreateEditMeetingPage> with Crea
           title: s.warning,
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
+            AppNavigator.back();
             Future.delayed(const Duration(milliseconds: 10), () {
-              UNavigator.back();
+              AppNavigator.back();
             });
           },
         );
@@ -72,7 +73,7 @@ class _CreateEditMeetingPageState extends State<CreateEditMeetingPage> with Crea
             onTap: () => onSubmit(
               onResponse: (final model) {
                 widget.onResponse(model);
-                UNavigator.back();
+                AppNavigator.back();
               },
             ),
           ).marginOnly(left: 16, right: 16, bottom: 24, top: 10),

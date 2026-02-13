@@ -29,7 +29,7 @@ class SubscriptionService extends GetxService {
 
   void checkSubscription({required final VoidCallback action}) {
     if (isNoPurchased || isExpired) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle: isNoPurchased ? s.noSubscriptionDialogDescription : s.expiredSubscriptionDialogDescription,
       );

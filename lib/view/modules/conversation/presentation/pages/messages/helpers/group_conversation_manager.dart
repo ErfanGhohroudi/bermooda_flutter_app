@@ -15,7 +15,7 @@ class GroupConversationManager {
 
   void navigateToGroupSettingsPage() {
     if (controller.isAnonymousBot) return;
-    UNavigator.push(GroupSettingsPage(controller: controller));
+    AppNavigator.push(GroupSettingsPage(controller: controller));
   }
 
   void removeMember(final ConversationMemberDto member) {
@@ -32,9 +32,9 @@ class GroupConversationManager {
           ? s.deleteAndLeaveGroupDialogDescription
           : s.leaveGroupDialogDescription,
       onYesButtonTap: () {
-        UNavigator.back(); // Close dialog
+        AppNavigator.back(); // Close dialog
         if (controller.isGroupOwner) {
-          AppNavigator.snackbarOrange(
+          AppSnackBar.snackbarOrange(
             title: s.warning,
             subtitle: s.notSupportedInThisVersion,
           );
@@ -42,8 +42,8 @@ class GroupConversationManager {
         }
         controller.repository.leaveConversation(controller.conversation.value.id);
         // Navigate back to conversations list
-        UNavigator.back(); // Close group settings page
-        UNavigator.back(); // Close messages page
+        AppNavigator.back(); // Close group settings page
+        AppNavigator.back(); // Close messages page
       },
       yesBackgroundColor: AppColors.red,
     );

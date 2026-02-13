@@ -57,7 +57,7 @@ class _CreateUpdateDocumentPageState extends State<CreateUpdateDocumentPage> {
     if (result == null || result.files.isEmpty) return;
     final file = result.files.first;
     if (file.size > maxFileSizeInBytes) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle:
             "${s.fileSizeExceedsTheAllowedLimit} "
@@ -152,11 +152,11 @@ class _CreateUpdateDocumentPageState extends State<CreateUpdateDocumentPage> {
           _updateDocument();
         } else {
           if (_isUploading) {
-            AppNavigator.snackbarRed(title: s.error, subtitle: s.uploading);
+            AppSnackBar.snackbarRed(title: s.error, subtitle: s.uploading);
             return;
           }
           if (_selectedFile?.fileId == null) {
-            AppNavigator.snackbarRed(
+            AppSnackBar.snackbarRed(
               title: s.error,
               subtitle: "${s.requiredField}: ${s.file}",
             );
@@ -176,7 +176,7 @@ class _CreateUpdateDocumentPageState extends State<CreateUpdateDocumentPage> {
       title: _titleController.text.trim(),
       onSuccess: () {
         _isSaving(false);
-        UNavigator.back();
+        AppNavigator.back();
       },
       onFailure: () => _isSaving(false),
     );
@@ -190,7 +190,7 @@ class _CreateUpdateDocumentPageState extends State<CreateUpdateDocumentPage> {
       title: _titleController.text.trim(),
       onSuccess: () {
         _isSaving(false);
-        UNavigator.back();
+        AppNavigator.back();
       },
       onFailure: () => _isSaving(false),
     );

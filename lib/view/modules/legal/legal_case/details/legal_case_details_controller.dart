@@ -73,11 +73,11 @@ class LegalCaseDetailsController extends GetxController {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back(); // close dialog
+        AppNavigator.back(); // close dialog
         _datasource.delete(
           caseId: _legalCaseId,
           onResponse: () {
-            UNavigator.back(); // exit the page
+            AppNavigator.back(); // exit the page
           },
           onError: (final errorResponse) {},
         );
@@ -95,7 +95,7 @@ class LegalCaseDetailsController extends GetxController {
 
     // Only non-completed steps can be reordered
     if (oldStep.isCompleted) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.cannotMoveCompletedSteps);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.cannotMoveCompletedSteps);
       return;
     }
 
@@ -104,7 +104,7 @@ class LegalCaseDetailsController extends GetxController {
 
     // newIndex must be after all completed steps
     if (newIndex <= lastCompletedIndex) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.cannotInsertInCompletedBetweenCompletedSteps);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.cannotInsertInCompletedBetweenCompletedSteps);
       return;
     }
 
@@ -251,7 +251,7 @@ class LegalCaseDetailsController extends GetxController {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back(); // close dialog
+        AppNavigator.back(); // close dialog
         _datasource.deleteCaseStep(
           stepId: step.id,
           onResponse: () {
@@ -333,7 +333,7 @@ class LegalCaseDetailsController extends GetxController {
   void toggleStepStatus(final LegalCaseStep step, final bool isCompleted) {
     // Check if toggle is allowed
     if (!_canToggleStep(step)) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.cannotChangeStep);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.cannotChangeStep);
       return;
     }
 
@@ -508,7 +508,7 @@ class LegalCaseDetailsController extends GetxController {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back(); // close dialog
+        AppNavigator.back(); // close dialog
         _datasource.deleteDocument(
           id: document.id,
           onResponse: () {

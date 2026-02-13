@@ -2,6 +2,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../app_config.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/functions/init_app_functions.dart';
@@ -44,7 +45,7 @@ mixin WorkspaceListController {
         yesButtonTitle: s.delete,
         yesBackgroundColor: AppColors.red,
         onYesButtonTap: () {
-          UNavigator.back();
+          AppNavigator.back();
           _delete(id: id, action: action);
         },
       );

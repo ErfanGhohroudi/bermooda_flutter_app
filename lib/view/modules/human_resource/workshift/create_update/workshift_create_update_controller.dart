@@ -142,7 +142,7 @@ mixin WorkshiftCreateUpdateController {
         _postCreateFlow();
       },
       onError: (final errorResponse) {
-        AppNavigator.snackbarRed(title: s.error, subtitle: errorResponse.message);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: errorResponse.message);
         buttonState.loaded();
       },
     );
@@ -171,7 +171,7 @@ mixin WorkshiftCreateUpdateController {
         _navigateToShiftDetails(initialSetup: false);
       },
       onError: (final errorResponse) {
-        AppNavigator.snackbarRed(title: s.error, subtitle: errorResponse.message);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: errorResponse.message);
         buttonState.loaded();
       },
     );
@@ -191,7 +191,7 @@ mixin WorkshiftCreateUpdateController {
         _navigateToShiftDetails(initialSetup: false);
       },
       onError: (final errorResponse) {
-        AppNavigator.snackbarRed(title: s.error, subtitle: errorResponse.message);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: errorResponse.message);
         buttonState.loaded();
       },
     );
@@ -199,7 +199,7 @@ mixin WorkshiftCreateUpdateController {
 
   void _navigateToShiftDetails({required final bool initialSetup}) {
     if (_workShift?.slug == null) return;
-    UNavigator.off(
+    AppNavigator.off(
       WorkshiftDetailPage(
         workShiftSlug: _workShift!.slug,
         departmentSlug: _departmentSlug,
@@ -250,7 +250,7 @@ mixin WorkshiftCreateUpdateController {
     } catch (e) {
       AppLoading.dismissLoading();
       buttonState.loaded();
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
       _postCreateFlow();
     }

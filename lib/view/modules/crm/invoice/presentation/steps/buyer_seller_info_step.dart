@@ -303,12 +303,12 @@ class BuyerSellerInfoStep extends StatelessWidget {
               title: s.email,
               value: wsInfo.email!,
             ),
-          // if (wsInfo.sheba != null)
-          //   _infoRow(
-          //     context,
-          //     title: s.iban,
-          //     value: wsInfo.!,
-          //   ),
+          if (wsInfo.shebaNumber != null)
+            _infoRow(
+              context,
+              title: s.iban,
+              value: wsInfo.shebaNumber!,
+            ),
         ],
       );
     },
@@ -368,7 +368,7 @@ class BuyerSellerInfoStep extends StatelessWidget {
         Obx(
           () => WDropDownFormField<DropdownItemReadDto>(
             labelText: ctrl.buyerStatesState.isLoaded() ? s.state : s.loading,
-            value: ctrl.selectedState.value,
+            value: ctrl.buyerState.value,
             showSearchField: true,
             required: true,
             items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: ctrl.buyerStates),
@@ -379,14 +379,14 @@ class BuyerSellerInfoStep extends StatelessWidget {
         // City
         Obx(
           () => WDropDownFormField<DropdownItemReadDto>(
-            enable: ctrl.selectedState.value != null,
+            enable: ctrl.buyerState.value != null,
             labelText: ctrl.buyerCitiesState.isLoaded() ? s.city : s.loading,
-            value: ctrl.selectedCity.value,
+            value: ctrl.buyerCity.value,
             showSearchField: true,
             required: true,
             items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: ctrl.cities),
             onChanged: (final value) {
-              ctrl.selectedCity.value = value;
+              ctrl.buyerCity.value = value;
             },
           ),
         ),

@@ -142,7 +142,7 @@ class _ReviewerSelectionBottomSheetState extends State<_ReviewerSelectionBottomS
   void _submitSelection() {
     bool isNotValid = _currentSelectedReviewers.any((final e) => e.validate() == false);
 
-    if (isNotValid) return AppNavigator.snackbarRed(title: s.error, subtitle: s.selectReviewDeadline);
+    if (isNotValid) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.selectReviewDeadline);
 
     widget.onSelectionChanged(_currentSelectedReviewers);
     Navigator.of(context).pop(_currentSelectedReviewers);

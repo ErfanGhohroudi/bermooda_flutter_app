@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/image_files.dart';
 import '../../../../../data/data.dart';
 import '../hr_departments_list_controller.dart';
@@ -57,7 +58,7 @@ mixin DepartmentCreateUpdateController {
           Get.find<HrDepartmentsListController>().insertDepartment(response.result!);
         }
         buttonState.loaded();
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) => buttonState.loaded(),
       withRetry: true,
@@ -77,7 +78,7 @@ mixin DepartmentCreateUpdateController {
         }
 
         buttonState.loaded();
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) => buttonState.loaded(),
       withRetry: true,

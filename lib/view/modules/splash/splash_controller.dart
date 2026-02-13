@@ -4,6 +4,7 @@ import '../../../app_config.dart';
 import '../../../core/constants.dart';
 import '../../../core/functions/init_app_functions.dart';
 import '../../../core/functions/update_app_function.dart';
+import '../../../core/navigator/navigator.dart';
 import '../../../core/services/secure_storage_service.dart';
 import '../account/login/login_page.dart';
 import '../conversation/presentation/pages/conversations/conversations_list_controller.dart';
@@ -33,7 +34,7 @@ mixin SplashController {
     } else {
       delay(
         2000,
-        () => UNavigator.offAll(const LoginPage()),
+        () => AppNavigator.offAll(const LoginPage()),
       );
     }
   }

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/board_section_icons/icons_page.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/fields.dart';
@@ -88,7 +89,7 @@ class _ProjectCreateUpdateSectionPageState extends State<ProjectCreateUpdateSect
                           color: Colors.transparent,
                           child: const Icon(Icons.arrow_forward_rounded, size: 30),
                         ).onTap(
-                          () => UNavigator.push(
+                          () => AppNavigator.push(
                             IconsPage(
                               icons: iconsList,
                               selectedIcon: selectedIcon,

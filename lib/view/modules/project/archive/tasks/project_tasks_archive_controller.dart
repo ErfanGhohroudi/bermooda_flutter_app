@@ -101,13 +101,13 @@ mixin ProjectTasksArchiveController {
 
   void restoreTask(final int? taskId) {
     if (taskId == null) return;
-    if (!haveAdminAccess) return AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+    if (!haveAdminAccess) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
 
     appShowYesCancelDialog(
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restoreTask(taskId);
       },
     );
@@ -119,7 +119,7 @@ mixin ProjectTasksArchiveController {
       onResponse: (final response) {
         if (tasks.subject.isClosed) return;
         tasks.removeWhere((final e) => e.id == taskId);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
       },
       onError: (final errorResponse) {},
       withRetry: true,

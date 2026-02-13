@@ -84,12 +84,12 @@ class ForwardConversationSelectionController extends GetxController {
 
   void forwardMessages() {
     if (selectedConversationIds.isEmpty) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.pleaseSelectAtLeastOneConversation);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.pleaseSelectAtLeastOneConversation);
       return;
     }
 
     if (messageIds.isEmpty) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.noMessagesToForward);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.noMessagesToForward);
       return;
     }
 
@@ -101,10 +101,10 @@ class ForwardConversationSelectionController extends GetxController {
         targetConversationIds: targetConversationIds,
       );
 
-      AppNavigator.snackbarGreen(title: s.done, subtitle: s.forwardedSuccessfully);
-      UNavigator.back();
+      AppSnackBar.snackbarGreen(title: s.done, subtitle: s.forwardedSuccessfully);
+      AppNavigator.back();
     } catch (e) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: '');
+      AppSnackBar.snackbarRed(title: s.error, subtitle: '');
     }
   }
 }

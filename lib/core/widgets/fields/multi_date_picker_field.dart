@@ -65,7 +65,7 @@ class _WMultiDatePickerFieldState extends State<WMultiDatePickerField> {
         setState(() {
           _textFieldKey = UniqueKey();
         });
-        AppNavigator.snackbarRed(title: s.error, subtitle: s.thisDateHasAlreadyBeenAdded);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: s.thisDateHasAlreadyBeenAdded);
       }
     }
   }

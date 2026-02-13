@@ -524,10 +524,10 @@ class S {
     );
   }
 
-  /// `{item} is required`
+  /// `"{item}" is required`
   String isRequired(Object item) {
     return Intl.message(
-      '$item is required',
+      '"$item" is required',
       name: 'isRequired',
       desc: '',
       args: [item],
@@ -1944,6 +1944,16 @@ class S {
     );
   }
 
+  /// `Pay`
+  String get pay {
+    return Intl.message('Pay', name: 'pay', desc: '', args: []);
+  }
+
+  /// `Paid`
+  String get paid {
+    return Intl.message('Paid', name: 'paid', desc: '', args: []);
+  }
+
   /// `Invoice`
   String get invoice {
     return Intl.message('Invoice', name: 'invoice', desc: '', args: []);
@@ -2079,33 +2089,13 @@ class S {
     );
   }
 
-  /// `* Only members selected as Managers and Specialists will have access to this project.`
-  String get projectAccessibleMembersHelper {
+  /// `* Only members selected as Managers and Specialists will have access to this {item}.`
+  String accessibleMembersHelper(Object item) {
     return Intl.message(
-      '* Only members selected as Managers and Specialists will have access to this project.',
-      name: 'projectAccessibleMembersHelper',
+      '* Only members selected as Managers and Specialists will have access to this $item.',
+      name: 'accessibleMembersHelper',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `* Only members selected as Managers and Specialists will have access to this customer category.`
-  String get crmAccessibleMembersHelper {
-    return Intl.message(
-      '* Only members selected as Managers and Specialists will have access to this customer category.',
-      name: 'crmAccessibleMembersHelper',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `* Only members selected as Managers and Specialists will have access to this department.`
-  String get humanResourcesAccessibleMembersHelper {
-    return Intl.message(
-      '* Only members selected as Managers and Specialists will have access to this department.',
-      name: 'humanResourcesAccessibleMembersHelper',
-      desc: '',
-      args: [],
+      args: [item],
     );
   }
 
@@ -6024,6 +6014,11 @@ class S {
     );
   }
 
+  /// `Recipient`
+  String get recipient {
+    return Intl.message('Recipient', name: 'recipient', desc: '', args: []);
+  }
+
   /// `Recipients`
   String get recipients {
     return Intl.message('Recipients', name: 'recipients', desc: '', args: []);
@@ -6724,13 +6719,23 @@ class S {
     );
   }
 
-  /// `Please add at least one product`
-  String get pleaseAddAtLeastOneProduct {
+  /// `Product`
+  String get product {
+    return Intl.message('Product', name: 'product', desc: '', args: []);
+  }
+
+  /// `Installment`
+  String get installment {
+    return Intl.message('Installment', name: 'installment', desc: '', args: []);
+  }
+
+  /// `Please add at least one {item}.`
+  String pleaseAddAtLeastOne(Object item) {
     return Intl.message(
-      'Please add at least one product',
-      name: 'pleaseAddAtLeastOneProduct',
+      'Please add at least one $item.',
+      name: 'pleaseAddAtLeastOne',
       desc: '',
-      args: [],
+      args: [item],
     );
   }
 
@@ -6869,10 +6874,10 @@ class S {
     );
   }
 
-  /// `Interest Rate`
+  /// `Annual Interest Rate`
   String get interestRate {
     return Intl.message(
-      'Interest Rate',
+      'Annual Interest Rate',
       name: 'interestRate',
       desc: '',
       args: [],
@@ -6999,31 +7004,411 @@ class S {
     );
   }
 
-  /// `Thank you for your trust`
-  String get thanksForTrust {
-    return Intl.message(
-      'Thank you for your trust',
-      name: 'thanksForTrust',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `This invoice has been issued electronically`
-  String get electronicInvoiceNotice {
-    return Intl.message(
-      'This invoice has been issued electronically',
-      name: 'electronicInvoiceNotice',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Installments`
   String get installments {
     return Intl.message(
       'Installments',
       name: 'installments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Balancing the remaining installments`
+  String get balancingRemainingInstallments {
+    return Intl.message(
+      'Balancing the remaining installments',
+      name: 'balancingRemainingInstallments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remaining amount to balance`
+  String get remainingAmountToBalance {
+    return Intl.message(
+      'Remaining amount to balance',
+      name: 'remainingAmountToBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extra amount to balance`
+  String get extraAmountToBalance {
+    return Intl.message(
+      'Extra amount to balance',
+      name: 'extraAmountToBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The sum of the installments is not equal to the invoice price.`
+  String get sumOfInstallmentsIsNotEqualToInvoicePrice {
+    return Intl.message(
+      'The sum of the installments is not equal to the invoice price.',
+      name: 'sumOfInstallmentsIsNotEqualToInvoicePrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Installments`
+  String get createInstallments {
+    return Intl.message(
+      'Create Installments',
+      name: 'createInstallments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Installment Amount`
+  String get totalInstallmentAmount {
+    return Intl.message(
+      'Total Installment Amount',
+      name: 'totalInstallmentAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Penalty rate cannot be zero.`
+  String get penaltyRateCannotBeZero {
+    return Intl.message(
+      'Penalty rate cannot be zero.',
+      name: 'penaltyRateCannotBeZero',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Signature image`
+  String get signatureImage {
+    return Intl.message(
+      'Signature image',
+      name: 'signatureImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overdue`
+  String get overdueInstallmentStatus {
+    return Intl.message(
+      'Overdue',
+      name: 'overdueInstallmentStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This installment is overdue. Please pay it.`
+  String get overdueInstallmentMessage {
+    return Intl.message(
+      'This installment is overdue. Please pay it.',
+      name: 'overdueInstallmentMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count} of {total} installments have been paid`
+  String installmentsPaid(Object count, Object total) {
+    return Intl.message(
+      '$count of $total installments have been paid',
+      name: 'installmentsPaid',
+      desc: '',
+      args: [count, total],
+    );
+  }
+
+  /// `Due Date`
+  String get dueDateInvoice {
+    return Intl.message('Due Date', name: 'dueDateInvoice', desc: '', args: []);
+  }
+
+  /// `Partially Paid`
+  String get partiallyPaid {
+    return Intl.message(
+      'Partially Paid',
+      name: 'partiallyPaid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Issued`
+  String get issued {
+    return Intl.message('Issued', name: 'issued', desc: '', args: []);
+  }
+
+  /// `Suspended`
+  String get suspended {
+    return Intl.message('Suspended', name: 'suspended', desc: '', args: []);
+  }
+
+  /// `Closed`
+  String get closed {
+    return Intl.message('Closed', name: 'closed', desc: '', args: []);
+  }
+
+  /// `Payment Info`
+  String get paymentInfo {
+    return Intl.message(
+      'Payment Info',
+      name: 'paymentInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Register Payment Documents`
+  String get registerPaymentDocuments {
+    return Intl.message(
+      'Register Payment Documents',
+      name: 'registerPaymentDocuments',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Receipt Images`
+  String get paymentReceiptImages {
+    return Intl.message(
+      'Payment Receipt Images',
+      name: 'paymentReceiptImages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Payment Time`
+  String get paymentTime {
+    return Intl.message(
+      'Payment Time',
+      name: 'paymentTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tracking Code`
+  String get trackingCode {
+    return Intl.message(
+      'Tracking Code',
+      name: 'trackingCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Auto-approve immediately after registration`
+  String get autoApproveAfterRegistration {
+    return Intl.message(
+      'Auto-approve immediately after registration',
+      name: 'autoApproveAfterRegistration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit Payment`
+  String get submitPayment {
+    return Intl.message(
+      'Submit Payment',
+      name: 'submitPayment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After completing the payment, please fill in the following information. Your payment will be confirmed after review by the finance team.`
+  String get paymentRegistrationInfo {
+    return Intl.message(
+      'After completing the payment, please fill in the following information. Your payment will be confirmed after review by the finance team.',
+      name: 'paymentRegistrationInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Time`
+  String get selectTime {
+    return Intl.message('Select Time', name: 'selectTime', desc: '', args: []);
+  }
+
+  /// `(Optional)`
+  String get optional {
+    return Intl.message('(Optional)', name: 'optional', desc: '', args: []);
+  }
+
+  /// `Transaction tracking code`
+  String get trackingCodeHint {
+    return Intl.message(
+      'Transaction tracking code',
+      name: 'trackingCodeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional descriptions if needed...`
+  String get descriptionHint {
+    return Intl.message(
+      'Additional descriptions if needed...',
+      name: 'descriptionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Issue`
+  String get issueInvoice {
+    return Intl.message('Issue', name: 'issueInvoice', desc: '', args: []);
+  }
+
+  /// `Confirm invoice issuance? This operation is irreversible.`
+  String get issueInvoiceConfirmation {
+    return Intl.message(
+      'Confirm invoice issuance? This operation is irreversible.',
+      name: 'issueInvoiceConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suspend`
+  String get suspend {
+    return Intl.message('Suspend', name: 'suspend', desc: '', args: []);
+  }
+
+  /// `Suspend Invoice`
+  String get suspendInvoice {
+    return Intl.message(
+      'Suspend Invoice',
+      name: 'suspendInvoice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suspension Reason`
+  String get suspensionReason {
+    return Intl.message(
+      'Suspension Reason',
+      name: 'suspensionReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suspension Document (Optional)`
+  String get suspensionDocumentOptional {
+    return Intl.message(
+      'Suspension Document (Optional)',
+      name: 'suspensionDocumentOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice: By suspending the invoice, all financial timers including installment due dates, late fees, and expiration will stop. The customer cannot make payments during this period.`
+  String get suspensionWarning {
+    return Intl.message(
+      'Notice: By suspending the invoice, all financial timers including installment due dates, late fees, and expiration will stop. The customer cannot make payments during this period.',
+      name: 'suspensionWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the reason for invoice suspension`
+  String get pleaseEnterReason {
+    return Intl.message(
+      'Please enter the reason for invoice suspension',
+      name: 'pleaseEnterReason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason must be at least 10 characters.`
+  String get reasonLengthError {
+    return Intl.message(
+      'Reason must be at least 10 characters.',
+      name: 'reasonLengthError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By enabling this option, the invoice/installment will change to "Approved" status immediately after submitting the documentation.`
+  String get invoiceAutoApproveInfo {
+    return Intl.message(
+      'By enabling this option, the invoice/installment will change to "Approved" status immediately after submitting the documentation.',
+      name: 'invoiceAutoApproveInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The proforma invoice cannot be paid.`
+  String get proformaInvoiceCannotBePaid {
+    return Intl.message(
+      'The proforma invoice cannot be paid.',
+      name: 'proformaInvoiceCannotBePaid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-create`
+  String get reCreate {
+    return Intl.message('Re-create', name: 'reCreate', desc: '', args: []);
+  }
+
+  /// `Sender Number`
+  String get senderNumber {
+    return Intl.message(
+      'Sender Number',
+      name: 'senderNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send SMS`
+  String get sendSMS {
+    return Intl.message('Send SMS', name: 'sendSMS', desc: '', args: []);
+  }
+
+  /// `Customer phone number`
+  String get customerPhoneNumber {
+    return Intl.message(
+      'Customer phone number',
+      name: 'customerPhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The SMS was sent successfully.`
+  String get smsSentSuccessfully {
+    return Intl.message(
+      'The SMS was sent successfully.',
+      name: 'smsSentSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have access to any numbers.`
+  String get doNotHaveAccessToAnyNumbers {
+    return Intl.message(
+      'You don\'t have access to any numbers.',
+      name: 'doNotHaveAccessToAnyNumbers',
       desc: '',
       args: [],
     );

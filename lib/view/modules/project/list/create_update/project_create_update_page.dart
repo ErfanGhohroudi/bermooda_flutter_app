@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/utils/enums/enums.dart';
@@ -76,7 +77,7 @@ class _ProjectCreateUpdatePageState extends State<ProjectCreateUpdatePage> with 
           ),
           WMembersPickerFormField(
             labelText: s.accessibleMembers,
-            helperText: s.projectAccessibleMembersHelper,
+            helperText: s.accessibleMembersHelper(s.project.toLowerCase()),
             showSelf: true,
             selectedMembers: selectedMembers,
             filterByPermissionName: PermissionName.project,
@@ -116,7 +117,7 @@ class _ProjectCreateUpdatePageState extends State<ProjectCreateUpdatePage> with 
               onTap: () => onSubmit(
                 onResponse: (final project) {
                   widget.onResponse(project);
-                  UNavigator.back();
+                  AppNavigator.back();
                 },
               ),
             ),

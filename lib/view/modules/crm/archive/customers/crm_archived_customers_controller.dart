@@ -1,6 +1,7 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -126,7 +127,7 @@ class CrmArchivedCustomersController extends GetxController {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restoreCustomer(id);
       },
     );

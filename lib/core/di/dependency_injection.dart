@@ -14,6 +14,7 @@ import 'history_datasources.dart';
 import 'label_datasources.dart';
 import 'common_datasources.dart';
 import 'conversation_datasources.dart';
+import 'sms_panel_datasources.dart';
 import 'subtask_datasources.dart';
 import 'warehouse_datasources.dart';
 
@@ -39,6 +40,7 @@ abstract class DependencyInjector {
       LegalDatasources.init();
       CommonDatasources.init();
       WarehouseDatasources.init();
+      SmsPanelDatasources.init();
     });
 
     // --- سرویس‌ها (Core Services) ---

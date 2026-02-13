@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../core/navigator/navigator.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
@@ -33,7 +34,7 @@ class LegalDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(
+              AppNavigator.push(
                 LegalBoardPage(
                   department: department,
                   onEdited: onEdited,
@@ -47,7 +48,7 @@ class LegalDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(
+              AppNavigator.push(
                 MyCasesPage(
                   legalDepartmentId: int.parse(department.id ?? '0'),
                 ),
@@ -61,7 +62,7 @@ class LegalDepartmentMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(LegalStatisticsPage(legalDepartment: department));
+                AppNavigator.push(LegalStatisticsPage(legalDepartment: department));
               },
               icon: AppIcons.progressStatusOutline,
               title: s.statistics,
@@ -71,7 +72,7 @@ class LegalDepartmentMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(
+                AppNavigator.push(
                   ArchivedLegalCasesPage(
                     legalDepartmentId: int.parse(department.id ?? '0'),
                   ),
@@ -92,7 +93,7 @@ class LegalDepartmentMainPage extends StatelessWidget {
     required final VoidCallback onTap,
   }) => WCard(
     onTap: () {
-      UNavigator.back();
+      AppNavigator.back();
       delay(500, onTap);
     },
     child: Row(

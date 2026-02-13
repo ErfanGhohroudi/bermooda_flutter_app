@@ -163,7 +163,7 @@ class _WRangeDatePickerState extends State<WRangeDatePicker> {
       title: s.cancel,
       width: width,
       backgroundColor: context.theme.hintColor,
-      onTap: UNavigator.back,
+      onTap: AppNavigator.back,
     );
   }
 
@@ -189,7 +189,7 @@ class _WRangeDatePickerState extends State<WRangeDatePicker> {
               final errorText = selectedData.value.isValid();
 
               if (errorText != null) {
-                return AppNavigator.snackbarRed(title: s.error, subtitle: errorText);
+                return AppSnackBar.snackbarRed(title: s.error, subtitle: errorText);
               }
 
               widget.onConfirm(selectedData.value);

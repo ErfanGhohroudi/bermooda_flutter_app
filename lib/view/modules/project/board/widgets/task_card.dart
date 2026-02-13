@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -90,7 +91,7 @@ class _TaskCardState extends State<TaskCard> {
                     appShowYesCancelDialog(
                       description: task.doneStatus ? s.changeStatus : s.changeTaskStatusToDone,
                       onYesButtonTap: () {
-                        UNavigator.back();
+                        AppNavigator.back();
                         _taskDatasource.changeTaskStatusToDone(
                           taskId: task.id,
                           onResponse: (final response) {},
@@ -126,7 +127,7 @@ class _TaskCardState extends State<TaskCard> {
             ),
           ],
         ),
-        onTap: () => UNavigator.push(
+        onTap: () => AppNavigator.push(
           TaskDetailsPage(
             projectId: ctrl.project.id ?? '',
             task: task,

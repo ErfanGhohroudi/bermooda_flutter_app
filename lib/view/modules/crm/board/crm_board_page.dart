@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/chevron_painter.dart';
 import '../../../../core/utils/extensions/color_extension.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -92,7 +93,7 @@ class _CrmBoardPageState extends State<CrmBoardPage> {
             textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
           )
           .onTap(
-            () => UNavigator.push(CrmPendingListPage(controller: ctrl)),
+            () => AppNavigator.push(CrmPendingListPage(controller: ctrl)),
           );
 
   Widget _sectionBuilder(final Section<CrmSectionReadDto, CustomerReadDto> section) => Container(

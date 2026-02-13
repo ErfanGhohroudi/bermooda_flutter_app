@@ -33,20 +33,20 @@ class WRequestCard extends StatelessWidget {
   bool get isChecked => !(request.status?.isPending() ?? true);
 
   void toggleRequestStatus() {
-    if (isChecked) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
+    if (isChecked) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
     appShowYesCancelDialog(
       title: s.changeRequestStatusDialogTitle,
       description: s.changeRequestStatusDialogContent,
       cancelButtonTitle: s.reject,
       cancelBackgroundColor: StatusType.rejected.color,
       onCancelButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         onSelectedNewStatus(StatusType.rejected);
       },
       yesButtonTitle: s.approve,
       yesBackgroundColor: StatusType.approved.color,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         onSelectedNewStatus(StatusType.approved);
       },
     );
@@ -58,7 +58,7 @@ class WRequestCard extends StatelessWidget {
       showBorder: true,
       borderColor: request.reviewerUsers.isEmpty ? AppColors.orange : null,
       onTap: onTap ??
-          () => UNavigator.push(
+          () => AppNavigator.push(
                 RequestDetailPage(
                   request: request,
                   canEdit: canEdit,

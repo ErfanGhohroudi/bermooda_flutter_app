@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../core/navigator/navigator.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
@@ -34,20 +35,20 @@ class ProjectMainPage extends StatelessWidget {
           /// Board
           _item(
             context: context,
-            onTap: () => UNavigator.push(
+            onTap: () => AppNavigator.push(
               ProjectBoardPage(
                 project: project,
                 onEdited: onEdited,
               ),
             ),
-            // onTap: () => UNavigator.push(KanbanPage()),
+            // onTap: () => AppNavigator.push(KanbanPage()),
             icon: AppIcons.tickCircleOutline,
             title: s.projectBoard,
           ),
           /// My Tasks
           _item(
             context: context,
-            onTap: () => UNavigator.push(
+            onTap: () => AppNavigator.push(
               MyTasksPage(
                 dataSourceType: SubtaskDataSourceType.project,
                 projectId: project.id ?? '',
@@ -60,7 +61,7 @@ class ProjectMainPage extends StatelessWidget {
           if (haveManagerAccess)
             _item(
               context: context,
-              onTap: () => UNavigator.push(
+              onTap: () => AppNavigator.push(
                 ProjectStatisticsPage(
                   project: project,
                 ),
@@ -73,7 +74,7 @@ class ProjectMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(
+                AppNavigator.push(
                   ProjectTasksArchivePage(
                     projectId: project.id ?? '',
                   ),
@@ -94,7 +95,7 @@ class ProjectMainPage extends StatelessWidget {
     required final VoidCallback onTap,
   }) => WCard(
     onTap: () {
-      UNavigator.back();
+      AppNavigator.back();
       delay(500, onTap);
     },
     child: Row(

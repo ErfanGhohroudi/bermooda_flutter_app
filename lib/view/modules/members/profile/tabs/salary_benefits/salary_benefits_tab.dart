@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/theme.dart';
 import '../../profile_controller.dart';
@@ -416,7 +417,7 @@ class SalaryBenefitsTab extends StatelessWidget {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         controller.benefits.remove(benefit);
         controller.showSuccess("s.benefitDeleted");
       },

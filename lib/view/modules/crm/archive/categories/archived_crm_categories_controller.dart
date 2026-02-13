@@ -105,7 +105,7 @@ class ArchivedCrmCategoriesController extends GetxController {
 
   void restoreCategory(final String? categoryId) {
     if (!haveAdminAccess) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
 
@@ -115,7 +115,7 @@ class ArchivedCrmCategoriesController extends GetxController {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restoreCategory(categoryId);
       },
     );
@@ -126,7 +126,7 @@ class ArchivedCrmCategoriesController extends GetxController {
       categoryId: categoryId,
       onResponse: (final response) {
         categories.removeWhere((final e) => e.id == categoryId);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
         
         // Refresh categories list page if it's registered
         if (Get.isRegistered<CrmCategoriesListController>()) {

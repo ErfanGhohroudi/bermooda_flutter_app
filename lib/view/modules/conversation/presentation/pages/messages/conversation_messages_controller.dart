@@ -6,6 +6,7 @@ import 'package:bermooda_business/view/modules/conversation/data/datasources/pro
 import 'package:bermooda_business/core/services/websocket_service.dart';
 import 'package:bermooda_business/view/modules/conversation/data/dto/conversation_dtos.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/core.dart';
 import '../../../../../../core/loading/loading.dart';
@@ -350,7 +351,7 @@ class ConversationMessagesController extends GetxController {
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         deleteMessage(messageId);
       },
     );
@@ -518,21 +519,21 @@ class ConversationMessagesController extends GetxController {
   }
 
   void onPopScope() {
-    if (isAnonymousBot) return UNavigator.back();
+    if (isAnonymousBot) return AppNavigator.back();
     if (selectedMessageIds.isNotEmpty) {
       return exitMultiSelectMode();
     }
 
     final haveUploadingFile = messages.cast<MessageDto>().any((final m) => m.isSending);
-    if (haveUploadingFile == false) return UNavigator.back();
+    if (haveUploadingFile == false) return AppNavigator.back();
 
     appShowYesCancelDialog(
       title: s.warning,
       description: s.exitConversationMessagesPageWarningDescription,
       onYesButtonTap: () async {
-        UNavigator.back();
+        AppNavigator.back();
         cancelAllUploads();
-        await Future.delayed(50.milliseconds, () => UNavigator.back());
+        await Future.delayed(50.milliseconds, () => AppNavigator.back());
       },
     );
   }

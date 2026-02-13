@@ -19,13 +19,8 @@ class CrmDatasources {
     Get.lazyPut<CustomerContractLabelDatasource>(() => CustomerContractLabelDatasource(), fenix: true);
     // Customer Finance Data Sources
     Get.lazyPut<InvoiceManagerDatasource>(() => InvoiceManagerDatasource(), fenix: true);
-    Get.lazyPut<InvoiceStatusManagerDatasource>(() => InvoiceStatusManagerDatasource(), fenix: true);
-    Get.lazyPut<InstallmentDatasource>(() => InstallmentDatasource(), fenix: true);
     Get.lazyPut<PayInvoiceDatasource>(() => PayInvoiceDatasource(), fenix: true);
-    Get.lazyPut<SendInvoiceSmsDatasource>(() => SendInvoiceSmsDatasource(), fenix: true);
     Get.lazyPut<GetInvoiceCodeDatasource>(() => GetInvoiceCodeDatasource(), fenix: true);
-    Get.lazyPut<ChangeInvoiceStatusDatasource>(() => ChangeInvoiceStatusDatasource(), fenix: true);
-    Get.lazyPut<InvoicePreviewDatasource>(() => InvoicePreviewDatasource(), fenix: true);
     Get.lazyPut<UpdateInvoiceInfoDatasource>(() => UpdateInvoiceInfoDatasource(), fenix: true);
   }
 }

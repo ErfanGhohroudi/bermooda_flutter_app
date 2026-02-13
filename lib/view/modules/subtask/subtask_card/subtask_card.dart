@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../data/data.dart';
 import '../../../../core/theme.dart';
 import '../../../../core/utils/enums/enums.dart';
@@ -62,7 +63,7 @@ class _WSubtaskCardState extends State<WSubtaskCard> with SubtaskCardController 
       () => GestureDetector(
         onTap: widget.showDetailsPage
             ? () {
-                UNavigator.push(SubtaskDetailsPage(
+                AppNavigator.push(SubtaskDetailsPage(
                   subtask: subtask.value,
                   canManage: canManage,
                   showCheckBox: widget.showCheckBox,

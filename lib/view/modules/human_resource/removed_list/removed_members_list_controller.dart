@@ -109,7 +109,7 @@ class RemovedMembersListController extends GetxController {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restoreAMembers(member: member, action: action);
       },
     );
@@ -123,7 +123,7 @@ class RemovedMembersListController extends GetxController {
       memberId: member.id,
       onResponse: () {
         action();
-        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
       },
       onError: (final errorResponse) {},
       withRetry: true,

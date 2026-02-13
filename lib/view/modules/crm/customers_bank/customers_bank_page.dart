@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -36,7 +37,7 @@ class _CustomersBankPageState extends State<CustomersBankPage> {
       floatingActionButton: FloatingActionButton(
         heroTag: "customer_bank_fab",
         onPressed: () {
-          UNavigator.push(CustomersImportPage(categoryId: ctrl.categoryId));
+          AppNavigator.push(CustomersImportPage(categoryId: ctrl.categoryId));
         },
         child: const Icon(Icons.add_rounded, color: Colors.white, size: 30),
       ),

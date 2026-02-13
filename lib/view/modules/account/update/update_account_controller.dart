@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/image_files.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
@@ -51,7 +52,7 @@ mixin UpdateAccountController {
             avatar: avatar,
           ),
         );
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) {
         buttonState.loaded();

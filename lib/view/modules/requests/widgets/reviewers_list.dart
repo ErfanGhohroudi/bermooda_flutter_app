@@ -76,7 +76,7 @@ class WReviewersList extends StatelessWidget {
                           borderColor: isMe ? null : Colors.grey.shade300,
                           onChanged: (final value) {
                             if (!isCurrentReviewer) return;
-                            if (!isMe || reviewer.isChecked) return AppNavigator.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
+                            if (!isMe || reviewer.isChecked) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
                             onTapRequestCheckBox(value);
                           },
                         ),

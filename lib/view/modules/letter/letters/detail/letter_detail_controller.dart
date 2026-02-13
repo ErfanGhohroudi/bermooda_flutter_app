@@ -50,13 +50,13 @@ mixin LetterDetailController {
             mail.value.recipients[i] = response.result!;
             pageState.refresh();
           }
-          UNavigator.back();
+          AppNavigator.back();
           action();
         },
         onError: (final errorResponse) {},
       );
     } else {
-      AppNavigator.snackbarRed(title: s.warning, subtitle: s.uploadSignatureFirst);
+      AppSnackBar.snackbarRed(title: s.warning, subtitle: s.uploadSignatureFirst);
     }
   }
 
@@ -88,7 +88,7 @@ mixin LetterDetailController {
       userIdList: selectedUsersList.map((final e) => e.id.toInt()).toList(),
       onResponse: () {
         buttonState.loaded();
-        AppNavigator.snackbarGreen(title: s.done, subtitle: '');
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
       },
       onError: (final errorResponse) {},
       withRetry: true,

@@ -57,7 +57,7 @@ class WMeetingItem extends StatelessWidget {
                         icon: AppIcons.editOutline,
                         iconColor: AppColors.green,
                         onTap: () {
-                          UNavigator.push(
+                          AppNavigator.push(
                             CreateEditMeetingPage(
                               meeting: meeting,
                               onResponse: onEdited,
@@ -76,7 +76,7 @@ class WMeetingItem extends StatelessWidget {
                             yesButtonTitle: s.delete,
                             yesBackgroundColor: AppColors.red,
                             onYesButtonTap: () {
-                              UNavigator.back();
+                              AppNavigator.back();
                               deleteMeeting(
                                 meeting: meeting,
                                 action: onDelete,

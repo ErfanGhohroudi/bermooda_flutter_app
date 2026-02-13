@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
@@ -34,7 +35,7 @@ class _CrmCategoriesListPageState extends State<CrmCategoriesListPage> {
         if (ctrl.isReorderEnabled.value) {
           ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
@@ -47,7 +48,7 @@ class _CrmCategoriesListPageState extends State<CrmCategoriesListPage> {
                       tooltip: s.archive,
                       icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
                       onPressed: () {
-                        UNavigator.push(const ArchivedCrmCategoriesPage());
+                        AppNavigator.push(const ArchivedCrmCategoriesPage());
                       },
                     )
                   : const SizedBox.shrink(),

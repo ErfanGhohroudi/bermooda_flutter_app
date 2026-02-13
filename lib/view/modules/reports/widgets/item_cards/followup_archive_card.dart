@@ -29,7 +29,7 @@ class HistoryFollowupArchiveCard extends StatelessWidget {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restore();
       },
     );
@@ -85,6 +85,7 @@ class HistoryFollowupArchiveCard extends StatelessWidget {
                 title: s.details,
                 backgroundColor: context.theme.cardColor,
                 child: FollowUpDetailsPage(
+                  ctrl: FollowUpCardController(followUp: followup),
                   followUp: followup,
                   showSourceData: false,
                   canManage: false,

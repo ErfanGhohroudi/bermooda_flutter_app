@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../core/core.dart';
@@ -78,12 +79,12 @@ class _AccessLevelsDialogState extends State<AccessLevelsDialog> {
               UElevatedButton(
                 title: s.cancel,
                 backgroundColor: context.theme.hintColor,
-                onTap: UNavigator.back,
+                onTap: AppNavigator.back,
               ),
               UElevatedButton(
                 title: s.confirm,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   widget.onConfirmed(permissions);
                 },
               ),

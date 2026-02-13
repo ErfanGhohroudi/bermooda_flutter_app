@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/utils/enums/enums.dart';
 import '../../../../data/data.dart';
 import '../../subscription/subscription_controller.dart';
@@ -71,7 +72,7 @@ mixin AuthenticationController {
       dto: getDto(),
       onResponse: () {
         if (buttonState.subject.isClosed) return;
-        UNavigator.back();
+        AppNavigator.back();
         if (Get.isRegistered<SubscriptionController>()) {
           Get.find<SubscriptionController>().createPaymentRequest();
         }
