@@ -2,14 +2,13 @@ import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
 import '../../../../../core/theme.dart';
-import '../../../../../core/utils/extensions/money_extensions.dart';
 import '../../../../../core/widgets/widgets.dart';
-import '../../domain/entity/sms_panel_number.dart';
+import '../../domain/entity/voip_number.dart';
 import '../controllers/numbers_list_controller.dart';
-import '../sheets/add_sms_panel_number_sheet.dart';
+import '../sheets/add_voip_number_sheet.dart';
 
-class SmsNumbersListPage extends StatefulWidget {
-  const SmsNumbersListPage({
+class VoipNumbersListPage extends StatefulWidget {
+  const VoipNumbersListPage({
     required this.departmentId,
     super.key,
   });
@@ -17,15 +16,15 @@ class SmsNumbersListPage extends StatefulWidget {
   final int departmentId;
 
   @override
-  State<SmsNumbersListPage> createState() => _SmsNumbersListPageState();
+  State<VoipNumbersListPage> createState() => _VoipNumbersListPageState();
 }
 
-class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
-  late final SmsNumbersListController ctrl;
+class _VoipNumbersListPageState extends State<VoipNumbersListPage> {
+  late final VoipNumbersListController ctrl;
 
   @override
   void initState() {
-    ctrl = Get.put(SmsNumbersListController(departmentId: widget.departmentId));
+    ctrl = Get.put(VoipNumbersListController(departmentId: widget.departmentId));
     super.initState();
   }
 
@@ -38,11 +37,11 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
           : FloatingActionButtonLocation.endFloat,
       floatingActionButton: ctrl.haveAdminAccess
           ? FloatingActionButton(
-              heroTag: "addCardSimFAB",
+              heroTag: "addVoipCardSimFAB",
               onPressed: () {
                 bottomSheet(
                   title: "${s.addText} ${s.number}",
-                  child: AddSmsPanelNumberSheet(ctrl: ctrl),
+                  child: AddVoipNumberSheet(ctrl: ctrl),
                 );
               },
               child: const Icon(Icons.add_rounded, color: Colors.white, size: 30),
@@ -102,7 +101,7 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
     );
   }
 
-  Widget _buildNumberCard(final SmsPanelNumber number) {
+  Widget _buildNumberCard(final VoipNumber number) {
     return WCard(
       showBorder: true,
       child: Column(
@@ -129,21 +128,14 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
               ),
             ],
           ),
-          Row(
-            spacing: 10,
-            children: [
-              _buildRowInfo('s.providerName', number.title ?? '- -').expanded(),
-              _buildRowInfo('s.usedThisMonth', number.usedThisMonth?.toString() ?? '- -').expanded(),
-            ],
-          ),
-          Row(
-            spacing: 10,
-            children: [
-              _buildRowInfo('s.monthlyLimit', number.monthlyLimit?.toString() ?? '- -').expanded(),
-              _buildRowInfo('s.dailyLimit', number.dailyLimit?.toString() ?? '- -').expanded(),
-            ],
-          ),
-          _buildRowInfo('s.balance', number.balance?.toTomanMoney() ?? '- -'),
+          _buildRowInfo(s.title, number.title ?? '- -'),
+          // Row(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   spacing: 10,
+          //   children: [
+          //     _buildRowInfo('s.usedThisMonth', number.usedThisMonth?.toString() ?? '- -').expanded(),
+          //   ],
+          // ),
         ],
       ),
     );

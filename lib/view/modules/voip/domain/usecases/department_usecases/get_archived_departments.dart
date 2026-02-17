@@ -1,6 +1,6 @@
 import '../../../../../../data/data.dart';
 import '../../entity/voip_department.dart';
-import '../../repositories/sms_panel_repository.dart';
+import '../../repositories/voip_repository.dart';
 
 /// UseCase for getting archived department
 class GetArchivedDepartmentsUseCase {

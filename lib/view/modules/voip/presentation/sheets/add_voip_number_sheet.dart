@@ -1,29 +1,30 @@
+import 'package:bermooda_business/view/modules/voip/domain/entity/voip_number.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/fields.dart';
-import '../../../../../core/widgets/widgets.dart';
 import '../../domain/enums/enums.dart';
 import '../controllers/numbers_list_controller.dart';
 
-class AddSmsPanelNumberSheet extends StatefulWidget {
-  const AddSmsPanelNumberSheet({
+class AddVoipNumberSheet extends StatefulWidget {
+  const AddVoipNumberSheet({
     required this.ctrl,
     super.key,
   });
 
-  final SmsNumbersListController ctrl;
+  final VoipNumbersListController ctrl;
 
   @override
-  State<AddSmsPanelNumberSheet> createState() => _AddSmsPanelNumberSheetState();
+  State<AddVoipNumberSheet> createState() => _AddVoipNumberSheetState();
 }
 
-class _AddSmsPanelNumberSheetState extends State<AddSmsPanelNumberSheet> {
+class _AddVoipNumberSheetState extends State<AddVoipNumberSheet> {
   final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _numberCtrl = TextEditingController();
-  final TextEditingController _apiKeyCtrl = TextEditingController();
+  final TextEditingController _serviceIdTokenCtrl = TextEditingController();
+  final TextEditingController _webserviceTokenCtrl = TextEditingController();
   ProviderType _providerType = ProviderType.values.first;
 
   final RxBool _isLoading = false.obs;
@@ -32,7 +33,8 @@ class _AddSmsPanelNumberSheetState extends State<AddSmsPanelNumberSheet> {
   void dispose() {
     _titleCtrl.dispose();
     _numberCtrl.dispose();
-    _apiKeyCtrl.dispose();
+    _serviceIdTokenCtrl.dispose();
+    _webserviceTokenCtrl.dispose();
     _isLoading.close();
     super.dispose();
   }
@@ -52,28 +54,34 @@ class _AddSmsPanelNumberSheetState extends State<AddSmsPanelNumberSheet> {
           ),
           WPhoneNumberField(
             controller: _numberCtrl,
-            labelText: s.number,
-            hintText: '3000123456',
+            labelText: s.phoneNumber,
+            hintText: '09123456789',
             required: true,
           ),
-          WDropDownFormField<ProviderType>(
-            labelText: s.provider,
-            value: _providerType,
-            items: ProviderType.values
-                .map(
-                  (final provider) => DropdownMenuItem<ProviderType>(
-                    value: provider,
-                    child: WDropdownItemText(text: provider.name),
-                  ),
-                )
-                .toList(),
-            onChanged: (final value) {
-              _providerType = value!;
-            },
+          // WDropDownFormField<ProviderType>(
+          //   labelText: s.provider,
+          //   value: _providerType,
+          //   items: ProviderType.values
+          //       .map(
+          //         (final provider) => DropdownMenuItem<ProviderType>(
+          //           value: provider,
+          //           child: WDropdownItemText(text: provider.name),
+          //         ),
+          //       )
+          //       .toList(),
+          //   onChanged: (final value) {
+          //     _providerType = value!;
+          //   },
+          // ),
+          WTextField(
+            controller: _serviceIdTokenCtrl,
+            labelText: s.serviceId,
+            required: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           WPasswordField(
-            controller: _apiKeyCtrl,
-            labelText: s.apiKey,
+            controller: _webserviceTokenCtrl,
+            labelText: s.webserviceToken,
             required: true,
             minLength: 10,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -93,11 +101,12 @@ class _AddSmsPanelNumberSheetState extends State<AddSmsPanelNumberSheet> {
                   onTap: () async {
                     if (!formKey.currentState!.validate()) return;
                     _isLoading(true);
-                    final result = await widget.ctrl.createDepartment(
-                      providerName: _titleCtrl.text.trim(),
+                    final VoipNumber? result = await widget.ctrl.createNumber(
+                      name: _titleCtrl.text.trim(),
                       number: _numberCtrl.text.trim(),
-                      providerType: _providerType,
-                      apiKey: _apiKeyCtrl.text.trim(),
+                      // providerType: _providerType,
+                      serviceId: _serviceIdTokenCtrl.text.trim(),
+                      webserviceToken: _webserviceTokenCtrl.text.trim(),
                     );
                     _isLoading(false);
                     if (result != null) AppNavigator.back();

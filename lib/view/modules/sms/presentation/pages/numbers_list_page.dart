@@ -38,7 +38,7 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
           : FloatingActionButtonLocation.endFloat,
       floatingActionButton: ctrl.haveAdminAccess
           ? FloatingActionButton(
-              heroTag: "addCardSimFAB",
+              heroTag: "addSMSPanelCardSimFAB",
               onPressed: () {
                 bottomSheet(
                   title: "${s.addText} ${s.number}",
@@ -130,20 +130,22 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
             children: [
-              _buildRowInfo('s.providerName', number.title ?? '- -').expanded(),
-              _buildRowInfo('s.usedThisMonth', number.usedThisMonth?.toString() ?? '- -').expanded(),
+              _buildRowInfo(s.title, number.title ?? '- -').expanded(),
+              _buildRowInfo(s.usedThisMonth, number.usedThisMonth?.toString() ?? '- -').expanded(),
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
             children: [
-              _buildRowInfo('s.monthlyLimit', number.monthlyLimit?.toString() ?? '- -').expanded(),
-              _buildRowInfo('s.dailyLimit', number.dailyLimit?.toString() ?? '- -').expanded(),
+              _buildRowInfo(s.monthlyLimit, number.monthlyLimit?.toString() ?? '- -').expanded(),
+              _buildRowInfo(s.dailyLimit, number.dailyLimit?.toString() ?? '- -').expanded(),
             ],
           ),
-          _buildRowInfo('s.balance', number.balance?.toTomanMoney() ?? '- -'),
+          _buildRowInfo(s.balance, number.balance?.toTomanMoney() ?? '- -'),
         ],
       ),
     );

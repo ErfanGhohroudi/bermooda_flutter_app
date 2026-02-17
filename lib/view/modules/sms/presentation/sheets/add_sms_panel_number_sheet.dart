@@ -93,7 +93,7 @@ class _AddSmsPanelNumberSheetState extends State<AddSmsPanelNumberSheet> {
                   onTap: () async {
                     if (!formKey.currentState!.validate()) return;
                     _isLoading(true);
-                    final result = await widget.ctrl.createDepartment(
+                    final result = await widget.ctrl.createNumber(
                       providerName: _titleCtrl.text.trim(),
                       number: _numberCtrl.text.trim(),
                       providerType: _providerType,

@@ -7,14 +7,13 @@ import '../../../../../core/services/permission_service.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../data/repositories/voip_repository_imp.dart';
-import '../../domain/entity/sms_panel_number.dart';
-import '../../domain/enums/enums.dart';
-import '../../domain/usecases/sms_usecases/create_number.dart';
-import '../../domain/usecases/sms_usecases/delete_number.dart';
-import '../../domain/usecases/sms_usecases/get_numbers_by_department.dart';
+import '../../domain/entity/voip_number.dart';
+import '../../domain/usecases/voip_usecases/create_number.dart';
+import '../../domain/usecases/voip_usecases/delete_number.dart';
+import '../../domain/usecases/voip_usecases/get_numbers_by_department.dart';
 
-class SmsNumbersListController extends GetxController {
-  SmsNumbersListController({
+class VoipNumbersListController extends GetxController {
+  VoipNumbersListController({
     required this.departmentId,
   });
 
@@ -32,7 +31,7 @@ class SmsNumbersListController extends GetxController {
   final Rx<PageState> pageState = PageState.initial.obs;
   bool isEndOfList = false;
   int pageNumber = 1;
-  final RxList<SmsPanelNumber> numbers = <SmsPanelNumber>[].obs;
+  final RxList<VoipNumber> numbers = <VoipNumber>[].obs;
 
   bool get haveAdminAccess => Get.find<PermissionService>().haveSMSAdminAccess;
 
@@ -112,28 +111,30 @@ class SmsNumbersListController extends GetxController {
     }
   }
 
-  Future<SmsPanelNumber?> createDepartment({
+  Future<VoipNumber?> createNumber({
     required final String number,
-    required final String providerName,
-    required final ProviderType providerType,
-    required final String apiKey,
+    required final String name,
+    // required final ProviderType providerType,
+    required final String serviceId,
+    required final String webserviceToken,
   }) async {
     try {
-      final SmsPanelNumber department = await _createNumberUseCase(
+      final voipNumber = await _createNumberUseCase(
         departmentId: departmentId,
         number: number,
-        providerName: providerName,
-        providerType: providerType,
-        apiKey: apiKey,
+        name: name,
+        // providerType: providerType,
+        serviceId: serviceId,
+        webserviceToken: webserviceToken,
       );
-      insertNumber(department);
-      return department;
+      insertNumber(voipNumber);
+      return voipNumber;
     } catch (e) {
       return null;
     }
   }
 
-  void deleteNumber(final SmsPanelNumber number) {
+  void deleteNumber(final VoipNumber number) {
     appShowYesCancelDialog(
       title: s.delete,
       description: s.areYouSureYouWantToDeleteItem(s.number.toLowerCase()),
@@ -154,7 +155,7 @@ class SmsNumbersListController extends GetxController {
     );
   }
 
-  void insertNumber(final SmsPanelNumber newNumber) {
+  void insertNumber(final VoipNumber newNumber) {
     numbers.add(newNumber);
   }
 }

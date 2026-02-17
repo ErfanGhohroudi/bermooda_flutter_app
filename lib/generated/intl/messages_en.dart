@@ -163,6 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "backToPreviousStepDialogDescription": MessageLookupByLibrary.simpleMessage(
       "Do you want to go back to the previous step?",
     ),
+    "balance": MessageLookupByLibrary.simpleMessage("Balance"),
     "balancingRemainingInstallments": MessageLookupByLibrary.simpleMessage(
       "Balancing the remaining installments",
     ),
@@ -363,6 +364,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "customers": MessageLookupByLibrary.simpleMessage("Customers"),
     "customersBoard": MessageLookupByLibrary.simpleMessage("Customers Board"),
     "daily": MessageLookupByLibrary.simpleMessage("Daily"),
+    "dailyLimit": MessageLookupByLibrary.simpleMessage("Daily Limit"),
     "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
     "dataPreview": MessageLookupByLibrary.simpleMessage(
       "Data preview (first 10 rows)",
@@ -822,6 +824,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "modules": MessageLookupByLibrary.simpleMessage("Modules"),
     "month": MessageLookupByLibrary.simpleMessage("Month"),
     "monthly": MessageLookupByLibrary.simpleMessage("Monthly"),
+    "monthlyLimit": MessageLookupByLibrary.simpleMessage("Monthly Limit"),
     "monthlyRepeatTypeHelper": MessageLookupByLibrary.simpleMessage(
       "Shifts will be created on selected month days for remaining months of selected year",
     ),
@@ -1288,6 +1291,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendToBoard": MessageLookupByLibrary.simpleMessage("Send To Board"),
     "sender": MessageLookupByLibrary.simpleMessage("Sender"),
     "senderNumber": MessageLookupByLibrary.simpleMessage("Sender Number"),
+    "serviceId": MessageLookupByLibrary.simpleMessage("Service ID"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "share": MessageLookupByLibrary.simpleMessage("Share"),
     "shiftColor": MessageLookupByLibrary.simpleMessage("Shift Color"),
@@ -1486,6 +1490,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "typeYourComments": MessageLookupByLibrary.simpleMessage(
       "Type your comments...",
     ),
+    "typeYourReasonHere": MessageLookupByLibrary.simpleMessage(
+      "Type your reason here...",
+    ),
     "unableOpenLink": MessageLookupByLibrary.simpleMessage(
       "Unable to open the link.",
     ),
@@ -1533,6 +1540,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "uploading": MessageLookupByLibrary.simpleMessage("File is uploading..."),
     "urgency": MessageLookupByLibrary.simpleMessage("Urgency"),
+    "usedThisMonth": MessageLookupByLibrary.simpleMessage("Used This Month"),
     "user": MessageLookupByLibrary.simpleMessage("Users"),
     "userActivity": MessageLookupByLibrary.simpleMessage("User Activity"),
     "userCount": MessageLookupByLibrary.simpleMessage("User Count"),
@@ -1564,6 +1572,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "warehouseModuleName": MessageLookupByLibrary.simpleMessage("Warehouse"),
     "warehouses": MessageLookupByLibrary.simpleMessage("Warehouses"),
     "warning": MessageLookupByLibrary.simpleMessage("Warning"),
+    "webserviceToken": MessageLookupByLibrary.simpleMessage("Webservice Token"),
     "website": MessageLookupByLibrary.simpleMessage("Website"),
     "weekDays": MessageLookupByLibrary.simpleMessage("WeekDays"),
     "weekly": MessageLookupByLibrary.simpleMessage("Weekly"),

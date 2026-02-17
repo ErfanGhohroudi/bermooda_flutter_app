@@ -58,7 +58,7 @@ class VoipDepartmentMainSheet extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                AppNavigator.push(SmsNumbersListPage(
+                AppNavigator.push(VoipNumbersListPage(
                   departmentId: department.id,
                 ));
               },

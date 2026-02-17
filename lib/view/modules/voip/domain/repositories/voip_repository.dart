@@ -1,8 +1,7 @@
 import 'package:bermooda_business/data/data.dart';
 
 import '../entity/voip_department.dart';
-import '../entity/sms_panel_number.dart';
-import '../enums/enums.dart';
+import '../entity/voip_number.dart';
 
 abstract class VoipRepository {
   // department methods -----------------------------------------------------------
@@ -41,30 +40,24 @@ abstract class VoipRepository {
 
   // sms panel methods -----------------------------------------------------------
   /// get numbers of a department
-  Future<GenericResponse<SmsPanelNumber>> getNumbersByDepartment({
+  Future<GenericResponse<VoipNumber>> getNumbersByDepartment({
     required final int departmentId,
     required final int pageNumber,
   });
 
   /// get numbers with user access
-  Future<List<SmsPanelNumber>> getNumbersWithUserAccess();
+  Future<List<VoipNumber>> getNumbersWithUserAccess();
 
   /// create a new number
-  Future<SmsPanelNumber> createNumber({
+  Future<VoipNumber> createNumber({
     required final int departmentId,
     required final String number,
-    required final String providerName,
-    required final ProviderType providerType,
-    required final String apiKey,
+    required final String name,
+    // required final ProviderType providerType,
+    required final String serviceId,
+    required final String webserviceToken,
   });
 
   /// delete a number
   Future<void> deleteNumber(final int id);
-
-  /// Send SMS to customer
-  Future<void> sendSMS({
-    required final String content,
-    required final String recipient,
-    required final int senderId,
-  });
 }

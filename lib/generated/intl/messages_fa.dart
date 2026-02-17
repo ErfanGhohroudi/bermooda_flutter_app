@@ -159,6 +159,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "backToPreviousStepDialogDescription": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید به مرحله قبلی برگردید؟",
     ),
+    "balance": MessageLookupByLibrary.simpleMessage("مانده اعتبار"),
     "balancingRemainingInstallments": MessageLookupByLibrary.simpleMessage(
       "تراز کردن مابقی اقساط",
     ),
@@ -347,6 +348,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "customers": MessageLookupByLibrary.simpleMessage("مشتریان"),
     "customersBoard": MessageLookupByLibrary.simpleMessage("بورد مشتریان"),
     "daily": MessageLookupByLibrary.simpleMessage("روزانه"),
+    "dailyLimit": MessageLookupByLibrary.simpleMessage("محدودیت روزانه"),
     "dashboard": MessageLookupByLibrary.simpleMessage("داشبورد"),
     "dataPreview": MessageLookupByLibrary.simpleMessage(
       "پیش‌نمایش داده‌ها (10 سطر اول)",
@@ -806,6 +808,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "modules": MessageLookupByLibrary.simpleMessage("ماژول ها"),
     "month": MessageLookupByLibrary.simpleMessage("ماه"),
     "monthly": MessageLookupByLibrary.simpleMessage("ماهانه"),
+    "monthlyLimit": MessageLookupByLibrary.simpleMessage("محدودیت ماهانه"),
     "monthlyRepeatTypeHelper": MessageLookupByLibrary.simpleMessage(
       "شیفت در روزهای انتخابی تمام ماه‌های باقیمانده سال (سال انتخاب شده) ایجاد می‌شود",
     ),
@@ -1254,6 +1257,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "sendToBoard": MessageLookupByLibrary.simpleMessage("ارسال به بورد"),
     "sender": MessageLookupByLibrary.simpleMessage("فرستنده"),
     "senderNumber": MessageLookupByLibrary.simpleMessage("شماره فرستنده"),
+    "serviceId": MessageLookupByLibrary.simpleMessage(
+      "شناسه سرویس (Service ID)",
+    ),
     "settings": MessageLookupByLibrary.simpleMessage("تنظیمات"),
     "share": MessageLookupByLibrary.simpleMessage("اشتراک گذاری"),
     "shiftColor": MessageLookupByLibrary.simpleMessage("رنگ شیفت"),
@@ -1448,6 +1454,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "typeYourComments": MessageLookupByLibrary.simpleMessage(
       "متن توضیحات خود را تایپ کنید...",
     ),
+    "typeYourReasonHere": MessageLookupByLibrary.simpleMessage(
+      "دلیلتون رو اینجا بنویسید...",
+    ),
     "unableOpenLink": MessageLookupByLibrary.simpleMessage(
       "امکان باز کردن لینک وجود ندارد.",
     ),
@@ -1497,6 +1506,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "فایل در حال بارگذاری است...",
     ),
     "urgency": MessageLookupByLibrary.simpleMessage("فوریت"),
+    "usedThisMonth": MessageLookupByLibrary.simpleMessage(
+      "استفاده‌شده در این ماه",
+    ),
     "user": MessageLookupByLibrary.simpleMessage("کاربر"),
     "userActivity": MessageLookupByLibrary.simpleMessage("وضعیت کاربران"),
     "userCount": MessageLookupByLibrary.simpleMessage("تعداد کاربران"),
@@ -1528,6 +1540,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "warehouseModuleName": MessageLookupByLibrary.simpleMessage("انبارداری"),
     "warehouses": MessageLookupByLibrary.simpleMessage("انبارها"),
     "warning": MessageLookupByLibrary.simpleMessage("هشدار"),
+    "webserviceToken": MessageLookupByLibrary.simpleMessage(
+      "توکن وب سرویس (Webservice Token)",
+    ),
     "website": MessageLookupByLibrary.simpleMessage("وبسایت"),
     "weekDays": MessageLookupByLibrary.simpleMessage("روزهای هفته"),
     "weekly": MessageLookupByLibrary.simpleMessage("هفتگی"),

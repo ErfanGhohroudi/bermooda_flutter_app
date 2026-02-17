@@ -467,7 +467,7 @@ class WInvoiceCard extends StatelessWidget {
             children: [
               WTextField(
                 controller: reasonCtrl,
-                hintText: "type your reason here...",
+                hintText: s.typeYourReasonHere,
                 required: true,
                 showRequired: false,
                 multiLine: true,

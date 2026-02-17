@@ -7453,6 +7453,61 @@ class S {
   String get apiKey {
     return Intl.message('API Key', name: 'apiKey', desc: '', args: []);
   }
+
+  /// `Type your reason here...`
+  String get typeYourReasonHere {
+    return Intl.message(
+      'Type your reason here...',
+      name: 'typeYourReasonHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Used This Month`
+  String get usedThisMonth {
+    return Intl.message(
+      'Used This Month',
+      name: 'usedThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly Limit`
+  String get monthlyLimit {
+    return Intl.message(
+      'Monthly Limit',
+      name: 'monthlyLimit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Limit`
+  String get dailyLimit {
+    return Intl.message('Daily Limit', name: 'dailyLimit', desc: '', args: []);
+  }
+
+  /// `Balance`
+  String get balance {
+    return Intl.message('Balance', name: 'balance', desc: '', args: []);
+  }
+
+  /// `Webservice Token`
+  String get webserviceToken {
+    return Intl.message(
+      'Webservice Token',
+      name: 'webserviceToken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Service ID`
+  String get serviceId {
+    return Intl.message('Service ID', name: 'serviceId', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

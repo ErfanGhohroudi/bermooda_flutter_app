@@ -1,4 +1,4 @@
-import '../../repositories/sms_panel_repository.dart';
+import '../../repositories/voip_repository.dart';
 
 /// UseCase for archive a department
 class ArchiveDepartmentUseCase {

@@ -1,6 +1,6 @@
 import '../../../../../../data/data.dart';
-import '../../entity/sms_panel_number.dart';
-import '../../repositories/sms_panel_repository.dart';
+import '../../entity/voip_number.dart';
+import '../../repositories/voip_repository.dart';
 
 /// UseCase for getting numbers by department
 class GetNumbersByDepartmentUseCase {
@@ -8,7 +8,7 @@ class GetNumbersByDepartmentUseCase {
 
   final VoipRepository repository;
 
-  Future<GenericResponse<SmsPanelNumber>> call({
+  Future<GenericResponse<VoipNumber>> call({
     required final int departmentId,
     required final int pageNumber,
   }) => repository.getNumbersByDepartment(

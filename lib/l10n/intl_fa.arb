@@ -934,5 +934,12 @@
   "numberManagement": "مدیریت شماره ها",
   "number": "شماره",
   "provider": "ارائه دهنده",
-  "apiKey": "کلید API"
+  "apiKey": "کلید API",
+  "typeYourReasonHere": "دلیلتون رو اینجا بنویسید...",
+  "usedThisMonth": "استفاده\u200Cشده در این ماه",
+  "monthlyLimit": "محدودیت ماهانه",
+  "dailyLimit": "محدودیت روزانه",
+  "balance": "مانده اعتبار",
+  "webserviceToken": "توکن وب سرویس (Webservice Token)",
+  "serviceId": "شناسه سرویس (Service ID)"
 }

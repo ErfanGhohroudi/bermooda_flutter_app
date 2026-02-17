@@ -2,12 +2,11 @@ import 'package:u/utilities.dart';
 
 import '../../../../../data/data.dart';
 import '../../domain/entity/voip_department.dart';
-import '../../domain/entity/sms_panel_number.dart';
-import '../../domain/enums/enums.dart';
-import '../../domain/repositories/sms_panel_repository.dart';
+import '../../domain/entity/voip_number.dart';
+import '../../domain/repositories/voip_repository.dart';
 import '../datasources/voip_datasource.dart';
 import '../datasources/voip_departments_datasource.dart';
-import '../models/response/sms_panel_number.dart';
+import '../models/response/voip_number.dart';
 import '../models/response/voip_department.dart';
 
 /// Repository Implementation
@@ -136,17 +135,17 @@ class VoipRepositoryImpl implements VoipRepository {
   // sms panel methods -----------------------------------------------------------
 
   @override
-  Future<GenericResponse<SmsPanelNumber>> getNumbersByDepartment({
+  Future<GenericResponse<VoipNumber>> getNumbersByDepartment({
     required final int departmentId,
     required final int pageNumber,
   }) async {
-    final completer = Completer<GenericResponse<SmsPanelNumber>>();
+    final completer = Completer<GenericResponse<VoipNumber>>();
     _smsPanelDatasource.getNumbersByDepartment(
       departmentId: departmentId,
       pageNumber: pageNumber,
       onResponse: (final response) {
         final list = (response.resultList ?? []).map((final e) => _convertSmsNumberDtoToEntity(e)).toList();
-        final genRes = GenericResponse<SmsPanelNumber>(
+        final genRes = GenericResponse<VoipNumber>(
           status: response.status,
           message: response.message,
           resultList: list,
@@ -160,8 +159,8 @@ class VoipRepositoryImpl implements VoipRepository {
   }
 
   @override
-  Future<List<SmsPanelNumber>> getNumbersWithUserAccess() async {
-    final completer = Completer<List<SmsPanelNumber>>();
+  Future<List<VoipNumber>> getNumbersWithUserAccess() async {
+    final completer = Completer<List<VoipNumber>>();
     _smsPanelDatasource.getNumbersWithUserAccess(
       onResponse: (final response) {
         final list = (response.resultList ?? []).map((final e) => _convertSmsNumberDtoToEntity(e)).toList();
@@ -173,20 +172,22 @@ class VoipRepositoryImpl implements VoipRepository {
   }
 
   @override
-  Future<SmsPanelNumber> createNumber({
+  Future<VoipNumber> createNumber({
     required final int departmentId,
     required final String number,
-    required final String providerName,
-    required final ProviderType providerType,
-    required final String apiKey,
+    required final String name,
+    // required final ProviderType providerType,
+    required final String serviceId,
+    required final String webserviceToken,
   }) async {
-    final completer = Completer<SmsPanelNumber>();
+    final completer = Completer<VoipNumber>();
     _smsPanelDatasource.createNumber(
       departmentId: departmentId,
       number: number,
-      providerName: providerName,
-      providerType: providerType,
-      apiKey: apiKey,
+      name: name,
+      // providerType: providerType,
+      serviceId: serviceId,
+      webserviceToken: webserviceToken,
       onResponse: (final response) {
         completer.complete(_convertSmsNumberDtoToEntity(response));
       },
@@ -208,26 +209,9 @@ class VoipRepositoryImpl implements VoipRepository {
     return completer.future;
   }
 
-  @override
-  Future<void> sendSMS({
-    required final String content,
-    required final String recipient,
-    required final int senderId,
-  }) async {
-    final completer = Completer<void>();
-    _smsPanelDatasource.sendSMS(
-      content: content,
-      recipient: recipient,
-      senderId: senderId,
-      onResponse: () => completer.complete(),
-      onError: (final error) => completer.completeError(error),
-    );
-    return completer.future;
-  }
-
   /// Convert SmsPanelNumberReadDto DTO to SmsPanelNumber Entity
-  SmsPanelNumber _convertSmsNumberDtoToEntity(final SmsPanelNumberReadDto dto) {
-    return SmsPanelNumber.fromDto(dto);
+  VoipNumber _convertSmsNumberDtoToEntity(final VoipNumberReadDto dto) {
+    return VoipNumber.fromDto(dto);
   }
 
   /// Convert SmsDepartmentReadDto DTO to SmsDepartment Entity

@@ -934,5 +934,12 @@
   "numberManagement": "Number Management",
   "number": "Number",
   "provider": "Provider",
-  "apiKey": "API Key"
+  "apiKey": "API Key",
+  "typeYourReasonHere": "Type your reason here...",
+  "usedThisMonth": "Used This Month",
+  "monthlyLimit": "Monthly Limit",
+  "dailyLimit": "Daily Limit",
+  "balance": "Balance",
+  "webserviceToken": "Webservice Token",
+  "serviceId": "Service ID"
 }

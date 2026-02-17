@@ -112,22 +112,22 @@ class SmsNumbersListController extends GetxController {
     }
   }
 
-  Future<SmsPanelNumber?> createDepartment({
+  Future<SmsPanelNumber?> createNumber({
     required final String number,
     required final String providerName,
     required final ProviderType providerType,
     required final String apiKey,
   }) async {
     try {
-      final SmsPanelNumber department = await _createNumberUseCase(
+      final SmsPanelNumber smsNumber = await _createNumberUseCase(
         departmentId: departmentId,
         number: number,
         providerName: providerName,
         providerType: providerType,
         apiKey: apiKey,
       );
-      insertNumber(department);
-      return department;
+      insertNumber(smsNumber);
+      return smsNumber;
     } catch (e) {
       return null;
     }
