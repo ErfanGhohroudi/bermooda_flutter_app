@@ -24,36 +24,36 @@ class VoipDepartmentMainSheet extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 300),
       child: Column(
         children: [
-          _item(
-            context: context,
-            onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
-            },
-            icon: AppIcons.listOutline,
-            title: 'پیام های ارسالی',
-          ),
-          _item(
-            context: context,
-            onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
-            },
-            icon: AppIcons.listOutline,
-            title: 'پیام گروهی',
-          ),
-          _item(
-            context: context,
-            onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
-            },
-            icon: AppIcons.listOutline,
-            title: 'صندوق ورودی',
-          ),
+          // _item(
+          //   context: context,
+          //   onTap: () {
+          //     // AppNavigator.push(MyReviewsPage(
+          //     //   department: department,
+          //     // ));
+          //   },
+          //   icon: AppIcons.listOutline,
+          //   title: 'پیام های ارسالی',
+          // ),
+          // _item(
+          //   context: context,
+          //   onTap: () {
+          //     // AppNavigator.push(MyReviewsPage(
+          //     //   department: department,
+          //     // ));
+          //   },
+          //   icon: AppIcons.listOutline,
+          //   title: 'پیام گروهی',
+          // ),
+          // _item(
+          //   context: context,
+          //   onTap: () {
+          //     // AppNavigator.push(MyReviewsPage(
+          //     //   department: department,
+          //     // ));
+          //   },
+          //   icon: AppIcons.listOutline,
+          //   title: 'صندوق ورودی',
+          // ),
           if (haveManagerAccess)
             _item(
               context: context,

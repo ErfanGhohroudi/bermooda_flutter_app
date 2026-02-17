@@ -982,14 +982,14 @@ class CreateInvoiceController extends GetxController {
                 : null,
           );
 
-          final result = await _createInvoiceUseCase(params);
+          final InvoiceEntity result = await _createInvoiceUseCase(params);
           isLoading(false);
 
           if (Get.isRegistered<InvoiceListController>()) {
             Get.find<InvoiceListController>().addInvoice(result);
           }
 
-          AppNavigator.back();
+          AppNavigator.back(result: result);
           AppSnackBar.snackbarGreen(title: s.done, subtitle: '');
         } catch (e) {
           isLoading(false);

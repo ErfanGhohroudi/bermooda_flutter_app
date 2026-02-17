@@ -5,6 +5,7 @@ import '../../view/modules/crm/invoice/data/datasources/customer_finance/get_inv
 import '../../view/modules/crm/invoice/data/datasources/customer_finance/invoice_manager_datasource.dart';
 import '../../view/modules/crm/invoice/data/datasources/customer_finance/pay_invoice_datasource.dart';
 import '../../view/modules/crm/invoice/data/datasources/customer_finance/update_invoice_info_datasource.dart';
+import '../../view/modules/crm/order/data/datasources/customer_order_datasource.dart';
 
 class CrmDatasources {
   static void init() {
@@ -26,5 +27,6 @@ class CrmDatasources {
     Get.lazyPut<PayInvoiceDatasource>(() => PayInvoiceDatasource(), fenix: true);
     Get.lazyPut<GetInvoiceCodeDatasource>(() => GetInvoiceCodeDatasource(), fenix: true);
     Get.lazyPut<UpdateInvoiceInfoDatasource>(() => UpdateInvoiceInfoDatasource(), fenix: true);
+    Get.lazyPut<CustomerOrderDatasource>(() => CustomerOrderDatasource(), fenix: true);
   }
 }

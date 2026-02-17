@@ -5,6 +5,7 @@ import 'package:dio/dio.dart' as dio;
 import '../core/functions/user_functions.dart';
 import '../view/modules/crm/invoice/data/models/invoice.dart';
 import '../view/modules/crm/invoice/domain/entities/invoice.dart';
+import '../view/modules/crm/order/data/models/order_interface.dart';
 import '../view/modules/human_resource/workshift/enums/shift_flexible_time_duration.dart';
 import '../view/modules/subscription/enums/max_contract_count.dart';
 import '../core/navigator/navigator.dart';

@@ -6,16 +6,15 @@ import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../../../../../data/data.dart';
-import '../controllers/invoice_list_controller.dart';
 
 class SuspendInvoiceSheet extends StatefulWidget {
   const SuspendInvoiceSheet({
-    required this.ctrl,
+    required this.onSubmit,
     required this.invoiceId,
     super.key,
   });
 
-  final InvoiceListController ctrl;
+  final Future<bool> Function(int invoiceId, String reason, int? documentId) onSubmit;
   final int invoiceId;
 
   @override
@@ -95,7 +94,7 @@ class _SuspendInvoiceSheetState extends State<SuspendInvoiceSheet> {
                       AppSnackBar.snackbarRed(title: s.warning, subtitle: s.uploading);
                       return;
                     }
-                    final result = await widget.ctrl.suspendInvoice(
+                    final result = await widget.onSubmit(
                       widget.invoiceId,
                       reasonController.text.trim(),
                       documentFile?.fileId,

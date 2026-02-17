@@ -3,9 +3,10 @@ import 'package:u/utilities.dart';
 
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../data/data.dart';
+import '../../../order/data/models/order_interface.dart';
 import '../../domain/enums/verify_status.dart';
 
-class InvoiceReadDto {
+class InvoiceReadDto extends IOrderModel {
   final int? id;
   final String? mainId;
   final InvoiceType? invoiceType;

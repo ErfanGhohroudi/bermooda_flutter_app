@@ -1954,6 +1954,11 @@ class S {
     return Intl.message('Invoices', name: 'invoices', desc: '', args: []);
   }
 
+  /// `Orders`
+  String get orders {
+    return Intl.message('Orders', name: 'orders', desc: '', args: []);
+  }
+
   /// `Payment Receipt`
   String get paymentReceipt {
     return Intl.message(
@@ -4892,6 +4897,16 @@ class S {
   /// `Offline`
   String get offline {
     return Intl.message('Offline', name: 'offline', desc: '', args: []);
+  }
+
+  /// `New Contract`
+  String get newContract {
+    return Intl.message(
+      'New Contract',
+      name: 'newContract',
+      desc: '',
+      args: [],
+    );
   }
 
   /// `Contract`

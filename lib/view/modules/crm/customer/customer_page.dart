@@ -7,7 +7,7 @@ import '../../followup/presentation/pages/followup_list_page.dart';
 import '../../reports/controllers/crm/crm_customer_notes_controller.dart';
 import '../../reports/controllers/crm/crm_customer_reports_controller.dart';
 import '../../reports/report_timeline_page.dart';
-import '../invoice/presentation/pages/invoice_list_page.dart';
+import '../order/presentation/pages/order_list_page.dart';
 import 'customer_info/customer_info_page.dart';
 
 class CustomerPage extends StatefulWidget {
@@ -45,7 +45,7 @@ class _CustomerPageState extends State<CustomerPage> with SingleTickerProviderSt
     _tabs = [
       Tab(text: s.customerProfile),
       Tab(text: s.followUps),
-      Tab(text: s.invoices),
+      Tab(text: s.orders),
       Tab(text: s.note),
       Tab(text: s.reports),
     ];
@@ -85,7 +85,7 @@ class _CustomerPageState extends State<CustomerPage> with SingleTickerProviderSt
         ),
       ),
       LazyKeepAliveTabView(
-        builder: () => InvoiceListPage(
+        builder: () => CustomerOrderListPage(
           customerId: widget.customer.id ?? 0,
         ),
       ),

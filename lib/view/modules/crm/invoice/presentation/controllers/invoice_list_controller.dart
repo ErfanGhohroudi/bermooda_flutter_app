@@ -95,13 +95,13 @@ class InvoiceListController extends GetxController {
   }
 
   void onTapReCreate(final InvoiceEntity invoice) {
-    UNavigator.push(CreateInvoicePage(customerId: customerId, invoice: invoice));
+    AppNavigator.push(CreateInvoicePage(customerId: customerId, invoice: invoice));
   }
 
   Future<void> showSuspensionSheet(final InvoiceEntity invoice) async {
     await bottomSheet(
       title: s.suspendInvoice,
-      child: SuspendInvoiceSheet(ctrl: this, invoiceId: invoice.id),
+      child: SuspendInvoiceSheet(onSubmit: suspendInvoice, invoiceId: invoice.id),
     );
   }
 

@@ -1,6 +1,6 @@
 part of '../../../data.dart';
 
-class ContractReadDto extends Equatable {
+class ContractReadDto extends Equatable implements IOrderModel {
   const ContractReadDto({
     required this.id,
     this.title,

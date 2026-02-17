@@ -857,6 +857,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "newCase": MessageLookupByLibrary.simpleMessage("New Case"),
     "newCategory": MessageLookupByLibrary.simpleMessage("New Category"),
+    "newContract": MessageLookupByLibrary.simpleMessage("New Contract"),
     "newCustomer": MessageLookupByLibrary.simpleMessage("New Customer"),
     "newDepartment": MessageLookupByLibrary.simpleMessage("New Department"),
     "newFollowUp": MessageLookupByLibrary.simpleMessage("New Follow-up"),
@@ -969,6 +970,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Optional Problem Photo Attachment",
     ),
     "or": MessageLookupByLibrary.simpleMessage("Or"),
+    "orders": MessageLookupByLibrary.simpleMessage("Orders"),
     "organizationAddress": MessageLookupByLibrary.simpleMessage(
       "Organization Address",
     ),
