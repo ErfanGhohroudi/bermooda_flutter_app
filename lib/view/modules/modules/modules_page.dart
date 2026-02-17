@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../app_config.dart';
+import '../../../core/navigator/navigator.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
@@ -11,6 +12,7 @@ import '../letter/letters/list/letters_list_page.dart';
 import '../members/members_management_page.dart';
 import '../project/list/project_list_page.dart';
 import '../requests/request_main_page.dart';
+import '../sms/presentation/pages/department_list_page.dart';
 import '../warehouse/presentation/pages/warehouse_list_page.dart';
 import 'modules_controller.dart';
 import 'widgets/module_card/module_card.dart';
@@ -116,21 +118,21 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         title: s.staffManagement,
         icon: AppIcons.staffManagementModule,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const MembersManagementPage()),
+        onTap: () => AppNavigator.push(const MembersManagementPage()),
       ),
     if (subService.projectModuleIsActive && perService.haveProjectAccess)
       WModuleCard(
         title: s.project,
         icon: AppIcons.projectModule,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const ProjectListPage()),
+        onTap: () => AppNavigator.push(const ProjectListPage()),
       ),
     if (subService.crmModuleIsActive && perService.haveCRMAccess)
       WModuleCard(
         title: s.customers,
         icon: AppIcons.crmModule,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const CrmCategoriesListPage()),
+        onTap: () => AppNavigator.push(const CrmCategoriesListPage()),
       ),
     if (subService.hrModuleIsActive) ...[
       if (perService.haveHRAccess)
@@ -138,14 +140,14 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
           title: s.humanResources,
           icon: AppIcons.humanResourceModule,
           isBottomSheet: isBottomSheet,
-          onTap: () => UNavigator.push(const HrDepartmentsListPage()),
+          onTap: () => AppNavigator.push(const HrDepartmentsListPage()),
         ),
       if (subService.requestsModuleIsActive)
         WModuleCard(
           title: s.requests,
           icon: AppIcons.requestModule,
           isBottomSheet: isBottomSheet,
-          onTap: () => UNavigator.push(const RequestMainPage()),
+          onTap: () => AppNavigator.push(const RequestMainPage()),
         ),
     ],
     if ((subService.legalModuleIsActive && perService.haveLegalAccess) || AppConfig.instance.isDevelopment)
@@ -153,7 +155,7 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         title: s.legal,
         icon: AppIcons.legalModule,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const LegalDepartmentListPage()),
+        onTap: () => AppNavigator.push(const LegalDepartmentListPage()),
       ),
     if (AppConfig.instance.isDevelopment)
       // if (subService.lettersModuleIsActive && perService.haveLettersAccess)
@@ -161,7 +163,7 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         title: s.correspondence,
         icon: AppIcons.mailColor,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const LettersListPage()),
+        onTap: () => AppNavigator.push(const LettersListPage()),
       ),
     if (subService.employmentModuleIsActive && false)
       WModuleCard(
@@ -172,10 +174,17 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
       ),
     if (AppConfig.instance.isDevelopment)
       WModuleCard(
-        title: s.warehouse,
+        title: s.warehouseModuleName,
         icon: AppIcons.warehouseModule,
         isBottomSheet: isBottomSheet,
-        onTap: () => UNavigator.push(const WarehouseListPage()),
+        onTap: () => AppNavigator.push(const WarehouseListPage()),
+      ),
+    if (subService.smsModuleIsActive || AppConfig.instance.isDevelopment)
+      WModuleCard(
+        title: s.sms,
+        icon: AppIcons.warehouseModule,
+        isBottomSheet: isBottomSheet,
+        onTap: () => AppNavigator.push(const SmsDepartmentListPage()),
       ),
     if (subService.marketingModuleIsActive && AppConfig.instance.isDevelopment)
       // if (subService.marketingModuleIsActive && perService.haveMarketingAccess)

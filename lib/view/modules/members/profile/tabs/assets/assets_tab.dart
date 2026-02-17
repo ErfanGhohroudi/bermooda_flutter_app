@@ -59,7 +59,7 @@ class AssetsTab extends StatelessWidget {
                 ElevatedButton.icon(
                   onPressed: controller.assignAsset,
                   icon: const Icon(Icons.add, size: 18),
-                  label: Text("s.assignAsset"),
+                  label: const Text("s.assignAsset"),
                 ),
               ],
             ),
@@ -124,7 +124,7 @@ class AssetsTab extends StatelessWidget {
                 const SizedBox(width: 8),
                 DropdownButton<String>(
                   value: 'all',
-                  items: [
+                  items: const [
                     DropdownMenuItem(value: 'all', child: Text("s.all")),
                     DropdownMenuItem(
                         value: 'assigned', child: Text("s.assigned")),
@@ -133,7 +133,7 @@ class AssetsTab extends StatelessWidget {
                     DropdownMenuItem(
                         value: 'maintenance', child: Text("s.maintenance")),
                   ],
-                  onChanged: (value) {},
+                  onChanged: (final value) {},
                 ),
               ],
             ),
@@ -172,7 +172,7 @@ class AssetsTab extends StatelessWidget {
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: controller.assignedAssets.length,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (final context, final index) {
                       final asset = controller.assignedAssets[index];
                       return _buildAssetCard(asset, context);
                     },
@@ -184,7 +184,7 @@ class AssetsTab extends StatelessWidget {
   }
 
   Widget _buildAssetStat(
-      String label, String value, IconData icon, Color color) {
+      final String label, final String value, final IconData icon, final Color color) {
     return WCard(
       child: Column(
         children: [
@@ -210,7 +210,7 @@ class AssetsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAssetCard(Map<String, dynamic> asset, BuildContext context) {
+  Widget _buildAssetCard(final Map<String, dynamic> asset, final BuildContext context) {
     return WCard(
       margin: const EdgeInsets.only(bottom: 12),
       child: Column(
@@ -270,7 +270,7 @@ class AssetsTab extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () => _returnAsset(asset),
                   icon: const Icon(Icons.undo_outlined, size: 16),
-                  label: Text("s.returnAsset"),
+                  label: const Text("s.returnAsset"),
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.orange,
                   ),
@@ -301,7 +301,7 @@ class AssetsTab extends StatelessWidget {
               ),
               const Spacer(),
               WMoreButtonIcon<String>(
-                onSelected: (value) {
+                onSelected: (final value) {
                   switch (value) {
                     case 'view':
                       _viewAsset(asset);
@@ -321,12 +321,12 @@ class AssetsTab extends StatelessWidget {
                   }
                 },
                 items: [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'view',
                     child: Row(
                       children: [
-                        const Icon(Icons.visibility_outlined, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.visibility_outlined, size: 20),
+                        SizedBox(width: 8),
                         Text("s.view"),
                       ],
                     ),
@@ -341,26 +341,26 @@ class AssetsTab extends StatelessWidget {
                       ],
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'maintenance',
                     child: Row(
                       children: [
-                        const Icon(Icons.build_outlined, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.build_outlined, size: 20),
+                        SizedBox(width: 8),
                         Text("s.requestMaintenance"),
                       ],
                     ),
                   ),
                   if (asset['status']?.toLowerCase() == 'assigned')
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 'return',
                       child: Row(
                         children: [
-                          const Icon(Icons.undo_outlined,
+                          Icon(Icons.undo_outlined,
                               size: 20, color: Colors.orange),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Text("s.returnAsset",
-                              style: const TextStyle(color: Colors.orange)),
+                              style: TextStyle(color: Colors.orange)),
                         ],
                       ),
                     ),
@@ -385,7 +385,7 @@ class AssetsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAssetIcon(String category) {
+  Widget _buildAssetIcon(final String category) {
     IconData icon;
     Color color;
 
@@ -425,7 +425,7 @@ class AssetsTab extends StatelessWidget {
     );
   }
 
-  Widget _buildAssetStatusChip(String status) {
+  Widget _buildAssetStatusChip(final String status) {
     Color color;
     switch (status.toLowerCase()) {
       case 'assigned':
@@ -464,20 +464,20 @@ class AssetsTab extends StatelessWidget {
 
   int _getAssignedCount() {
     return controller.assignedAssets
-        .where((asset) => asset['status']?.toLowerCase() == 'assigned')
+        .where((final asset) => asset['status']?.toLowerCase() == 'assigned')
         .length;
   }
 
   int _getReturnedCount() {
     return controller.assignedAssets
-        .where((asset) => asset['status']?.toLowerCase() == 'returned')
+        .where((final asset) => asset['status']?.toLowerCase() == 'returned')
         .length;
   }
 
-  void _viewAsset(Map<String, dynamic> asset) {
+  void _viewAsset(final Map<String, dynamic> asset) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
+      builder: (final context) => AlertDialog(
         title: Text(asset['name'] ?? "s.asset"),
         content: SingleChildScrollView(
           child: Column(
@@ -496,14 +496,14 @@ class AssetsTab extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("s.close"),
+            child: const Text("s.close"),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, String? value) {
+  Widget _buildDetailRow(final String label, final String? value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -527,20 +527,20 @@ class AssetsTab extends StatelessWidget {
     );
   }
 
-  void _editAsset(Map<String, dynamic> asset) {
+  void _editAsset(final Map<String, dynamic> asset) {
     // Navigate to edit asset page
     controller.showSuccess("s.assetEdited");
   }
 
-  void _requestMaintenance(Map<String, dynamic> asset) {
+  void _requestMaintenance(final Map<String, dynamic> asset) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.requestMaintenance"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.requestMaintenance"),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("s.maintenanceRequestDescription"),
+            const Text("s.maintenanceRequestDescription"),
             const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
@@ -571,12 +571,12 @@ class AssetsTab extends StatelessWidget {
     );
   }
 
-  void _returnAsset(Map<String, dynamic> asset) {
+  void _returnAsset(final Map<String, dynamic> asset) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.returnAsset"),
-        content: Text("s.returnAssetConfirmation"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.returnAsset"),
+        content: const Text("s.returnAssetConfirmation"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
@@ -588,20 +588,20 @@ class AssetsTab extends StatelessWidget {
               controller.returnAsset(asset);
               controller.showSuccess("s.assetReturned");
             },
-            child: Text("s.returnAsset",
-                style: const TextStyle(color: Colors.orange)),
+            child: const Text("s.returnAsset",
+                style: TextStyle(color: Colors.orange)),
           ),
         ],
       ),
     );
   }
 
-  void _deleteAsset(Map<String, dynamic> asset) {
+  void _deleteAsset(final Map<String, dynamic> asset) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.deleteAsset"),
-        content: Text("s.deleteAssetConfirmation"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.deleteAsset"),
+        content: const Text("s.deleteAssetConfirmation"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

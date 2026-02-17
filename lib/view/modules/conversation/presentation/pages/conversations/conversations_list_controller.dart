@@ -109,7 +109,7 @@ class ConversationsListController extends GetxController {
 
         case 'error':
           final errorMessage = message['message'] as String? ?? '';
-          AppNavigator.snackbarRed(title: s.error, subtitle: errorMessage);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: errorMessage);
           break;
 
         case 'notification':

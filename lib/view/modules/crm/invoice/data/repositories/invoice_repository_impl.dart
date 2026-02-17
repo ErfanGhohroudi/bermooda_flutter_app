@@ -3,6 +3,8 @@ import 'package:u/utilities.dart';
 import '../../../../../../data/data.dart';
 import '../../domain/entities/invoice.dart';
 import '../../domain/repositories/invoice_repository.dart';
+import '../params/invoice_params.dart';
+import '../params/pay_invoice_params.dart';
 
 /// Repository Implementation
 /// Converts DTOs to Domain Entities (Data Layer to Domain Layer)
@@ -10,13 +12,10 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   InvoiceRepositoryImpl();
 
   InvoiceManagerDatasource get _invoiceManagerDatasource => Get.find<InvoiceManagerDatasource>();
-  InvoiceStatusManagerDatasource get _invoiceStatusManagerDatasource => Get.find<InvoiceStatusManagerDatasource>();
-  InstallmentDatasource get _installmentDatasource => Get.find<InstallmentDatasource>();
+
   PayInvoiceDatasource get _payInvoiceDatasource => Get.find<PayInvoiceDatasource>();
-  SendInvoiceSmsDatasource get _sendInvoiceSmsDatasource => Get.find<SendInvoiceSmsDatasource>();
+
   GetInvoiceCodeDatasource get _getInvoiceCodeDatasource => Get.find<GetInvoiceCodeDatasource>();
-  ChangeInvoiceStatusDatasource get _changeInvoiceStatusDatasource => Get.find<ChangeInvoiceStatusDatasource>();
-  InvoicePreviewDatasource get _invoicePreviewDatasource => Get.find<InvoicePreviewDatasource>();
 
   @override
   Future<String> getInvoiceCode() async {
@@ -42,9 +41,7 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
     _invoiceManagerDatasource.getInvoicesByCustomer(
       customerId: customerId,
       onResponse: (final response) {
-        final invoices = (response.resultList ?? [])
-            .map((final dto) => _mapInvoiceDtoToEntity(dto))
-            .toList();
+        final invoices = (response.resultList ?? []).map((final dto) => _mapInvoiceDtoToEntity(dto)).toList();
         completer.complete(invoices);
       },
       onError: (final error) {
@@ -70,12 +67,17 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<InvoiceEntity> getInvoicePreview(final String mainId) async {
-    final completer = Completer<InvoiceEntity>();
-    _invoicePreviewDatasource.getInvoicePreview(
-      mainId: mainId,
+  Future<InvoiceBuyerSellerInfo> getInvoiceBuyerAndSellerInfo(final int customerId) {
+    final completer = Completer<InvoiceBuyerSellerInfo>();
+    _invoiceManagerDatasource.getInvoiceInfo(
+      customerId: customerId,
       onResponse: (final response) {
-        completer.complete(_mapInvoiceDtoToEntity(response.result!));
+        final buyerSellerInfo = response.result;
+        if (buyerSellerInfo == null) {
+          completer.completeError('InvoiceBuyerSellerInfo is null');
+          return;
+        }
+        completer.complete(response.result!);
       },
       onError: (final error) {
         completer.completeError(error);
@@ -85,150 +87,29 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<InvoiceEntity> createInvoice(final Map<String, dynamic> params) async {
+  Future<InvoiceEntity> createInvoice(final InvoiceParams params) async {
     final completer = Completer<InvoiceEntity>();
     _invoiceManagerDatasource.createInvoice(
-      data: params,
+      params: params,
       onResponse: (final response) {
         completer.complete(_mapInvoiceDtoToEntity(response.result!));
       },
       onError: (final error) {
         completer.completeError(error);
       },
+      withLoading: true,
     );
     return completer.future;
   }
 
   @override
-  Future<InvoiceEntity> changeInvoiceStatus(final int invoiceId, final int statusId) async {
-    final completer = Completer<InvoiceEntity>();
-    _changeInvoiceStatusDatasource.changeInvoiceStatus(
-      invoiceId: invoiceId,
-      statusId: statusId,
-      onResponse: (final response) {
-        completer.complete(_mapInvoiceDtoToEntity(response.result!));
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<List<InvoiceStatusReadDto>> getInvoiceStatuses(final int groupCrmId) async {
-    final completer = Completer<List<InvoiceStatusReadDto>>();
-    _invoiceStatusManagerDatasource.getStatusesByGroupCrm(
-      groupCrmId: groupCrmId,
-      onResponse: (final response) {
-        completer.complete(response.resultList ?? []);
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<InvoiceStatusReadDto> createInvoiceStatus(final Map<String, dynamic> params) async {
-    final completer = Completer<InvoiceStatusReadDto>();
-    _invoiceStatusManagerDatasource.createStatus(
-      data: params,
-      onResponse: (final response) {
-        completer.complete(response.result!);
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<InvoiceStatusReadDto> updateInvoiceStatus(final int statusId, final Map<String, dynamic> params) async {
-    final completer = Completer<InvoiceStatusReadDto>();
-    _invoiceStatusManagerDatasource.updateStatus(
-      statusId: statusId,
-      data: params,
-      onResponse: (final response) {
-        completer.complete(response.result!);
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<void> deleteInvoiceStatus(final int statusId) async {
-    final completer = Completer<void>();
-    _invoiceStatusManagerDatasource.deleteStatus(
-      statusId: statusId,
-      onResponse: () {
-        completer.complete();
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<List<Installment>> getInstallments(final int invoiceId) async {
-    final completer = Completer<List<Installment>>();
-    _installmentDatasource.getInstallmentsByInvoice(
-      invoiceId: invoiceId,
-      onResponse: (final response) {
-        completer.complete(response.resultList ?? []);
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<void> payInstallments(final Map<String, dynamic> params) async {
-    final completer = Completer<void>();
-    _installmentDatasource.payInstallments(
-      data: params,
-      onResponse: (_) {
-        completer.complete();
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<InvoiceEntity> getPaymentInfo(final int invoiceId) async {
-    final completer = Completer<InvoiceEntity>();
-    _payInvoiceDatasource.getPaymentInfo(
-      invoiceId: invoiceId,
-      onResponse: (final response) {
-        completer.complete(_mapInvoiceDtoToEntity(response.result!));
-      },
-      onError: (final error) {
-        completer.completeError(error);
-      },
-    );
-    return completer.future;
-  }
-
-  @override
-  Future<InvoiceEntity> payInvoice(final int invoiceId, final Map<String, dynamic> params) async {
-    final completer = Completer<InvoiceEntity>();
+  Future<GenericResponse<PaymentRecord>> payInvoice(final String invoiceMainId, final PayInvoiceParams params) async {
+    final completer = Completer<GenericResponse<PaymentRecord>>();
     _payInvoiceDatasource.payInvoice(
-      invoiceId: invoiceId,
-      data: params,
+      invoiceMainId: invoiceMainId,
+      data: params.toMap(),
       onResponse: (final response) {
-        completer.complete(_mapInvoiceDtoToEntity(response.result!));
+        completer.complete(response);
       },
       onError: (final error) {
         completer.completeError(error);
@@ -238,12 +119,41 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<void> sendInvoiceSms(final int invoiceId) async {
-    final completer = Completer<void>();
-    _sendInvoiceSmsDatasource.sendInvoiceSms(
+  Future<InvoiceEntity> suspendInvoice(final int invoiceId, final String reason, final int? documentId) {
+    final completer = Completer<InvoiceEntity>();
+    _payInvoiceDatasource.suspendInvoice(
       invoiceId: invoiceId,
-      onResponse: (_) {
-        completer.complete();
+      reason: reason,
+      documentId: documentId,
+      onResponse: (final response) {
+        if (response.result == null) return completer.completeError('response.result is null');
+        final res = response.result!;
+        completer.complete(_mapInvoiceDtoToEntity(res));
+      },
+      onError: (final error) {
+        completer.completeError(error);
+      },
+    );
+    return completer.future;
+  }
+
+  @override
+  Future<InvoiceEntity> paymentVerification(
+    final int recordId,
+    final bool verify,
+    final String reason,
+    final int? installmentId,
+  ) {
+    final completer = Completer<InvoiceEntity>();
+    _payInvoiceDatasource.paymentVerification(
+      recordId: recordId,
+      verify: verify,
+      reason: reason,
+      installmentId: installmentId,
+      onResponse: (final response) {
+        if (response.result == null) return completer.completeError('response.result is null');
+        final res = response.result!;
+        completer.complete(_mapInvoiceDtoToEntity(res));
       },
       onError: (final error) {
         completer.completeError(error);

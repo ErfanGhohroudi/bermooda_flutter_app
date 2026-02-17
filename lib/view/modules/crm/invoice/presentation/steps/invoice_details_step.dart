@@ -1,6 +1,8 @@
+import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
@@ -18,278 +20,232 @@ class InvoiceDetailsStep extends StatelessWidget {
 
   final CreateInvoiceController ctrl;
 
+  static const productRowCellsWidth = <double>[
+    100, // title
+    30, // code
+    30, // count
+    30, // unit
+    60, // unit price
+    60, // discount
+    170, // total price
+  ];
+
+  static const headerCellPadding = 12.0;
+  static const rowCellPadding = 10.0;
+
   @override
   Widget build(final BuildContext context) {
     return Form(
-      key: ctrl.step2FormKey,
+      key: ctrl.detailsStepFormKey,
       child: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 10, bottom: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           spacing: 24,
           children: [
-            // Invoice Type
-            Obx(
-              () => WDropDownFormField<String>(
-                labelText: s.invoiceType,
-                value: ctrl.selectedInvoiceType.value?.getTitle(),
-                required: true,
-                showRequiredIcon: false,
-                items: getDropDownMenuItemsFromString(
-                  menuItems: InvoiceType.values.map((final e) => e.getTitle()).toList(),
-                ),
-                onChanged: (final value) {
-                  ctrl.selectedInvoiceType.value = InvoiceType.values.firstWhereOrNull(
-                    (final e) => e.getTitle() == value,
-                  );
-                },
-              ),
-            ),
-
-            // Invoice Code
-            WTextField(
-              controller: ctrl.invoiceCodeController,
-              labelText: s.invoiceId,
-              enabled: false,
-              maxLength: 50,
-            ),
-
-            // Payment Type
-            Obx(
-              () => WDropDownFormField<String>(
-                labelText: '${s.payment} ${s.type}',
-                value: ctrl.selectedPaymentType.value?.getTitle(),
-                required: true,
-                showRequiredIcon: false,
-                items: getDropDownMenuItemsFromString(
-                  menuItems: PaymentType.values.map((final e) => e.getTitle()).toList(),
-                ),
-                onChanged: (final value) {
-                  ctrl.selectedPaymentType.value = PaymentType.values.firstWhereOrNull(
-                    (final e) => e.getTitle() == value,
-                  );
-                  ctrl.onInstallmentFieldsChanged();
-                },
-              ),
-            ),
-
-            // Installment Fields
-            Obx(
-              () {
-                if (ctrl.selectedPaymentType.value != PaymentType.installment) {
-                  return const SizedBox.shrink();
-                }
-
-                return WCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 18,
-                    children: [
-                      Text('اطلاعات اقساط').titleMedium(),
-                      const Divider(),
-
-                      // Installment Count
-                      WPlusMinusField(
-                        labelText: 'تعداد اقساط',
-                        defaultValue: ctrl.installmentCount,
+            // Invoice Type Section
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 18,
+              children: [
+                Row(
+                  spacing: 10,
+                  children: [
+                    // Invoice Type
+                    Obx(
+                      () => WDropDownFormField<String>(
+                        labelText: s.invoiceType,
+                        value: ctrl.selectedInvoiceType.value?.getTitle(),
                         required: true,
-                        min: 1,
-                        max: 24,
-                        onChanged: (final value) {
-                          ctrl.installmentCount = value;
-                          ctrl.onInstallmentFieldsChanged();
-                        },
-                      ),
-
-                      // Interest Percentage
-                      WAmountCurrencyField(
-                        controller: ctrl.interestPercentageController,
-                        labelText: 'نرخ بهره (%)',
-                        showRequired: false,
-                        onChanged: (final value) => ctrl.onInstallmentFieldsChanged(),
-                      ),
-
-                      // Installment Start Date
-                      WDatePickerField(
-                        labelText: 'شروع اقساط از',
-                        initialValue: ctrl.installmentStartDate?.formatCompactDate(),
-                        onConfirm: (final date, final formattedDate) {
-                          ctrl.installmentStartDate = date;
-                          ctrl.onInstallmentFieldsChanged();
-                        },
-                      ),
-
-                      // Installment Period
-                      WDropDownFormField<String>(
-                        labelText: 'دوره زمانی',
-                        value: ctrl.installmentPeriod.toString(),
                         items: getDropDownMenuItemsFromString(
-                          menuItems: ['10', '20', '30'],
+                          menuItems: InvoiceType.values.map((final e) => e.getTitle()).toList(),
                         ),
                         onChanged: (final value) {
-                          if (value == null) return;
-                          ctrl.installmentPeriod = int.tryParse(value) ?? 10;
-                          ctrl.onInstallmentFieldsChanged();
+                          ctrl.selectedInvoiceType.value = InvoiceType.values.firstWhereOrNull(
+                            (final e) => e.getTitle() == value,
+                          );
                         },
                       ),
+                    ).expanded(),
 
-                      // Installments List
-                      if (ctrl.installmentPayments.isNotEmpty) ...[
-                        const SizedBox(height: 8),
-                        Text('لیست اقساط').bodyMedium(),
-                        const SizedBox(height: 8),
-                        ...ctrl.installmentPayments.asMap().entries.map((final entry) {
-                          final index = entry.key;
-                          final payment = entry.value;
-                          return WCard(
-                            margin: EdgeInsets.zero,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text('قسط ${index + 1}').bodyMedium(),
-                                  Text(payment['date_to_pay'] ?? '').bodyMedium(),
-                                  Text('${payment['price'] ?? ''} ${s.toman}').bodyMedium(),
-                                ],
-                              ),
-                            ),
-                          ).marginOnly(bottom: 8);
-                        }),
-                      ],
-                    ],
-                  ),
-                );
-              },
+                    // Invoice Code
+                    WTextField(
+                      controller: ctrl.invoiceCodeController,
+                      labelText: s.invoiceId,
+                      enabled: false,
+                      required: true,
+                      showRequired: false,
+                      maxLength: 50,
+                    ).expanded(),
+                  ],
+                ),
+
+                Row(
+                  spacing: 10,
+                  children: [
+                    // Created Date
+                    WDatePickerField(
+                      labelText: s.dateOfEntry,
+                      initialValue: ctrl.createdDate?.formatCompactDate(),
+                      required: true,
+                      onConfirm: (final date, final formattedDate) {
+                        ctrl.createdDate = date;
+                      },
+                    ).expanded(),
+
+                    // Validity Date
+                    WDatePickerField(
+                      labelText: s.validityDate,
+                      initialValue: ctrl.validityDate?.formatCompactDate(),
+                      showYearSelector: true,
+                      required: true,
+                      onConfirm: (final date, final formattedDate) {
+                        ctrl.validityDate = date;
+                      },
+                    ).expanded(),
+                  ],
+                ),
+              ],
             ),
 
             // Products Section
-            WCard(
-              horPadding: 0,
-              verPadding: 0,
-              margin: EdgeInsets.zero,
-              showBorder: true,
-              color: Colors.white,
-              borderWidth: 1,
-              child: Scrollbar(
-                trackVisibility: true,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width - 32,
-                    ),
-                    child: IntrinsicWidth(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // Table Header
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 40,
-                                  child: Text('#').bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 200,
-                                  child: Text('شرح کالا / خدمات').bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 120,
-                                  child: Text(s.productCode).bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 80,
-                                  child: Text(s.count).bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 150,
-                                  child: Text(s.unit).bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 120,
-                                  child: Text(s.unitPrice).bodySmall(fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  width: 150,
-                                  child: Row(
-                                    children: [
-                                      Text('${s.totalPrice} ').bodySmall(fontWeight: FontWeight.bold),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade300,
-                                          borderRadius: BorderRadius.circular(12),
-                                        ),
-                                        child: Text(s.toman).bodySmall(fontSize: 10),
+            Container(
+              decoration: BoxDecoration(
+                color: context.theme.cardColor,
+                border: Border.all(color: context.theme.dividerColor, width: 2),
+                borderRadius: BorderRadiusGeometry.circular(6),
+              ),
+              child: Theme(
+                data: ThemeData(
+                  scrollbarTheme: context.theme.scrollbarTheme.copyWith(
+                    thumbColor: const WidgetStatePropertyAll(AppColors.green),
+                  ),
+                ),
+                child: Scrollbar(
+                  trackVisibility: true,
+                  thumbVisibility: true,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: context.width - 32,
+                      ),
+                      child: IntrinsicWidth(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Table Header
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              // color: Colors.grey.shade200,
+                              color: context.theme.primaryColor.withValues(alpha: 0.1),
+                              child: IntrinsicHeight(
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: productRowCellsWidth[0],
+                                      child: Text(
+                                        s.productService,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[1],
+                                      child: Text(
+                                        s.productCode,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[2],
+                                      child: Text(s.count, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[3],
+                                      child: Text(s.unit, textAlign: TextAlign.center).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[4],
+                                      child: Text(
+                                        s.unitPrice,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[5],
+                                      child: Text(
+                                        s.discount,
+                                        textAlign: TextAlign.center,
+                                      ).bodySmall(fontSize: 10).alignAtCenter(),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                    const VerticalDivider(),
+                                    SizedBox(
+                                      width: productRowCellsWidth[6],
+                                      child: Row(
+                                        children: [
+                                          Text('${s.totalPrice} ', textAlign: TextAlign.center).bodySmall(fontSize: 10),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade300,
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            child: Text(s.rial).bodySmall(fontSize: 10),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ).pSymmetric(vertical: headerCellPadding),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
 
-                          // Products Table Rows
-                          Obx(
-                            () {
-                              if (ctrl.products.isEmpty) {
-                                return Container(
-                                  padding: const EdgeInsets.all(24),
-                                  child: Center(
-                                    child: Text(s.listIsEmpty).bodyMedium(color: context.theme.hintColor),
-                                  ),
+                            // Products Table Rows
+                            Obx(
+                              () {
+                                if (ctrl.products.isEmpty) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Column(
+                                  children: ctrl.products.asMap().entries.map((final entry) {
+                                    return _buildProductRow(context, entry.key, entry.value);
+                                  }).toList(),
                                 );
-                              }
-                              return Column(
-                                children: ctrl.products.asMap().entries.map((final entry) {
-                                  return _buildProductRow(context, entry.key, entry.value);
-                                }).toList(),
-                              );
-                            },
-                          ),
+                              },
+                            ),
 
-                          // Add Row Button
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                top: BorderSide(color: Colors.grey.shade300),
+                            // Add Row Button
+                            Container(
+                              height: 50,
+                              padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 12),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.grey.shade300),
+                                ),
                               ),
-                            ),
-                            child: InkWell(
-                              onTap: () => _showAddProductDialog(context),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'اضافه کردن ردیف',
-                                    style: TextStyle(
+                              child: InkWell(
+                                onTap: () => _showAddProductDialog(context),
+                                child: Row(
+                                  spacing: 4,
+                                  children: [
+                                    Text(s.addRow).bodyMedium(color: context.theme.primaryColor),
+                                    UImage(
+                                      AppIcons.addSquareOutline,
                                       color: context.theme.primaryColor,
-                                      fontSize: 13,
+                                      size: 20,
                                     ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Icon(
-                                    Icons.add_circle,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -298,213 +254,243 @@ class InvoiceDetailsStep extends StatelessWidget {
             ),
 
             // Calculations Section
-            WCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('محاسبات').titleMedium(),
-                  const Divider(),
-                  const SizedBox(height: 10),
-                  Obx(
-                    () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 18,
-                      children: [
-                        // Total Products Price
-                        _calculationRow(
-                          'جمع کل محصولات',
-                          ctrl.totalProductsPrice.toString().toTomanMoney(),
-                        ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 18,
+                    children: [
+                      // Total Products Price
+                      _calculationRow(
+                        s.totalAmountOfProductsServices,
+                        ctrl.totalProductsPriceAfterDiscount.toString().toRialMoney(),
+                      ),
 
-                        // Discount
-                        WAmountCurrencyField(
-                          controller: ctrl.discountController,
-                          labelText: s.discount,
-                          showRequired: false,
-                          onChanged: (final value) => ctrl.onInstallmentFieldsChanged(),
-                        ),
+                      // Products Discount
+                      _calculationRow(
+                        "${s.discount} (${s.productsOrServices})",
+                        ("${ctrl.totalProductsDiscountAmount > 0.toDecimal() ? "ـ " : ''}${ctrl.totalProductsDiscountAmount}")
+                            .toRialMoney(),
+                        color: AppColors.red,
+                      ),
 
-                        // Taxes
-                        WAmountCurrencyField(
-                          controller: ctrl.taxesController,
-                          labelText: s.tax,
-                          showRequired: false,
-                          onChanged: (final value) => ctrl.onInstallmentFieldsChanged(),
-                        ),
+                      // Discount Amount
+                      _calculationRow(
+                        s.discount,
+                        ("${ctrl.discountAmount > 0.toDecimal() ? "ـ " : ''}${ctrl.discountAmount}").toRialMoney(),
+                        color: AppColors.red,
+                      ),
 
-                        // Shipping Cost
-                        WAmountCurrencyField(
-                          controller: ctrl.shippingCostController,
-                          labelText: 'هزینه ارسال',
-                          showRequired: false,
-                          onChanged: (final value) => ctrl.onInstallmentFieldsChanged(),
-                        ),
+                      // Tax Amount
+                      _calculationRow(
+                        s.tax,
+                        ("${ctrl.taxAmount > 0.toDecimal() ? "+ " : ''}${ctrl.taxAmount}").toRialMoney(),
+                        color: AppColors.green,
+                      ),
 
-                        // Interest (if installment)
-                        if (ctrl.selectedPaymentType.value == PaymentType.installment && ctrl.interestAmount > 0)
-                          _calculationRow(
-                            'نرخ بهره',
-                            ctrl.interestAmount.toString().toTomanMoney(),
-                          ),
-                      ],
-                    ),
+                      // Discount
+                      WPlusMinusField(
+                        labelText: "${s.discount} (%)",
+                        defaultValue: ctrl.discountPercentage.value,
+                        max: 100,
+                        onChanged: (final value) {
+                          ctrl.discountPercentage(value);
+                          ctrl.onFinancialFieldsChanged();
+                        },
+                      ),
+
+                      // Taxes
+                      WPlusMinusField(
+                        labelText: "${s.tax} (%)",
+                        defaultValue: ctrl.taxesPercentage.value,
+                        max: 100,
+                        onChanged: (final value) {
+                          ctrl.taxesPercentage(value);
+                          ctrl.onFinancialFieldsChanged();
+                        },
+                      ),
+
+                      // Shipping Cost
+                      Obx(
+                        () => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 12,
+                          children: [
+                            WCheckBox(
+                              isChecked: ctrl.shipping.value,
+                              title: s.shippingCost,
+                              onChanged: (final value) {
+                                ctrl.shipping(value);
+                                if (ctrl.shipping.value) {
+                                  ctrl.shippingCostFocusNode.requestFocus();
+                                }
+                                ctrl.onShippingCostFieldChanged();
+                              },
+                            ),
+                            if (ctrl.shipping.value)
+                              WAmountCurrencyField(
+                                controller: ctrl.shippingCostController,
+                                focusNode: ctrl.shippingCostFocusNode,
+                                labelText: '',
+                                required: ctrl.shipping.value,
+                                currencyText: s.rial,
+                                onChanged: (final value) {
+                                  ctrl.onShippingCostFieldChanged();
+                                  ctrl.onFinancialFieldsChanged();
+                                },
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const Divider(height: 30),
-                  // Final Price
-                  _calculationRow(
-                    'قابل پرداخت',
-                    ctrl.finalPrice.toString().toTomanMoney(),
-                    isBold: true,
-                  ),
-                ],
+                ),
+                const SizedBox(height: 30),
+
+                // Description
+                WTextField(
+                  controller: ctrl.descriptionController,
+                  labelText: s.description,
+                  minLines: 3,
+                  maxLines: 8,
+                  maxLength: 2000,
+                  showCounter: true,
+                  multiLine: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+              ],
+            ),
+
+            // Payment Terms
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 10,
+              children: [
+                Text(s.paymentTerms).titleMedium(color: context.theme.hintColor),
+                WRadioGroup<PaymentTerms>(
+                  items: PaymentTerms.values,
+                  initialValue: ctrl.selectedPaymentTerms.value,
+                  onChanged: (final value) {
+                    ctrl.selectedPaymentTerms.value = PaymentTerms.values.firstWhere((final e) => e == value);
+                    ctrl.onFinancialFieldsChanged();
+                  },
+                  labelBuilder: (final item) => item.getTitle(),
+                ),
+              ],
+            ),
+
+            // Final Price
+            Obx(
+              () => IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: context.theme.primaryColor,
+                        borderRadius: BorderRadiusGeometry.horizontal(start: const Radius.circular(15)),
+                      ),
+                      child: Text(s.payable).bodyMedium(color: Colors.white).alignAtCenter(),
+                    ).expanded(flex: 1),
+                    Container(
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: context.theme.dividerColor,
+                        borderRadius: BorderRadiusGeometry.horizontal(end: const Radius.circular(15)),
+                      ),
+                      child: Text(
+                        ctrl.finalPrice.toString().toRialMoney(),
+                      ).bodyMedium().bold().alignAtCenter(),
+                    ).expanded(flex: 2),
+                  ],
+                ),
               ),
             ),
-
-            // Date to Pay
-            WDatePickerField(
-              labelText: s.paymentDate,
-              initialValue: ctrl.dateToPay?.formatCompactDate(),
-              onConfirm: (final date, final formattedDate) {
-                ctrl.dateToPay = date;
-              },
-            ),
-
-            // Description
-            WTextField(
-              controller: ctrl.descriptionController,
-              labelText: s.description,
-              minLines: 4,
-              maxLines: 8,
-              maxLength: 2000,
-              showCounter: true,
-              multiLine: true,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-            ),
-
-            const SizedBox(height: 100), // Space for bottom button
           ],
         ),
       ),
     );
   }
 
-  Widget _calculationRow(final String label, final String value, {final bool isBold = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label).bodyMedium(),
-        Text(value).bodyMedium(fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
-      ],
-    );
-  }
-
   Widget _buildProductRow(final BuildContext context, final int index, final InvoiceProduct product) {
     final price = int.tryParse(product.price.numericOnly()) ?? 0;
-    final total = (price * product.count).toString().toTomanMoney();
+    final discount = int.tryParse(product.discount?.numericOnly() ?? '0') ?? 0;
+    final total = ((price * product.count) - discount).toString().toRialMoney();
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: index.isEven ? Colors.white : Colors.grey.shade50,
         border: Border(
           top: BorderSide(color: Colors.grey.shade300),
         ),
       ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 40,
-            child: Text('${index + 1}').bodySmall(),
-          ),
-          SizedBox(
-            width: 200,
-            child: Text(product.title).bodySmall(),
-          ),
-          SizedBox(
-            width: 120,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    product.code ?? '',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: product.code != null ? null : context.theme.hintColor,
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            SizedBox(
+              width: productRowCellsWidth[0],
+              child: Text("${index + 1} - ${product.title}").bodySmall(fontSize: 10),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[1],
+              child: Text(product.code ?? '').bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[2],
+              child: Text(product.count.toString()).bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[3],
+              child: Text(product.unit ?? '').bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[4],
+              child: Text(product.price.separateNumbers3By3()).bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[5],
+              child: Text(product.discount?.separateNumbers3By3() ?? '0').bodySmall(fontSize: 10).alignAtCenter(),
+            ).pSymmetric(vertical: rowCellPadding),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[6],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(total).bodySmall(fontSize: 10).bold().expanded(),
+                  IconButton(
+                    onPressed: () => _showEditProductDialog(context, index, product),
+                    style: IconButton.styleFrom(
+                      padding: const EdgeInsets.all(5),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    overflow: TextOverflow.ellipsis,
+                    icon: const UImage(AppIcons.editOutline, size: 20, color: AppColors.green),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () => _showProductCodeDialog(context, index, product),
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade50,
-                      borderRadius: BorderRadius.circular(4),
+                  IconButton(
+                    onPressed: () => ctrl.removeProduct(index),
+                    style: IconButton.styleFrom(
+                      padding: const EdgeInsets.all(5),
+                      minimumSize: Size.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    child: Icon(
-                      Icons.add,
-                      size: 16,
-                      color: Colors.green.shade700,
-                    ),
+                    icon: const UImage(AppIcons.delete, size: 20, color: AppColors.red),
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 80,
-            child: Text(product.count.toString()).bodySmall(),
-          ),
-          SizedBox(
-            width: 150,
-            child: Text(product.unit ?? '').bodySmall(),
-          ),
-          SizedBox(
-            width: 120,
-            child: Text(product.price).bodySmall(),
-          ),
-          SizedBox(
-            width: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    total,
-                    overflow: TextOverflow.ellipsis,
-                  ).bodySmall(fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () => _showEditProductDialog(context, index, product),
-                  style: IconButton.styleFrom(
-                    padding: const EdgeInsets.all(5),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  icon: const UImage(
-                    AppIcons.editOutline,
-                    size: 20,
-                    color: AppColors.green,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () => ctrl.removeProduct(index),
-                  style: IconButton.styleFrom(
-                    padding: const EdgeInsets.all(5),
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  icon: const UImage(
-                    AppIcons.delete,
-                    size: 20,
-                    color: AppColors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+                ],
+              ),
+            ).pSymmetric(vertical: rowCellPadding),
+          ],
+        ),
       ),
     );
   }
@@ -515,6 +501,7 @@ class InvoiceDetailsStep extends StatelessWidget {
     final codeController = TextEditingController(text: product.code ?? '');
     final unitController = TextEditingController(text: product.unit ?? '');
     final priceController = TextEditingController(text: product.price);
+    final discountController = TextEditingController(text: product.discount);
     int count = product.count;
 
     bottomSheet(
@@ -529,9 +516,8 @@ class InvoiceDetailsStep extends StatelessWidget {
             children: [
               WTextField(
                 controller: titleController,
-                labelText: 'شرح کالا / خدمات',
+                labelText: s.productService,
                 required: true,
-                showRequired: false,
               ),
               WTextField(
                 controller: codeController,
@@ -552,8 +538,13 @@ class InvoiceDetailsStep extends StatelessWidget {
               WAmountCurrencyField(
                 controller: priceController,
                 labelText: s.unitPrice,
+                currencyText: s.rial,
                 required: true,
-                showRequired: false,
+              ),
+              WAmountCurrencyField(
+                controller: discountController,
+                labelText: s.discount,
+                currencyText: s.rial,
               ),
               Row(
                 spacing: 10,
@@ -561,7 +552,7 @@ class InvoiceDetailsStep extends StatelessWidget {
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: () => UNavigator.back(),
+                    onTap: () => AppNavigator.back(),
                   ).expanded(),
                   UElevatedButton(
                     title: s.save,
@@ -573,12 +564,13 @@ class InvoiceDetailsStep extends StatelessWidget {
                             id: product.id,
                             title: titleController.text.trim(),
                             count: count,
-                            price: priceController.text.trim(),
+                            price: priceController.text.trim().numericOnly(),
+                            discount: discountController.text.trim().isEmpty ? null : discountController.text.trim().numericOnly(),
                             unit: unitController.text.trim().isEmpty ? null : unitController.text.trim(),
                             code: codeController.text.trim().isEmpty ? null : codeController.text.trim(),
                           );
                           ctrl.updateProduct(index, updatedProduct);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                       );
                     },
@@ -592,57 +584,12 @@ class InvoiceDetailsStep extends StatelessWidget {
     );
   }
 
-  void _showProductCodeDialog(final BuildContext context, final int index, final InvoiceProduct product) {
-    final codeController = TextEditingController(text: product.code ?? '');
-
-    bottomSheet(
-      title: 'کد کالا',
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          spacing: 18,
-          children: [
-            WTextField(
-              controller: codeController,
-              labelText: s.productCode,
-            ),
-            Row(
-              spacing: 10,
-              children: [
-                UElevatedButton(
-                  title: s.cancel,
-                  backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
-                ).expanded(),
-                UElevatedButton(
-                  title: s.save,
-                  onTap: () {
-                    final updatedProduct = InvoiceProduct(
-                      id: product.id,
-                      title: product.title,
-                      count: product.count,
-                      price: product.price,
-                      unit: product.unit,
-                      code: codeController.text.trim().isEmpty ? null : codeController.text.trim(),
-                    );
-                    ctrl.updateProduct(index, updatedProduct);
-                    UNavigator.back();
-                  },
-                ).expanded(),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   void _showAddProductDialog(final BuildContext context) {
     final GlobalKey<FormState> formKey = GlobalKey();
     final productIdController = TextEditingController();
     final productTitleController = TextEditingController();
     final productPriceController = TextEditingController();
+    final productDiscountController = TextEditingController();
     final productUnitController = TextEditingController();
     final productCodeController = TextEditingController();
     int productCount = 1;
@@ -659,7 +606,7 @@ class InvoiceDetailsStep extends StatelessWidget {
             children: [
               WTextField(
                 controller: productTitleController,
-                labelText: 'شرح کالا / خدمات',
+                labelText: s.productService,
                 required: true,
                 showRequired: false,
               ),
@@ -682,8 +629,14 @@ class InvoiceDetailsStep extends StatelessWidget {
               WAmountCurrencyField(
                 controller: productPriceController,
                 labelText: s.unitPrice,
+                currencyText: s.rial,
                 required: true,
                 showRequired: false,
+              ),
+              WAmountCurrencyField(
+                controller: productDiscountController,
+                labelText: s.discount,
+                currencyText: s.rial,
               ),
               Row(
                 spacing: 10,
@@ -691,7 +644,7 @@ class InvoiceDetailsStep extends StatelessWidget {
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: () => UNavigator.back(),
+                    onTap: () => AppNavigator.back(),
                   ).expanded(),
                   UElevatedButton(
                     title: s.addText,
@@ -703,13 +656,16 @@ class InvoiceDetailsStep extends StatelessWidget {
                             id: int.tryParse(productIdController.text.trim()) ?? 0,
                             title: productTitleController.text.trim(),
                             count: productCount,
-                            price: productPriceController.text.trim(),
+                            price: productPriceController.text.trim().numericOnly(),
+                            discount: productDiscountController.text.trim().isEmpty
+                                ? null
+                                : productDiscountController.text.trim().numericOnly(),
                             unit: productUnitController.text.trim().isEmpty ? null : productUnitController.text.trim(),
                             code: productCodeController.text.trim().isEmpty ? null : productCodeController.text.trim(),
                           );
 
                           ctrl.addProduct(product);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                       );
                     },
@@ -720,6 +676,24 @@ class InvoiceDetailsStep extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _calculationRow(
+    final String label,
+    final String value, {
+    final bool isBold = false,
+    final Color? color,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label).bodyMedium(),
+        Text(value).bodyMedium(
+          fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+          color: color,
+        ),
+      ],
     );
   }
 }

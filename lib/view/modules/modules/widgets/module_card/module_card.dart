@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/services/subscription_service.dart';
 
 class WModuleCard extends StatelessWidget {
@@ -28,7 +29,7 @@ class WModuleCard extends StatelessWidget {
           onTap: () => subService.checkSubscription(
             action: () async {
               if (isBottomSheet) {
-                UNavigator.back();
+                AppNavigator.back();
                 await Future.delayed(250.milliseconds);
               }
               onTap();

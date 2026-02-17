@@ -39,7 +39,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -80,7 +80,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -103,7 +103,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -135,7 +135,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -165,7 +165,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -188,7 +188,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();
@@ -212,7 +212,7 @@ class ProjectDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -303,6 +303,59 @@ class ProjectDatasource {
         data: {
           "ordered_project_ids": projects.map((final e) => e.id?.toInt()).whereType<int>().toList(),
         },
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<ProjectReadDto>.fromJson(response.data, fromMap: ProjectReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+    AppLoading.dismissLoading();
+  }
+
+  void getArchivedProjects({
+    required final int pageNumber,
+    final String? query,
+    required final Function(GenericResponse<ProjectReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final int perPageCount = 20,
+    final bool withRetry = false,
+  }) async {
+    try {
+      final response = await _apiClient.get(
+        "/v1/ProjectManager/ProjectManager/Archives",
+        queryParameters: {
+          "page_number": pageNumber,
+          "per_page_count": perPageCount,
+          if (query != null && query.isNotEmpty) "search": query,
+        },
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<ProjectReadDto>.fromJson(response.data, fromMap: ProjectReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+  }
+
+  void restoreProject({
+    required final String? projectId,
+    required final Function(GenericResponse<ProjectReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    AppLoading.showLoading();
+    try {
+      final response = await _apiClient.post(
+        "/v1/ProjectManager/ProjectManager/Restore/$projectId",
         skipRetry: !withRetry,
       );
 

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -68,7 +69,7 @@ class _CreateUpdateStepPageState extends State<CreateUpdateStepPage> {
                         title: _titleController.text,
                         onSuccess: () {
                           _isSaving(false);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                         onFailure: () => _isSaving(false),
                       );
@@ -78,7 +79,7 @@ class _CreateUpdateStepPageState extends State<CreateUpdateStepPage> {
                         title: _titleController.text,
                         onSuccess: () {
                           _isSaving(false);
-                          UNavigator.back();
+                          AppNavigator.back();
                         },
                         onFailure: () => _isSaving(false),
                       );

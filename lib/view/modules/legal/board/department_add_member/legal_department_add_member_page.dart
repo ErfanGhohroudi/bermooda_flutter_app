@@ -44,7 +44,7 @@ class _LegalDepartmentAddMemberPageState extends State<LegalDepartmentAddMemberP
                   children: [
                     WMembersPickerFormField(
                       labelText: s.accessibleMembers,
-                      helperText: s.projectAccessibleMembersHelper,
+                      helperText: s.accessibleMembersHelper(s.department.toLowerCase()),
                       members: members,
                       required: true,
                       selectedMembers: selectedMembers,

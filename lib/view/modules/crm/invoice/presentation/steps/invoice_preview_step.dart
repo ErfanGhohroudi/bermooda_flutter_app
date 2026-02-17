@@ -1,12 +1,16 @@
-import 'dart:io';
+import 'package:decimal/decimal.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
-import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../../core/navigator/navigator.dart';
+import '../../../../../../core/theme.dart';
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../core/utils/extensions/money_extensions.dart';
-import '../../../../../../core/navigator/navigator.dart';
+import '../../../../../../core/widgets/widgets.dart';
+import '../../../../../../data/data.dart';
+import '../../domain/entities/invoice.dart';
 import '../controllers/create_invoice_controller.dart';
+import '../widgets/installments_table.dart';
 
 class InvoicePreviewStep extends StatefulWidget {
   const InvoicePreviewStep({
@@ -23,67 +27,43 @@ class InvoicePreviewStep extends StatefulWidget {
 class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   final ScreenshotController _screenshotController = ScreenshotController();
 
-  Future<void> _printOrSaveInvoice() async {
-    try {
-      final image = await _screenshotController.capture();
-      if (image == null) return;
+  CreateInvoiceController get ctrl => widget.ctrl;
 
-      final directory = await getApplicationDocumentsDirectory();
-      final fileName = 'invoice_${widget.ctrl.invoiceCodeController.text}_${DateTime.now().millisecondsSinceEpoch}.png';
-      final file = File('${directory.path}/$fileName');
-      await file.writeAsBytes(image);
+  static const productRowCellsWidth = <double>[
+    20, // index (ردیف)
+    50, // code (کد کالا)
+    150, // description (شرح کالا یا خدمات)
+    40, // quantity (تعداد)
+    60, // unit (واحد اندازه‌گیری)
+    100, // unit price (مبلغ واحد)
+    120, // total price (مبلغ کل)
+    100, // discount (مبلغ تخفیف)
+    120, // total after discount (مبلغ کل پس از تخفیف)
+    120, // tax (جمع مالیات و عوارض)
+    150, // grand total (جمع کل)
+  ];
 
-      ULaunch.shareFile(
-        [file.path],
-        'فاکتور ${widget.ctrl.invoiceCodeController.text}',
-      );
-
-      AppNavigator.snackbarGreen(
-        title: s.success,
-        subtitle: 'فاکتور ذخیره شد',
-      );
-    } catch (e) {
-      AppNavigator.snackbarRed(
-        title: s.error,
-        subtitle: 'خطا در ذخیره فاکتور',
-      );
-    }
-  }
+  static const headerCellPadding = 8.0;
+  static const rowCellPadding = 10.0;
 
   @override
   Widget build(final BuildContext context) {
     return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 10, bottom: 100),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 16,
         children: [
-          // Action Buttons
-          Row(
-            spacing: 10,
-            children: [
-              UElevatedButton(
-                title: 'چاپ / ذخیره PDF',
-                icon: const Icon(Icons.print, color: Colors.white),
-                onTap: _printOrSaveInvoice,
-              ).expanded(),
-              UElevatedButton(
-                title: 'ریست فاکتور',
-                backgroundColor: context.theme.hintColor,
-                onTap: () => _showResetConfirmation(context),
-              ).expanded(),
-            ],
-          ),
-
           // Invoice Preview (Printable)
           Screenshot(
             controller: _screenshotController,
             child: Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey.shade300, width: 1),
+                border: Border.all(color: context.theme.dividerColor),
               ),
               child: _buildInvoiceContent(context),
             ),
@@ -94,27 +74,30 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   }
 
   Widget _buildInvoiceContent(final BuildContext context) {
+    final buyerInfoIsNotEmpty = ctrl.buyerInfo != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Header
         _buildHeader(context),
-        const SizedBox(height: 24),
+        const SizedBox(height: 10),
 
         // Invoice Info
         _buildInvoiceInfo(context),
         const SizedBox(height: 24),
 
         // Buyer and Seller Info
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: _buildBuyerInfo(context)),
-            const SizedBox(width: 16),
-            Expanded(child: _buildSellerInfo(context)),
-          ],
-        ),
-        const SizedBox(height: 24),
+        if (ctrl.sellerInfo.value != null || buyerInfoIsNotEmpty) ...[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (ctrl.sellerInfo.value != null) _buildSellerInfo(context, ctrl.sellerInfo.value!),
+              const SizedBox(height: 10),
+              if (buyerInfoIsNotEmpty) _buildBuyerInfo(context, ctrl.buyerInfo!),
+            ],
+          ),
+          const SizedBox(height: 24),
+        ],
 
         // Products Table
         _buildProductsTable(context),
@@ -127,12 +110,18 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
         // Installments (if applicable)
         Obx(
           () {
-            if (widget.ctrl.selectedPaymentType.value == PaymentType.installment &&
-                widget.ctrl.installmentPayments.isNotEmpty) {
+            if (ctrl.selectedPaymentTerms.value == PaymentTerms.installment && ctrl.installmentPayments.isNotEmpty) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInstallmentsTable(context),
+                  Text(s.installments).titleMedium(color: context.theme.hintColor),
+                  const SizedBox(height: 8),
+                  WInstallmentsTable(
+                    installmentPayments: ctrl.installmentPayments,
+                    editable: false,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(s.installmentInterestNotice).bodySmall(),
                   const SizedBox(height: 24),
                 ],
               );
@@ -148,72 +137,21 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   }
 
   Widget _buildHeader(final BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.theme.primaryColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: context.theme.primaryColor, width: 2),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(
-                  () {
-                    final wsInfo = widget.ctrl.workspaceInfo.value;
-                    return Text(
-                      wsInfo?.name ?? wsInfo?.title ?? 'نام شرکت',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: context.theme.primaryColor,
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 8),
-                Obx(
-                  () {
-                    final wsInfo = widget.ctrl.workspaceInfo.value;
-                    if (wsInfo?.address != null && wsInfo!.address!.isNotEmpty) {
-                      return Text(
-                        wsInfo.address!,
-                        style: const TextStyle(fontSize: 12),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                'فاکتور',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.primaryColor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.ctrl.invoiceCodeController.text,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(s.salesInvoiceTitle).titleMedium(color: context.theme.primaryColor).bold().alignAtCenter(),
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 24,
+          children: [
+            Text('${s.invoiceId}: ${ctrl.invoiceCode}').bodySmall(),
+            if (ctrl.createdDate != null) Text('${s.date}: ${ctrl.createdDate!.formatCompactDate()}').bodySmall(),
+          ],
+        ),
+        Divider(color: context.theme.primaryColor),
+      ],
     );
   }
 
@@ -221,30 +159,30 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: context.theme.dividerColor.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: context.theme.dividerColor),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          if (widget.ctrl.selectedInvoiceType.value != null)
+          if (ctrl.selectedInvoiceType.value != null)
             _infoItem(
               context,
-              'نوع فاکتور',
-              widget.ctrl.selectedInvoiceType.value?.getTitle() ?? '',
+              s.invoiceType,
+              ctrl.selectedInvoiceType.value?.getTitle() ?? '',
             ),
-          if (widget.ctrl.createdDate != null)
+          if (ctrl.createdDate != null)
             _infoItem(
               context,
-              'تاریخ ثبت',
-              widget.ctrl.createdDate!.formatCompactDate(),
+              s.dateOfEntry,
+              ctrl.createdDate!.formatCompactDate(),
             ),
-          if (widget.ctrl.validityDate != null)
+          if (ctrl.validityDate != null)
             _infoItem(
               context,
-              'تاریخ اعتبار',
-              widget.ctrl.validityDate!.formatCompactDate(),
+              s.validityDate,
+              ctrl.validityDate!.formatCompactDate(),
             ),
         ],
       ),
@@ -254,358 +192,443 @@ class _InvoicePreviewStepState extends State<InvoicePreviewStep> {
   Widget _infoItem(final BuildContext context, final String label, final String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 4,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            color: context.theme.hintColor,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(label).bodyMedium(color: context.theme.hintColor),
+        Text(value).bodyMedium(),
       ],
     );
   }
 
-  Widget _buildBuyerInfo(final BuildContext context) {
+  Widget _buildBuyerInfo(final BuildContext context, final BuyerInfo buyer) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: context.theme.dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'خریدار',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: context.theme.primaryColor,
-            ),
-          ),
+          Text(s.buyer).titleMedium(color: context.theme.primaryColor),
           const Divider(height: 16),
-          _infoRow(context, 'نام', widget.ctrl.buyerNameController.text),
-          _infoRow(context, 'شماره تماس', widget.ctrl.buyerPhoneController.text),
-          Obx(
-            () {
-              if (widget.ctrl.selectedState.value != null) {
-                return _infoRow(context, 'استان', widget.ctrl.selectedState.value?.title ?? '');
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          Obx(
-            () {
-              if (widget.ctrl.selectedCity.value != null) {
-                return _infoRow(context, 'شهر', widget.ctrl.selectedCity.value?.title ?? '');
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          if (widget.ctrl.buyerAddressController.text.isNotEmpty)
-            _infoRow(context, 'آدرس', widget.ctrl.buyerAddressController.text),
+          _infoRow(context, s.name, buyer.name),
+          _infoRow(context, s.phoneNumber, buyer.phoneNumber),
+          if (buyer.nationalCode != null) _infoRow(context, s.nationalID, buyer.nationalCode ?? ''),
+          if (buyer.economicCode != null) _infoRow(context, s.economicCode, buyer.economicCode ?? ''),
+          if (buyer.state?.title != null) _infoRow(context, s.state, buyer.state?.title ?? ''),
+          if (buyer.city?.title != null) _infoRow(context, s.city, buyer.city?.title ?? ''),
+          if (buyer.address.isNotEmpty) _infoRow(context, s.address, buyer.address),
         ],
       ),
     );
   }
 
-  Widget _buildSellerInfo(final BuildContext context) {
-    return Obx(
-      () {
-        final wsInfo = widget.ctrl.workspaceInfo.value;
-        if (wsInfo == null) {
-          return const SizedBox.shrink();
-        }
+  Widget _buildSellerInfo(final BuildContext context, final SellerInfo seller) {
+    final isLegal = seller.normalizedPersonalType == AuthenticationType.legal;
 
-        return Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'فروشنده',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: context.theme.primaryColor,
-                ),
-              ),
-              const Divider(height: 16),
-              _infoRow(context, 'نام', wsInfo.name ?? wsInfo.title ?? '-'),
-              if (wsInfo.stateName != null) _infoRow(context, 'استان', wsInfo.stateName!),
-              if (wsInfo.cityName != null) _infoRow(context, 'شهر', wsInfo.cityName!),
-              if (wsInfo.address != null && wsInfo.address!.isNotEmpty)
-                _infoRow(context, 'آدرس', wsInfo.address!),
-              if (wsInfo.phoneNumber != null && wsInfo.phoneNumber!.isNotEmpty)
-                _infoRow(context, 'شماره تماس', wsInfo.phoneNumber!),
-              if (wsInfo.email != null && wsInfo.email!.isNotEmpty)
-                _infoRow(context, 'ایمیل', wsInfo.email!),
-            ],
-          ),
-        );
-      },
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: context.theme.dividerColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(s.seller).titleMedium(color: context.theme.primaryColor),
+          const Divider(height: 16),
+          _infoRow(context, s.name, seller.name),
+          _infoRow(context, s.phoneNumber, seller.phoneNumber),
+          if (seller.faxNumber != null) _infoRow(context, s.fax, seller.faxNumber ?? ''),
+          if (seller.nationalCode != null)
+            _infoRow(context, isLegal ? s.companyNationalID : s.nationalID, seller.nationalCode ?? ''),
+          if (seller.registrationNumber != null && isLegal)
+            _infoRow(context, s.registrationNumber, seller.registrationNumber ?? ''),
+          if (seller.economicNumber != null && isLegal) _infoRow(context, s.economicCode, seller.economicNumber ?? ''),
+          if (seller.email != null && seller.email!.isNotEmpty) _infoRow(context, s.email, seller.email!),
+          if (seller.state?.title != null) _infoRow(context, s.state, seller.state!.title!),
+          if (seller.city?.title != null) _infoRow(context, s.city, seller.city!.title!),
+          _infoRow(context, s.address, seller.address),
+          if (seller.postalCode != null) _infoRow(context, s.postalCode, seller.postalCode ?? ''),
+        ],
+      ),
     );
   }
 
   Widget _buildProductsTable(final BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8),
+        color: context.theme.cardColor,
+        border: Border.all(color: context.theme.dividerColor, width: 2),
+        borderRadius: BorderRadius.circular(6),
       ),
-      child: Column(
-        children: [
-          // Table Header
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            decoration: BoxDecoration(
-              color: context.theme.primaryColor.withValues(alpha: 0.1),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
+      child: Theme(
+        data: ThemeData(
+          scrollbarTheme: context.theme.scrollbarTheme.copyWith(
+            thumbColor: const WidgetStatePropertyAll(AppColors.green),
+          ),
+        ),
+        child: Scrollbar(
+          trackVisibility: true,
+          thumbVisibility: true,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: context.width - 32,
               ),
-            ),
-            child: Row(
-              children: [
-                Expanded(flex: 3, child: Text('شرح کالا/خدمات').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 1, child: Text('تعداد').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 1, child: Text('قیمت واحد').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 1, child: Text('مبلغ کل').bodyMedium(fontWeight: FontWeight.bold)),
-              ],
+              child: IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Table Header
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      color: context.theme.primaryColor.withValues(alpha: 0.1),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            _buildHeaderCell('#', productRowCellsWidth[0]),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.productCode, productRowCellsWidth[1]),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.productService, productRowCellsWidth[2]),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.count, productRowCellsWidth[3]),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.unit, productRowCellsWidth[4]),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.unitPrice, productRowCellsWidth[5], hasCurrency: true),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.totalPrice, productRowCellsWidth[6], hasCurrency: true),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.discount, productRowCellsWidth[7], hasCurrency: true),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.totalPriceAfterDiscount, productRowCellsWidth[8], hasCurrency: true),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.tax, productRowCellsWidth[9], hasCurrency: true),
+                            const VerticalDivider(),
+                            _buildHeaderCell(s.totalWithTax, productRowCellsWidth[10], hasCurrency: true),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Products Table Rows
+                    ...ctrl.products.asMap().entries.map((final entry) {
+                      return _buildProductRow(context, entry.key, entry.value);
+                    }),
+
+                    // Summary Row
+                    _buildTableSummaryRow(context),
+                  ],
+                ),
+              ),
             ),
           ),
-          // Table Rows
-          ...widget.ctrl.products.asMap().entries.map((final entry) {
-            final index = entry.key;
-            final product = entry.value;
-            final price = double.tryParse(product.price.replaceAll(',', '')) ?? 0;
-            final total = (price * product.count).toString().toTomanMoney();
+        ),
+      ),
+    );
+  }
 
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey.shade300),
-                ),
-                color: index.isEven ? Colors.white : Colors.grey.shade50,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(product.title).bodyMedium(),
-                        if (product.code != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            'کد: ${product.code}',
-                            style: TextStyle(fontSize: 11, color: context.theme.hintColor),
-                          ),
-                        ],
-                        if (product.unit != null) ...[
-                          const SizedBox(height: 2),
-                          Text(
-                            'واحد: ${product.unit}',
-                            style: TextStyle(fontSize: 11, color: context.theme.hintColor),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  Expanded(flex: 1, child: Text(product.count.toString()).bodyMedium()),
-                  Expanded(flex: 1, child: Text(product.price).bodyMedium()),
-                  Expanded(flex: 1, child: Text(total).bodyMedium(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            );
-          }),
+  Widget _buildHeaderCell(final String title, final double width, {final bool hasCurrency = false}) {
+    return SizedBox(
+      width: width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+          ).bodySmall().alignAtCenter(),
+          if (hasCurrency)
+            Text(
+              '(${s.rial})',
+              textAlign: TextAlign.center,
+            ).bodySmall(fontSize: 8, color: context.theme.hintColor).alignAtCenter(),
         ],
+      ).pSymmetric(vertical: headerCellPadding),
+    );
+  }
+
+  Widget _buildProductRow(final BuildContext context, final int index, final InvoiceProduct product) {
+    final unitPrice = Decimal.tryParse(product.price.numericOnly()) ?? Decimal.zero;
+    final count = product.count.toDecimal();
+    final totalPrice = unitPrice * count;
+    final discountAmount = Decimal.fromJson(product.discount ?? '0');
+
+    final totalAfterDiscount = totalPrice - discountAmount;
+
+    // final taxPercent = ctrl.taxesPercentage.value.toDecimal();
+    // final taxAmount = (totalAfterDiscount.toRational() * (taxPercent.toRational() / 100.toDecimal().toRational())).toDecimal();
+
+    // final grandTotal = totalAfterDiscount + taxAmount;
+    final grandTotal = totalAfterDiscount;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: index.isEven ? Colors.white : Colors.grey.shade50,
+        border: Border(
+          top: BorderSide(color: context.theme.dividerColor),
+        ),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            _buildDataCell((index + 1).toString(), productRowCellsWidth[0]),
+            const VerticalDivider(),
+            _buildDataCell(product.code ?? '-', productRowCellsWidth[1]),
+            const VerticalDivider(),
+            _buildDataCell(product.title, productRowCellsWidth[2], isDescription: true),
+            const VerticalDivider(),
+            _buildDataCell(product.count.toString(), productRowCellsWidth[3]),
+            const VerticalDivider(),
+            _buildDataCell(product.unit ?? '-', productRowCellsWidth[4]),
+            const VerticalDivider(),
+            _buildDataCell(unitPrice.toString().toRialMoney(), productRowCellsWidth[5]),
+            const VerticalDivider(),
+            _buildDataCell(totalPrice.toString().toRialMoney(), productRowCellsWidth[6]),
+            const VerticalDivider(),
+            _buildDataCell(discountAmount.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[7]),
+            const VerticalDivider(),
+            _buildDataCell(totalAfterDiscount.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[8]),
+            const VerticalDivider(),
+            _buildDataCell('', productRowCellsWidth[9]),
+            const VerticalDivider(),
+            _buildDataCell(grandTotal.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[10], isBold: true),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDataCell(final String text, final double width, {final bool isDescription = false, final bool isBold = false}) {
+    return SizedBox(
+      width: width,
+      child: Text(
+        text,
+        textAlign: isDescription ? TextAlign.start : TextAlign.center,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ).bodySmall(fontWeight: isBold ? FontWeight.bold : null).pSymmetric(vertical: rowCellPadding),
+    );
+  }
+
+  Widget _buildTableSummaryRow(final BuildContext context) {
+    final totalProductsPrice = ctrl.totalProductsPriceBeforeDiscount;
+    final totalDiscount = ctrl.totalProductsDiscountAmount;
+    final totalAfterDiscount = ctrl.totalProductsPriceAfterDiscount;
+    final totalTax = ctrl.taxAmount;
+    final grandTotal = ctrl.finalPrice;
+
+    // Calculate width for the first combined cell (Index + Code + Description)
+    // Each VerticalDivider has a default width of 16.0
+    final firstThreeColumnsWidth = productRowCellsWidth[0] + productRowCellsWidth[1] + productRowCellsWidth[2] + 32.0;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: context.theme.dividerColor.withValues(alpha: 0.3),
+        border: Border(
+          top: BorderSide(color: context.theme.dividerColor, width: 2),
+          bottom: BorderSide(color: context.theme.dividerColor, width: 2),
+        ),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            SizedBox(
+              width: firstThreeColumnsWidth,
+              child: Text(
+                s.total,
+                textAlign: TextAlign.center,
+              ).bodySmall(fontWeight: FontWeight.bold).pSymmetric(vertical: rowCellPadding),
+            ),
+            const VerticalDivider(),
+            SizedBox(
+              width: productRowCellsWidth[3],
+              child: Text(
+                ctrl.products.fold<int>(0, (final sum, final p) => sum + p.count).toString(),
+                textAlign: TextAlign.center,
+              ).bodySmall(fontWeight: FontWeight.bold).pSymmetric(vertical: rowCellPadding),
+            ),
+            const VerticalDivider(),
+            SizedBox(width: productRowCellsWidth[4]), // Unit
+            const VerticalDivider(),
+            SizedBox(width: productRowCellsWidth[5]), // Unit Price
+            const VerticalDivider(),
+            _buildDataCell(totalProductsPrice.toString().toRialMoney(), productRowCellsWidth[6], isBold: true),
+            const VerticalDivider(),
+            _buildDataCell(totalDiscount.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[7], isBold: true),
+            const VerticalDivider(),
+            _buildDataCell(totalAfterDiscount.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[8], isBold: true),
+            const VerticalDivider(),
+            _buildDataCell(totalTax.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[9], isBold: true),
+            const VerticalDivider(),
+            _buildDataCell(grandTotal.toStringAsFixed(0).toRialMoney(), productRowCellsWidth[10], isBold: true),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildPriceSummary(final BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.grey.shade50,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: context.theme.dividerColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
-          _summaryRow('جمع کل محصولات', widget.ctrl.totalProductsPrice.toString().toTomanMoney()),
-          if (widget.ctrl.discountAmount > 0)
-            _summaryRow(s.discount, '-${widget.ctrl.discountAmount.toString().toTomanMoney()}'),
-          if (widget.ctrl.taxAmount > 0)
-            _summaryRow('ارزش افزوده', widget.ctrl.taxAmount.toString().toTomanMoney()),
-          if (widget.ctrl.shippingCostAmount > 0)
-            _summaryRow('هزینه ارسال', widget.ctrl.shippingCostAmount.toString().toTomanMoney()),
+          _summaryRow(s.totalAmountOfProductsServices, ctrl.totalProductsPriceAfterDiscount.toStringAsFixed(0).toRialMoney()),
+          if (ctrl.discountAmount > 0.toDecimal())
+            _summaryRow(
+              s.discount,
+              '- ${ctrl.discountAmount.toStringAsFixed(0).toRialMoney()}',
+              color: AppColors.red,
+            ),
+          if (ctrl.taxAmount > 0.toDecimal())
+            _summaryRow(
+              s.tax,
+              '+ ${ctrl.taxAmount.toStringAsFixed(0).toRialMoney()}',
+              color: AppColors.green,
+            ),
+          if (ctrl.shippingCostAmount > 0)
+            _summaryRow(
+              s.shippingCost,
+              '+ ${ctrl.shippingCostAmount.toStringAsFixed(0).toRialMoney()}',
+              color: AppColors.green,
+            ),
           Obx(
             () {
-              if (widget.ctrl.selectedPaymentType.value == PaymentType.installment &&
-                  widget.ctrl.interestAmount > 0) {
-                return _summaryRow('نرخ بهره', widget.ctrl.interestAmount.toString().toTomanMoney());
+              if (ctrl.selectedPaymentTerms.value == PaymentTerms.installment && ctrl.interestAmount > 0.toDecimal()) {
+                return _summaryRow(
+                  s.interestRate,
+                  '+ ${ctrl.interestAmount.toStringAsFixed(0).toRialMoney()}',
+                  color: AppColors.green,
+                );
               }
               return const SizedBox.shrink();
             },
           ),
           const Divider(height: 24),
           _summaryRow(
-            'قابل پرداخت',
-            widget.ctrl.finalPrice.toString().toTomanMoney(),
+            s.payable,
+            ctrl.finalPriceWithInterest.round().toRialMoney(),
             isBold: true,
-            fontSize: 18,
           ),
         ],
       ),
     );
   }
 
-  Widget _summaryRow(final String label, final String value, {final bool isBold = false, final double fontSize = 14}) {
+  Widget _summaryRow(
+    final String label,
+    final String value, {
+    final bool isBold = false,
+    final Color? color,
+  }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: 10,
         children: [
-          Text(label).bodyMedium(fontSize: fontSize, fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
-          Text(value).bodyMedium(fontSize: fontSize, fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildInstallmentsTable(final BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            decoration: BoxDecoration(
-              color: context.theme.primaryColor.withValues(alpha: 0.1),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(flex: 1, child: Text('قسط').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 2, child: Text('تاریخ پرداخت').bodyMedium(fontWeight: FontWeight.bold)),
-                Expanded(flex: 2, child: Text('مبلغ').bodyMedium(fontWeight: FontWeight.bold)),
-              ],
+          Flexible(child: Text(label).bodyMedium(fontWeight: isBold ? FontWeight.bold : null)),
+          Flexible(
+            child: Text(value).bodyMedium(
+              fontWeight: isBold ? FontWeight.bold : null,
+              color: color,
             ),
           ),
-          ...widget.ctrl.installmentPayments.asMap().entries.map((final entry) {
-            final index = entry.key;
-            final payment = entry.value;
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.grey.shade300)),
-                color: index.isEven ? Colors.white : Colors.grey.shade50,
-              ),
-              child: Row(
-                children: [
-                  Expanded(flex: 1, child: Text('${index + 1}').bodyMedium()),
-                  Expanded(flex: 2, child: Text(payment['date_to_pay'] ?? '').bodyMedium()),
-                  Expanded(flex: 2, child: Text('${payment['price'] ?? ''} ${s.toman}').bodyMedium(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            );
-          }),
         ],
       ),
     );
   }
 
   Widget _buildFooter(final BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        children: [
-          Text(
-            'با تشکر از اعتماد شما',
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: context.theme.primaryColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'این فاکتور به صورت الکترونیکی صادر شده است',
-            style: TextStyle(
-              fontSize: 11,
-              color: context.theme.hintColor,
-            ),
-          ),
-        ],
-      ),
+    final itemWidth = 250.0;
+    final itemHeight = itemWidth * 0.75;
+    final borderRadius = 15.0;
+    final boxBorderColor = context.theme.hintColor;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      spacing: 12,
+      children: [
+        Obx(
+          () {
+            final file = ctrl.signatureFile.value;
+
+            return SizedBox(
+              width: itemWidth,
+              height: itemHeight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    UImage(
+                      file?.url ?? '',
+                      fileData: file != null && !file.url!.startsWith('http') && file.url!.isImageFileName
+                          ? FileData(path: file.url!)
+                          : null,
+                      fit: BoxFit.cover,
+                      width: itemWidth,
+                      height: itemHeight,
+                    ),
+
+                    Container(
+                      width: itemWidth,
+                      height: itemHeight,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        border: Border.all(color: boxBorderColor, width: 2),
+                      ),
+                    ),
+
+                    if (file == null) Icon(Icons.add_rounded, size: 30, color: boxBorderColor),
+                  ],
+                ),
+              ),
+            ).onTap(
+              () {
+                showUploadSignatureDialog(
+                  file: ctrl.signatureFile.value,
+                  onFileUpdated: (final file) {},
+                  onSaved: (final file) {
+                    AppNavigator.back();
+                    ctrl.signatureFile.value = file;
+                  },
+                );
+              },
+            );
+          },
+        ).alignAtCenter(),
+        Text(s.uploadSignature).titleMedium(color: context.theme.hintColor).alignAtCenter(),
+      ],
     );
   }
 
   Widget _infoRow(final BuildContext context, final String label, final String value) {
     if (value.isEmpty) return const SizedBox.shrink();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 5,
         children: [
-          SizedBox(
-            width: 80,
-            child: Text(
-              '$label:',
-              style: TextStyle(fontSize: 12, color: context.theme.hintColor),
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ),
+          Text('$label:').bodySmall(color: context.theme.hintColor),
+          Text(value).bodySmall().expanded(),
         ],
       ),
-    );
-  }
-
-  void _showResetConfirmation(final BuildContext context) {
-    appShowYesCancelDialog(
-      title: 'ریست فاکتور',
-      description: 'آیا از پاک کردن تمام اطلاعات فرم مطمئن هستید؟',
-      yesButtonTitle: 'بله',
-      cancelButtonTitle: 'انصراف',
-      onYesButtonTap: () {
-        widget.ctrl.resetForm();
-        UNavigator.back();
-      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:bermooda_business/core/utils/extensions/date_extensions.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../../../core/navigator/navigator.dart';
 import '../../../../../../../core/utils/extensions/request_extensions.dart';
 import '../../../../../../../core/widgets/widgets.dart';
 import '../../../../../../../core/core.dart';
@@ -71,7 +72,7 @@ class WAttendanceReportCard extends StatelessWidget {
 
   Widget _buildSubTaskItem(final BuildContext context, final IRequestReadDto request) {
     return WCard(
-      onTap: () => UNavigator.push(
+      onTap: () => AppNavigator.push(
         RequestDetailPage(
           request: request,
           // showRequestingUser: true,

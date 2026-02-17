@@ -2,6 +2,7 @@ import 'package:bermooda_business/core/utils/enums/enums.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../app_config.dart';
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -37,7 +38,7 @@ class _WorkspaceListPageState extends State<WorkspaceListPage> with WorkspaceLis
         if (widget.push) {
           final workspaceInfo = list.firstWhereOrNull((final workspace) => workspace.id == core.currentWorkspace.value.id);
           if (workspaceInfo != null) {
-            UNavigator.push(
+            AppNavigator.push(
               WorkspaceUpdatePage(
                 workspaceInfo: workspaceInfo,
                 onResponse: (final workspaceInfo) {
@@ -197,12 +198,12 @@ class _WorkspaceListPageState extends State<WorkspaceListPage> with WorkspaceLis
                 title: s.subscriptionManagement,
                 backgroundColor: context.theme.primaryColor,
                 onTap: () {
-                  UNavigator.push(SubscriptionPage(workspaceId: workspace.id));
+                  AppNavigator.push(SubscriptionPage(workspaceId: workspace.id));
                 },
               ).expanded(),
               InkWell(
                 borderRadius: BorderRadius.circular(50),
-                onTap: () => UNavigator.push(SubscriptionInvoiceListPage(workspaceId: workspace.id)),
+                onTap: () => AppNavigator.push(SubscriptionInvoiceListPage(workspaceId: workspace.id)),
                 child: Ink(
                   decoration: BoxDecoration(
                     color: AppColors.orange.withValues(alpha: 0.7),
@@ -227,7 +228,7 @@ class _WorkspaceListPageState extends State<WorkspaceListPage> with WorkspaceLis
         ],
       ),
       onTap: () {
-        UNavigator.push(
+        AppNavigator.push(
           WorkspaceUpdatePage(
             workspaceInfo: workspace,
             onResponse: onEdit,

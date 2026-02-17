@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
@@ -251,9 +252,9 @@ class _PaymentReceiptPageState extends State<PaymentReceiptPage> with PaymentRec
           backgroundColor: isSuccess ? AppColors.green : AppColors.red,
           onTap: () {
             if (isSuccess) {
-              UNavigator.offAll(const SplashPage());
+              AppNavigator.offAll(const SplashPage());
             } else {
-              UNavigator.back();
+              AppNavigator.back();
             }
           },
         ),

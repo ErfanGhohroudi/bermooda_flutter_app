@@ -1,8 +1,6 @@
-import 'dart:io';
-import 'dart:math';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:u/utilities.dart';
+
+import '../../navigator/navigator.dart';
 
 part 'src/animated_child.dart';
 part 'src/animated_floating_button.dart';

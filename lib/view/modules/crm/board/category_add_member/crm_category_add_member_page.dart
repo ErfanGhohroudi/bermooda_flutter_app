@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -47,7 +48,7 @@ class _CrmCategoryAddMemberPageState extends State<CrmCategoryAddMemberPage> wit
                   children: [
                     WMembersPickerFormField(
                       labelText: s.accessibleMembers,
-                      helperText: s.crmAccessibleMembersHelper,
+                      helperText: s.accessibleMembersHelper(s.category.toLowerCase()),
                       members: members,
                       showSelf: false,
                       required: true,
@@ -64,7 +65,7 @@ class _CrmCategoryAddMemberPageState extends State<CrmCategoryAddMemberPage> wit
                         onTap: () => onSubmit(
                           onResponse: (final group) {
                             widget.onResponse(group);
-                            UNavigator.back();
+                            AppNavigator.back();
                           },
                         ),
                       ),

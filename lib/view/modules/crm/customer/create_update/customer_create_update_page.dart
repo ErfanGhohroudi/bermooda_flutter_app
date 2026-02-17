@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
 import '../../../../../core/widgets/fields/customer_industry_subcategory_dropdown/customer_industry_subcategory_dropdown.dart';
@@ -54,8 +55,8 @@ class _CustomerCreateUpdatePageState extends State<CustomerCreateUpdatePage> wit
         appShowYesCancelDialog(
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
-            UNavigator.back();
+            AppNavigator.back();
+            AppNavigator.back();
           },
         );
       },
@@ -71,7 +72,7 @@ class _CustomerCreateUpdatePageState extends State<CustomerCreateUpdatePage> wit
             onTap: () => onSubmit(
               onResponse: (final model) {
                 widget.onResponse(model);
-                UNavigator.back();
+                AppNavigator.back();
               },
             ),
           ).pOnly(left: 16, right: 16, bottom: 24),
@@ -418,7 +419,7 @@ class _CustomerCreateUpdatePageState extends State<CustomerCreateUpdatePage> wit
                 10,
                 required: false,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort.replaceAll('#', '10'),
+                minLengthMessage: s.isShort('10'),
               ),
             ),
 

@@ -26,14 +26,14 @@ class LegalCaseSteps extends StatelessWidget {
   void toggleCustomerStepStatus(final LegalCaseStep step) {
     // Check if toggle is allowed
     if (!_canToggleStep(step)) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.cannotChangeStep);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.cannotChangeStep);
       return;
     }
 
     appShowYesCancelDialog(
       description: s.changeStepStatus,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         final LegalCaseDatasource datasource = Get.find<LegalCaseDatasource>();
         final isCompleted = !step.isCompleted;
         
@@ -76,7 +76,7 @@ class LegalCaseSteps extends StatelessWidget {
           onError: (final errorResponse) {
             // Revert all changes on error
             onStepChanged(legalCase.copyWith(steps: stepsSnapshot));
-            AppNavigator.snackbarRed(title: s.error, subtitle: '');
+            AppSnackBar.snackbarRed(title: s.error, subtitle: '');
           },
         );
       },
@@ -143,7 +143,7 @@ class LegalCaseSteps extends StatelessWidget {
               if (haveAccessToChange) {
                 toggleCustomerStepStatus(step);
               } else {
-                return AppNavigator.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
+                return AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
               }
             },
           ).expanded();

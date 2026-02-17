@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../domain/entities/warehouse.dart';
@@ -37,7 +38,7 @@ class _WarehouseListPageState extends State<WarehouseListPage> with WarehouseLis
         if (isReorderEnabled.value) {
           toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(

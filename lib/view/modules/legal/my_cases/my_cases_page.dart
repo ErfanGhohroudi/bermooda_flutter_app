@@ -3,7 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../core/core.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../data/data.dart';
-import '../../followup/follow_up_card/follow_up_card.dart';
+import '../../followup/presentation/widgets/follow_up_card.dart';
 import '../../subtask/subtask_card/subtask_card.dart';
 import 'enums/filter_enum.dart';
 import 'my_cases_controller.dart';

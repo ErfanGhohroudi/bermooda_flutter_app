@@ -27,27 +27,27 @@ mixin HrEmployeeCardController {
       title: s.removeMember,
       description: s.areYouSureToRemoveMember,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _archiveMember();
       },
     );
   }
 
   void toggleRequestStatus(final HRSubTask request) {
-    if (!request.status.isPending()) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
+    if (!request.status.isPending()) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
     appShowYesCancelDialog(
       title: s.changeRequestStatusDialogTitle,
       description: s.changeRequestStatusDialogContent,
       cancelButtonTitle: s.reject,
       cancelBackgroundColor: StatusType.rejected.color,
       onCancelButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _callChangeStatus(request, StatusType.rejected);
       },
       yesButtonTitle: s.approve,
       yesBackgroundColor: StatusType.approved.color,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _callChangeStatus(request, StatusType.approved);
       },
     );
@@ -55,7 +55,7 @@ mixin HrEmployeeCardController {
 
   void navigateToProfile() {
     if (member.id == null) return;
-    UNavigator.push(
+    AppNavigator.push(
       ProfilePage(
         memberId: member.id,
         initialIndex: 1,
@@ -65,7 +65,7 @@ mixin HrEmployeeCardController {
 
   void navigateToCreateRequestPage() {
     delay(300, () {
-      UNavigator.push(
+      AppNavigator.push(
         CreateRequestPage(
           requestingUser: UserReadDto(
             id: member.userId.toString(),
@@ -89,7 +89,7 @@ mixin HrEmployeeCardController {
       avatarUrl: member.avatar?.url,
       fullName: member.fullName,
     );
-    UNavigator.push(
+    AppNavigator.push(
       RequestDetailPage(
         request: requestModel,
         showRequestingUser: true,

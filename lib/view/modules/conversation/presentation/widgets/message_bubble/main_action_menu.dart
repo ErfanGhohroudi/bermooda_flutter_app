@@ -67,7 +67,7 @@ class WithMainActionMenu extends StatelessWidget {
           PopupMenuItem(
             child: ReactionPickerWidget(
               onReactionSelected: (final emoji) {
-                UNavigator.back();
+                AppNavigator.back();
                 Future.delayed(const Duration(milliseconds: 100), () {
                   controller.addReaction(message, emoji);
                 });
@@ -193,9 +193,9 @@ class WithMainActionMenu extends StatelessWidget {
         }
       }
 
-      AppNavigator.snackbarGreen(title: s.saved, subtitle: '');
+      AppSnackBar.snackbarGreen(title: s.saved, subtitle: '');
     } else {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.galleryPermissionDenied);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.galleryPermissionDenied);
     }
   }
 
@@ -211,7 +211,7 @@ class WithMainActionMenu extends StatelessWidget {
         }
       }
     } on GalException catch (e) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: e.type.message);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: e.type.message);
     } catch (e) {
       if (type == MessageType.image) {
         debugPrint("Error in Gal.putImage() => $e");

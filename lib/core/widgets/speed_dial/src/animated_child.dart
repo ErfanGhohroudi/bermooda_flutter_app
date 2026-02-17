@@ -29,9 +29,9 @@ class AnimatedChild extends AnimatedWidget {
   final EdgeInsets childPadding;
 
   const AnimatedChild({
-    Key? key,
+    super.key,
     this.btnKey,
-    required Animation<double> animation,
+    required final Animation<double> animation,
     this.index,
     this.backgroundColor,
     this.foregroundColor,
@@ -54,14 +54,14 @@ class AnimatedChild extends AnimatedWidget {
     this.heroTag,
     required this.childMargin,
     required this.childPadding,
-  }) : super(key: key, listenable: animation);
+  }) : super(listenable: animation);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     final Animation<double> animation = listenable as Animation<double>;
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
-    void performAction([bool isLong = false]) {
+    void performAction([final bool isLong = false]) {
       if (onTap != null && !isLong) {
         onTap!();
       } else if (onLongPress != null && isLong) {
@@ -93,8 +93,8 @@ class AnimatedChild extends AnimatedWidget {
                 [
                   BoxShadow(
                     color: dark
-                        ? Colors.grey[900]!.withOpacity(0.7)
-                        : Colors.grey.withOpacity(0.7),
+                        ? Colors.grey[900]!.withValues(alpha: 0.7)
+                        : Colors.grey.withValues(alpha: 0.7),
                     offset: const Offset(0.8, 0.8),
                     blurRadius: 2.4,
                   ),
@@ -125,7 +125,7 @@ class AnimatedChild extends AnimatedWidget {
         scale: animation,
         child: FloatingActionButton(
           key: btnKey,
-          heroTag: heroTag != null ? '${heroTag}-${btnKey.hashCode}' : null,
+          heroTag: heroTag != null ? '$heroTag-${btnKey.hashCode}' : null,
           onPressed: performAction,
           backgroundColor:
               backgroundColor ?? (dark ? Colors.grey[800] : Colors.grey[50]),
@@ -164,11 +164,11 @@ class AnimatedChild extends AnimatedWidget {
         )
     ];
 
-    Widget buildColumnOrRow(bool isColumn,
-        {CrossAxisAlignment? crossAxisAlignment,
-        MainAxisAlignment? mainAxisAlignment,
-        required List<Widget> children,
-        MainAxisSize? mainAxisSize}) {
+    Widget buildColumnOrRow(final bool isColumn,
+        {final CrossAxisAlignment? crossAxisAlignment,
+        final MainAxisAlignment? mainAxisAlignment,
+        required final List<Widget> children,
+        final MainAxisSize? mainAxisSize}) {
       return isColumn
           ? Column(
               mainAxisSize: mainAxisSize ?? MainAxisSize.max,

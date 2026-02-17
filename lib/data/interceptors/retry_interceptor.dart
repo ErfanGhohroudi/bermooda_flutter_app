@@ -23,7 +23,7 @@ class RetryInterceptor extends dio.Interceptor {
       if (AppLoading.isLoadingShow()) {
         AppLoading.dismissLoading();
       }
-      AppNavigator.snackbarRed(title: s.error, subtitle: err.response!.data["message"].toString());
+      AppSnackBar.snackbarRed(title: s.error, subtitle: err.response!.data["message"].toString());
       handler.next(err);
       return;
     }

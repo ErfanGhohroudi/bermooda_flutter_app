@@ -9,6 +9,7 @@ import 'package:bermooda_business/view/modules/conversation/data/dto/conversatio
 import 'package:bermooda_business/view/modules/conversation/presentation/pages/create_group_chat/create_update_group_page.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/utils/enums/enums.dart';
 import '../create_direct_chat/create_direct_page.dart';
 
@@ -53,7 +54,7 @@ class _ConversationsListPageState extends State<ConversationsListPage> {
           SpeedDialChild(
             label: s.newGroup,
             backgroundColor: context.theme.primaryColor,
-            onTap: () => UNavigator.push(const CreateUpdateGroupPage()),
+            onTap: () => AppNavigator.push(const CreateUpdateGroupPage()),
             child: const UImage(
               AppIcons.groupOutline,
               color: Colors.white,
@@ -63,7 +64,7 @@ class _ConversationsListPageState extends State<ConversationsListPage> {
           SpeedDialChild(
             label: s.directMessage,
             backgroundColor: context.theme.primaryColor,
-            onTap: () => UNavigator.push(const CreateDirectPage()),
+            onTap: () => AppNavigator.push(const CreateDirectPage()),
             child: const UImage(
               AppIcons.userOutline,
               color: Colors.white,
@@ -199,7 +200,7 @@ class _ConversationsListPageState extends State<ConversationsListPage> {
           Text(conversation.lastMessageAt.toTimeAgo(persian: isPersianLang)).bodySmall(color: Colors.grey).marginOnly(top: 4),
         ],
       ),
-      onTap: () => UNavigator.push(
+      onTap: () => AppNavigator.push(
         ConversationMessagesPage(conversation: conversation),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
+import '../../../navigator/navigator.dart';
 import '../../../utils/extensions/color_extension.dart';
 import '../../../core.dart';
 import '../../../theme.dart';
@@ -132,7 +133,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
   // متد کمکی برای ساخت آیتم "ایجاد بخش جدید"
   DropdownMenuItem<ProjectSectionReadDto> _buildCreateSectionMenuItem() {
     return DropdownMenuItem<ProjectSectionReadDto>(
-      value: ProjectSectionReadDto(),
+      value: const ProjectSectionReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,
@@ -155,7 +156,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
         ),
       ).onTap(
         () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(
             50,
             () {
@@ -191,7 +192,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -209,7 +210,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -219,7 +220,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteSection(
                             sections[index],
                             action: () {

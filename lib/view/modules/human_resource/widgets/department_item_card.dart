@@ -14,18 +14,22 @@ import '../hr_department_main_page.dart';
 class WDepartmentItemCard extends StatefulWidget {
   const WDepartmentItemCard({
     required this.department,
-    required this.ctrl,
+    this.ctrl,
     required this.isReorderEnabled,
     required this.showMoreIcon,
     required this.index,
+    this.moreButtonBuilder,
+    this.onTap,
     super.key,
   });
 
   final HRDepartmentReadDto department;
-  final HrDepartmentsListController ctrl;
+  final HrDepartmentsListController? ctrl;
   final bool isReorderEnabled;
   final bool showMoreIcon;
   final int index;
+  final WidgetBuilder? moreButtonBuilder;
+  final VoidCallback? onTap;
 
   @override
   State<WDepartmentItemCard> createState() => _WDepartmentItemCardState();
@@ -78,13 +82,17 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      onTap: () {
-        if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
+      onTap: widget.onTap ?? () {
+        if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
         bottomSheet(
           child: HrDepartmentMainPage(
             department: widget.department,
-            onEdited: (final department) => widget.ctrl.departments[widget.index] = department,
+            onEdited: (final department) {
+              if (widget.ctrl != null) {
+                widget.ctrl!.departments[widget.index] = department;
+              }
+            },
           ),
         );
       },
@@ -120,36 +128,38 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
                   Flexible(child: Text(widget.department.title ?? '', maxLines: 1).bodyMedium(overflow: TextOverflow.ellipsis).bold()),
                 ],
               ).expanded(),
-              if (widget.showMoreIcon)
+              if (widget.showMoreIcon || widget.moreButtonBuilder != null)
                 SizeTransition(
                   sizeFactor: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
                   axis: Axis.horizontal,
-                  child: Container(
-                    width: 35,
-                    height: 35,
-                    color: Colors.transparent,
-                    child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
-                  ).showMenus([
-                    WPopupMenuItem(
-                      title: s.edit,
-                      icon: AppIcons.editOutline,
-                      titleColor: AppColors.green,
-                      iconColor: AppColors.green,
-                      onTap: () {
-                        bottomSheet(
-                          title: s.editDepartment,
-                          child: DepartmentCreateUpdatePage(department: widget.department),
-                        );
-                      },
-                    ),
-                    // WPopupMenuItem(
-                    //   title: s.delete,
-                    //   icon: AppIcons.delete,
-                    //   titleColor: AppColors.red,
-                    //   iconColor: AppColors.red,
-                    //   onTap: () => widget.ctrl.deleteFolder(widget.department),
-                    // ),
-                  ]),
+                  child: widget.moreButtonBuilder != null
+                      ? Builder(builder: widget.moreButtonBuilder!)
+                      : Container(
+                          width: 35,
+                          height: 35,
+                          color: Colors.transparent,
+                          child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
+                        ).showMenus([
+                          WPopupMenuItem(
+                            title: s.edit,
+                            icon: AppIcons.editOutline,
+                            titleColor: AppColors.green,
+                            iconColor: AppColors.green,
+                            onTap: () {
+                              bottomSheet(
+                                title: s.editDepartment,
+                                child: DepartmentCreateUpdatePage(department: widget.department),
+                              );
+                            },
+                          ),
+                          WPopupMenuItem(
+                            title: s.archive,
+                            icon: AppIcons.archiveOutline,
+                            titleColor: AppColors.red,
+                            iconColor: AppColors.red,
+                            onTap: () => widget.ctrl?.archiveDepartment(widget.department),
+                          ),
+                        ]),
                 ),
             ],
           ),

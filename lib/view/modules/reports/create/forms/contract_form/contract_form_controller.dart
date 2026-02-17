@@ -43,7 +43,7 @@ class ContractFormController extends BaseFormController {
           action: () {
             if (selectedStartDate != null && selectedEndDate != null) {
               if (selectedEndDate!.isBefore(selectedStartDate!)) {
-                AppNavigator.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
+                AppSnackBar.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
                 return;
               }
             }

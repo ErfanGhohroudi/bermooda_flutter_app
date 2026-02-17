@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../data/data.dart';
+import '../navigator/navigator.dart';
 import '../widgets/widgets.dart';
 import '../core.dart';
 import '../theme.dart';
@@ -78,14 +79,14 @@ void checkAppUpdate({required final VoidCallback action}) {
                           borderRadius: 4,
                           onTap: () {
                             if (result.isForce) {
-                              UNavigator.back();
+                              AppNavigator.back();
                               if (UApp.isAndroid) {
                                 exit(1);
                               } else {
                                 SystemNavigator.pop();
                               }
                             } else {
-                              UNavigator.back();
+                              AppNavigator.back();
                               action();
                             }
                           },

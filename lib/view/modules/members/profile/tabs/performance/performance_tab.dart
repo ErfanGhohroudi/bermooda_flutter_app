@@ -60,7 +60,7 @@ class PerformanceTab extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: controller.addPerformanceEvaluation,
                     icon: const Icon(Icons.add, size: 18),
-                    label: Text("s.addEvaluation"),
+                    label: const Text("s.addEvaluation"),
                   ),
                 ],
               ),
@@ -181,7 +181,7 @@ class PerformanceTab extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: controller.addPerformanceEvaluation,
-                          child: Text("s.addEvaluation"),
+                          child: const Text("s.addEvaluation"),
                         ),
                       ],
                     ),
@@ -213,7 +213,7 @@ class PerformanceTab extends StatelessWidget {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.performanceEvaluations.length,
-                            itemBuilder: (context, index) {
+                            itemBuilder: (final context, final index) {
                               final evaluation =
                                   controller.performanceEvaluations[index];
                               return _buildEvaluationItem(evaluation, context);
@@ -252,7 +252,7 @@ class PerformanceTab extends StatelessWidget {
   }
 
   Widget _buildPerformanceMetric(
-      String label, String value, IconData icon, Color color) {
+      final String label, final String value, final IconData icon, final Color color) {
     return Column(
       children: [
         Icon(icon, color: color, size: 24),
@@ -277,7 +277,7 @@ class PerformanceTab extends StatelessWidget {
   }
 
   Widget _buildEvaluationItem(
-      Map<String, dynamic> evaluation, BuildContext context) {
+      final Map<String, dynamic> evaluation, final BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -343,7 +343,7 @@ class PerformanceTab extends StatelessWidget {
               ),
               const Spacer(),
               WMoreButtonIcon<String>(
-                onSelected: (value) {
+                onSelected: (final value) {
                   switch (value) {
                     case 'view':
                       _viewEvaluation(evaluation);
@@ -357,12 +357,12 @@ class PerformanceTab extends StatelessWidget {
                   }
                 },
                 items: [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 'view',
                     child: Row(
                       children: [
-                        const Icon(Icons.visibility_outlined, size: 20),
-                        const SizedBox(width: 8),
+                        Icon(Icons.visibility_outlined, size: 20),
+                        SizedBox(width: 8),
                         Text("s.view"),
                       ],
                     ),
@@ -398,10 +398,10 @@ class PerformanceTab extends StatelessWidget {
     );
   }
 
-  Widget _buildRatingStars(double rating) {
+  Widget _buildRatingStars(final double rating) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
+      children: List.generate(5, (final index) {
         if (index < rating.floor()) {
           return const Icon(Icons.star, color: Colors.amber, size: 16);
         } else if (index < rating) {
@@ -413,7 +413,7 @@ class PerformanceTab extends StatelessWidget {
     );
   }
 
-  Widget _buildEvaluationDetail(String label, String value) {
+  Widget _buildEvaluationDetail(final String label, final String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -442,11 +442,11 @@ class PerformanceTab extends StatelessWidget {
     ];
 
     return Column(
-      children: goals.map((goal) => _buildGoalItem(goal)).toList(),
+      children: goals.map((final goal) => _buildGoalItem(goal)).toList(),
     );
   }
 
-  Widget _buildGoalItem(Map<String, dynamic> goal) {
+  Widget _buildGoalItem(final Map<String, dynamic> goal) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
@@ -492,7 +492,7 @@ class PerformanceTab extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalStatusChip(String status) {
+  Widget _buildGoalStatusChip(final String status) {
     Color color;
     switch (status.toLowerCase()) {
       case 'completed':
@@ -530,7 +530,7 @@ class PerformanceTab extends StatelessWidget {
     if (controller.performanceEvaluations.isEmpty) return 0.0;
 
     final total = controller.performanceEvaluations
-        .fold(0.0, (sum, eval) => sum + (eval['rating'] ?? 0.0));
+        .fold(0.0, (final sum, final eval) => sum + (eval['rating'] ?? 0.0));
     return total / controller.performanceEvaluations.length;
   }
 
@@ -541,11 +541,11 @@ class PerformanceTab extends StatelessWidget {
     return controller.performanceEvaluations.last['period'] ?? "s.unknown";
   }
 
-  void _viewEvaluation(Map<String, dynamic> evaluation) {
+  void _viewEvaluation(final Map<String, dynamic> evaluation) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.evaluationDetails"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.evaluationDetails"),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -561,14 +561,14 @@ class PerformanceTab extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text("s.close"),
+            child: const Text("s.close"),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailRow(String label, String? value) {
+  Widget _buildDetailRow(final String label, final String? value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -592,17 +592,17 @@ class PerformanceTab extends StatelessWidget {
     );
   }
 
-  void _editEvaluation(Map<String, dynamic> evaluation) {
+  void _editEvaluation(final Map<String, dynamic> evaluation) {
     // Navigate to edit evaluation page
     controller.showSuccess("s.evaluationEdited");
   }
 
-  void _deleteEvaluation(Map<String, dynamic> evaluation) {
+  void _deleteEvaluation(final Map<String, dynamic> evaluation) {
     showDialog(
       context: Get.context!,
-      builder: (context) => AlertDialog(
-        title: Text("s.deleteEvaluation"),
-        content: Text("s.deleteEvaluationConfirmation"),
+      builder: (final context) => AlertDialog(
+        title: const Text("s.deleteEvaluation"),
+        content: const Text("s.deleteEvaluationConfirmation"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
 import '../../../core.dart';
+import '../../../navigator/navigator.dart';
 import '../../../theme.dart';
 import '../../widgets.dart';
 import 'customer_industry_subcategory_dropdown_controller.dart';
@@ -128,7 +129,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
   /// متد کمکی برای ساخت آیتم
   DropdownMenuItem<DropdownItemReadDto> _buildCreateMenuItem() {
     return DropdownMenuItem<DropdownItemReadDto>(
-      value: DropdownItemReadDto(),
+      value: const DropdownItemReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,
@@ -151,7 +152,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
         ),
       ).onTap(
         () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(50, () {
             showCreateUpdateDialog();
           });
@@ -185,7 +186,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -202,7 +203,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -212,7 +213,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteCategory(
                             categories[index],
                             action: () {

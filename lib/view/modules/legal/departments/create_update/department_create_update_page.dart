@@ -62,7 +62,7 @@ class _LegalDepartmentCreateUpdatePageState extends State<LegalDepartmentCreateU
           ),
           WMembersPickerFormField(
             labelText: s.accessibleMembers,
-            helperText: s.humanResourcesAccessibleMembersHelper,
+            helperText: s.accessibleMembersHelper(s.department.toLowerCase()),
             filterByPermissionName: PermissionName.humanResources,
             showSelf: true,
             selectedMembers: selectedMembers,

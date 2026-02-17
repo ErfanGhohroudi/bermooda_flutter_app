@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/chevron_painter.dart';
 import '../../../../core/utils/extensions/color_extension.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -86,7 +87,7 @@ class _HRBoardPageState extends State<HRBoardPage> {
             textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
           )
           .onTap(
-            () => UNavigator.push(HRPendingListPage(controller: ctrl)),
+            () => AppNavigator.push(HRPendingListPage(controller: ctrl)),
           );
 
   Widget _sectionBuilder(final Section<HRSectionReadDto, BoardMemberReadDto> section) => Container(

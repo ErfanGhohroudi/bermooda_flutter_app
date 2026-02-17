@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../navigator/navigator.dart';
 import '../services/websocket_service.dart';
 import '../../view/modules/rout/rout_page.dart';
 import '../../view/modules/workspace/create/create_workspace_page.dart';
@@ -30,7 +31,7 @@ void initApp({
           } else {
             if (currentWorkspaceChanged) return;
             WidgetsBinding.instance.addPostFrameCallback((final _) {
-              UNavigator.offAll(const RoutPage(), milliSecondDelay: 0);
+              AppNavigator.offAll(const RoutPage(), milliSecondDelay: 0);
             });
           }
         },

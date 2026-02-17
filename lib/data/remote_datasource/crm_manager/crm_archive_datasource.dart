@@ -32,7 +32,7 @@ class CrmArchiveDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       onError(GenericResponse());
     }
   }
@@ -57,7 +57,60 @@ class CrmArchiveDatasource {
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+    AppLoading.dismissLoading();
+  }
+
+  void getArchivedCategories({
+    final int pageNumber = 1,
+    final String? query,
+    final int perPageCount = 20,
+    required final Function(GenericResponse<CrmCategoryReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    try {
+      final response = await _apiClient.get(
+        "/v1/CrmManager/GroupCrmManager/Archives",
+        queryParameters: {
+          "page_number": pageNumber,
+          "per_page_count": perPageCount,
+          if (query != null && query.isNotEmpty) "search": query,
+        },
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<CrmCategoryReadDto>.fromJson(response.data, fromMap: CrmCategoryReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
+      onError(GenericResponse());
+    }
+  }
+
+  void restoreCategory({
+    required final String? categoryId,
+    required final Function(GenericResponse<CrmCategoryReadDto> response) onResponse,
+    required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
+  }) async {
+    AppLoading.showLoading();
+    try {
+      final response = await _apiClient.post(
+        "/v1/CrmManager/GroupCrmManager/Restore/$categoryId",
+        skipRetry: !withRetry,
+      );
+
+      if (response.isOk) {
+        onResponse(GenericResponse<CrmCategoryReadDto>.fromJson(response.data, fromMap: CrmCategoryReadDto.fromMap));
+      } else {
+        onError(GenericResponse<dynamic>.fromJson(response.data));
+      }
+    } on dio.DioException {
       onError(GenericResponse());
     }
     AppLoading.dismissLoading();

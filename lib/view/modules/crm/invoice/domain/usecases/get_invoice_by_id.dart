@@ -7,5 +7,5 @@ class GetInvoiceByIdUseCase {
 
   final InvoiceRepository repository;
 
-  Future<InvoiceEntity> call(int invoiceId) => repository.getInvoiceById(invoiceId);
+  Future<InvoiceEntity> call(final int invoiceId) => repository.getInvoiceById(invoiceId);
 }

@@ -47,7 +47,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -131,7 +131,7 @@ class ForgotPasswordHelper {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              s.otpInfoText.replaceAll('#', phoneNumber),
+              s.otpInfoText(phoneNumber),
               textAlign: TextAlign.center,
             ).titleMedium(),
             const SizedBox(height: 18),
@@ -155,7 +155,7 @@ class ForgotPasswordHelper {
                 validator: validateMinLength(
                   6,
                   requiredMessage: s.requiredField,
-                  minLengthMessage: s.isShort.replaceAll('#', '6'),
+                  minLengthMessage: s.isShort('6'),
                 ),
                 onCompleted: (final code) {
                   buttonState.loading();
@@ -217,7 +217,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -341,7 +341,7 @@ class ForgotPasswordHelper {
                 UElevatedButton(
                   title: s.cancel,
                   backgroundColor: context.theme.hintColor,
-                  onTap: () => UNavigator.back(),
+                  onTap: () => AppNavigator.back(),
                 ).expanded(),
                 Obx(
                   () => UElevatedButton(
@@ -358,7 +358,7 @@ class ForgotPasswordHelper {
                             onResponse: () {
                               buttonState.loaded();
                               Navigator.pop(context);
-                              AppNavigator.snackbarGreen(title: s.done, subtitle: s.passwordChanged);
+                              AppSnackBar.snackbarGreen(title: s.done, subtitle: s.passwordChanged);
                             },
                             onError: () => buttonState.loaded(),
                           );

@@ -6,5 +6,5 @@ class DeleteWarehouseUseCase {
 
   final WarehouseRepository repository;
 
-  Future<void> call(int id) => repository.deleteWarehouse(id);
+  Future<void> call(final int id) => repository.deleteWarehouse(id);
 }

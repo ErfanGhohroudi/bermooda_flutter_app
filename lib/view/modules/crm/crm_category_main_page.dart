@@ -1,11 +1,12 @@
 import 'package:u/utilities.dart';
 
+import '../../../core/navigator/navigator.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme.dart';
 import '../../../data/data.dart';
-import 'archive/crm_archive_page.dart';
+import 'archive/customers/crm_archived_customers_page.dart';
 import 'board/crm_board_page.dart';
 import 'customers_bank/customers_bank_page.dart';
 import 'my_followups/my_followups_page.dart';
@@ -33,7 +34,7 @@ class CrmCategoryMainPage extends StatelessWidget {
           /// Kanban Board
           _item(
             context: context,
-            onTap: () => UNavigator.push(CrmBoardPage(
+            onTap: () => AppNavigator.push(CrmBoardPage(
               category: category,
               onEdited: onEdited,
             )),
@@ -43,7 +44,7 @@ class CrmCategoryMainPage extends StatelessWidget {
           /// My Follow-ups
           _item(
             context: context,
-            onTap: () => UNavigator.push(MyFollowupsPage(
+            onTap: () => AppNavigator.push(MyFollowupsPage(
               categoryId: category.id ?? '',
             )),
             icon: AppIcons.listOutline,
@@ -53,7 +54,7 @@ class CrmCategoryMainPage extends StatelessWidget {
           if (haveAdminAccess)
             _item(
               context: context,
-              onTap: () => UNavigator.push(CustomersBankPage(
+              onTap: () => AppNavigator.push(CustomersBankPage(
                 categoryId: category.id ?? '',
               )),
               icon: AppIcons.groupOutline,
@@ -63,7 +64,7 @@ class CrmCategoryMainPage extends StatelessWidget {
           if (haveManagerAccess)
             _item(
               context: context,
-              onTap: () => UNavigator.push(CrmStatisticsPage(
+              onTap: () => AppNavigator.push(CrmStatisticsPage(
                 category: category,
               )),
               icon: AppIcons.statisticsOutline,
@@ -74,7 +75,7 @@ class CrmCategoryMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(CrmArchivePage(
+                AppNavigator.push(CrmArchivedCustomersPage(
                   categoryId: category.id ?? '',
                 ));
               },
@@ -94,7 +95,7 @@ class CrmCategoryMainPage extends StatelessWidget {
   }) =>
       WCard(
         onTap: () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(500, onTap);
         },
         child: Row(

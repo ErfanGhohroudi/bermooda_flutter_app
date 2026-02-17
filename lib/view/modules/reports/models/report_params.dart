@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../core/utils/enums/enums.dart';
 import '../../../../data/data.dart';
 import '../create/forms/enum/enums.dart';
 
@@ -36,55 +35,6 @@ class ReportNoteParams extends IReportParams {
   List<Object?> get props => [
     _formType,
     noteText,
-  ];
-}
-
-/// Invoice
-class ReportInvoiceParams extends IReportParams {
-  final ReportFormType _formType;
-  final String amount;
-  final InvoiceType invoiceType;
-  final InvoiceStatusType invoiceStatusType;
-  final List<Jalali> remindDates;
-  final String? invoiceId;
-  final List<LabelReadDto> labels;
-  final List<MainFileReadDto> files;
-
-  const ReportInvoiceParams({
-    required this.amount,
-    required this.invoiceType,
-    required this.invoiceStatusType,
-    required this.remindDates,
-    this.invoiceId,
-    this.labels = const [],
-    this.files = const [],
-  }) : _formType = ReportFormType.Factor;
-
-  @override
-  Map<String, dynamic> toMap() => {
-    "report_type": _formType.name.toLowerCase(),
-    "factor_type": invoiceType.name,
-    "sub_factor_type": invoiceStatusType.name,
-    "amount": amount.toInt(),
-    "factor_code": invoiceId,
-    "reminder_date_list": remindDates.map((final date) => date.formatCompactDate()).toList(),
-    "label_slug_list": labels.map((final e) => e.slug).whereType<String>().toList(),
-    "attached_file_id_list": files.map((final e) => e.fileId).whereType<int>().toList(),
-  };
-
-  @override
-  ReportFormType get type => _formType;
-
-  @override
-  List<Object?> get props => [
-    _formType,
-    invoiceType,
-    invoiceStatusType,
-    amount,
-    invoiceId,
-    remindDates.map((final date) => date.formatCompactDate()).toList(),
-    labels.map((final e) => e.slug).whereType<String>().toList(),
-    files.map((final e) => e.fileId).whereType<int>().toList(),
   ];
 }
 

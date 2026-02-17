@@ -58,7 +58,7 @@ mixin SubtaskCardController {
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         if (subtask.value.dataSourceType == null) return;
-        UNavigator.back();
+        AppNavigator.back();
         _datasource.delete(
           dataSourceType: subtask.value.dataSourceType!,
           id: subtask.value.id,
@@ -78,7 +78,7 @@ mixin SubtaskCardController {
     required final Function(SubtaskReadDto model) onChangedTimer,
   }) {
     if (subtask.value.responsibleForDoing?.id != core.userReadDto.value.id) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
     if (subtask.value.dataSourceType == null) return;
@@ -99,14 +99,14 @@ mixin SubtaskCardController {
     required final Function(SubtaskReadDto model) onResponse,
   }) {
     if (subtask.value.responsibleForDoing?.id != core.userReadDto.value.id) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
 
     appShowYesCancelDialog(
       description: subtask.value.isCompleted ? s.changeStatus : s.changeSubtaskStatusToDone,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _changeSubStatus(onResponse);
       },
     );
@@ -131,13 +131,13 @@ mixin SubtaskCardController {
 
   void changeProgress(final int value, {required final Function(SubtaskReadDto model) onResponse}) {
     if (subtask.value.responsibleForDoing?.id != core.userReadDto.value.id) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAuthorizedToChangeStatus);
       return;
     }
     appShowYesCancelDialog(
-      description: s.changeSubtaskProgressTo.replaceAll("#", "$value%"),
+      description: s.changeSubtaskProgressTo("$value%"),
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _changeProgress(value, onResponse);
       },
     );

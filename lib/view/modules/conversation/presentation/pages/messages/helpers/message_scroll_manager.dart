@@ -49,7 +49,7 @@ class MessageScrollManager {
     } else if (controller.hasMoreMessage == false) {
       AppLoading.dismissLoading();
       controller.searchingForMessageId = null; // Disable auto searching mode
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.messageNotFound);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.messageNotFound);
     }
   }
 

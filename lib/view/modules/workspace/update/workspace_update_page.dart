@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
 import '../../../../core/utils/enums/enums.dart';
@@ -56,8 +57,8 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
         appShowYesCancelDialog(
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
-            UNavigator.back();
+            AppNavigator.back();
+            AppNavigator.back();
           },
         );
       },
@@ -76,7 +77,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                 onTap: () => onSubmit(
                   onResponse: (final workspaceInfo) {
                     widget.onResponse(workspaceInfo);
-                    UNavigator.back();
+                    AppNavigator.back();
                   },
                 ),
               ).pOnly(left: 16, right: 16, bottom: 24);
@@ -140,7 +141,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                     //     validator: validateMinLength(
                     //       3,
                     //       requiredMessage: s.requiredField,
-                    //       minLengthMessage: s.isShort.replaceAll("#", "3"),
+                    //       minLengthMessage: s.isShort("3"),
                     //     ),
                     //     maxLength: 30,
                     //     formatters: [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9_.]'))],
@@ -157,63 +158,40 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                     //     },
                     //   ),
                     // ),
-
-                    /// Industry
-                    Obx(
-                      () => WDropDownFormField<DropdownItemReadDto>(
-                        labelText: s.industry,
-                        value: selectedIndustry.value,
-                        deselectable: true,
-                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: industries),
-                        onChanged: (final value) {
-                          selectedIndustry.value = value;
-                        },
-                      ),
-                    ),
-
-                    /// Business Size
-                    Obx(
-                      () => WDropDownFormField<String>(
-                        labelText: s.businessSize,
-                        value: selectedBusinessSize.value?.getTitle(),
-                        deselectable: true,
-                        items: getDropDownMenuItemsFromString(
-                          menuItems: BusinessSize.values.map((final e) => e.getTitle()).toList(),
-                        ),
-                        onChanged: (final value) {
-                          selectedBusinessSize.value = BusinessSize.values.firstWhereOrNull((final e) => e.getTitle() == value);
-                        },
-                      ),
-                    ),
-
-                    /// State
-                    Obx(
-                      () => WDropDownFormField<DropdownItemReadDto>(
-                        labelText: s.state,
-                        value: selectedState.value,
-                        deselectable: true,
-                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: states),
-                        onChanged: (final value) {
-                          selectedState.value = value;
-                          selectedCity.value = null;
-                          if (selectedState.value == null) return;
-                          getCities();
-                        },
-                      ),
-                    ),
-
-                    /// City
-                    Obx(
-                      () => WDropDownFormField<DropdownItemReadDto>(
-                        labelText: citiesState.isLoaded() ? s.city : s.loading,
-                        value: selectedCity.value,
-                        deselectable: true,
-                        items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: cities),
-                        onChanged: (final value) {
-                          selectedCity.value = value;
-                        },
-                      ).marginOnly(bottom: 20),
-                    ),
+                    // Row(
+                    //   spacing: 10,
+                    //   children: [
+                    //     /// Industry
+                    //     Obx(
+                    //       () => WDropDownFormField<DropdownItemReadDto>(
+                    //         labelText: s.industry,
+                    //         value: selectedIndustry.value,
+                    //         deselectable: true,
+                    //         items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: industries),
+                    //         onChanged: (final value) {
+                    //           selectedIndustry.value = value;
+                    //         },
+                    //       ),
+                    //     ).expanded(),
+                    //
+                    //     /// Business Size
+                    //     Obx(
+                    //       () => WDropDownFormField<String>(
+                    //         labelText: s.businessSize,
+                    //         value: selectedBusinessSize.value?.getTitle(),
+                    //         deselectable: true,
+                    //         items: getDropDownMenuItemsFromString(
+                    //           menuItems: BusinessSize.values.map((final e) => e.getTitle()).toList(),
+                    //         ),
+                    //         onChanged: (final value) {
+                    //           selectedBusinessSize.value = BusinessSize.values.firstWhereOrNull(
+                    //             (final e) => e.getTitle() == value,
+                    //           );
+                    //         },
+                    //       ),
+                    //     ).expanded(),
+                    //   ],
+                    // ),
 
                     /// Verification Text Info
                     RichText(
@@ -227,7 +205,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                           ),
                         ],
                       ),
-                    ),
+                    ).marginOnly(top: 20),
 
                     /// AuthenticationType
                     WRadioGroup<AuthenticationType>(
@@ -242,6 +220,8 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
                         FocusManager.instance.primaryFocus!.unfocus();
                       },
                     ),
+
+                    /// Verification Form
                     _verificationForm(),
                   ],
                 ),
@@ -280,7 +260,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           validator: validateMinLength(
             authenticationType.isPerson() ? 10 : 11,
             requiredMessage: s.requiredField,
-            minLengthMessage: s.isShort.replaceAll('#', authenticationType.isPerson() ? '10' : '11'),
+            minLengthMessage: s.isShort(authenticationType.isPerson() ? '10' : '11'),
           ),
         ),
 
@@ -296,7 +276,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
             validator: validateMinLength(
               6,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '6'),
+              minLengthMessage: s.isShort('6'),
             ),
           ),
 
@@ -312,16 +292,24 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
             validator: validateMinLength(
               12,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '12'),
+              minLengthMessage: s.isShort('12'),
             ),
           ),
 
           /// Landline
-          if (authenticationType.isLegal())
-            WPhoneNumberField(
-              controller: landlineController,
-              labelText: s.landline,
-            ),
+          WPhoneNumberField(
+            controller: landlineController,
+            labelText: s.landline,
+            required: true,
+            startWith: '0',
+          ),
+
+          /// Fax
+          WPhoneNumberField(
+            controller: faxController,
+            labelText: s.fax,
+            startWith: '0',
+          ),
         ],
 
         /// Phone Number
@@ -329,6 +317,7 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           WPhoneNumberField(
             controller: phoneNumberController,
             required: true,
+            startWith: '09',
           ),
 
         /// Email
@@ -337,13 +326,72 @@ class _WorkspaceUpdatePageState extends State<WorkspaceUpdatePage> with Workspac
           required: true,
         ),
 
+        /// Sheba Number
+        WShebaNumberField(
+          controller: shebaNumberController,
+          required: true,
+        ),
+
+        Row(
+          spacing: 10,
+          children: [
+            /// State
+            Obx(
+              () => WDropDownFormField<DropdownItemReadDto>(
+                labelText: s.state,
+                value: selectedState.value,
+                required: true,
+                deselectable: true,
+                items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: states),
+                onChanged: (final value) {
+                  selectedState.value = value;
+                  selectedCity.value = null;
+                  if (selectedState.value == null) return;
+                  getCities();
+                },
+              ),
+            ).expanded(),
+
+            /// City
+            Obx(
+              () => WDropDownFormField<DropdownItemReadDto>(
+                labelText: citiesState.isLoaded() ? s.city : s.loading,
+                value: selectedCity.value,
+                required: true,
+                deselectable: true,
+                items: getDropDownMenuItemsFromDropDownItemReadDto(menuItems: cities),
+                onChanged: (final value) {
+                  selectedCity.value = value;
+                },
+              ),
+            ).expanded(),
+          ],
+        ),
+
+        /// Postal Code
+        UTextFormField(
+          controller: postalCodeController,
+          labelText: s.postalCode,
+          keyboardType: TextInputType.number,
+          maxLength: 10,
+          required: true,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          formatters: [FilteringTextInputFormatter.digitsOnly],
+          validator: validateMinLength(
+            10,
+            required: true,
+            requiredMessage: s.requiredField,
+            minLengthMessage: s.isShort('10'),
+          ),
+        ),
+
         /// Address
-        // WAddressField(
-        //   controller: addressController,
-        //   required: true,
-        // ),
+        WAddressField(
+          controller: addressController,
+          required: true,
+        ),
       ],
-    ).marginOnly(bottom: 40),
+    ).marginOnly(bottom: 100),
   );
 
   // Widget _linkDomainText() => Text(

@@ -282,7 +282,7 @@ class ProjectBoardController extends GetxController {
         onError: (final errorResponse) {},
       );
     } else {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.connectionLost);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.connectionLost);
     }
   }
 

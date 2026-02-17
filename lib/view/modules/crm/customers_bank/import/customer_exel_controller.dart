@@ -32,7 +32,7 @@ class CustomerExelController extends GetxController {
     if (canBack) {
       _previousStep();
     } else {
-      UNavigator.back();
+      AppNavigator.back();
     }
   }
 
@@ -47,7 +47,7 @@ class CustomerExelController extends GetxController {
       /// Preview Step
       _executeImport();
     } else if (currentStep.value == 3) {
-      UNavigator.back();
+      AppNavigator.back();
     }
   }
 
@@ -67,7 +67,7 @@ class CustomerExelController extends GetxController {
     appShowYesCancelDialog(
       description: s.backToPreviousStepDialogDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         currentStep.value--;
         currentStep.refresh();
         buttonState.refresh();
@@ -157,12 +157,12 @@ class CustomerExelController extends GetxController {
     final size = file.size;
 
     if (!allowedExtensions.contains(ext)) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.formatIsNotAllowed);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.formatIsNotAllowed);
       return;
     }
 
     if (size > maxBytes) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: "${s.fileSizeExceedsTheAllowedLimit} (${s.maximum} 10 MB)");
+      AppSnackBar.snackbarRed(title: s.error, subtitle: "${s.fileSizeExceedsTheAllowedLimit} (${s.maximum} 10 MB)");
       return;
     }
 

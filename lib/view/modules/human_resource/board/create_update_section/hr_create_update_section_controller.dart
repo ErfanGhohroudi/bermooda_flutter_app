@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/kanban_board/kanban_board.dart';
 import '../../../../../core/core.dart';
@@ -62,7 +63,7 @@ mixin HRCreateUpdateSectionController {
       title: titleController.text,
       colorCode: selectedColor.colorCode,
       iconId: selectedIcon?.fileId,
-      onResponse: (final response) => UNavigator.back(),
+      onResponse: (final response) => AppNavigator.back(),
       onError: (final errorResponse) {
         buttonState.loaded();
       },
@@ -75,7 +76,7 @@ mixin HRCreateUpdateSectionController {
       title: titleController.text,
       colorCode: selectedColor.colorCode,
       iconId: selectedIcon?.fileId,
-      onResponse: (final response) => UNavigator.back(),
+      onResponse: (final response) => AppNavigator.back(),
       onError: (final errorResponse) {
         buttonState.loaded();
       },
@@ -112,7 +113,7 @@ mixin HRCreateUpdateSectionController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete();
       },
     );
@@ -121,7 +122,7 @@ mixin HRCreateUpdateSectionController {
   void _delete() {
     _hrSectionDatasource.delete(
       slug: section?.data?.slug,
-      onResponse: () => UNavigator.back(),
+      onResponse: () => AppNavigator.back(),
       onError: (final errorResponse) {},
       withRetry: true,
     );

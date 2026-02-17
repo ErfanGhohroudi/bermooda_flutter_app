@@ -1,11 +1,12 @@
 import 'package:u/utilities.dart';
 
+import '../../../core/navigator/navigator.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/core.dart';
 import '../../../core/services/permission_service.dart';
 import '../../../core/theme.dart';
 import '../../../data/data.dart';
-import 'archive/hr_archive_page.dart';
+import 'archive/members/hr_archived_members_page.dart';
 import 'attendance/statistics/monthly_attendance_stats_page.dart';
 import 'board/hr_board_page.dart';
 import 'my_reviews/my_reviews_page.dart';
@@ -33,7 +34,7 @@ class HrDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(HRBoardPage(
+              AppNavigator.push(HRBoardPage(
                 department: department,
                 onEdited: onEdited,
               ));
@@ -44,7 +45,7 @@ class HrDepartmentMainPage extends StatelessWidget {
           // _item(
           //   context: context,
           //   onTap: () {
-          //     UNavigator.push(MembersListPage(
+          //     AppNavigator.push(MembersListPage(
           //       department: department,
           //     ));
           //   },
@@ -54,7 +55,7 @@ class HrDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(MyReviewsPage(
+              AppNavigator.push(MyReviewsPage(
                 department: department,
               ));
             },
@@ -65,7 +66,7 @@ class HrDepartmentMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(HrStatisticsPage(department: department));
+                AppNavigator.push(HrStatisticsPage(department: department));
               },
               icon: AppIcons.progressStatusOutline,
               title: s.statistics,
@@ -74,7 +75,7 @@ class HrDepartmentMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(MonthlyAttendanceStatsPage(department: department));
+                AppNavigator.push(MonthlyAttendanceStatsPage(department: department));
               },
               icon: AppIcons.timerOutline,
               title: s.attendance,
@@ -83,7 +84,7 @@ class HrDepartmentMainPage extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                UNavigator.push(WorkshiftListPage(
+                AppNavigator.push(WorkshiftListPage(
                   departmentSlug: department.slug!,
                 ));
               },
@@ -93,7 +94,7 @@ class HrDepartmentMainPage extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              UNavigator.push(HRArchivePage(
+              AppNavigator.push(HRArchivedMembersPage(
                 department: department,
               ));
             },
@@ -113,7 +114,7 @@ class HrDepartmentMainPage extends StatelessWidget {
   }) =>
       WCard(
         onTap: () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(500, onTap);
         },
         child: Row(

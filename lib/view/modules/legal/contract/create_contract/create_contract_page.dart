@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/upload_and_show_image.dart';
@@ -88,6 +89,7 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                   labelText: s.validityDate,
                   initialValue: params.expireDate,
                   startDate: Jalali.now(),
+                  showYearSelector: true,
                   required: true,
                   onConfirm: (final date, final compactFormatterDate) {
                     params = params.copyWith(expireDate: compactFormatterDate);
@@ -293,7 +295,11 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                         children: [
                           IconButton(
                             icon: const UImage(AppIcons.editOutline, color: AppColors.green),
-                            style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+                            style: IconButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
                             onPressed: () => addOrEditSignatoryOrParty(
                               model: member,
                               action: (final model) {
@@ -307,12 +313,16 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                           ),
                           IconButton(
                             icon: const UImage(AppIcons.delete, color: AppColors.red),
-                            style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+                            style: IconButton.styleFrom(
+                              padding: const EdgeInsets.all(5),
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
                             onPressed: () => appShowYesCancelDialog(
                               title: s.delete,
                               description: s.areYouSureYouWantToDeleteItem,
                               onYesButtonTap: () {
-                                UNavigator.back();
+                                AppNavigator.back();
                                 final members = List<SignerDto>.from(params.members);
                                 members.removeAt(index);
                                 setState(() {

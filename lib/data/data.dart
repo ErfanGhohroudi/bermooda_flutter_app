@@ -1,7 +1,10 @@
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:u/utilities.dart';
 import 'package:dio/dio.dart' as dio;
 
+import '../core/functions/user_functions.dart';
+import '../view/modules/crm/invoice/data/params/invoice_params.dart';
 import '../view/modules/crm/invoice/domain/entities/invoice.dart';
 import '../view/modules/human_resource/workshift/enums/shift_flexible_time_duration.dart';
 import '../view/modules/subscription/enums/max_contract_count.dart';
@@ -75,6 +78,7 @@ part 'dto/response/crm/customer.dart';
 part 'dto/response/crm/customers_bank_document.dart';
 part 'dto/response/crm/follow_up.dart';
 part 'dto/response/crm/invoice.dart';
+part 'dto/response/crm/invoice_buyer_seller_info.dart';
 part 'dto/response/crm/status_reason.dart';
 // Warehouse models
 part 'dto/response/warehouse/warehouse_dto.dart';
@@ -181,13 +185,9 @@ part 'remote_datasource/label/customer_invoice_label_datasource.dart';
 part 'remote_datasource/label/customer_contract_label_datasource.dart';
 // Customer_Finance
 part 'remote_datasource/customer_finance/invoice_manager_datasource.dart';
-part 'remote_datasource/customer_finance/invoice_status_manager_datasource.dart';
-part 'remote_datasource/customer_finance/installment_datasource.dart';
 part 'remote_datasource/customer_finance/pay_invoice_datasource.dart';
-part 'remote_datasource/customer_finance/send_invoice_sms_datasource.dart';
 part 'remote_datasource/customer_finance/get_invoice_code_datasource.dart';
-part 'remote_datasource/customer_finance/change_invoice_status_datasource.dart';
-part 'remote_datasource/customer_finance/invoice_preview_datasource.dart';
+part 'remote_datasource/customer_finance/update_invoice_info_datasource.dart';
 // Followup
 part 'remote_datasource/followup/follow_up_datasource.dart';
 part 'remote_datasource/followup/customer_follow_up_datasource.dart';

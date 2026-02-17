@@ -1,12 +1,13 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../data/data.dart';
 import '../../../customer/customer_page.dart';
 import '../../../../../../core/core.dart';
 import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../widgets/customer_steps/customer_steps.dart';
-import '../../../../followup/follow_up_card/follow_up_card.dart';
+import '../../../../followup/presentation/widgets/follow_up_card.dart';
 import 'customer_card_controller.dart';
 
 class WCustomerCard extends StatefulWidget {
@@ -85,7 +86,7 @@ class _WCustomerCardState extends State<WCustomerCard> with CustomerCardControll
           showBorder: true,
           onTap: () {
             delay(200, () {
-              UNavigator.push(CustomerPage(
+              AppNavigator.push(CustomerPage(
                 customer: customer.value,
                 canEdit: canEdit,
                 onEdit: (final model) {

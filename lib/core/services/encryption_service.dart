@@ -2,12 +2,12 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter/cupertino.dart' show debugPrint;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:u/utils/local_storage.dart';
-import 'package:u/utils/navigator.dart';
 import 'package:get/get.dart';
 
 import '../../view/modules/splash/splash_page.dart';
 import '../constants.dart';
 import '../core.dart';
+import '../navigator/navigator.dart';
 
 class EncryptionService {
   static final _storage = const FlutterSecureStorage();
@@ -58,7 +58,7 @@ class EncryptionService {
       _storage.deleteAll();
       ULocalStorage.set(AppConstants.isLogin, false);
       Get.find<Core>().clearWorkspaces();
-      UNavigator.offAll(const SplashPage());
+      AppNavigator.offAll(const SplashPage());
       debugPrint('Decryption error: $e\n$stack');
       throw Exception('Decryption failed');
     }

@@ -140,9 +140,9 @@ class WorkshiftMonthCalendar extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
-            color: (st.color?.color ?? context.theme.primaryColor).withAlpha(35),
+            color: (st.color.color).withAlpha(35),
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: (st.color?.color ?? context.theme.primaryColor).withAlpha(70)),
+            border: Border.all(color: (st.color.color).withAlpha(70)),
           ),
           // child: Text(
           //   st.title,

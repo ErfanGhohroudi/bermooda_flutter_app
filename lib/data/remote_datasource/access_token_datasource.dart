@@ -33,7 +33,7 @@ class AccessTokenDatasource {
       }
 
       return true;
-    } on dio.DioException catch(e) {
+    } on dio.DioException {
       return false;
     }
 

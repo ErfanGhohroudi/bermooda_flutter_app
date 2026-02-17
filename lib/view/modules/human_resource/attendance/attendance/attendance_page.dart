@@ -22,7 +22,7 @@ void showAttendanceBottomSheet() async {
       child: const AttendancePage(),
     );
   }
-  AppNavigator.snackbarRed(title: s.error, subtitle: s.hRModuleIsRequired);
+  AppSnackBar.snackbarRed(title: s.error, subtitle: s.hRModuleIsRequired);
 }
 
 class AttendancePage extends StatefulWidget {
@@ -156,11 +156,11 @@ class _AttendancePageState extends State<AttendancePage> with AttendanceControll
           case AttendanceTimeStatus.early:
             color = AppColors.blue;
             icon = AppIcons.clockOutline;
-            text = s.youAreEarly.replaceAll("#", minutesDifferenceFormatted);
+            text = s.youAreEarly(minutesDifferenceFormatted);
           case AttendanceTimeStatus.late:
             color = AppColors.red;
             icon = AppIcons.info;
-            text = s.youAreLate.replaceAll("#", minutesDifferenceFormatted);
+            text = s.youAreLate(minutesDifferenceFormatted);
         }
 
         return WCard(

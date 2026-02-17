@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
 import '../../../../core/core.dart';
@@ -57,7 +58,7 @@ class _LoginPageState extends State<LoginPage> with LoginController {
                 WTextButton2(
                   text: s.signup,
                   onPressed: () {
-                    UNavigator.push(const SignupPage());
+                    AppNavigator.push(const SignupPage());
                   },
                 ),
               ],
@@ -78,7 +79,7 @@ class _LoginPageState extends State<LoginPage> with LoginController {
             key: formKey,
             child: Column(
               children: [
-                const UImage(AppImages.logo, size: 90).marginOnly(bottom: 18),
+                const UImage(AppImages.bermoodaLogo, size: 90).marginOnly(bottom: 6),
                 Text(s.welcome).titleMedium(fontSize: 22).marginOnly(bottom: 100),
                 WPhoneNumberField(
                   controller: usernameController,

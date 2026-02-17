@@ -13,16 +13,20 @@ import '../departments/legal_department_list_controller.dart';
 class WLegalDepartmentItemCard extends StatefulWidget {
   const WLegalDepartmentItemCard({
     required this.department,
-    required this.ctrl,
+    this.ctrl,
     required this.isReorderEnabled,
     required this.index,
+    this.moreButtonBuilder,
+    this.onTap,
     super.key,
   });
 
   final LegalDepartmentReadDto department;
-  final LegalDepartmentListController ctrl;
+  final LegalDepartmentListController? ctrl;
   final bool isReorderEnabled;
   final int index;
+  final WidgetBuilder? moreButtonBuilder;
+  final VoidCallback? onTap;
 
   @override
   State<WLegalDepartmentItemCard> createState() => _WLegalDepartmentItemCardState();
@@ -75,13 +79,17 @@ class _WLegalDepartmentItemCardState extends State<WLegalDepartmentItemCard> wit
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      onTap: () {
-        if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
+      onTap: widget.onTap ?? () {
+        if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
         bottomSheet(
           child: LegalDepartmentMainPage(
             department: widget.department,
-            onEdited: (final department) => widget.ctrl.departments[widget.index] = department,
+            onEdited: (final department) {
+              if (widget.ctrl != null) {
+                widget.ctrl!.departments[widget.index] = department;
+              }
+            },
           ),
         );
       },
@@ -119,32 +127,33 @@ class _WLegalDepartmentItemCardState extends State<WLegalDepartmentItemCard> wit
                   ),
                 ],
               ).expanded(),
-              if (widget.ctrl.haveAdminAccess)
+              if (widget.ctrl?.haveAdminAccess ?? false || widget.moreButtonBuilder != null)
                 SizeTransition(
                   sizeFactor: Tween<double>(begin: 1.0, end: 0.0).animate(_animation),
                   axis: Axis.horizontal,
-                  child:
-                      Container(
-                        width: 35,
-                        height: 35,
-                        color: Colors.transparent,
-                        child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
-                      ).showMenus([
-                        WPopupMenuItem(
-                          title: s.edit,
-                          icon: AppIcons.editOutline,
-                          titleColor: AppColors.green,
-                          iconColor: AppColors.green,
-                          onTap: () => widget.ctrl.navigateToEditDepartmentPage(widget.department),
-                        ),
-                        // WPopupMenuItem(
-                        //   title: s.delete,
-                        //   icon: AppIcons.delete,
-                        //   titleColor: AppColors.red,
-                        //   iconColor: AppColors.red,
-                        //   onTap: () => widget.ctrl.deleteDepartment(widget.department),
-                        // ),
-                      ]),
+                  child: widget.moreButtonBuilder != null
+                      ? Builder(builder: widget.moreButtonBuilder!)
+                      : Container(
+                          width: 35,
+                          height: 35,
+                          color: Colors.transparent,
+                          child: Icon(Icons.more_vert_rounded, color: context.theme.hintColor),
+                        ).showMenus([
+                          WPopupMenuItem(
+                            title: s.edit,
+                            icon: AppIcons.editOutline,
+                            titleColor: AppColors.green,
+                            iconColor: AppColors.green,
+                            onTap: () => widget.ctrl?.navigateToEditDepartmentPage(widget.department),
+                          ),
+                          WPopupMenuItem(
+                            title: s.archive,
+                            icon: AppIcons.archiveOutline,
+                            titleColor: AppColors.red,
+                            iconColor: AppColors.red,
+                            onTap: () => widget.ctrl?.archiveDepartment(widget.department),
+                          ),
+                        ]),
                 ),
             ],
           ),

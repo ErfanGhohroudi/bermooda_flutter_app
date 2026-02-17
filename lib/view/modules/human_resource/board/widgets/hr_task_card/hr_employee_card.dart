@@ -179,7 +179,7 @@ class _WHREmployeeCardState extends State<WHREmployeeCard> with HrEmployeeCardCo
             isChecked: !request.status.isPending(),
             onChanged: (final value) {
               final isAmongAcceptors = request.assignedTo.any((final e) => e.user.id == Get.find<Core>().userReadDto.value.id);
-              if (!isAmongAcceptors) return AppNavigator.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
+              if (!isAmongAcceptors) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
               toggleRequestStatus(request);
             },
           ),

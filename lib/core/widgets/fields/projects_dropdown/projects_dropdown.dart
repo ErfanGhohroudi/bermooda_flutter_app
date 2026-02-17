@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
 import '../../../core.dart';
+import '../../../navigator/navigator.dart';
 import '../../../theme.dart';
 import '../../widgets.dart';
 import 'projects_dropdown_controller.dart';
@@ -110,7 +111,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
   /// متد کمکی برای ساخت آیتم "ایجاد پروژه جدید"
   DropdownMenuItem<ProjectReadDto> _buildCreateProjectMenuItem() {
     return DropdownMenuItem<ProjectReadDto>(
-      value: ProjectReadDto(),
+      value: const ProjectReadDto(),
       child: Container(
         width: context.width,
         color: Colors.transparent,
@@ -133,7 +134,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
         ),
       ).onTap(
         () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(
             50,
             () {
@@ -164,7 +165,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -181,7 +182,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -191,7 +192,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteProject(
                             projects[index],
                             action: () {

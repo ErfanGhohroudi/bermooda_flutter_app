@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
@@ -47,7 +48,7 @@ class _ProjectAddMemberPageState extends State<ProjectAddMemberPage> with Projec
                   children: [
                     WMembersPickerFormField(
                       labelText: s.accessibleMembers,
-                      helperText: s.projectAccessibleMembersHelper,
+                      helperText: s.accessibleMembersHelper(s.project.toLowerCase()),
                       members: members,
                       required: true,
                       selectedMembers: selectedMembers,
@@ -63,7 +64,7 @@ class _ProjectAddMemberPageState extends State<ProjectAddMemberPage> with Projec
                         onTap: () => onSubmit(
                           onResponse: (final project) {
                             widget.onResponse(project);
-                            UNavigator.back();
+                            AppNavigator.back();
                           },
                         ),
                       ),

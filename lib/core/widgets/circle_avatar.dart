@@ -59,7 +59,7 @@ class WCircleAvatar extends StatelessWidget {
                     onTapImage ??
                     (showFullScreen
                         ? () {
-                            UNavigator.push(
+                            AppNavigator.push(
                               ImagesViewPage(
                                 medias: [
                                   MediaReadDto(

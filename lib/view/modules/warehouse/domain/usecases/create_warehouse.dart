@@ -7,6 +7,6 @@ class CreateWarehouseUseCase {
 
   final WarehouseRepository repository;
 
-  Future<Warehouse> call(Map<String, dynamic> params) =>
+  Future<Warehouse> call(final Map<String, dynamic> params) =>
       repository.createWarehouse(params);
 }

@@ -18,7 +18,7 @@ class WBackIcon extends StatelessWidget {
       if (action != null) {
         action!();
       } else {
-        UNavigator.back();
+        AppNavigator.back();
       }
     });
   }

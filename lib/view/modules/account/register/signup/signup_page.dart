@@ -47,7 +47,7 @@ class _SignupPageState extends State<SignupPage> with SignupController {
             key: formKey,
             child: Column(
               children: [
-                const UImage(AppImages.logo, size: 90).marginOnly(bottom: 18),
+                const UImage(AppImages.bermoodaLogo, size: 90).marginOnly(bottom: 6),
                 Text(s.welcome).titleMedium(fontSize: 22).marginOnly(bottom: 100),
                 WPhoneNumberField(
                   controller: phoneNumberCtrl,

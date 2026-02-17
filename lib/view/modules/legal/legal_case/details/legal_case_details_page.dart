@@ -228,7 +228,7 @@ class _LegalCaseDetailsPageState extends State<LegalCaseDetailsPage> {
                         if (isCompleted == false) {
                           ctrl.deleteStep(step);
                         } else {
-                          AppNavigator.snackbarRed(title: s.error, subtitle: s.cannotDeleteCompletedSteps);
+                          AppSnackBar.snackbarRed(title: s.error, subtitle: s.cannotDeleteCompletedSteps);
                         }
                       },
                     ),

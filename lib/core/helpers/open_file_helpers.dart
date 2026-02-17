@@ -32,7 +32,7 @@ class OpenFileHelpers {
   static Future<String?> showDownloadDialog(final String url, final String fileName) async {
     final filePath = await getFilePath(fileName);
     if (filePath == null) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.directoryCouldNotBeFound);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.directoryCouldNotBeFound);
       return null;
     }
     final file = File(filePath);
@@ -64,7 +64,7 @@ class OpenFileHelpers {
               );
             }).catchError((final error) {
               Navigator.pop(context);
-              AppNavigator.snackbarRed(title: s.error, subtitle: error.toString());
+              AppSnackBar.snackbarRed(title: s.error, subtitle: error.toString());
             });
 
             return AlertDialog(
@@ -120,7 +120,7 @@ class OpenFileHelpers {
       );
       return filePath;
     } on DioException catch (e) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.errorDownloadingFile);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.errorDownloadingFile);
       debugPrint("Download error: $e");
       return null;
     }

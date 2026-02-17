@@ -1,6 +1,7 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/crm_categories_dropdown/crm_categories_dropdown.dart';
 import '../../../../core/widgets/fields/projects_dropdown/projects_dropdown.dart';
@@ -293,7 +294,7 @@ mixin CalendarController {
             title: s.confirm,
             onTap: () {
               if (selectedProject != null) {
-                UNavigator.back();
+                AppNavigator.back();
                 Future.delayed(const Duration(milliseconds: 50), () {
                   onConfirmed(selectedProject!);
                 });
@@ -327,7 +328,7 @@ mixin CalendarController {
             title: s.confirm,
             onTap: () {
               if (selectedCategory != null) {
-                UNavigator.back();
+                AppNavigator.back();
                 Future.delayed(const Duration(milliseconds: 50), () {
                   onConfirmed(selectedCategory!);
                 });

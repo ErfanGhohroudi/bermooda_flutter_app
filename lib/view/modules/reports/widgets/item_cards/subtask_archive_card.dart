@@ -18,7 +18,7 @@ class HistorySubtaskArchiveCard extends StatelessWidget {
       title: s.restore,
       description: s.restoreDescription,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _restore();
       },
     );

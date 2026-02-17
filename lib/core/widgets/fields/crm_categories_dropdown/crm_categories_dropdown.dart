@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../data/data.dart';
 import '../../../core.dart';
+import '../../../navigator/navigator.dart';
 import '../../../theme.dart';
 import '../../widgets.dart';
 import 'crm_categories_dropdown_controller.dart';
@@ -133,7 +134,7 @@ class _WCrmCategoriesDropdownFormFieldState extends State<WCrmCategoriesDropdown
         ),
       ).onTap(
         () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(50, () {
             showCreateUpdateDialog();
           });
@@ -167,7 +168,7 @@ class _WCrmCategoriesDropdownFormFieldState extends State<WCrmCategoriesDropdown
                 icon: AppIcons.editOutline,
                 iconColor: AppColors.green,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -184,7 +185,7 @@ class _WCrmCategoriesDropdownFormFieldState extends State<WCrmCategoriesDropdown
                 icon: AppIcons.delete,
                 iconColor: AppColors.red,
                 onTap: () {
-                  UNavigator.back();
+                  AppNavigator.back();
                   delay(
                     50,
                     () {
@@ -194,7 +195,7 @@ class _WCrmCategoriesDropdownFormFieldState extends State<WCrmCategoriesDropdown
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {
-                          UNavigator.back();
+                          AppNavigator.back();
                           deleteCategory(
                             categories[index],
                             action: () {

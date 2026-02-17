@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/chevron_painter.dart';
 import '../../../../core/utils/extensions/color_extension.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -88,7 +89,7 @@ class _LegalBoardPageState extends State<LegalBoardPage> {
             textStyle: context.textTheme.bodyMedium!.copyWith(color: Colors.white),
           )
           .onTap(
-            () => UNavigator.push(LegalPendingListPage(controller: ctrl)),
+            () => AppNavigator.push(LegalPendingListPage(controller: ctrl)),
           );
 
   Widget _sectionBuilder(final Section<LegalSectionReadDto, LegalCaseReadDto> section) => Container(

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../navigator/navigator.dart';
 import '../utils/enums/enums.dart';
 import '../../data/data.dart';
 import '../widgets/widgets.dart';
@@ -132,7 +133,7 @@ Future<List<UserReadDto>> showMemberPickerMultiSelectDialog({
                   title: s.cancel,
                   backgroundColor: navigatorKey.currentContext!.theme.hintColor,
                   onTap: () {
-                    UNavigator.back();
+                    AppNavigator.back();
                     FocusManager.instance.primaryFocus!.unfocus();
                   },
                 ).expanded(),

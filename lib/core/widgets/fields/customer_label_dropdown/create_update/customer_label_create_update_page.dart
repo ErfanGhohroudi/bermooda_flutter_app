@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../navigator/navigator.dart';
 import '../../../../utils/extensions/color_extension.dart';
 import '../../../widgets.dart';
 import '../../fields.dart';
@@ -97,14 +98,14 @@ class _CustomerLabelCreateUpdatePageState extends State<CustomerLabelCreateUpdat
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: UNavigator.back,
+                    onTap: AppNavigator.back,
                   ).expanded(),
                   UElevatedButton(
                     title: s.save,
                     onTap: () => callApi(
                       onResponse: (final label) {
                         widget.onResponse(label);
-                        UNavigator.back();
+                        AppNavigator.back();
                       },
                     ),
                   ).expanded(),

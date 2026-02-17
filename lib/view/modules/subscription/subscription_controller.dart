@@ -306,7 +306,7 @@ class SubscriptionController extends GetxController {
   }
 
   void showEmptyModulesSnackBar() {
-    AppNavigator.snackbarRed(
+    AppSnackBar.snackbarRed(
       title: s.warning,
       subtitle: s.selectAtLeastOneModule,
     );
@@ -325,12 +325,12 @@ class SubscriptionController extends GetxController {
       onIsNotActive: () {
         final zibalGatewayUrl = priceCalculation.value?.redirectUrl;
         if (zibalGatewayUrl == null) return;
-        // UNavigator.push(PaymentReceiptPage(
+        // AppNavigator.push(PaymentReceiptPage(
         //   invoiceCode: 'MD_701097',
         //   status: PaymentReceiptStatus.success,
         // ));
         // return;
-        UNavigator.push(
+        AppNavigator.push(
           PaymentPage(
             zibalGatewayUrl: zibalGatewayUrl,
             onPaymentSuccess: (final invoiceCode) {
@@ -344,7 +344,7 @@ class SubscriptionController extends GetxController {
         );
       },
       onIsActive: () {
-        AppNavigator.snackbarRed(
+        AppSnackBar.snackbarRed(
           title: s.error,
           subtitle: s.turnOffVPNToEnterPaymentGateway,
         );
@@ -353,6 +353,6 @@ class SubscriptionController extends GetxController {
   }
 
   void _navigateToInvoicePage(final String invoiceCode, final PaymentReceiptStatus status) {
-    UNavigator.off(PaymentReceiptPage(invoiceCode: invoiceCode, status: status));
+    AppNavigator.off(PaymentReceiptPage(invoiceCode: invoiceCode, status: status));
   }
 }

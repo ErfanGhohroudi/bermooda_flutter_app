@@ -1,13 +1,12 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/remote_datasource/label/interfaces/label_interface.dart';
 import '../controllers/interfaces/report_controller.dart';
 import 'forms/base_form_controller.dart';
 import 'forms/contract_form/contract_form.dart';
 import 'forms/contract_form/contract_form_controller.dart';
-import 'forms/invoice_form/invoice_form.dart';
-import 'forms/invoice_form/invoice_form_controller.dart';
 import 'forms/note_form/note_form.dart';
 import 'forms/note_form/note_form_controller.dart';
 
@@ -32,7 +31,6 @@ class CreateReportController extends GetxController {
   void onInit() {
     tabs = [
       const Tab(icon: UImage(AppIcons.noteOutline, size: 30)),
-      if (invoiceLabelDatasource != null) const Tab(icon: UImage(AppIcons.invoiceOutline, size: 30)),
       if (contractLabelDatasource != null) const Tab(icon: UImage(AppIcons.contractOutline, size: 30)),
     ];
 
@@ -40,15 +38,6 @@ class CreateReportController extends GetxController {
       NoteForm(
         ctrl: Get.put(NoteFormController()),
       ),
-      if (invoiceLabelDatasource != null)
-        InvoiceForm(
-          ctrl: Get.put(
-            InvoiceFormController(
-              sourceId: reportController.sourceId?.toString(),
-              labelDatasource: invoiceLabelDatasource!,
-            ),
-          ),
-        ),
       if (contractLabelDatasource != null)
         ContractForm(
           ctrl: Get.put(
@@ -66,7 +55,6 @@ class CreateReportController extends GetxController {
   void onClose() {
     tabController.dispose();
     Get.delete<NoteFormController>();
-    Get.delete<InvoiceFormController>();
     Get.delete<ContractFormController>();
     super.onClose();
   }
@@ -74,8 +62,6 @@ class CreateReportController extends GetxController {
   BaseFormController? _activeFormController() {
     if (tabController.index == 0 && Get.isRegistered<NoteFormController>()) {
       return Get.find<NoteFormController>();
-    } else if (tabController.index == 1 && Get.isRegistered<InvoiceFormController>()) {
-      return Get.find<InvoiceFormController>();
     } else if (tabController.index == 2 && Get.isRegistered<ContractFormController>()) {
       return Get.find<ContractFormController>();
     } else {
@@ -94,7 +80,7 @@ class CreateReportController extends GetxController {
         params,
         onResponse: () {
           buttonState.loaded();
-          UNavigator.back();
+          AppNavigator.back();
         },
         onError: () {
           buttonState.loaded();

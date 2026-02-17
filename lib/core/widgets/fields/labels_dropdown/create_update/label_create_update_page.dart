@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../navigator/navigator.dart';
 import '../../../../utils/extensions/color_extension.dart';
 import '../../../widgets.dart';
 import '../../fields.dart';
@@ -99,7 +100,7 @@ class _LabelCreateUpdatePageState extends State<LabelCreateUpdatePage> with Labe
                   UElevatedButton(
                     title: s.cancel,
                     backgroundColor: context.theme.hintColor,
-                    onTap: UNavigator.back,
+                    onTap: AppNavigator.back,
                   ).expanded(),
                   UElevatedButton(
                     title: s.save,
@@ -107,7 +108,7 @@ class _LabelCreateUpdatePageState extends State<LabelCreateUpdatePage> with Labe
                       widget.dataSourceType,
                       onResponse: (final label) {
                         widget.onResponse(label);
-                        UNavigator.back();
+                        AppNavigator.back();
                       },
                     ),
                   ).expanded(),

@@ -18,7 +18,7 @@ class NightShiftSpan extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final color = (shiftType.color?.color ?? context.theme.primaryColor);
+    final color = (shiftType.color.color);
 
     final borderRadius = switch (segment) {
       // No rounded edge on the side that visually connects to the adjacent day.

@@ -103,7 +103,7 @@ class _UploadAndShowImageState extends State<WUploadAndShowImage> {
           _uploadFailed = true;
         });
         widget.uploadStatus(_uploading);
-        AppNavigator.snackbarRed(title: s.error, subtitle: "${s.failed}: ${fileModel.originalName}");
+        AppSnackBar.snackbarRed(title: s.error, subtitle: "${s.failed}: ${fileModel.originalName}");
       },
       onCancel: () {
         if (!mounted) return;

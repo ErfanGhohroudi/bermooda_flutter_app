@@ -50,12 +50,12 @@ mixin CreateContractController {
     final ext = (file.extension ?? '').toLowerCase();
 
     if (!allowedExtensions.contains(ext)) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.onlyPDFFilesAllowed);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.onlyPDFFilesAllowed);
       return;
     }
 
     if (file.size > maxFileSizeInBytes) {
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.error,
         subtitle:
             "${s.fileSizeExceedsTheAllowedLimit} "
@@ -93,18 +93,18 @@ mixin CreateContractController {
       key: formKey,
       action: () {
         if (isUploading) {
-          AppNavigator.snackbarRed(title: s.error, subtitle: s.uploading);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: s.uploading);
           return;
         }
         if (selectedFile.value?.fileId == null) {
-          AppNavigator.snackbarRed(
+          AppSnackBar.snackbarRed(
             title: s.error,
             subtitle: "${s.requiredField}: ${s.file}",
           );
           return;
         }
         if (params.members.isEmpty) {
-          AppNavigator.snackbarRed(
+          AppSnackBar.snackbarRed(
             title: s.error,
             subtitle: "${s.requiredField}: ${switch (params.type) {
               ContractType.contract => s.signatories,
@@ -125,7 +125,7 @@ mixin CreateContractController {
       params,
       onSuccess: () {
         isSaving(false);
-        UNavigator.back();
+        AppNavigator.back();
       },
       onFailure: () => isSaving(false),
     );

@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'package:dio/dio.dart' show DioException;
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/image_files.dart';
@@ -170,7 +171,7 @@ class _CreateUpdateGroupPageState extends State<CreateUpdateGroupPage> {
             .toList(),
         description: _descriptionCtrl.text.trim().isEmpty ? null : _descriptionCtrl.text.trim(),
       );
-      UNavigator.off(ConversationMessagesPage(conversation: conversation));
+      AppNavigator.off(ConversationMessagesPage(conversation: conversation));
     } on DioException {
       return;
     }
@@ -185,7 +186,7 @@ class _CreateUpdateGroupPageState extends State<CreateUpdateGroupPage> {
         title: _titleCtrl.text.trim(),
         description: _descriptionCtrl.text.trim().isEmpty ? null : _descriptionCtrl.text.trim(),
       );
-      UNavigator.back();
+      AppNavigator.back();
     } on DioException {
       return;
     }

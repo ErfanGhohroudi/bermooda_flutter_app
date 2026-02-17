@@ -135,7 +135,7 @@ class _WDatePickerState extends State<WDatePicker> {
       title: s.cancel,
       width: width,
       backgroundColor: context.theme.hintColor,
-      onTap: UNavigator.back,
+      onTap: AppNavigator.back,
     );
   }
 

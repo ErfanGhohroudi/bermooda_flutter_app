@@ -25,9 +25,9 @@ class CustomerSteps extends StatelessWidget {
     required final StepReadDto step,
     required final Function(CustomerReadDto customer) onResponse,
   }) => appShowYesCancelDialog(
-    description: s.changeStep.replaceAll('#', step.title?.trim() ?? '--'),
+    description: s.changeStep(step.title?.trim() ?? '--'),
     onYesButtonTap: () {
-      UNavigator.back();
+      AppNavigator.back();
       Get.find<CustomerDatasource>().changeCustomerStep(
         customerId: customer.id,
         step: step.step,
@@ -85,11 +85,11 @@ class CustomerSteps extends StatelessWidget {
                     onResponse: (final customer) => onStepChanged(customer),
                   );
                 } else {
-                  AppNavigator.snackbarRed(title: s.warning, subtitle: s.cannotChangeStep);
+                  AppSnackBar.snackbarRed(title: s.warning, subtitle: s.cannotChangeStep);
                 }
               } else {
-                if (customer.isFollowed) return AppNavigator.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
-                if (!haveFollowup) return AppNavigator.snackbarRed(title: s.error, subtitle: s.haveNoAssigneeFollowup);
+                if (customer.isFollowed) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.notAllowChangeStatus);
+                if (!haveFollowup) return AppSnackBar.snackbarRed(title: s.error, subtitle: s.haveNoAssigneeFollowup);
               }
             },
           ).expanded();

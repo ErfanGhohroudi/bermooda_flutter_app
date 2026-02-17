@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/core.dart';
 import '../../../../../../core/services/websocket_service.dart';
@@ -50,7 +51,7 @@ class CreateDirectController extends GetxController {
       title: s.directMessage,
       description: s.startConversationDialog,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _createDirectChat(userId);
       },
     );
@@ -69,7 +70,7 @@ class CreateDirectController extends GetxController {
   Future<void> _createDirectChat(final String userId) async {
     try {
       final conversation = await _repository.createDirectChat(userId);
-      UNavigator.off(ConversationMessagesPage(conversation: conversation));
+      AppNavigator.off(ConversationMessagesPage(conversation: conversation));
     } catch (e, s) {
       debugPrint("createDirectChatHttp failed => e: $e\ns: $s");
     }

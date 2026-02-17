@@ -7,28 +7,37 @@ class WAmountCurrencyField extends StatelessWidget {
   const WAmountCurrencyField({
     required this.controller,
     required this.labelText,
-    // required this.onChangedCurrency,
+    this.focusNode,
+    this.currencyText,
     // this.initialCurrency,
     this.required = false,
     this.showRequired,
     this.onChanged,
+    // required this.onChangedCurrency,
     super.key,
   });
 
   final TextEditingController controller;
   final String labelText;
+  final FocusNode? focusNode;
+
+  /// default is toman
+  final String? currencyText;
+
   // final CurrencyUnitReadDto? initialCurrency;
   final bool required;
   final bool? showRequired;
   final ValueChanged<String>? onChanged;
+
   // final Function(CurrencyUnitReadDto? currency) onChangedCurrency;
 
   @override
   Widget build(final BuildContext context) {
     return WAmountField(
       controller: controller,
+      focusNode: focusNode,
       labelText: labelText,
-      currencyText: s.toman,
+      currencyText: currencyText ?? s.toman,
       required: required,
       showRequired: showRequired,
       onChanged: onChanged,

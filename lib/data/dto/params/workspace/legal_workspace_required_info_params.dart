@@ -8,6 +8,7 @@ class LegalWorkspaceRequiredInfoParams extends BaseWorkspaceRequiredInfoParams {
     required this.nationalId,
     required this.registrationNumber,
     required this.landline,
+    this.fax,
     this.email,
   });
 
@@ -16,6 +17,7 @@ class LegalWorkspaceRequiredInfoParams extends BaseWorkspaceRequiredInfoParams {
   final String nationalId;
   final String registrationNumber;
   final String landline;
+  final String? fax;
   final String? email;
 
   @override
@@ -32,6 +34,7 @@ class LegalWorkspaceRequiredInfoParams extends BaseWorkspaceRequiredInfoParams {
     "national_code": nationalId, // شناسه ملی
     "registration_number": registrationNumber, // شماره ثبت شرکت
     "tel_number": landline,
+    "fax_number": fax,
     "email": email,
   };
 }

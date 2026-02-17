@@ -21,13 +21,13 @@ class RegisterDataSource {
         onResponse(GenericResponse<dynamic>.fromJson(response.data));
       } else {
         if (response.statusCode == 429) {
-          AppNavigator.snackbarRed(title: s.error, subtitle: response.data["message"] ?? '');
+          AppSnackBar.snackbarRed(title: s.error, subtitle: response.data["message"] ?? '');
         }
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
     } on dio.DioException catch (e) {
       if (e.response?.statusCode == 429) {
-        AppNavigator.snackbarRed(title: s.error, subtitle: e.response?.data["message"] ?? '');
+        AppSnackBar.snackbarRed(title: s.error, subtitle: e.response?.data["message"] ?? '');
       }
       onError(GenericResponse());
     }

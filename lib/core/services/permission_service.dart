@@ -61,4 +61,16 @@ class PermissionService extends GetxService {
   bool get haveLegalAdminAccess => isWorkspaceOwner || isLegalManger || isLegalSupervisor;
   /// [isWorkspaceOwner] or [isLegalManger]
   bool get haveLegalManagerAccess => isWorkspaceOwner || isLegalManger;
+
+  /// SMS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  bool get isSMSNoAccess => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isNoAccess();
+  bool get isSMSExpert => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isExpert();
+  bool get isSMSSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isSupervisor();
+  bool get isSMSManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isManager();
+  /// [isWorkspaceOwner] or ![isSMSNoAccess]
+  bool get haveSMSAccess => isWorkspaceOwner || !isSMSNoAccess;
+  /// [isWorkspaceOwner] or [isSMSManger] or [isSMSSupervisor]
+  bool get haveSMSAdminAccess => isWorkspaceOwner || isSMSManger || isSMSSupervisor;
+  /// [isWorkspaceOwner] or [isSMSManger]
+  bool get haveSMSManagerAccess => isWorkspaceOwner || isSMSManger;
 }

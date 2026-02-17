@@ -66,7 +66,7 @@ mixin OtpController {
         final String? accessToken = response.result?.jwtToken?.access;
         if (accessToken != null) {
           WidgetsBinding.instance.addPostFrameCallback((final _) {
-            UNavigator.offAll(
+            AppNavigator.offAll(
               CreateUsernamePasswordPage(
                 phoneNumber: response.result?.phoneNumber ?? phoneNumber,
                 accessToken: accessToken,
@@ -89,7 +89,7 @@ mixin OtpController {
       onResponse: (final response) {
         resendState.loaded();
         _resetResendTimer();
-        AppNavigator.snackbarGreen(title: s.done, subtitle: response.message);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: response.message);
       },
       onError: (final errorResponse) {
         resendState.loaded();
@@ -101,8 +101,8 @@ mixin OtpController {
     appShowYesCancelDialog(
       description: s.areYouSureToChangePhoneNumber,
       onYesButtonTap: () {
-        UNavigator.back();
-        UNavigator.back();
+        AppNavigator.back();
+        AppNavigator.back();
       },
     );
   }

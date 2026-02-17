@@ -40,14 +40,14 @@ class VpnListenerService {
         onIsNotActive();
       }
     } catch (e) {
-      AppNavigator.snackbarRed(title: s.error, subtitle: "$e");
+      AppSnackBar.snackbarRed(title: s.error, subtitle: "$e");
     }
   }
 
   void _onVPNActive() {
     if (_isSnackBarShowing == false) {
       _isSnackBarShowing = true;
-      AppNavigator.snackbarRed(
+      AppSnackBar.snackbarRed(
         title: s.warning,
         subtitle: s.vpnText,
         duration: 5,

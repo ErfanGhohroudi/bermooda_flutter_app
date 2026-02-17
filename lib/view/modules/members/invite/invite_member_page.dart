@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
@@ -55,8 +56,8 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
         appShowYesCancelDialog(
           description: s.exitPage,
           onYesButtonTap: () {
-            UNavigator.back();
-            UNavigator.back();
+            AppNavigator.back();
+            AppNavigator.back();
           },
         );
       },
@@ -73,7 +74,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               callApi(
                 onResponse: (final member) {
                   widget.onResponse(member);
-                  UNavigator.back();
+                  AppNavigator.back();
                 },
               );
             },
@@ -170,7 +171,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               10,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '10'),
+              minLengthMessage: s.isShort('10'),
             ),
           ),
 
@@ -185,7 +186,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               3,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '3'),
+              minLengthMessage: s.isShort('3'),
             ),
           ),
 
@@ -319,7 +320,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               10,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort.replaceAll('#', '10'),
+              minLengthMessage: s.isShort('10'),
             ),
           ),
 

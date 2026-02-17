@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/extensions/color_extension.dart';
 import '../subtask_card_controller.dart';
 import '../../../../../core/widgets/widgets.dart';
@@ -89,7 +90,7 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                                     onTap: () => deleteSubtask(
                                       action: () {
                                         widget.onDelete;
-                                        if (mounted) UNavigator.back();
+                                        if (mounted) AppNavigator.back();
                                       },
                                     ),
                                   ),
@@ -128,7 +129,7 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                               changeSubtaskStatus(
                                 onResponse: (final model) {
                                   widget.onChangedCheckBoxStatus(model);
-                                  UNavigator.back();
+                                  AppNavigator.back();
                                 },
                               );
                             }
@@ -240,7 +241,7 @@ class _SubtaskDetailsPageState extends State<SubtaskDetailsPage> with SubtaskCar
                             appShowYesCancelDialog(
                               description: s.changeSubtaskStatusToDone,
                               onYesButtonTap: () {
-                                UNavigator.back();
+                                AppNavigator.back();
                                 changedTimerStatus(command: command, onChangedTimer: widget.onChangedCheckBoxStatus);
                               },
                             );

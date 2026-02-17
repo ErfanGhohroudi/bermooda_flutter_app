@@ -81,14 +81,14 @@ class LegalDepartmentListController extends GetxController {
     );
   }
 
-  void deleteDepartment(final LegalDepartmentReadDto department) {
+  void archiveDepartment(final LegalDepartmentReadDto department) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureToDeleteCategory,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveDepartment,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(department);
       },
     );
@@ -108,7 +108,7 @@ class LegalDepartmentListController extends GetxController {
       departments: departments,
       onResponse: (final response) {
         isReorderEnabled(!isReorderEnabled.value);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: s.changesSaved);
         pageState.refresh();
       },
       onError: (final errorResponse) {},

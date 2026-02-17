@@ -1,3 +1,4 @@
+import '../../data/params/invoice_params.dart';
 import '../entities/invoice.dart';
 import '../repositories/invoice_repository.dart';
 
@@ -7,5 +8,5 @@ class CreateInvoiceUseCase {
 
   final InvoiceRepository repository;
 
-  Future<InvoiceEntity> call(Map<String, dynamic> params) => repository.createInvoice(params);
+  Future<InvoiceEntity> call(final InvoiceParams params) => repository.createInvoice(params);
 }

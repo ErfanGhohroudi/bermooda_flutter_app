@@ -1,10 +1,11 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
-
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
+import '../archive/departments/archived_hr_departments_page.dart';
 import '../widgets/department_item_card.dart';
 import 'create_update/department_create_update_page.dart';
 import 'hr_departments_list_controller.dart';
@@ -28,13 +29,24 @@ class _HrDepartmentsListPageState extends State<HrDepartmentsListPage> {
         if (ctrl.isReorderEnabled.value) {
           ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
         appBar: AppBar(
           title: Text(s.humanResources),
           actions: [
+            Obx(
+              () => ctrl.haveAdminAccess && !ctrl.isReorderEnabled.value
+                  ? IconButton(
+                      tooltip: s.archive,
+                      icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
+                      onPressed: () {
+                        AppNavigator.push(const ArchivedHrDepartmentsPage());
+                      },
+                    )
+                  : const SizedBox.shrink(),
+            ),
             Obx(
               () => IconButton(
                 tooltip: ctrl.isReorderEnabled.value ? s.save : s.reorder,

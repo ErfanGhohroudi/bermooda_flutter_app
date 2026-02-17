@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/extensions/color_extension.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
@@ -165,7 +166,7 @@ class _LettersListPageState extends State<LettersListPage> with LettersListContr
           ],
         ),
         onTap: () {
-          UNavigator.push(LetterDetailPage(
+          AppNavigator.push(LetterDetailPage(
             mail: mail,
             onUpdated: onUpdated,
           ));

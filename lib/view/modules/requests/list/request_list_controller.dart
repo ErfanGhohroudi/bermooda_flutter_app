@@ -1,6 +1,7 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/loading/loading.dart';
@@ -104,7 +105,7 @@ mixin RequestListController {
 
   void createRequest(final UserReadDto? requestingUser) {
     // Navigate to create request page
-    UNavigator.push(
+    AppNavigator.push(
       CreateRequestPage(
         requestingUser: requestingUser,
         onResponse: (final request) {

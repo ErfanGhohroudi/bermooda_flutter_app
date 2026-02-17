@@ -114,7 +114,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _handleError(final WebResourceError error) {
-    AppNavigator.snackbarRed(
+    AppSnackBar.snackbarRed(
       title: s.error,
       subtitle: error.description,
     );
@@ -124,7 +124,7 @@ class _PaymentPageState extends State<PaymentPage> {
       final String invoiceCode, final PaymentReceiptStatus status) {
     if (!mounted || _isNavigating) return;
     _isNavigating = true;
-    UNavigator.off(PaymentReceiptPage(invoiceCode: invoiceCode, status: status));
+    AppNavigator.off(PaymentReceiptPage(invoiceCode: invoiceCode, status: status));
   }
 
   void _navigateBack() {

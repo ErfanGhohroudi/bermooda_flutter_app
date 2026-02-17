@@ -201,15 +201,15 @@ mixin CreateRequestController {
             if (((categoryType.value == RequestCategoryType.leave_attendance && leaveType.value == LeaveType.hourly_leave) ||
                     (categoryType.value == RequestCategoryType.leave_attendance && leaveType.value == LeaveType.hourly_leave)) &&
                 (startTime!.numericOnly().toInt() - endTime!.numericOnly().toInt()) >= 0) {
-              AppNavigator.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
+              AppSnackBar.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
               return;
             } else if (endDateTimeJalali != null && startDateTimeJalali!.isAfter(endDateTimeJalali!)) {
-              AppNavigator.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
+              AppSnackBar.snackbarRed(title: s.error, subtitle: s.endTimeMustBeAfterStartTime);
               return;
             }
 
             if (leaveType.value == LeaveType.sick_leave && files.isEmpty) {
-              AppNavigator.snackbarRed(title: s.warning, subtitle: s.requiredMedicalCertificate);
+              AppSnackBar.snackbarRed(title: s.warning, subtitle: s.requiredMedicalCertificate);
               return;
             }
 
@@ -391,7 +391,7 @@ mixin CreateRequestController {
     if (responsibilityController.text.trim() != '') {
       final i = mainResponsibilitiesList.indexOf(responsibilityController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.responsibility));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.responsibility));
       }
       mainResponsibilitiesList.add(responsibilityController.text.trim());
       responsibilityController.clear();
@@ -411,7 +411,7 @@ mixin CreateRequestController {
     if (technicalSkillController.text.trim() != '') {
       final i = technicalSkillsList.indexOf(technicalSkillController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.skill));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.skill));
       }
       technicalSkillsList.add(technicalSkillController.text.trim());
       technicalSkillController.clear();
@@ -431,7 +431,7 @@ mixin CreateRequestController {
     if (softSkillController.text.trim() != '') {
       final i = softSkillsList.indexOf(softSkillController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.skill));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.skill));
       }
       softSkillsList.add(softSkillController.text.trim());
       softSkillController.clear();
@@ -451,7 +451,7 @@ mixin CreateRequestController {
     if (requiredForeignLanguageController.text.trim() != '') {
       final i = softSkillsList.indexOf(requiredForeignLanguageController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.language));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.language));
       }
       softSkillsList.add(requiredForeignLanguageController.text.trim());
       requiredForeignLanguageController.clear();

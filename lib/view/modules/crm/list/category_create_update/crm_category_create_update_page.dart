@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/utils/enums/enums.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/widgets/fields/fields.dart';
@@ -73,7 +74,7 @@ class _CrmCategoryCreateUpdatePageState extends State<CrmCategoryCreateUpdatePag
           ),
           WMembersPickerFormField(
             labelText: s.accessibleMembers,
-            helperText: s.crmAccessibleMembersHelper,
+            helperText: s.accessibleMembersHelper(s.category.toLowerCase()),
             showSelf: true,
             required: true,
             selectedMembers: selectedMembers,
@@ -94,7 +95,7 @@ class _CrmCategoryCreateUpdatePageState extends State<CrmCategoryCreateUpdatePag
               onTap: () => onSubmit(
                 onResponse: (final category) {
                   widget.onResponse(category);
-                  UNavigator.back();
+                  AppNavigator.back();
                 },
               ),
             ),

@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../../core/navigator/navigator.dart';
 import '../../../../../../../core/widgets/widgets.dart';
 import '../../../../../../../core/core.dart';
 import '../../../../../../../core/services/websocket_service.dart';
@@ -54,7 +55,7 @@ class AddMemberToGroupController extends GetxController {
       title: s.newMember,
       description: s.addMemberDialog,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _addMemberToChat(userId);
       },
     );
@@ -73,7 +74,7 @@ class AddMemberToGroupController extends GetxController {
 
   void _addMemberToChat(final String userId) {
     _repository.addMember(conversation.id, userId);
-    Future.delayed(50.milliseconds, () => UNavigator.back());
+    Future.delayed(50.milliseconds, () => AppNavigator.back());
   }
 
   @override

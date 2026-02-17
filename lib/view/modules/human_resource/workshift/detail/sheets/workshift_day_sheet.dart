@@ -235,34 +235,36 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       AppLoading.dismissLoading();
     } catch (e) {
       AppLoading.dismissLoading();
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
       _addShiftTypeFlow();
     }
   }
 
-  Future<void> _editShiftTypeFlow(final String targetSlug) async {
+  Future<void> _editShiftTypeFlow(final String targetSlug, {final bool onRetry = false}) async {
     final st = controller.shiftTypeRegistry[targetSlug];
     if (st == null) return;
 
     // Initial Form Pattern
-    _lastPattern = DailyShiftRepeatPattern(
-      shiftTypeParams: ShiftTypeParams(
-        title: st.title,
-        startTime: st.startTime,
-        endTime: st.endTime,
-        color: st.color,
-        allowedCheckInMethodList: st.allowedCheckInMethodList,
-        allowedCheckOutMethodList: st.allowedCheckOutMethodList,
-        breakStartTime: st.breakStartTime,
-        breakEndTime: st.breakEndTime,
-        flexibleStartTime: st.flexibleStartTime,
-        flexibleEndTime: st.flexibleEndTime,
-      ),
-      repeatType: WorkshiftRepeatType.singleDay,
-      weeklySelectedWeekdays: <int>{},
-      monthlySelectedDays: <int>{},
-    );
+    if (!onRetry) {
+      _lastPattern = DailyShiftRepeatPattern(
+        shiftTypeParams: ShiftTypeParams(
+          title: st.title,
+          startTime: st.startTime,
+          endTime: st.endTime,
+          color: st.color,
+          allowedCheckInMethodList: st.allowedCheckInMethodList,
+          allowedCheckOutMethodList: st.allowedCheckOutMethodList,
+          breakStartTime: st.breakStartTime,
+          breakEndTime: st.breakEndTime,
+          flexibleStartTime: st.flexibleStartTime,
+          flexibleEndTime: st.flexibleEndTime,
+        ),
+        repeatType: WorkshiftRepeatType.singleDay,
+        weeklySelectedWeekdays: <int>{},
+        monthlySelectedDays: <int>{},
+      );
+    }
 
     final pattern = await bottomSheetWithNoScroll<DailyShiftRepeatPattern>(
       title: s.addShift,
@@ -300,11 +302,11 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
         draftShifts: controller.draftShifts,
       );
 
-      // todo: بررسی تداخل زمانی بدون در نظر گرفتن شیفت تایپ تارگت
       // بررسی تداخل با شیفت‌های موجود در کل سال
+      // در فلو edit، شیفت تایپ تارگت را نادیده می‌گیریم تا بتوانیم آن را ویرایش کنیم
       final overlapResult = ShiftOverlapChecker.checkShiftOverlaps(
         targetDays: targetDays,
-        // targetSlug: targetSlug,
+        targetSlug: targetSlug,
         newShiftStartTime: pattern.shiftTypeParams.startTime,
         newShiftEndTime: pattern.shiftTypeParams.endTime,
         isNightShift: pattern.shiftTypeParams.isNightShift,
@@ -316,7 +318,7 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       if (overlapResult.allDaysOverlap) {
         AppLoading.dismissLoading();
         ShiftOverlapChecker.showAllDaysOverlapError(newShiftTitle: pattern.shiftTypeParams.title);
-        _editShiftTypeFlow(targetSlug);
+        _editShiftTypeFlow(targetSlug, onRetry: true);
         return;
       }
 
@@ -330,9 +332,6 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
         AppLoading.showLoading();
       }
 
-      // ایجاد شیفت تایپ فقط در صورت وجود روزهای معتبر
-      final shiftType = await controller.createShiftTypeAsync(pattern.shiftTypeParams);
-
       final validDays = overlapResult.validDays;
       final anyDraft = validDays.any(
         (final d) => controller.isShiftTypeInDraftOnly(
@@ -342,6 +341,9 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       );
 
       if (anyDraft) {
+        // ایجاد شیفت تایپ فقط در صورت وجود روزهای معتبر
+        final shiftType = await controller.createShiftTypeAsync(pattern.shiftTypeParams);
+
         for (final day in validDays) {
           final dayKey = controller.getDayKeyFromDayDate(day.dayDate);
           if (!controller.isShiftTypeInDraftOnly(targetSlug, dayKey)) continue;
@@ -367,16 +369,15 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
         final daysDatesJalali = validDays.map((final d) => d.dayDate).toList(); // [yyyy-mm-dd] Jalali
         final success = await controller.replaceShiftTypeForDays(
           oldShiftTypeSlug: targetSlug,
-          newShiftTypeSlug: shiftType.slug,
+          newShiftTypeParams: pattern.shiftTypeParams,
           daysDates: daysDatesJalali,
-          newShiftType: shiftType,
         );
 
         if (success == false) {
           AppLoading.dismissLoading();
-          AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+          AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
           // Retry with last pattern
-          _editShiftTypeFlow(targetSlug);
+          _editShiftTypeFlow(targetSlug, onRetry: true);
         }
       }
 
@@ -386,9 +387,9 @@ class _WorkshiftDaySheetState extends State<WorkshiftDaySheet> {
       AppLoading.dismissLoading();
     } catch (e) {
       AppLoading.dismissLoading();
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.failedToApplyShift);
       // Retry with last pattern
-      _editShiftTypeFlow(targetSlug);
+      _editShiftTypeFlow(targetSlug, onRetry: true);
     }
   }
 

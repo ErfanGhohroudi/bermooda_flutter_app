@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/image_files.dart';
 import '../../../../../data/data.dart';
 import '../legal_department_list_controller.dart';
@@ -57,7 +58,7 @@ mixin LegalDepartmentCreateUpdateController {
           Get.find<LegalDepartmentListController>().insertDepartment(response.result!);
         }
         buttonState.loaded();
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) => buttonState.loaded(),
       withRetry: true,
@@ -77,7 +78,7 @@ mixin LegalDepartmentCreateUpdateController {
         }
 
         buttonState.loaded();
-        UNavigator.back();
+        AppNavigator.back();
       },
       onError: (final errorResponse) => buttonState.loaded(),
       withRetry: true,

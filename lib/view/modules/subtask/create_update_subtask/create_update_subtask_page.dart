@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/labels_dropdown/labels_dropdown_multi_select.dart';
 import '../../../../core/widgets/image_files.dart';
@@ -164,7 +165,7 @@ class _CreateUpdateSubtaskPageState extends State<CreateUpdateSubtaskPage> with 
       onTap: () => callApi(
         action: (final model) {
           widget.onResponse(model);
-          UNavigator.back();
+          AppNavigator.back();
         },
       ),
     ),

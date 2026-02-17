@@ -30,7 +30,7 @@ mixin CustomerCardController {
         ),
       );
     } else {
-      AppNavigator.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
+      AppSnackBar.snackbarRed(title: s.warning, subtitle: s.notAllowChangeStatus);
     }
   }
 }

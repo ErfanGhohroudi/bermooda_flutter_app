@@ -77,7 +77,7 @@ class _WarehouseCardState extends State<WarehouseCard> with SingleTickerProvider
     return WCard(
       showBorder: true,
       onTap: () {
-        if (widget.isReorderEnabled) return AppNavigator.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
+        if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
         // Can navigate to warehouse details if needed
       },
       child: Column(

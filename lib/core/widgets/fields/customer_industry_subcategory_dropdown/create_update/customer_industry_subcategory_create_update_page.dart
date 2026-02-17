@@ -2,6 +2,7 @@ import 'package:u/utilities.dart';
 
 import '../../../../../data/data.dart';
 import '../../../../core.dart';
+import '../../../../navigator/navigator.dart';
 import '../../fields.dart';
 import 'customer_industry_subcategory_create_update_controller.dart';
 
@@ -62,7 +63,7 @@ class _CustomerIndustrySubCategoryCreateUpdatePageState extends State<CustomerIn
             UElevatedButton(
               title: s.cancel,
               backgroundColor: context.theme.hintColor,
-              onTap: UNavigator.back,
+              onTap: AppNavigator.back,
             ).expanded(),
             Obx(
               () => UElevatedButton(
@@ -72,7 +73,7 @@ class _CustomerIndustrySubCategoryCreateUpdatePageState extends State<CustomerIn
                   (final model) {
                     widget.onResponse(model);
                     if (mounted) {
-                      UNavigator.back();
+                      AppNavigator.back();
                     }
                   },
                 ),

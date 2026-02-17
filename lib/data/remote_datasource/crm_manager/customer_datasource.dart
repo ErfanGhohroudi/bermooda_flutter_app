@@ -38,7 +38,7 @@ class CustomerDatasource {
   }) async {
     try {
       final response = await _apiClient.put(
-        "/v1/CrmManager/CustomerUserView/$id",
+        "/v1/CrmManager/CustomerUserView/$id/",
         data: dto.toMap(),
         skipRetry: !withRetry,
       );

@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 import 'dart:developer' as developer;
 
+import '../../../core/navigator/navigator.dart';
 import '../../../core/services/subscription_service.dart';
 import '../../../core/functions/workspace_functions.dart';
 import '../../../core/utils/enums/enums.dart';
@@ -232,7 +233,7 @@ class RoutController extends GetxController {
         title: s.exit,
         description: s.exitApp,
         onYesButtonTap: () {
-          UNavigator.back(); // Close the dialog
+          AppNavigator.back(); // Close the dialog
           SystemNavigator.pop(); // Exit the app
         },
       );
@@ -285,9 +286,9 @@ class RoutController extends GetxController {
             ? s.renewSubscription
             : '',
         onYesButtonTap: () {
-          UNavigator.back();
+          AppNavigator.back();
           delay(500, () {
-            UNavigator.push(SubscriptionPage(workspaceId: core.currentWorkspace.value.id));
+            AppNavigator.push(SubscriptionPage(workspaceId: core.currentWorkspace.value.id));
           });
         },
       ).then((final value) => delay(1000, () => isNoSubscriptionDialogOpen = false));
@@ -321,12 +322,12 @@ class RoutController extends GetxController {
           barrierDismissible: false,
           cancelButtonTitle: s.decline,
           onCancelButtonTap: () {
-            UNavigator.back();
+            AppNavigator.back();
             _acceptWorkspaceInvite(isAccepted: false);
           },
           yesButtonTitle: s.accept,
           onYesButtonTap: () {
-            UNavigator.back();
+            AppNavigator.back();
             _acceptWorkspaceInvite(isAccepted: true);
           },
         );

@@ -8,7 +8,7 @@ extension UrlExtentions<T> on String? {
     // 1. ورودی را trim کرده و برای خالی بودن بررسی می‌کنیم
     final String? urlToParse = this?.trim();
     if (urlToParse.isNullOrEmpty()) {
-      return AppNavigator.snackbarRed(title: s.error, subtitle: s.linkIsEmpty);
+      return AppSnackBar.snackbarRed(title: s.error, subtitle: s.linkIsEmpty);
     }
 
     // 2. برای اعتبارسنجی، پروتکل https را به لینک‌هایی که ندارند اضافه می‌کنیم
@@ -24,11 +24,11 @@ extension UrlExtentions<T> on String? {
     if (uri != null && uri.host.isNotEmpty) {
       // اگر معتبر بود، آن را باز می‌کنیم
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        AppNavigator.snackbarRed(title: s.error, subtitle: s.unableOpenLink);
+        AppSnackBar.snackbarRed(title: s.error, subtitle: s.unableOpenLink);
       }
     } else {
       // اگر معتبر نبود، به کاربر خطا نمایش می‌دهیم
-      AppNavigator.snackbarRed(title: s.error, subtitle: s.linkFormatIsInvalid);
+      AppSnackBar.snackbarRed(title: s.error, subtitle: s.linkFormatIsInvalid);
     }
   }
 

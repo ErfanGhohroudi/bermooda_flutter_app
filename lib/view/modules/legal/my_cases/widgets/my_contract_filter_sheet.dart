@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/fields/labels_dropdown_new/labels_dropdown_new.dart';
 import '../../../../../core/widgets/widgets.dart';
@@ -87,7 +88,7 @@ class _MyContractFilterSheetState extends State<MyContractFilterSheet> {
       responsibleId: _selectedResponsibleMember?.id != null ? int.tryParse(_selectedResponsibleMember!.id) : null,
       labelId: _selectedLabel?.id,
     );
-    UNavigator.back();
+    AppNavigator.back();
   }
 
   void _clearFilters() {

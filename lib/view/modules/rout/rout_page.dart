@@ -3,6 +3,7 @@ import 'package:u/utilities.dart';
 
 import '../../../core/constants.dart';
 import '../../../core/core.dart';
+import '../../../core/navigator/navigator.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../human_resource/attendance/attendance/attendance_page.dart';
@@ -90,16 +91,20 @@ class _RoutPageState extends State<RoutPageState> {
                 icon: const UImage(AppIcons.timerOutline, color: Colors.white, size: 25),
                 tooltip: s.attendance,
                 style: IconButton.styleFrom(
-                  // padding: const EdgeInsets.all(2),
-                  // fixedSize: const Size(25, 25),
-                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.all(5),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
               ),
               IconButton(
                 onPressed: () => ULaunch.launchURL(AppConstants.supportUrl, mode: LaunchMode.inAppWebView),
                 icon: const Icon(Icons.headset_mic_rounded, color: Colors.white, size: 25),
                 tooltip: s.support,
-                style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+                style: IconButton.styleFrom(
+                  padding: const EdgeInsets.all(5),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               ),
               const SizedBox(width: 8),
             ],
@@ -249,7 +254,7 @@ class _RoutPageState extends State<RoutPageState> {
                           workspace: workspace,
                           isSelected: isSelected,
                           onTap: () {
-                            UNavigator.back();
+                            AppNavigator.back();
                             ctrl.changeCurrentWorkspace(workspace);
                           },
                         );

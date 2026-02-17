@@ -6,6 +6,7 @@ import 'package:bermooda_business/view/modules/conversation/data/dto/conversatio
 import 'package:bermooda_business/view/modules/conversation/presentation/pages/forward/forward_conversation_selection_controller.dart';
 
 import '../../../../../../core/core.dart';
+import '../../../../../../core/navigator/navigator.dart';
 import '../messages/conversation_messages_controller.dart';
 
 class ForwardConversationSelectionPage extends StatefulWidget {
@@ -156,7 +157,7 @@ class _ForwardConversationSelectionPageState extends State<ForwardConversationSe
           return AppBar(
             leading: IconButton(
               icon: const Icon(Icons.close, color: Colors.white),
-              onPressed: () => UNavigator.back(),
+              onPressed: () => AppNavigator.back(),
             ),
             title: controller.selectedConversationIds.isEmpty
                 ? Text(s.selectConversation)

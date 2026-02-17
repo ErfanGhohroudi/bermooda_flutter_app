@@ -3,7 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../data/data.dart';
-import '../../followup/list/followup_list_page.dart';
+import '../../followup/presentation/pages/followup_list_page.dart';
 import '../../reports/controllers/legal/legal_case_notes_controller.dart';
 import '../../reports/report_timeline_page.dart';
 import '../../subtask/list/subtask_list_page.dart';

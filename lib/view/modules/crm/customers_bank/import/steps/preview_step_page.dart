@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/widgets.dart';
 import '../../../../../../core/core.dart';
 import '../../../../../../core/theme.dart';
@@ -239,7 +240,7 @@ class _PreviewTable extends StatelessWidget {
                     width: double.infinity,
                     backgroundColor: context.theme.hintColor,
                     title: s.close,
-                    onTap: () => UNavigator.back(),
+                    onTap: () => AppNavigator.back(),
                   ),
                 ],
               ),

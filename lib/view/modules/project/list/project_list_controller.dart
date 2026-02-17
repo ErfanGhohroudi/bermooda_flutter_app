@@ -8,7 +8,7 @@ import '../../../../core/services/permission_service.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
 
-mixin ProjectListController {
+class ProjectListController extends GetxController {
   final ProjectDatasource _projectDatasource = Get.find<ProjectDatasource>();
   final TextEditingController searchController = TextEditingController();
   final RefreshController refreshController = RefreshController();
@@ -19,16 +19,20 @@ mixin ProjectListController {
   final RxList<ProjectReadDto> projects = <ProjectReadDto>[].obs;
   final bool haveAdminAccess = Get.find<PermissionService>().haveProjectAdminAccess;
 
-  void disposeItems() {
+  @override
+  void onInit() {
+    super.onInit();
+    onRefresh();
+  }
+
+  @override
+  void onClose() {
     searchController.dispose();
     refreshController.dispose();
     isReorderEnabled.close();
     pageState.close();
     projects.close();
-  }
-
-  void initialController() {
-    onRefresh();
+    super.onClose();
   }
 
   void toggleReorder() {
@@ -86,17 +90,17 @@ mixin ProjectListController {
     );
   }
 
-  void deleteProject(
+  void archiveProject(
     final ProjectReadDto project, {
     required final VoidCallback action,
   }) {
     appShowYesCancelDialog(
-      title: s.delete,
-      description: s.areYouSureToDeleteProject,
-      yesButtonTitle: s.delete,
+      title: s.archive,
+      description: s.areYouSureToArchiveProject,
+      yesButtonTitle: s.archive,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(project, action: action);
       },
     );
@@ -119,7 +123,7 @@ mixin ProjectListController {
       projects: projects,
       onResponse: (final response) {
         isReorderEnabled(!isReorderEnabled.value);
-        AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
+        AppSnackBar.snackbarGreen(title: s.done, subtitle: s.changesSaved);
         pageState.refresh();
       },
       onError: (final errorResponse) {},

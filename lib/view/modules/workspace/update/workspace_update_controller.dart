@@ -17,16 +17,18 @@ mixin WorkspaceUpdateController {
   final GlobalKey<FormState> formKey = GlobalKey();
   final Rx<PageState> pageState = PageState.initial.obs;
   final Rx<PageState> buttonState = PageState.loaded.obs;
-  final RxList<DropdownItemReadDto> industries = <DropdownItemReadDto>[].obs;
+
+  // final RxList<DropdownItemReadDto> industries = <DropdownItemReadDto>[].obs;
   final RxList<DropdownItemReadDto> states = <DropdownItemReadDto>[].obs;
   final RxList<DropdownItemReadDto> cities = <DropdownItemReadDto>[].obs;
+
   final Rx<PageState> citiesState = PageState.loaded.obs;
   bool isUploadingAvatar = false;
 
   MainFileReadDto? avatar;
   final TextEditingController titleController = TextEditingController();
-  final Rxn<DropdownItemReadDto> selectedIndustry = Rxn(null);
-  final Rxn<BusinessSize> selectedBusinessSize = Rxn(null);
+  // final Rxn<DropdownItemReadDto> selectedIndustry = Rxn(null);
+  // final Rxn<BusinessSize> selectedBusinessSize = Rxn(null);
   final Rxn<DropdownItemReadDto> selectedState = Rxn(null);
   final Rxn<DropdownItemReadDto> selectedCity = Rxn(null);
 
@@ -38,15 +40,18 @@ mixin WorkspaceUpdateController {
   final TextEditingController registrationNumberController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController landlineController = TextEditingController();
+  final TextEditingController faxController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController postalCodeController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController shebaNumberController = TextEditingController();
 
   void disposeItems() {
     focusNode.dispose();
     jadooNameIsFocus.close();
     pageState.close();
     buttonState.close();
-    industries.close();
+    // industries.close();
     states.close();
     cities.close();
     citiesState.close();
@@ -58,12 +63,18 @@ mixin WorkspaceUpdateController {
     registrationNumberController.dispose();
     phoneNumberController.dispose();
     landlineController.dispose();
+    faxController.dispose();
     emailController.dispose();
+    postalCodeController.dispose();
     addressController.dispose();
+    shebaNumberController.dispose();
   }
 
   void setValues(final WorkspaceInfoReadDto model) {
     _getIndustrials(
+      action: () {},
+    );
+    _getStates(
       action: () {},
     );
     avatar = model.avatar;
@@ -76,11 +87,14 @@ mixin WorkspaceUpdateController {
     phoneNumberController.text = model.phoneNumber ?? '';
     landlineController.text = model.telNumber ?? '';
     emailController.text = model.email ?? '';
+    faxController.text = model.faxNumber ?? '';
+    shebaNumberController.text = model.shebaNumber ?? '';
+    postalCodeController.text = model.postalCode ?? '';
     addressController.text = model.address ?? '';
-    selectedIndustry(model.industrialActivity);
-    if (model.businessEmployer != null) {
-      selectedBusinessSize(model.businessEmployer);
-    }
+    // selectedIndustry(model.industrialActivity);
+    // if (model.businessEmployer != null) {
+    //   selectedBusinessSize(model.businessEmployer);
+    // }
     if (model.state != null && model.stateName != null) {
       selectedState(DropdownItemReadDto(id: model.state, title: model.stateName));
       getCities();
@@ -107,18 +121,13 @@ mixin WorkspaceUpdateController {
     WorkspaceInfoParams getDto() => WorkspaceInfoParams(
       avatarId: avatar?.fileId,
       title: titleController.text.trim(),
-      industryId: selectedIndustry.value?.id,
-      businessSize: selectedBusinessSize.value,
+      // industryId: selectedIndustry.value?.id,
+      // businessSize: selectedBusinessSize.value,
       stateId: selectedState.value?.id,
       cityId: selectedCity.value?.id,
-      authenticationType: authenticationType.value,
-      companyName: nameController.text.trim(),
-      nationalCode: nationalIDController.text.trim(),
-      economicNumber: economicNumberController.text.trim(),
-      phoneNumber: phoneNumberController.text.trim(),
-      telNumber: landlineController.text.trim(),
-      email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
-      address: addressController.text.trim().isNotEmpty ? addressController.text.trim() : null,
+      postalCode: postalCodeController.text.trim(),
+      address: addressController.text.trim(),
+      shebaNumber: shebaNumberController.text.trim(),
     );
 
     IWorkspaceRequiredInfoParams getAuthDto() {
@@ -139,6 +148,7 @@ mixin WorkspaceUpdateController {
             registrationNumber: registrationNumberController.text.trim(),
             economicCode: economicNumberController.text.trim(),
             landline: landlineController.text.trim(),
+            fax: faxController.text.trim(),
             email: emailController.text.trim().isNotEmpty ? emailController.text.trim() : null,
           );
       }
@@ -157,12 +167,14 @@ mixin WorkspaceUpdateController {
               onResponse(response.result!);
             },
           );
+          return;
         }
+
+        onResponse(response.result!);
       },
       onError: (final errorResponse) {
         buttonState.loaded();
       },
-      withRetry: true,
     );
   }
 
@@ -174,14 +186,13 @@ mixin WorkspaceUpdateController {
   }
 
   void _getIndustrials({required final VoidCallback action}) {
-    _dropdownDatasource.getIndustrials(
-      onResponse: (final response) {
-        industries(response.resultList);
-        _getStates(action: action);
-      },
-      onError: (final errorResponse) {},
-      withRetry: true,
-    );
+    // _dropdownDatasource.getIndustrials(
+    //   onResponse: (final response) {
+    //     industries(response.resultList);
+    //   },
+    //   onError: (final errorResponse) {},
+    //   withRetry: true,
+    // );
   }
 
   void _getStates({required final VoidCallback action}) {

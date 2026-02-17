@@ -1,12 +1,14 @@
 import 'package:u/utilities.dart';
 
+import '../../../../core/navigator/navigator.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
+import '../archive/projects/archived_projects_page.dart';
 import 'create_update/project_create_update_page.dart';
 import 'project_list_controller.dart';
-import 'widgets/project_item_card.dart';
+import '../widgets/project_item_card.dart';
 
 class ProjectListPage extends StatefulWidget {
   const ProjectListPage({
@@ -17,17 +19,13 @@ class ProjectListPage extends StatefulWidget {
   State<ProjectListPage> createState() => _ProjectListPageState();
 }
 
-class _ProjectListPageState extends State<ProjectListPage> with ProjectListController {
-  @override
-  void initState() {
-    initialController();
-    super.initState();
-  }
+class _ProjectListPageState extends State<ProjectListPage> {
+  late final ProjectListController ctrl;
 
   @override
-  void dispose() {
-    disposeItems();
-    super.dispose();
+  void initState() {
+    super.initState();
+    ctrl = Get.put(ProjectListController());
   }
 
   @override
@@ -36,10 +34,10 @@ class _ProjectListPageState extends State<ProjectListPage> with ProjectListContr
       canPop: false,
       onPopInvokedWithResult: (final didPop, final result) {
         if (didPop) return;
-        if (isReorderEnabled.value) {
-          toggleReorder();
+        if (ctrl.isReorderEnabled.value) {
+          ctrl.toggleReorder();
         } else {
-          UNavigator.back();
+          AppNavigator.back();
         }
       },
       child: UScaffold(
@@ -47,28 +45,42 @@ class _ProjectListPageState extends State<ProjectListPage> with ProjectListContr
           title: Text(s.project),
           actions: [
             Obx(
+              () => ctrl.haveAdminAccess && !ctrl.isReorderEnabled.value
+                  ? IconButton(
+                      tooltip: s.archive,
+                      icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
+                      onPressed: () {
+                        AppNavigator.push(const ArchivedProjectsPage());
+                      },
+                    )
+                  : const SizedBox.shrink(),
+            ),
+            Obx(
               () => IconButton(
-                tooltip: isReorderEnabled.value ? s.save : s.reorder,
-                icon:
-                    isReorderEnabled.value ? const Icon(Icons.check, size: 25, color: Colors.white) : const UImage(AppIcons.arrowSwapVert, size: 25, color: Colors.white),
+                tooltip: ctrl.isReorderEnabled.value ? s.save : s.reorder,
+                icon: ctrl.isReorderEnabled.value
+                    ? const Icon(Icons.check, size: 25, color: Colors.white)
+                    : const UImage(AppIcons.arrowSwapVert, size: 25, color: Colors.white),
                 onPressed: () {
-                  if (isReorderEnabled.value) return updateOrders();
-                  toggleReorder();
+                  if (ctrl.isReorderEnabled.value) return ctrl.updateOrders();
+                  ctrl.toggleReorder();
                 },
               ),
             ),
             const SizedBox(width: 6),
           ],
         ),
-        floatingActionButtonLocation: isPersianLang ? FloatingActionButtonLocation.startFloat : FloatingActionButtonLocation.endFloat,
-        floatingActionButton: haveAdminAccess
+        floatingActionButtonLocation: isPersianLang
+            ? FloatingActionButtonLocation.startFloat
+            : FloatingActionButtonLocation.endFloat,
+        floatingActionButton: ctrl.haveAdminAccess
             ? FloatingActionButton(
                 heroTag: "projectListFAB",
                 onPressed: () {
                   bottomSheet(
                     title: s.newProject,
                     child: ProjectCreateUpdatePage(
-                      onResponse: (final project) => insertProject(project),
+                      onResponse: (final project) => ctrl.insertProject(project),
                     ),
                   );
                 },
@@ -78,58 +90,58 @@ class _ProjectListPageState extends State<ProjectListPage> with ProjectListContr
         body: Column(
           children: [
             WSearchField(
-              controller: searchController,
+              controller: ctrl.searchController,
               borderRadius: 0,
               height: 50,
               // withFilter: true,
               // haveActivatedFilter: true,
               // filterPageBuilder: (final context) => Container(),
-              onChanged: (final value) => onSearch(),
+              onChanged: (final value) => ctrl.onSearch(),
             ),
             Expanded(
               child: Obx(
                 () => WSmartRefresher(
-                  controller: refreshController,
-                  onRefresh: onRefresh,
-                  onLoading: loadMore,
-                  child: pageState.isLoaded()
-                      ? projects.isNotEmpty
-                          ? CustomScrollView(
-                              slivers: [
-                                SliverPadding(
-                                  padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: isEndOfList ? 100 : 0),
-                                  sliver: SliverReorderableList(
-                                    itemCount: projects.length,
-                                    onReorder: (final oldIndex, newIndex) {
-                                      if (oldIndex < newIndex) {
-                                        newIndex -= 1;
-                                      }
-                                      final ProjectReadDto item = projects.removeAt(oldIndex);
-                                      projects.insert(newIndex, item);
-                                    },
-                                    itemBuilder: (final context, final index) => ProjectItemCard(
-                                      key: ValueKey(projects[index].id),
-                                      index: index,
-                                      project: projects[index],
-                                      isReorderEnabled: isReorderEnabled.value,
-                                      showMoreIcon: haveAdminAccess,
-                                      onEdited: (final project) {
-                                        projects[index] = project;
-                                        projects.refresh();
+                  controller: ctrl.refreshController,
+                  onRefresh: ctrl.onRefresh,
+                  onLoading: ctrl.loadMore,
+                  child: ctrl.pageState.isLoaded()
+                      ? ctrl.projects.isNotEmpty
+                            ? CustomScrollView(
+                                slivers: [
+                                  SliverPadding(
+                                    padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: ctrl.isEndOfList ? 100 : 0),
+                                    sliver: SliverReorderableList(
+                                      itemCount: ctrl.projects.length,
+                                      onReorder: (final oldIndex, newIndex) {
+                                        if (oldIndex < newIndex) {
+                                          newIndex -= 1;
+                                        }
+                                        final ProjectReadDto item = ctrl.projects.removeAt(oldIndex);
+                                        ctrl.projects.insert(newIndex, item);
                                       },
-                                      onDelete: () => deleteProject(
-                                        projects[index],
-                                        action: () {
-                                          projects.removeAt(index);
-                                          projects.refresh();
+                                      itemBuilder: (final context, final index) => ProjectItemCard(
+                                        key: ValueKey(ctrl.projects[index].id),
+                                        index: index,
+                                        project: ctrl.projects[index],
+                                        isReorderEnabled: ctrl.isReorderEnabled.value,
+                                        showMoreIcon: ctrl.haveAdminAccess,
+                                        onEdited: (final project) {
+                                          ctrl.projects[index] = project;
+                                          ctrl.projects.refresh();
                                         },
+                                        onArchive: () => ctrl.archiveProject(
+                                          ctrl.projects[index],
+                                          action: () {
+                                            ctrl.projects.removeAt(index);
+                                            ctrl.projects.refresh();
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : const Center(child: WEmptyWidget())
+                                ],
+                              )
+                            : const Center(child: WEmptyWidget())
                       : ListView.separated(
                           itemCount: 10,
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

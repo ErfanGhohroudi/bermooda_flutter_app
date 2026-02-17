@@ -97,7 +97,7 @@ mixin WarehouseListController {
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
-        UNavigator.back();
+        AppNavigator.back();
         _delete(warehouse, action: action);
       },
     );
@@ -129,7 +129,7 @@ mixin WarehouseListController {
     try {
       await _updateWarehousesOrdersUseCase(warehouseIds);
       isReorderEnabled(!isReorderEnabled.value);
-      AppNavigator.snackbarGreen(title: s.done, subtitle: s.changesSaved);
+      AppSnackBar.snackbarGreen(title: s.done, subtitle: s.changesSaved);
       pageState.refresh();
     } catch (e) {
       // Error handling

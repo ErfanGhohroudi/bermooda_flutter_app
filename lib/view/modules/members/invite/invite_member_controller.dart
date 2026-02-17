@@ -253,7 +253,7 @@ mixin InviteMemberController {
     if (favoriteController.text.trim() != '' && favoriteController.text.trim().length >= 3) {
       final i = favoritesList.indexOf(favoriteController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.favorite));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.favorite));
       }
       favoritesList.add(favoriteController.text.trim());
       favoriteController.clear();
@@ -273,7 +273,7 @@ mixin InviteMemberController {
     if (skillController.text.trim() != '') {
       final i = skillsList.indexOf(skillController.text.trim());
       if (i != -1) {
-        return AppNavigator.snackbarRed(title: s.warning, subtitle: s.thisIsExist.replaceAll('#', s.skill));
+        return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.thisIsExist(s.skill));
       }
       skillsList.add(skillController.text.trim());
       skillController.clear();
