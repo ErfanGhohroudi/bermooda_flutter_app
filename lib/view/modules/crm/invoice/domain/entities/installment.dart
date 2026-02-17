@@ -5,6 +5,7 @@ import 'package:u/utils/shamsi_date/src/jalali/jalali_date.dart';
 
 import '../../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../../data/data.dart';
+import '../../data/models/models.dart';
 
 /// Domain Entity for Installment
 class InstallmentEntity extends Equatable {

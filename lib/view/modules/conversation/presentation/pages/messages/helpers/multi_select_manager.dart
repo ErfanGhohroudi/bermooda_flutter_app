@@ -4,6 +4,7 @@ import '../../../../../../../../core/widgets/widgets.dart';
 import '../../../../../../../../core/core.dart';
 import '../../../../../../../../core/navigator/navigator.dart';
 import '../../../../../../../../core/utils/enums/enums.dart';
+import '../../../../../../../core/theme.dart';
 import '../../../../data/dto/conversation_dtos.dart';
 import '../../forward/forward_conversation_selection_page.dart';
 import '../conversation_messages_controller.dart';
@@ -14,7 +15,7 @@ class MultiSelectManager {
   final ConversationMessagesController controller;
 
   void enterMultiSelectMode() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     controller.replyEditManager.clearPinedMessageToInputBox();
     controller.isMultiSelectMode.value = true;
     controller.selectedMessageIds.clear();
@@ -26,7 +27,7 @@ class MultiSelectManager {
   }
 
   void toggleMessageSelection(final String messageId) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.selectedMessageIds.contains(messageId)) {
       controller.selectedMessageIds.remove(messageId);
     } else {
@@ -38,7 +39,7 @@ class MultiSelectManager {
   }
 
   void selectAllMessages() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     for (final message in controller.messages) {
       controller.selectedMessageIds.add(message.id);
     }
@@ -50,7 +51,7 @@ class MultiSelectManager {
   }
 
   void copySelectedMessagesTexts() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final textMessages = controller.messages
         .cast<MessageDto>()
         .where(
@@ -77,7 +78,7 @@ class MultiSelectManager {
   }
 
   void forwardSelectedMessages() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.selectedMessageIds.isEmpty) {
       AppSnackBar.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
       return;
@@ -89,13 +90,13 @@ class MultiSelectManager {
   }
 
   void forwardSelectedMessage(final MessageDto message) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     AppNavigator.push(ForwardConversationSelectionPage(messageIds: [message.id]));
     exitMultiSelectMode();
   }
 
   void deleteSelectedMessages() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.selectedMessageIds.isEmpty) {
       AppSnackBar.snackbarRed(title: s.error, subtitle: s.noMessagesSelected);
       return;
@@ -119,7 +120,9 @@ class MultiSelectManager {
 
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.message.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back();
         for (String messageId in controller.selectedMessageIds) {

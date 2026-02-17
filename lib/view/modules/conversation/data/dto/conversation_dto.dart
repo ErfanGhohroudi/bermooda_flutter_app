@@ -30,10 +30,27 @@ enum ConversationType {
   }
 }
 
+enum BotType {
+  anonymous_bot,
+  survey_bot;
+
+  static BotType? fromString(final String? type) {
+    switch (type) {
+      case 'anonymous_bot':
+        return BotType.anonymous_bot;
+      case 'survey_bot':
+        return BotType.survey_bot;
+      default:
+        return null;
+    }
+  }
+}
+
 class ConversationDto extends Equatable {
   const ConversationDto({
     required this.id,
     required this.type,
+    this.botType,
     this.title,
     this.description,
     required this.displayName,
@@ -47,6 +64,7 @@ class ConversationDto extends Equatable {
   final String id;
   final ConversationType type;
   final String? title;
+  final BotType? botType;
   final String? description;
   final String displayName;
   final String? avatarUrl;
@@ -60,6 +78,7 @@ class ConversationDto extends Equatable {
       id: json['id']?.toString() ?? '',
       type: ConversationType.fromString(json['type']),
       title: json['title'],
+      botType: BotType.fromString(json['bot_type']),
       description: json['description'],
       displayName: json['display_name'] ?? '',
       avatarUrl: json['avatar_url'],
@@ -89,6 +108,7 @@ class ConversationDto extends Equatable {
     final String? id,
     final ConversationType? type,
     final String? title,
+    final BotType? botType,
     final String? description,
     final String? displayName,
     final String? avatarUrl,
@@ -101,6 +121,7 @@ class ConversationDto extends Equatable {
       id: id ?? this.id,
       type: type ?? this.type,
       title: title ?? this.title,
+      botType: botType ?? this.botType,
       description: description ?? this.description,
       displayName: displayName ?? this.displayName,
       avatarUrl: avatarUrl ?? this.avatarUrl,
@@ -116,6 +137,7 @@ class ConversationDto extends Equatable {
         id,
         type,
         title,
+        botType,
         description,
         displayName,
         avatarUrl,

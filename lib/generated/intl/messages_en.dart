@@ -23,23 +23,22 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(item) =>
       "* Only members selected as Managers and Specialists will have access to this ${item}.";
 
-  static String m1(name) =>
+  static String m1(item) => "Are you sure you want to delete this ${item}?";
+
+  static String m2(name) =>
       "Dear ${name}, to access your personalized business dashboard, you need to complete your business information and activate the dashboard.";
 
-  static String m2(step) => "Change step to (${step})?";
+  static String m3(step) => "Change step to (${step})?";
 
-  static String m3(percentage) =>
+  static String m4(percentage) =>
       "Change subtask progress to \'${percentage}\'?";
 
-  static String m4(count) => "${count} days without conflict will be applied";
+  static String m5(count) => "${count} days without conflict will be applied";
 
-  static String m5(count, total) =>
+  static String m6(count, total) =>
       "${count} of ${total} installments have been paid";
 
-  static String m6(item) => "\"${item}\" is required";
-
-  static String m7(length) =>
-      "The entered value is too short (minimum ${length} characters)";
+  static String m7(item) => "\"${item}\" is required";
 
   static String m8(count) => "Maximum ${count} files can be selected.";
 
@@ -59,9 +58,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m15(item) => "This ${item} is already exist";
 
-  static String m16(time) => "You are ${time} early.";
+  static String m16(length) =>
+      "The entered value is too short (minimum ${length} characters)";
 
-  static String m17(time) => "You are ${time} late.";
+  static String m17(time) => "You are ${time} early.";
+
+  static String m18(time) => "You are ${time} late.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -105,6 +107,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Allowed formats: XLSX, XLS, CSV (maximum 10 MB)",
     ),
     "amount": MessageLookupByLibrary.simpleMessage("Amount"),
+    "apiKey": MessageLookupByLibrary.simpleMessage("API Key"),
     "appName": MessageLookupByLibrary.simpleMessage("Bermooda"),
     "applicant": MessageLookupByLibrary.simpleMessage("Applicant"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
@@ -129,18 +132,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "Do you want to delete this business?",
     ),
-    "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this message?",
-    ),
     "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this warehouse?",
     ),
     "areYouSureToRemoveMember": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to remove this user? They will immediately lose access to the dashboard, and their assigned tasks will need to be reassigned.",
     ),
-    "areYouSureYouWantToDeleteItem": MessageLookupByLibrary.simpleMessage(
-      "Are you sure you want to delete this?",
-    ),
+    "areYouSureYouWantToDeleteItem": m1,
     "areYouSureYouWantToLogOut": MessageLookupByLibrary.simpleMessage(
       "Do you want to log out?",
     ),
@@ -154,7 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendance": MessageLookupByLibrary.simpleMessage("Attendance"),
     "attendanceRate": MessageLookupByLibrary.simpleMessage("Attendance Rate"),
     "audio": MessageLookupByLibrary.simpleMessage("Audio"),
-    "authenticationNeedsDialogText": m1,
+    "authenticationNeedsDialogText": m2,
     "autoApproveAfterRegistration": MessageLookupByLibrary.simpleMessage(
       "Auto-approve immediately after registration",
     ),
@@ -235,11 +233,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Review Request",
     ),
     "changeStatus": MessageLookupByLibrary.simpleMessage("Change status?"),
-    "changeStep": m2,
+    "changeStep": m3,
     "changeStepStatus": MessageLookupByLibrary.simpleMessage(
       "Change step status?",
     ),
-    "changeSubtaskProgressTo": m3,
+    "changeSubtaskProgressTo": m4,
     "changeSubtaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "Change subtask status to \'Done\'?",
     ),
@@ -277,6 +275,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Confirm New Password",
     ),
     "confirmPassword": MessageLookupByLibrary.simpleMessage("Confirm Password"),
+    "confirmed": MessageLookupByLibrary.simpleMessage("Confirmed"),
     "conflictingDays": MessageLookupByLibrary.simpleMessage("Conflicting days"),
     "connecting": MessageLookupByLibrary.simpleMessage("Connecting..."),
     "connectionLost": MessageLookupByLibrary.simpleMessage("Connection lost"),
@@ -374,7 +373,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "day": MessageLookupByLibrary.simpleMessage("Day"),
     "days": MessageLookupByLibrary.simpleMessage("Days"),
     "daysOfMonth": MessageLookupByLibrary.simpleMessage("Days of Month"),
-    "daysWithoutConflictWillBeApplied": m4,
+    "daysWithoutConflictWillBeApplied": m5,
     "deadline": MessageLookupByLibrary.simpleMessage("Deadline"),
     "decline": MessageLookupByLibrary.simpleMessage("Decline"),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
@@ -431,6 +430,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "doNotHaveAnAccount": MessageLookupByLibrary.simpleMessage(
       "Don’t have an account?",
     ),
+    "document": MessageLookupByLibrary.simpleMessage("Document"),
     "documents": MessageLookupByLibrary.simpleMessage("Documents"),
     "done": MessageLookupByLibrary.simpleMessage("Done"),
     "doned": MessageLookupByLibrary.simpleMessage("Done"),
@@ -652,7 +652,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Installment start date is required",
     ),
     "installments": MessageLookupByLibrary.simpleMessage("Installments"),
-    "installmentsPaid": m5,
+    "installmentsPaid": m6,
     "insurance": MessageLookupByLibrary.simpleMessage("Insurance"),
     "interestRate": MessageLookupByLibrary.simpleMessage(
       "Annual Interest Rate",
@@ -702,8 +702,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "Iran\'s IBAN number must be 26 characters long.",
     ),
-    "isRequired": m6,
-    "isShort": m7,
+    "isRequired": m7,
     "issueInvoice": MessageLookupByLibrary.simpleMessage("Issue"),
     "issueInvoiceConfirmation": MessageLookupByLibrary.simpleMessage(
       "Confirm invoice issuance? This operation is irreversible.",
@@ -784,6 +783,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "medicalDocuments": MessageLookupByLibrary.simpleMessage(
       "Medical Documents (Bill, Doctor\'s Prescription, Hospital Report)",
     ),
+    "meeting": MessageLookupByLibrary.simpleMessage("Meeting"),
     "meetingType": MessageLookupByLibrary.simpleMessage("Meeting Type"),
     "member": MessageLookupByLibrary.simpleMessage("Members"),
     "memberAddedSuccessfully": MessageLookupByLibrary.simpleMessage(
@@ -938,10 +938,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "notSupportedItem": MessageLookupByLibrary.simpleMessage(
       "This item is not compatible with your current version.",
     ),
-    "notVerified": MessageLookupByLibrary.simpleMessage("Not Verified"),
     "note": MessageLookupByLibrary.simpleMessage("Note"),
     "notice": MessageLookupByLibrary.simpleMessage("Notice"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+    "number": MessageLookupByLibrary.simpleMessage("Number"),
+    "numberManagement": MessageLookupByLibrary.simpleMessage(
+      "Number Management",
+    ),
     "numberOfChildren": MessageLookupByLibrary.simpleMessage(
       "Number of Children",
     ),
@@ -1098,6 +1101,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proofDocument": MessageLookupByLibrary.simpleMessage(
       "Proof Document (Marriage Certificate, Death Certificate, Birth Certificate, etc.)",
     ),
+    "provider": MessageLookupByLibrary.simpleMessage("Provider"),
     "pullToRefresh": MessageLookupByLibrary.simpleMessage("Pull to refresh"),
     "quantity": MessageLookupByLibrary.simpleMessage("Quantity"),
     "reCreate": MessageLookupByLibrary.simpleMessage("Re-create"),
@@ -1117,6 +1121,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Registration Number",
     ),
     "reject": MessageLookupByLibrary.simpleMessage("Reject"),
+    "rejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "relatedMissionNumber": MessageLookupByLibrary.simpleMessage(
       "Related Mission Number",
     ),
@@ -1211,6 +1216,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "returnDate": MessageLookupByLibrary.simpleMessage("Return Date"),
     "returnTime": MessageLookupByLibrary.simpleMessage("Return Time"),
     "reviewers": MessageLookupByLibrary.simpleMessage("Reviewers"),
+    "revised": MessageLookupByLibrary.simpleMessage("Revised"),
     "rial": MessageLookupByLibrary.simpleMessage("Rial"),
     "role": MessageLookupByLibrary.simpleMessage("Role"),
     "rowCount": MessageLookupByLibrary.simpleMessage("Row Count"),
@@ -1294,6 +1300,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shippingCost": MessageLookupByLibrary.simpleMessage("Shipping Cost"),
     "show": MessageLookupByLibrary.simpleMessage("Show"),
     "signatories": MessageLookupByLibrary.simpleMessage("Signatories"),
+    "signatory": MessageLookupByLibrary.simpleMessage("Signatory"),
     "signatureImage": MessageLookupByLibrary.simpleMessage("Signature image"),
     "signatures": MessageLookupByLibrary.simpleMessage("Signatures"),
     "signed": MessageLookupByLibrary.simpleMessage("Signed"),
@@ -1364,6 +1371,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subscriptionSettings": MessageLookupByLibrary.simpleMessage(
       "Subscription Settings",
     ),
+    "subtask": MessageLookupByLibrary.simpleMessage("Subtask"),
     "subtasks": MessageLookupByLibrary.simpleMessage("Subtasks"),
     "success": MessageLookupByLibrary.simpleMessage("Success"),
     "successRate": MessageLookupByLibrary.simpleMessage("Success Rate"),
@@ -1534,6 +1542,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "+ is only allowed at the beginning",
     ),
     "validityDate": MessageLookupByLibrary.simpleMessage("Validity Date"),
+    "valueIsShort": m16,
     "verification": MessageLookupByLibrary.simpleMessage("Verification"),
     "verificationTextInfo": MessageLookupByLibrary.simpleMessage(
       "This section must be completed to create invoices, settle payments, and perform related actions.",
@@ -1577,8 +1586,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "year": MessageLookupByLibrary.simpleMessage("Year"),
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
-    "youAreEarly": m16,
-    "youAreLate": m17,
+    "youAreEarly": m17,
+    "youAreLate": m18,
     "youAreNotMemberOfThisGroup": MessageLookupByLibrary.simpleMessage(
       "You are not a member of this group.",
     ),

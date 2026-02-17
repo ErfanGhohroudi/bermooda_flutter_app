@@ -246,9 +246,9 @@ class InvoiceParams {
     if (installmentPayments != null && installmentPayments!.isNotEmpty) ...{
       'installment_payments': installmentPayments!.map((final e) => e.toMap()).toList(),
       if (interestPercentage != null) 'interest_percentage': interestPercentage,
-      if (latePenaltyEnabled != null) 'late_penalty_enabled': latePenaltyEnabled,
-      if (latePenaltyEnabled != null && latePenaltyRate != null) 'late_penalty_rate': latePenaltyRate,
-      if (latePenaltyEnabled != null && latePenaltyCap != null) 'late_penalty_cap': latePenaltyCap,
+      if (latePenaltyEnabled == true) 'late_penalty_enabled': latePenaltyEnabled,
+      if (latePenaltyEnabled == true && latePenaltyRate != null) 'late_penalty_rate': latePenaltyRate,
+      if (latePenaltyEnabled == true && latePenaltyCap != null && latePenaltyCap!.isNotEmpty) 'late_penalty_cap': latePenaltyCap,
     },
   };
 }

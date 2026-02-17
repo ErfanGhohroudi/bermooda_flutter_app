@@ -123,7 +123,7 @@ class WPhoneNumberField extends StatelessWidget {
         }
 
         if (value.isNotEmpty && value.length < minLength) {
-          return s.isShort(minLength.toString());
+          return s.valueIsShort(minLength.toString());
         }
 
         if (startWith != null && startWith!.isNotEmpty) {

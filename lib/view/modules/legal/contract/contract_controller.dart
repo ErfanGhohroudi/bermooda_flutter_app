@@ -5,6 +5,7 @@ import 'package:u/utilities.dart';
 import '../../../../core/core.dart';
 import '../../../../core/navigator/navigator.dart';
 import '../../../../core/services/permission_service.dart';
+import '../../../../core/theme.dart';
 import '../../../../data/data.dart';
 import '../../reports/controllers/legal/legal_case_reports_controller.dart';
 import 'create_contract/create_contract_page.dart';
@@ -79,7 +80,10 @@ class ContractController extends GetxController {
   void deleteContract() {
     if (contract.value == null || canDelete == false) return;
     appShowYesCancelDialog(
-      description: s.areYouSureYouWantToDeleteItem,
+      title: s.delete,
+      description: s.areYouSureYouWantToDeleteItem(s.contract.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back();
         _datasource.delete(

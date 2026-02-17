@@ -216,7 +216,7 @@ class _WProjectSectionsDropDownFormFieldState extends State<WProjectSectionsDrop
                     () {
                       appShowYesCancelDialog(
                         title: s.delete,
-                        description: s.areYouSureToDeleteMessage,
+                        description: s.areYouSureYouWantToDeleteItem(s.section.toLowerCase()),
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {

@@ -191,7 +191,7 @@ class _WCrmCategoriesDropdownFormFieldState extends State<WCrmCategoriesDropdown
                     () {
                       appShowYesCancelDialog(
                         title: s.delete,
-                        description: s.areYouSureToDeleteMessage,
+                        description: s.areYouSureYouWantToDeleteItem(s.message.toLowerCase()),
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {

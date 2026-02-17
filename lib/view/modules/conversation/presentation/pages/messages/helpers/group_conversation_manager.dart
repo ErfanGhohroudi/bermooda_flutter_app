@@ -14,18 +14,18 @@ class GroupConversationManager {
   final ConversationMessagesController controller;
 
   void navigateToGroupSettingsPage() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     AppNavigator.push(GroupSettingsPage(controller: controller));
   }
 
   void removeMember(final ConversationMemberDto member) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (member.isOwner) return;
     controller.repository.removeMember(controller.conversation.value.id, member.user.id);
   }
 
   void leaveGroup() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     appShowYesCancelDialog(
       title: controller.isGroupOwner ? s.deleteAndLeave : s.leaveGroup,
       description: controller.isGroupOwner

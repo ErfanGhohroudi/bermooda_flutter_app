@@ -7,22 +7,22 @@ class PinnedMessagesManager {
   final ConversationMessagesController controller;
 
   void getPinnedMessages() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     controller.repository.getPinnedMessages(controller.conversation.value.id);
   }
 
   void pinMessage(final MessageDto message) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     controller.repository.pinMessage(controller.conversation.value.id, message.id);
   }
 
   void unpinMessage(final MessageDto message) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     controller.repository.unpinMessage(controller.conversation.value.id, message.id);
   }
 
   void showNextPinnedMessage() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.pinnedMessages.isEmpty) return;
     if (controller.currentPinnedIndex.value < controller.pinnedMessages.length - 1) {
       controller.currentPinnedIndex.value++;
@@ -30,7 +30,7 @@ class PinnedMessagesManager {
   }
 
   void showPreviousPinnedMessage() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.pinnedMessages.isEmpty) return;
     if (controller.currentPinnedIndex.value > 0) {
       controller.currentPinnedIndex.value--;

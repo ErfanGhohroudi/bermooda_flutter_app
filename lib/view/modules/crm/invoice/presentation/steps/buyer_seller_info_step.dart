@@ -160,7 +160,7 @@ class BuyerSellerInfoStep extends StatelessWidget {
                 10,
                 required: true,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort('10'),
+                minLengthMessage: s.valueIsShort('10'),
               ),
             ),
 

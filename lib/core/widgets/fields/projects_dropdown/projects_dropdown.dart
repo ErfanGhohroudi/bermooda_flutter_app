@@ -188,7 +188,7 @@ class _WProjectsDropdownFormFieldState extends State<WProjectsDropdownFormField>
                     () {
                       appShowYesCancelDialog(
                         title: s.delete,
-                        description: s.areYouSureToDeleteMessage,
+                        description: s.areYouSureYouWantToDeleteItem(s.project.toLowerCase()),
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {

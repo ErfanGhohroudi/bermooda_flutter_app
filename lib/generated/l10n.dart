@@ -950,10 +950,10 @@ class S {
   }
 
   /// `The entered value is too short (minimum {length} characters)`
-  String isShort(Object length) {
+  String valueIsShort(Object length) {
     return Intl.message(
       'The entered value is too short (minimum $length characters)',
-      name: 'isShort',
+      name: 'valueIsShort',
       desc: '',
       args: [length],
     );
@@ -1064,23 +1064,13 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete this?`
-  String get areYouSureYouWantToDeleteItem {
+  /// `Are you sure you want to delete this {item}?`
+  String areYouSureYouWantToDeleteItem(Object item) {
     return Intl.message(
-      'Are you sure you want to delete this?',
+      'Are you sure you want to delete this $item?',
       name: 'areYouSureYouWantToDeleteItem',
       desc: '',
-      args: [],
-    );
-  }
-
-  /// `Are you sure you want to delete this message?`
-  String get areYouSureToDeleteMessage {
-    return Intl.message(
-      'Are you sure you want to delete this message?',
-      name: 'areYouSureToDeleteMessage',
-      desc: '',
-      args: [],
+      args: [item],
     );
   }
 
@@ -1999,6 +1989,11 @@ class S {
     );
   }
 
+  /// `Meeting`
+  String get meeting {
+    return Intl.message('Meeting', name: 'meeting', desc: '', args: []);
+  }
+
   /// `Meeting Type`
   String get meetingType {
     return Intl.message(
@@ -2339,14 +2334,9 @@ class S {
     return Intl.message('Verified', name: 'verified', desc: '', args: []);
   }
 
-  /// `Not Verified`
-  String get notVerified {
-    return Intl.message(
-      'Not Verified',
-      name: 'notVerified',
-      desc: '',
-      args: [],
-    );
+  /// `Rejected`
+  String get rejected {
+    return Intl.message('Rejected', name: 'rejected', desc: '', args: []);
   }
 
   /// `By entering a phone number or email address, an invitation will be sent to the guests.\nIf you enter a phone number, the invitation will be sent via SMS. If you enter an email address, it will be sent via email.`
@@ -3002,6 +2992,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Subtask`
+  String get subtask {
+    return Intl.message('Subtask', name: 'subtask', desc: '', args: []);
   }
 
   /// `Subtasks`
@@ -5299,6 +5294,11 @@ class S {
     );
   }
 
+  /// `Document`
+  String get document {
+    return Intl.message('Document', name: 'document', desc: '', args: []);
+  }
+
   /// `Documents`
   String get documents {
     return Intl.message('Documents', name: 'documents', desc: '', args: []);
@@ -5927,6 +5927,11 @@ class S {
   /// `Edit Party`
   String get editParty {
     return Intl.message('Edit Party', name: 'editParty', desc: '', args: []);
+  }
+
+  /// `Signatory`
+  String get signatory {
+    return Intl.message('Signatory', name: 'signatory', desc: '', args: []);
   }
 
   /// `Signatories`
@@ -7139,6 +7144,16 @@ class S {
     );
   }
 
+  /// `Confirmed`
+  String get confirmed {
+    return Intl.message('Confirmed', name: 'confirmed', desc: '', args: []);
+  }
+
+  /// `Revised`
+  String get revised {
+    return Intl.message('Revised', name: 'revised', desc: '', args: []);
+  }
+
   /// `Issued`
   String get issued {
     return Intl.message('Issued', name: 'issued', desc: '', args: []);
@@ -7412,6 +7427,31 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Number Management`
+  String get numberManagement {
+    return Intl.message(
+      'Number Management',
+      name: 'numberManagement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number`
+  String get number {
+    return Intl.message('Number', name: 'number', desc: '', args: []);
+  }
+
+  /// `Provider`
+  String get provider {
+    return Intl.message('Provider', name: 'provider', desc: '', args: []);
+  }
+
+  /// `API Key`
+  String get apiKey {
+    return Intl.message('API Key', name: 'apiKey', desc: '', args: []);
   }
 }
 

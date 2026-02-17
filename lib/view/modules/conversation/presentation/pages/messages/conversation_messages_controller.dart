@@ -97,7 +97,11 @@ class ConversationMessagesController extends GetxController {
 
   bool get isGroup => conversation.value.type == ConversationType.group;
 
-  bool get isAnonymousBot => conversation.value.type == ConversationType.bot;
+  bool get isBot => conversation.value.type == ConversationType.bot;
+
+  bool get isAnonymousBot => isBot && conversation.value.botType == BotType.anonymous_bot;
+
+  bool get isSurveyBot => isBot && conversation.value.botType == BotType.survey_bot;
 
   bool get isGroupOwner =>
       conversation.value.members.firstWhereOrNull((final m) {
@@ -138,7 +142,7 @@ class ConversationMessagesController extends GetxController {
 
   // Internal methods for helpers (accessible to helpers)
   Future<void> addOrUpdateMessage(final MessageDto message) async {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     final index = messages.cast<MessageDto>().indexWhere(
       (final m) => m.clientId != null && m.clientId == message.clientId,
     );
@@ -164,7 +168,7 @@ class ConversationMessagesController extends GetxController {
 
   void getMessages() {
     currentPage = 1;
-    if (isAnonymousBot) {
+    if (isBot) {
       repository.getAnonymousFeedbacks(currentPage);
     } else {
       repository.getMessages(conversation.value.id, page: currentPage);
@@ -259,7 +263,7 @@ class ConversationMessagesController extends GetxController {
   void scrollToEditingMessage(final String messageId) => scrollManager.scrollToMessage(messageId);
 
   Future<List<FeedbackCategoryDto>?> getFeedbackCategories() async {
-    if (!isAnonymousBot) return null;
+    if (!isBot) return null;
     AppLoading.showLoading();
     List<FeedbackCategoryDto>? categories;
     try {
@@ -276,7 +280,7 @@ class ConversationMessagesController extends GetxController {
   }
 
   void sendMessage() {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     final text = messageController.text.trim();
     if (text.isEmpty) return;
 
@@ -341,7 +345,7 @@ class ConversationMessagesController extends GetxController {
   }
 
   void _editMessage(final String messageId, final String newText) {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     repository.editMessage(messageId, newText);
     clearEditingMessage();
   }
@@ -349,7 +353,9 @@ class ConversationMessagesController extends GetxController {
   void deleteMessageDialog(final String messageId) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.message.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back();
         deleteMessage(messageId);
@@ -358,17 +364,17 @@ class ConversationMessagesController extends GetxController {
   }
 
   void deleteMessage(final String messageId) {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     repository.deleteMessage(messageId);
   }
 
   void addReaction(final MessageDto message, final String emoji) {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     repository.addReaction(message.id, emoji);
   }
 
   void removeReaction(final MessageDto message, final String emoji) {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     repository.removeReaction(message.id, emoji);
   }
 
@@ -376,7 +382,7 @@ class ConversationMessagesController extends GetxController {
   // Attachment methods
   //----------------------------------------------------------------
   void handleAttachmentPressed() {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     bottomSheet(
       child: Directionality(
         textDirection: TextDirection.ltr,
@@ -474,7 +480,7 @@ class ConversationMessagesController extends GetxController {
   }
 
   void handleFileSelection() async {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     AppLoading.showLoading();
     final result = await FilePicker.platform.pickFiles(
       type: FileType.any,
@@ -497,7 +503,7 @@ class ConversationMessagesController extends GetxController {
   }
 
   void handleImageSelection({final bool? pickFromCamera}) async {
-    if (isAnonymousBot) return;
+    if (isBot) return;
     final XFile? result = await ImagePicker().pickImage(
       imageQuality: 70,
       maxWidth: 1440,
@@ -519,7 +525,7 @@ class ConversationMessagesController extends GetxController {
   }
 
   void onPopScope() {
-    if (isAnonymousBot) return AppNavigator.back();
+    if (isBot) return AppNavigator.back();
     if (selectedMessageIds.isNotEmpty) {
       return exitMultiSelectMode();
     }

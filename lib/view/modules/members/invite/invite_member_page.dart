@@ -171,7 +171,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               10,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort('10'),
+              minLengthMessage: s.valueIsShort('10'),
             ),
           ),
 
@@ -186,7 +186,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               3,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort('3'),
+              minLengthMessage: s.valueIsShort('3'),
             ),
           ),
 
@@ -320,7 +320,7 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
               10,
               required: false,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort('10'),
+              minLengthMessage: s.valueIsShort('10'),
             ),
           ),
 

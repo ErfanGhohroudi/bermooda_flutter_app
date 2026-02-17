@@ -117,7 +117,7 @@ mixin LegalCreateUpdateSectionController {
   void onDelete() {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.section.toLowerCase()),
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {

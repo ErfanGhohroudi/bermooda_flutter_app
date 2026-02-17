@@ -1,4 +1,7 @@
-part of '../../../data.dart';
+import 'package:u/utilities.dart';
+
+import '../../../../../../core/utils/enums/enums.dart';
+import '../../../../../../data/data.dart';
 
 class InvoiceBuyerSellerInfo {
   BuyerInfo buyerInfo;

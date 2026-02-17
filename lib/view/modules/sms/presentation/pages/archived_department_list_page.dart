@@ -66,6 +66,7 @@ class _SmsArchivedDepartmentListPageState extends State<SmsArchivedDepartmentLis
                             department: department,
                             isReorderEnabled: false,
                             showMoreIcon: ctrl.haveAdminAccess,
+                            onTap: () {},
                             moreButtonItems: [
                               WPopupMenuItem(
                                 title: s.restore,

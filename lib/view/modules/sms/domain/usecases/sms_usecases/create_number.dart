@@ -9,11 +9,13 @@ class CreateNumberUseCase {
   final SmsPanelRepository repository;
 
   Future<SmsPanelNumber> call({
+    required final int departmentId,
     required final String number,
     required final String providerName,
     required final ProviderType providerType,
     required final String apiKey,
   }) => repository.createNumber(
+    departmentId: departmentId,
     number: number,
     providerName: providerName,
     providerType: providerType,

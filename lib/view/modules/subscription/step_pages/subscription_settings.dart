@@ -1,3 +1,4 @@
+import 'package:bermooda_business/view/modules/subscription/enums/subscription_support_type.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../core/core.dart';
@@ -28,6 +29,29 @@ class SubscriptionSettings extends StatelessWidget {
             // Subscription Period
             _buildSubscriptionPeriodSection(context),
             const SizedBox(height: 20),
+
+            // Support Type
+            Obx(
+              () {
+                if (ctrl.canChangePeriod) {
+                  return WDropDownFormField<SubscriptionSupportType>(
+                    labelText: s.support,
+                    value: ctrl.selectedSupportType.value,
+                    items: SubscriptionSupportType.values.map(
+                      (final st) {
+                        return DropdownMenuItem<SubscriptionSupportType>(
+                          value: st,
+                          child: WDropdownItemText(text: st.title),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (final value) => ctrl.updateSupportType(value),
+                  ).marginOnly(bottom: 20);
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
 
             // Active modules
             _buildActiveModulesSection(context),

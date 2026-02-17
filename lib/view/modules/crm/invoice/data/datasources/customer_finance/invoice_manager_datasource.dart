@@ -1,4 +1,12 @@
-part of '../../data.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:u/utilities.dart';
+
+import '../../../../../../../core/loading/loading.dart';
+import '../../../../../../../data/api_client.dart';
+import '../../../../../../../data/data.dart';
+import '../../models/invoice.dart';
+import '../../models/invoice_buyer_seller_info.dart';
+import '../../models/invoice_params.dart';
 
 class InvoiceManagerDatasource {
   final ApiClient _apiClient = Get.find();

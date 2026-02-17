@@ -5,7 +5,7 @@ import '../../../../../core/loading/loading.dart';
 import '../../../../../data/api_client.dart';
 import '../../../../../data/data.dart';
 import '../../domain/enums/enums.dart';
-import '../dto/response/sms_panel_number.dart';
+import '../models/response/sms_panel_number.dart';
 
 class SmsPanelDatasource {
   final ApiClient _apiClient = Get.find();
@@ -60,18 +60,21 @@ class SmsPanelDatasource {
   }
 
   void createNumber({
+    required final int departmentId,
     required final String number,
     required final String providerName,
     required final ProviderType providerType,
     required final String apiKey,
-    required final Function(GenericResponse<SmsPanelNumberReadDto> response) onResponse,
+    required final Function(SmsPanelNumberReadDto response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
   }) async {
+    AppLoading.showLoading();
     try {
       final response = await _apiClient.post(
         "/v1/SMSManager/phone-numbers/",
         data: {
+          "department_id": departmentId,
           "number": number,
           "provider_name": providerName,
           "provider_type": providerType.name,
@@ -81,13 +84,14 @@ class SmsPanelDatasource {
       );
 
       if (response.isOk) {
-        onResponse(GenericResponse<SmsPanelNumberReadDto>.fromJson(response.data, fromMap: SmsPanelNumberReadDto.fromMap));
+        onResponse(SmsPanelNumberReadDto.fromMap(response.data));
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
       }
     } on dio.DioException {
       onError(GenericResponse());
     }
+    AppLoading.dismissLoading();
   }
 
   void deleteNumber({

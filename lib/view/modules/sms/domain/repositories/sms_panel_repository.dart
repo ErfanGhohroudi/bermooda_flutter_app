@@ -51,6 +51,7 @@ abstract class SmsPanelRepository {
 
   /// create a new number
   Future<SmsPanelNumber> createNumber({
+    required final int departmentId,
     required final String number,
     required final String providerName,
     required final ProviderType providerType,

@@ -76,7 +76,7 @@ class _OtpPageState extends State<OtpPage> with OtpController {
               validator: validateMinLength(
                 6,
                 requiredMessage: s.requiredField,
-                minLengthMessage: s.isShort('6'),
+                minLengthMessage: s.valueIsShort('6'),
               ),
               onCompleted: (final code) {
                 onSubmit();

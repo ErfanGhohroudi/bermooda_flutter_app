@@ -1,7 +1,6 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
-import '../../../../../app_config.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/services/permission_service.dart';
@@ -33,7 +32,7 @@ class SmsDepartmentListController extends GetxController {
   int pageNumber = 1;
   final RxList<SmsDepartment> departments = <SmsDepartment>[].obs;
 
-  bool get haveAdminAccess => Get.find<PermissionService>().haveSMSAdminAccess || AppConfig.instance.isDevelopment;
+  bool get haveAdminAccess => Get.find<PermissionService>().haveSMSAdminAccess;
 
   @override
   void onInit() {
@@ -164,6 +163,7 @@ class SmsDepartmentListController extends GetxController {
   }) async {
     try {
       final SmsDepartment department = await _createDepartmentUseCase(
+        avatar: avatar,
         title: title,
         members: members,
       );
@@ -183,6 +183,7 @@ class SmsDepartmentListController extends GetxController {
     try {
       final department = await _updateDepartmentUseCase(
         id: id,
+        avatar: avatar,
         title: title,
         members: members,
       );

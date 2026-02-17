@@ -209,7 +209,7 @@ class _WCustomerCategoryDropdownFormFieldState extends State<WCustomerCategoryDr
                     () {
                       appShowYesCancelDialog(
                         title: s.delete,
-                        description: s.areYouSureToDeleteMessage,
+                        description: s.areYouSureYouWantToDeleteItem(s.subcategory.toLowerCase()),
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {

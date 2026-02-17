@@ -441,6 +441,7 @@ abstract class AppIcons {
   static const String calendarColor = "$_base/calendar_color.svg";
   static const String calendarOutline = "$_base/calendar_outline.svg";
   static const String callOutline = "$_base/call_outline.svg";
+  static const String cardSimOutline = "$_base/card_sim_outline.svg";
   static const String chat = "$_base/chat.svg";
   static const String chatOutline = "$_base/chat_outline.svg";
   static const String checkIn = "$_base/check_in.svg";
@@ -511,6 +512,7 @@ abstract class AppIcons {
   static const String seen = "$_base/seen.png";
   static const String sendMessage = "$_base/send_message.svg";
   static const String settingsOutline = "$_base/settings_outline.svg";
+  static const String smsModule = "$_base/sms_module.svg";
   static const String staffManagementModule = "$_base/staff_management_module.svg";
   static const String statisticsOutline = "$_base/statistics_outline.svg";
   static const String supportModule = "$_base/support_module.svg";

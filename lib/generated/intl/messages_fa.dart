@@ -23,22 +23,21 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(item) =>
       "* فقط افرادی که به عنوان مدیر و کارشناس انتخاب می شوند به این ${item} دسترسی خواهند داشت.";
 
-  static String m1(name) =>
+  static String m1(item) => "آیا از حذف این ${item} اطمینان دارید؟";
+
+  static String m2(name) =>
       "${name} عزیز برای دسترسی به داشبورد تخصصی کسب‌وکار خود نیاز به تکمیل اطلاعات کسب‌وکار و فعال سازی داشبورد است.";
 
-  static String m2(step) => "مرحله به (${step}) تغییر کند؟";
+  static String m3(step) => "مرحله به (${step}) تغییر کند؟";
 
-  static String m3(percentage) =>
+  static String m4(percentage) =>
       "درصد پیشرفت زیر وظیفه به \'${percentage}\' تغییر کند؟";
 
-  static String m4(count) => "${count} روز بدون تداخل اعمال خواهد شد";
+  static String m5(count) => "${count} روز بدون تداخل اعمال خواهد شد";
 
-  static String m5(count, total) => "${count} از ${total} قسط پرداخت شده است";
+  static String m6(count, total) => "${count} از ${total} قسط پرداخت شده است";
 
-  static String m6(item) => "\"${item}\" الزامی است";
-
-  static String m7(length) =>
-      "مقدار وارد شده کوتاه است (حداقل ${length} کاراکتر)";
+  static String m7(item) => "\"${item}\" الزامی است";
 
   static String m8(count) => "حداکثر ${count} فایل قابل انتخاب است.";
 
@@ -57,9 +56,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m15(item) => "این ${item} درحال حاضر وجود دارد";
 
-  static String m16(time) => "شما ${time} زودتر وارد شدید.";
+  static String m16(length) =>
+      "مقدار وارد شده کوتاه است (حداقل ${length} کاراکتر)";
 
-  static String m17(time) => "شما ${time} دیرتر وارد شدید.";
+  static String m17(time) => "شما ${time} زودتر وارد شدید.";
+
+  static String m18(time) => "شما ${time} دیرتر وارد شدید.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -99,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "فرمت‌های مجاز: XLSX, XLS, CSV (حداکثر 10 مگابایت)",
     ),
     "amount": MessageLookupByLibrary.simpleMessage("مبلغ"),
+    "apiKey": MessageLookupByLibrary.simpleMessage("کلید API"),
     "appName": MessageLookupByLibrary.simpleMessage("برمودا"),
     "applicant": MessageLookupByLibrary.simpleMessage("درخواست دهنده"),
     "apply": MessageLookupByLibrary.simpleMessage("تایید"),
@@ -125,18 +128,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToDeleteBusiness": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید این کسب‌وکار را حذف کنید؟",
     ),
-    "areYouSureToDeleteMessage": MessageLookupByLibrary.simpleMessage(
-      "آیا میخواهید این پیام را حذف کنید؟",
-    ),
     "areYouSureToDeleteWarehouse": MessageLookupByLibrary.simpleMessage(
       "آیا از حذف این انبار اطمینان دارید؟",
     ),
     "areYouSureToRemoveMember": MessageLookupByLibrary.simpleMessage(
       "آیا از حذف (تعدیل، اخراج، اتمام قرارداد) این کاربر مطمئن هستید؟ دسترسی او به داشبورد فوراً قطع شده و تمام وظایف تخصیص‌داده‌شده به او باید به شخص دیگری واگذار شود.",
     ),
-    "areYouSureYouWantToDeleteItem": MessageLookupByLibrary.simpleMessage(
-      "آیا از حذف این مورد مطمئن هستید؟",
-    ),
+    "areYouSureYouWantToDeleteItem": m1,
     "areYouSureYouWantToLogOut": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید از حساب کاربری خارج شوید؟",
     ),
@@ -150,7 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendance": MessageLookupByLibrary.simpleMessage("حضور و غیاب"),
     "attendanceRate": MessageLookupByLibrary.simpleMessage("نرخ حضور"),
     "audio": MessageLookupByLibrary.simpleMessage("صدا"),
-    "authenticationNeedsDialogText": m1,
+    "authenticationNeedsDialogText": m2,
     "autoApproveAfterRegistration": MessageLookupByLibrary.simpleMessage(
       "تأیید خودکار بلافاصله پس از ثبت پرداخت",
     ),
@@ -231,11 +229,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "بررسی درخواست",
     ),
     "changeStatus": MessageLookupByLibrary.simpleMessage("وضعیت تغییر کند؟"),
-    "changeStep": m2,
+    "changeStep": m3,
     "changeStepStatus": MessageLookupByLibrary.simpleMessage(
       "وضعیت مرحله تغییر کند؟",
     ),
-    "changeSubtaskProgressTo": m3,
+    "changeSubtaskProgressTo": m4,
     "changeSubtaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "وضعیت زیر وظیفه به \'انجام شده\' تغییر کند؟",
     ),
@@ -249,7 +247,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "city": MessageLookupByLibrary.simpleMessage("شهر"),
     "clear": MessageLookupByLibrary.simpleMessage("پاک کردن"),
     "close": MessageLookupByLibrary.simpleMessage("بستن"),
-    "closed": MessageLookupByLibrary.simpleMessage("بسته شده"),
+    "closed": MessageLookupByLibrary.simpleMessage("بسته‌شده"),
     "closedWon": MessageLookupByLibrary.simpleMessage("فروش موفق"),
     "closedWonFollowups": MessageLookupByLibrary.simpleMessage(
       "پیگیری‌های منجر شده به فروش",
@@ -273,6 +271,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تکرار رمز عبور جدید",
     ),
     "confirmPassword": MessageLookupByLibrary.simpleMessage("تکرار رمز عبور"),
+    "confirmed": MessageLookupByLibrary.simpleMessage("تایید‌شده"),
     "conflictingDays": MessageLookupByLibrary.simpleMessage(
       "تعداد روزهای متداخل",
     ),
@@ -358,7 +357,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "day": MessageLookupByLibrary.simpleMessage("روز"),
     "days": MessageLookupByLibrary.simpleMessage("روز"),
     "daysOfMonth": MessageLookupByLibrary.simpleMessage("روزهای ماه"),
-    "daysWithoutConflictWillBeApplied": m4,
+    "daysWithoutConflictWillBeApplied": m5,
     "deadline": MessageLookupByLibrary.simpleMessage("مهلت"),
     "decline": MessageLookupByLibrary.simpleMessage("رد کردن"),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -419,6 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "doNotHaveAnAccount": MessageLookupByLibrary.simpleMessage(
       "حساب کاربری ندارید؟",
     ),
+    "document": MessageLookupByLibrary.simpleMessage("سند"),
     "documents": MessageLookupByLibrary.simpleMessage("مستندات"),
     "done": MessageLookupByLibrary.simpleMessage("انجام شد"),
     "doned": MessageLookupByLibrary.simpleMessage("انجام شده"),
@@ -642,7 +642,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تاریخ شروع اقساط الزامی است",
     ),
     "installments": MessageLookupByLibrary.simpleMessage("اقساط"),
-    "installmentsPaid": m5,
+    "installmentsPaid": m6,
     "insurance": MessageLookupByLibrary.simpleMessage("بیمه"),
     "interestRate": MessageLookupByLibrary.simpleMessage("نرخ بهره سالانه"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
@@ -694,13 +694,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "شماره شبا ایران باید ۲۶ کاراکتر باشد.",
     ),
-    "isRequired": m6,
-    "isShort": m7,
+    "isRequired": m7,
     "issueInvoice": MessageLookupByLibrary.simpleMessage("ثبت فاکتور"),
     "issueInvoiceConfirmation": MessageLookupByLibrary.simpleMessage(
       "آیا از صدور این فاکتور اطمینان دارید؟ این عملیات ممکن است غیرقابل بازگشت باشد.",
     ),
-    "issued": MessageLookupByLibrary.simpleMessage("صادر شده"),
+    "issued": MessageLookupByLibrary.simpleMessage("صادر‌شده"),
     "itemType": MessageLookupByLibrary.simpleMessage("نوع کالا"),
     "jobDescriptionAndResponsibilities": MessageLookupByLibrary.simpleMessage(
       "شرح وظایف و مسئولیت‌ها",
@@ -770,6 +769,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "medicalDocuments": MessageLookupByLibrary.simpleMessage(
       "مدارک پزشکی (قبض، نسخه پزشک، گزارش بیمارستان)",
     ),
+    "meeting": MessageLookupByLibrary.simpleMessage("برنامه"),
+    "meetingType": MessageLookupByLibrary.simpleMessage("نوع برنامه"),
     "member": MessageLookupByLibrary.simpleMessage("عضو"),
     "memberAddedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "عضو با موفقیت اضافه شد",
@@ -919,10 +920,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "notSupportedItem": MessageLookupByLibrary.simpleMessage(
       "این آیتم با نسخه فعلی شما سازگار نیست.",
     ),
-    "notVerified": MessageLookupByLibrary.simpleMessage("احراز هویت نشده"),
     "note": MessageLookupByLibrary.simpleMessage("یادداشت"),
     "notice": MessageLookupByLibrary.simpleMessage("اطلاعیه"),
     "notifications": MessageLookupByLibrary.simpleMessage("اعلان ها"),
+    "number": MessageLookupByLibrary.simpleMessage("شماره"),
+    "numberManagement": MessageLookupByLibrary.simpleMessage("مدیریت شماره ها"),
     "numberOfChildren": MessageLookupByLibrary.simpleMessage("تعداد فرزند"),
     "occasionType": MessageLookupByLibrary.simpleMessage("نوع مناسبت"),
     "ofText": MessageLookupByLibrary.simpleMessage("از"),
@@ -1075,6 +1077,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "proofDocument": MessageLookupByLibrary.simpleMessage(
       "مدرک اثبات (سند ازدواج، گواهی فوت، گواهی تولد و ...)",
     ),
+    "provider": MessageLookupByLibrary.simpleMessage("ارائه دهنده"),
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "برای بروزرسانی بکشید",
     ),
@@ -1094,6 +1097,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "registrationNumber": MessageLookupByLibrary.simpleMessage("شناسه ثبت"),
     "reject": MessageLookupByLibrary.simpleMessage("رد"),
+    "rejected": MessageLookupByLibrary.simpleMessage("رد شده"),
     "relatedMissionNumber": MessageLookupByLibrary.simpleMessage(
       "شماره مأموریت مرتبط",
     ),
@@ -1180,6 +1184,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "returnDate": MessageLookupByLibrary.simpleMessage("تاریخ بازگشت"),
     "returnTime": MessageLookupByLibrary.simpleMessage("ساعت بازگشت"),
     "reviewers": MessageLookupByLibrary.simpleMessage("بررسی‌کنندگان"),
+    "revised": MessageLookupByLibrary.simpleMessage("اصلاح‌شده"),
     "rial": MessageLookupByLibrary.simpleMessage("ريال"),
     "role": MessageLookupByLibrary.simpleMessage("سمت"),
     "rowCount": MessageLookupByLibrary.simpleMessage("تعداد سطرها"),
@@ -1261,6 +1266,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "shippingCost": MessageLookupByLibrary.simpleMessage("هزینه ارسال"),
     "show": MessageLookupByLibrary.simpleMessage("نمایش"),
     "signatories": MessageLookupByLibrary.simpleMessage("امضاکنندگان"),
+    "signatory": MessageLookupByLibrary.simpleMessage("امضاکننده"),
     "signatureImage": MessageLookupByLibrary.simpleMessage("تصویر امضا"),
     "signatures": MessageLookupByLibrary.simpleMessage("امضا‌ها"),
     "signed": MessageLookupByLibrary.simpleMessage("امضا شده"),
@@ -1327,6 +1333,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subscriptionSettings": MessageLookupByLibrary.simpleMessage(
       "تنظیمات اشتراک",
     ),
+    "subtask": MessageLookupByLibrary.simpleMessage("زیر وظیفه"),
     "subtasks": MessageLookupByLibrary.simpleMessage("زیر وظیفه‌ها"),
     "success": MessageLookupByLibrary.simpleMessage("موفقیت"),
     "successRate": MessageLookupByLibrary.simpleMessage("عملکرد موفق"),
@@ -1352,7 +1359,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "suspend": MessageLookupByLibrary.simpleMessage("تعلیق"),
     "suspendInvoice": MessageLookupByLibrary.simpleMessage("تعلیق فاکتور"),
-    "suspended": MessageLookupByLibrary.simpleMessage("تعلیق شده"),
+    "suspended": MessageLookupByLibrary.simpleMessage("تعلیق‌شده"),
     "suspensionDocumentOptional": MessageLookupByLibrary.simpleMessage(
       "مستند تعلیق (اختیاری)",
     ),
@@ -1499,11 +1506,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "+ فقط در ابتدا مجاز است",
     ),
     "validityDate": MessageLookupByLibrary.simpleMessage("تاریخ اعتبار"),
+    "valueIsShort": m16,
     "verification": MessageLookupByLibrary.simpleMessage("احراز هویت"),
     "verificationTextInfo": MessageLookupByLibrary.simpleMessage(
       "تکمیل اطلاعات این بخش برای ایجاد فاکتور، تسویه حساب و سایر عملیات الزامی است.",
     ),
-    "verified": MessageLookupByLibrary.simpleMessage("احراز هویت شده"),
+    "verified": MessageLookupByLibrary.simpleMessage("تایید‌شده"),
     "version": MessageLookupByLibrary.simpleMessage("نسخه"),
     "video": MessageLookupByLibrary.simpleMessage("ویدیو"),
     "viewAndDownload": MessageLookupByLibrary.simpleMessage("مشاهده و دانلود"),
@@ -1542,8 +1550,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "year": MessageLookupByLibrary.simpleMessage("سال"),
     "yes": MessageLookupByLibrary.simpleMessage("بله"),
-    "youAreEarly": m16,
-    "youAreLate": m17,
+    "youAreEarly": m17,
+    "youAreLate": m18,
     "youAreNotMemberOfThisGroup": MessageLookupByLibrary.simpleMessage(
       "شما عضو این گروه نیستید.",
     ),

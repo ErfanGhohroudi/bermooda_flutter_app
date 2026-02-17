@@ -1,6 +1,5 @@
 import '../../../../../../data/data.dart';
-import '../../data/params/invoice_params.dart';
-import '../../data/params/pay_invoice_params.dart';
+import '../../data/models/models.dart';
 import '../entities/invoice.dart';
 
 /// Repository interface for Invoice operations
@@ -22,16 +21,16 @@ abstract class InvoiceRepository {
   Future<InvoiceEntity> createInvoice(final InvoiceParams params);
 
   /// Pay invoice (cash/installment payment)
-  Future<GenericResponse<PaymentRecord>> payInvoice(final String invoiceMainId, final PayInvoiceParams params);
+  Future<GenericResponse<InvoiceEntity>> payInvoice(final String invoiceMainId, final PayInvoiceParams params);
 
   /// Suspend invoice
   Future<InvoiceEntity> suspendInvoice(final int invoiceId, final String reason, final int? documentId);
 
   /// Payment verification : if invoice is installments; [installmentId] is Required.
-  Future<InvoiceEntity> paymentVerification(
+  Future<GenericResponse<InvoiceEntity>> paymentVerification(
     final int recordId,
     final bool verify,
-    final String reason,
+    final String? reason,
     final int? installmentId,
   );
 }

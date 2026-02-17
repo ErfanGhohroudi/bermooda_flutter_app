@@ -2,6 +2,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../data/data.dart';
@@ -78,6 +79,8 @@ mixin ImportedCostumerListController {
     appShowYesCancelDialog(
       title: s.delete,
       description: isSingleSelect ? s.deleteThisCustomerDialogDescription : s.deleteSelectedCustomersDialogDescription,
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back();
         _delete(id: id);

@@ -8,7 +8,7 @@ import '../../../../../../core/utils/extensions/money_extensions.dart';
 import '../../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/widgets.dart';
-import '../../data/params/invoice_params.dart';
+import '../../data/models/invoice_params.dart';
 
 class WInstallmentsTable extends StatelessWidget {
   WInstallmentsTable({

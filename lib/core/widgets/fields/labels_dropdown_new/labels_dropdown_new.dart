@@ -236,7 +236,7 @@ class _WLabelsDropDownFormFieldNewState extends State<WLabelsDropDownFormFieldNe
                     () {
                       appShowYesCancelDialog(
                         title: s.delete,
-                        description: s.areYouSureToDeleteMessage,
+                        description: s.areYouSureYouWantToDeleteItem(s.label.toLowerCase()),
                         yesButtonTitle: s.delete,
                         yesBackgroundColor: AppColors.red,
                         onYesButtonTap: () {

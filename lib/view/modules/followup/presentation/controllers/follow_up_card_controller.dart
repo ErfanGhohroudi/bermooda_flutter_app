@@ -121,7 +121,7 @@ class FollowUpCardController {
   void delete({required final VoidCallback onResponse}) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.followUp.toLowerCase()),
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {

@@ -44,7 +44,7 @@ class MessageWebSocketHandler {
 
       switch (type) {
         case 'messages_list':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           if (message['conversation_id'] == controller.conversation.value.id) {
             try {
               if (message["extra"]?["count"] != null) {
@@ -88,7 +88,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'anonymous_feedbacks_list':
-          if (controller.isAnonymousBot) {
+          if (controller.isBot) {
             try {
               if (message["pagination"]?["total_count"] != null) {
                 controller.chatMessagesCount = message["pagination"]?["total_count"] as int;
@@ -116,7 +116,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'new_message':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final messageData = MessageDto.fromMap(message['message']);
           if (messageData.conversationId == controller.conversation.value.id) {
             await controller.addOrUpdateMessage(messageData);
@@ -126,7 +126,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'message_edited':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final messageData = MessageDto.fromMap(message['message']);
           if (messageData.conversationId == controller.conversation.value.id) {
             controller.updateMessage(messageData);
@@ -134,7 +134,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'message_deleted':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final messageId = message['message_id'] as String?;
           if (messageId != null) {
             controller.chatMessagesCount--;
@@ -149,7 +149,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'messages_read':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final conversationId = message['conversation_id'];
           final messageIds = (message['message_ids'] as List?)?.cast<String>() ?? [];
           if (conversationId == controller.conversation.value.id) {
@@ -163,7 +163,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'user_typing':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final conversationId = message['conversation_id'];
           if (conversationId == controller.conversation.value.id) {
             final userId = message['user_id']?.toString();
@@ -178,7 +178,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'message_pinned':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final messageId = message['message_id'] as String?;
           if (messageId != null) {
             final index = controller.messages.indexWhere((final m) => m.id == messageId);
@@ -192,7 +192,7 @@ class MessageWebSocketHandler {
           }
           break;
         case 'message_unpinned':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final messageId = message['message_id'] as String?;
           if (messageId != null) {
             final index = controller.messages.indexWhere((final m) => m.id == messageId);
@@ -207,7 +207,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'pinned_messages_list':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           if (message['conversation_id'] == controller.conversation.value.id) {
             final pinnedList = (message['messages'] as List?)?.map((final e) => MessageDto.fromMap(e)).toList() ?? [];
             controller.pinnedMessages.value = pinnedList;
@@ -221,7 +221,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'reaction_added' || 'reaction_removed':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           if (message['conversation_id'] == controller.conversation.value.id) {
             final messageId = message['message_id'] as String?;
 
@@ -257,7 +257,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'you_were_removed':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           final conversationId = message['conversation_id'];
           if (controller.conversation.value.id == conversationId) {
             AppNavigator.back();
@@ -273,14 +273,14 @@ class MessageWebSocketHandler {
           break;
 
         case 'member_added_successfully':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           AppSnackBar.snackbarGreen(
             title: s.done,
             subtitle: s.memberAddedSuccessfully,
           );
           break;
         case 'feedback_sent':
-          if (controller.isAnonymousBot && message["success"] == true) {
+          if (controller.isBot && message["success"] == true) {
             AppSnackBar.snackbarGreen(
               title: s.done,
               subtitle: s.messageSentSuccessfully,
@@ -289,7 +289,7 @@ class MessageWebSocketHandler {
           break;
 
         case 'member_removed_success':
-          if (controller.isAnonymousBot) return;
+          if (controller.isBot) return;
           AppSnackBar.snackbarGreen(
             title: s.done,
             subtitle: s.memberRemovedSuccessfully,
@@ -307,7 +307,7 @@ class MessageWebSocketHandler {
   }
 
   void markAsRead() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final unreadMessages = controller.messages
         .cast<MessageDto>()
         .where((final m) => !m.isOwner && m.status != MessageStatus.read)

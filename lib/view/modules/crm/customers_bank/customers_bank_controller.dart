@@ -111,7 +111,7 @@ class CustomersBankController extends GetxController {
     if (docId == null) return;
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.document.toLowerCase()),
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {

@@ -292,7 +292,7 @@ class _ReasonsMultiSelectDialogState extends State<_ReasonsMultiSelectDialog> {
             onTap: () {
               appShowYesCancelDialog(
                 title: s.delete,
-                description: s.areYouSureYouWantToDeleteItem,
+                description: s.areYouSureYouWantToDeleteItem(s.label.toLowerCase()),
                 yesButtonTitle: s.delete,
                 yesBackgroundColor: AppColors.red,
                 onYesButtonTap: () {

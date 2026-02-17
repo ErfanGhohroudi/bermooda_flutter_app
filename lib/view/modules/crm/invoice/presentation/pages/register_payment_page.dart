@@ -5,6 +5,7 @@ import '../../../../../../core/theme.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/image_files.dart';
 import '../../../../../../core/widgets/widgets.dart';
+import '../../domain/entities/invoice.dart';
 import '../controllers/register_payment_controller.dart';
 
 class RegisterPaymentPage extends StatefulWidget {
@@ -19,7 +20,7 @@ class RegisterPaymentPage extends StatefulWidget {
   final int? installmentId;
   final String invoiceMainId;
   final Decimal amount;
-  final VoidCallback onResponse;
+  final Function(InvoiceEntity? invoice) onResponse;
 
   @override
   State<RegisterPaymentPage> createState() => _RegisterPaymentPageState();

@@ -7,7 +7,7 @@ import '../../../../../../core/theme.dart';
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../core/utils/extensions/money_extensions.dart';
 import '../../../../../../core/widgets/widgets.dart';
-import '../../../../../../data/data.dart';
+import '../../data/models/models.dart';
 import '../../domain/entities/invoice.dart';
 import '../controllers/create_invoice_controller.dart';
 import '../widgets/installments_table.dart';

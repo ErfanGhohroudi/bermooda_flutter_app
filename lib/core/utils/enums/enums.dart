@@ -352,8 +352,9 @@ enum PermissionName {
   project("Project", "پروژه", "project board"),
   crm("Customers", "مشتریان", "crm"),
   humanResources("Human Resources (HR)", "سرمایه انسانی (HR)", "human_resources"),
+  legal("Legal", "حقوقی", "LGL"),
   sms("SMS", "پیامک", "SMS"),
-  legal("Legal", "حقوقی", "LGL");
+  voip("Calls", "تماس", "CLC");
 
   const PermissionName(this.title, this.titleTr1, this.value);
 
@@ -373,6 +374,10 @@ enum PermissionName {
         return PermissionName.humanResources;
       case 'LGL':
         return PermissionName.legal;
+      case 'SMS':
+        return PermissionName.sms;
+      case 'CLC':
+        return PermissionName.voip;
       default:
         return null;
     }

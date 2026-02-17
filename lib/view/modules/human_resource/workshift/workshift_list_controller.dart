@@ -2,6 +2,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../core/navigator/navigator.dart';
+import '../../../../core/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/core.dart';
 import '../../../../core/services/permission_service.dart';
@@ -98,9 +99,9 @@ class WorkshiftListController extends GetxController {
   void deleteWorkShift(final WorkShiftReadDto workShift) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.workShift.toLowerCase()),
       yesButtonTitle: s.delete,
-      yesBackgroundColor: Colors.red,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back();
         _delete(workShift);

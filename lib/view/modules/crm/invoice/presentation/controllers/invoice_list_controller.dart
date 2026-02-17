@@ -5,9 +5,11 @@ import 'package:u/utilities.dart';
 
 import '../../../../../../core/core.dart';
 import '../../../../../../core/navigator/navigator.dart';
+import '../../../../../../data/data.dart';
 import '../../data/repositories/invoice_repository_impl.dart';
 import '../../domain/entities/invoice.dart';
 import '../../domain/usecases/get_invoices_by_customer.dart';
+import '../../domain/usecases/payment_verification.dart';
 import '../../domain/usecases/suspend_invoice.dart';
 import '../pages/create_invoice_page.dart';
 import '../pages/register_payment_page.dart';
@@ -20,6 +22,7 @@ class InvoiceListController extends GetxController {
   final InvoiceRepositoryImpl _repository = InvoiceRepositoryImpl();
   late final GetInvoicesByCustomerUseCase _getInvoicesUseCase = GetInvoicesByCustomerUseCase(_repository);
   late final SuspendInvoiceUseCase _suspendInvoiceUseCase = SuspendInvoiceUseCase(_repository);
+  late final PaymentVerificationUseCase _paymentVerificationUseCase = PaymentVerificationUseCase(_repository);
 
   final RefreshController refreshController = RefreshController();
   final Rx<PageState> pageState = PageState.initial.obs;
@@ -79,9 +82,13 @@ class InvoiceListController extends GetxController {
         invoiceMainId: invoiceMainId,
         installmentId: installmentId,
         amount: amount,
-        onResponse: () {
-          pageState.initial();
-          loadInvoices();
+        onResponse: (final invoice) {
+          if (invoice == null) {
+            pageState.initial();
+            loadInvoices();
+          } else {
+            updateInvoice(invoice);
+          }
         },
       ),
     );
@@ -112,5 +119,27 @@ class InvoiceListController extends GetxController {
       return false;
     }
     return true;
+  }
+
+  Future<GenericResponse<InvoiceEntity>?> onTapPaymentVerification(
+    final int recordId,
+    final bool verify,
+    final String? reason,
+    final int? installmentId,
+  ) async {
+    try {
+      final result = await _paymentVerificationUseCase(
+        recordId: recordId,
+        verify: verify,
+        reason: reason,
+        installmentId: installmentId,
+      );
+      if (result.result != null) {
+        updateInvoice(result.result!);
+      }
+      return result;
+    } catch (e) {
+      return null;
+    }
   }
 }

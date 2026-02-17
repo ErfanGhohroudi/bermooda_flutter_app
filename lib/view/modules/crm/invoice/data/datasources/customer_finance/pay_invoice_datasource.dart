@@ -1,4 +1,11 @@
-part of '../../data.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:u/utilities.dart';
+
+import '../../../../../../../core/loading/loading.dart';
+import '../../../../../../../data/api_client.dart';
+import '../../../../../../../data/data.dart';
+import '../../models/invoice.dart';
+import '../../models/pay_invoice_params.dart';
 
 class PayInvoiceDatasource {
   final ApiClient _apiClient = Get.find();
@@ -29,8 +36,8 @@ class PayInvoiceDatasource {
   /// Pay invoice (cash payment)
   void payInvoice({
     required final String invoiceMainId,
-    required final Map<String, dynamic> data,
-    required final Function( GenericResponse<PaymentRecord> response) onResponse,
+    required final PayInvoiceParams data,
+    required final Function( GenericResponse<InvoiceReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
   }) async {
@@ -38,12 +45,12 @@ class PayInvoiceDatasource {
     try {
       final response = await _apiClient.post(
         "/v1/CustomerFinance/Invoice/$invoiceMainId/customer-payment",
-        data: data,
+        data: data.toMap(),
         skipRetry: !withRetry,
       );
 
       if (response.isOk) {
-        final res = GenericResponse<PaymentRecord>.fromJson(response.data, fromMap: PaymentRecord.fromJson);
+        final res = GenericResponse<InvoiceReadDto>.fromJson(response.data, fromMap: InvoiceReadDto.fromMap);
         onResponse(res);
       } else {
         onError(GenericResponse<dynamic>.fromJson(response.data));
@@ -89,7 +96,7 @@ class PayInvoiceDatasource {
   void paymentVerification({
     required final int recordId,
     required final bool verify,
-    required final String reason,
+    required final String? reason,
     required final int? installmentId,
     required final Function(GenericResponse<InvoiceReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
@@ -102,7 +109,7 @@ class PayInvoiceDatasource {
         data: {
           "record_id": recordId,
           "action": verify ? 'verify' : 'reject',
-          "description": reason,
+          if (reason != null && reason.isNotEmpty) "description": reason,
           // اگه فاکتور به صورت قسطی باشه این اجباریه به غیر از این نیاز به ارسال نیست
           if (installmentId != null) "installment_id": installmentId,
         },

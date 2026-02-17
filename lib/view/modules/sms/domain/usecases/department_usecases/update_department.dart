@@ -12,8 +12,10 @@ class UpdateDepartmentUseCase {
     required final int id,
     required final String title,
     required final List<UserReadDto> members,
+    final MainFileReadDto? avatar,
   }) => repository.updateDepartment(
     id: id,
+    avatar: avatar,
     title: title,
     members: members,
   );

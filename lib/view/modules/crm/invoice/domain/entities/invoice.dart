@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../../core/utils/enums/enums.dart';
 import '../../../../../../data/data.dart';
+import '../../data/models/models.dart';
 import '../enums/invoice_status.dart';
 import 'installment.dart';
 import 'invoice_product.dart';
@@ -32,9 +33,6 @@ class InvoiceEntity extends Equatable {
     this.installments = const [],
     this.interestPercentage = 0,
     this.signatureFile,
-    this.isPaid = false,
-    this.isSuspended = false,
-    this.isOver = false,
     this.suspendedAt,
     this.suspendedReason,
     this.latePenaltyEnabled = false,
@@ -64,9 +62,6 @@ class InvoiceEntity extends Equatable {
   final List<InstallmentEntity> installments;
   final int interestPercentage;
   final MainFileReadDto? signatureFile;
-  final bool isPaid;
-  final bool isSuspended;
-  final bool isOver;
   final DateTime? suspendedAt;
   final String? suspendedReason;
   final bool latePenaltyEnabled;
@@ -74,6 +69,25 @@ class InvoiceEntity extends Equatable {
   final String? latePenaltyCap;
   final PaymentRecord? paymentRecord;
   final MainFileReadDto? logoFile;
+
+  // preInvoice status
+  bool get isConfirmed => status == InvoiceStatus.confirmed;
+
+  bool get isRevised => status == InvoiceStatus.revised;
+
+  // finalInvoice status
+  bool get isPaid => status == InvoiceStatus.paid;
+
+  bool get isExpired => status == InvoiceStatus.expired;
+
+  bool get isOver => status == InvoiceStatus.overdue;
+
+  bool get isSuspended => status == InvoiceStatus.suspended;
+
+  // common status
+  bool get isClosed => status == InvoiceStatus.closed;
+
+  bool get isIssued => status == InvoiceStatus.issued;
 
   factory InvoiceEntity.fromDto(final InvoiceReadDto dto) => InvoiceEntity(
     id: dto.id ?? 0,
@@ -84,7 +98,7 @@ class InvoiceEntity extends Equatable {
     paymentType: dto.paymentType ?? PaymentTerms.cash,
     products: (dto.products ?? [])
         .map(
-          (final Product p) => InvoiceProduct(
+          (final p) => InvoiceProduct(
             id: p.id ?? 0,
             title: p.title ?? '',
             count: p.count ?? 0,
@@ -111,9 +125,6 @@ class InvoiceEntity extends Equatable {
     installments: (dto.installments ?? []).map((final e) => InstallmentEntity.fromDto(e)).toList(),
     interestPercentage: dto.interestPercentage ?? 0,
     signatureFile: dto.signatureFile,
-    isPaid: dto.isPaid ?? false,
-    isSuspended: dto.isSuspended ?? false,
-    isOver: dto.isOver ?? false,
     suspendedAt: dto.suspendedAt,
     suspendedReason: dto.suspendedReason,
     latePenaltyEnabled: dto.latePenaltyEnabled ?? false,
@@ -142,9 +153,6 @@ class InvoiceEntity extends Equatable {
     final List<InstallmentEntity>? installments,
     final int? interestPercentage,
     final MainFileReadDto? signatureFile,
-    final bool? isPaid,
-    final bool? isSuspended,
-    final bool? isOver,
     final DateTime? suspendedAt,
     final String? suspendedReason,
     final bool? latePenaltyEnabled,
@@ -173,9 +181,6 @@ class InvoiceEntity extends Equatable {
     installments: installments ?? this.installments,
     interestPercentage: interestPercentage ?? this.interestPercentage,
     signatureFile: signatureFile ?? this.signatureFile,
-    isPaid: isPaid ?? this.isPaid,
-    isSuspended: isSuspended ?? this.isSuspended,
-    isOver: isOver ?? this.isOver,
     suspendedAt: suspendedAt ?? this.suspendedAt,
     suspendedReason: suspendedReason ?? this.suspendedReason,
     latePenaltyEnabled: latePenaltyEnabled ?? this.latePenaltyEnabled,

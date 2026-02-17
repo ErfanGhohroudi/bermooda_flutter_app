@@ -47,7 +47,7 @@ class WPasswordField extends StatelessWidget {
               minLength,
               required: required,
               requiredMessage: s.requiredField,
-              minLengthMessage: s.isShort(minLength.toString()),
+              minLengthMessage: s.valueIsShort(minLength.toString()),
             )
           : (final value) {
               if (value!.isEmpty && required) return s.requiredField;

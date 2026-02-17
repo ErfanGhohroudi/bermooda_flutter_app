@@ -130,7 +130,7 @@ class CreateUpdateTaskController extends GetxController {
   void delete({required final VoidCallback action}) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.task.toLowerCase()),
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {

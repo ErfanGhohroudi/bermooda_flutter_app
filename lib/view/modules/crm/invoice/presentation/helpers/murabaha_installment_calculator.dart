@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:u/utils/shamsi_date/src/jalali/jalali_date.dart';
 
-import '../../data/params/invoice_params.dart';
+import '../../data/models/invoice_params.dart';
 
 class MurabahaInstallmentCalculator {
   final Decimal principalAmount; // قیمت نقدی

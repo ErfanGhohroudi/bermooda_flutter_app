@@ -11,6 +11,7 @@ import '../payment/payment_page.dart';
 import '../workspace/authentication/authentication_page.dart';
 import 'enums/discount_code_state.dart';
 import 'enums/max_contract_count.dart';
+import 'enums/subscription_support_type.dart';
 
 class SubscriptionController extends GetxController {
   SubscriptionController({
@@ -48,6 +49,7 @@ class SubscriptionController extends GetxController {
   final RxInt selectedUserCount = 5.obs;
   final RxInt selectedStorage = 5.obs;
   final Rx<SubscriptionPeriod> selectedPeriod = SubscriptionPeriod.twelveMonths.obs;
+  final Rxn<SubscriptionSupportType> selectedSupportType = Rxn(null);
   final Rx<MaxContractCount> selectedMaxContractCount = MaxContractCount.values.first.obs;
 
   // Discount Code variables
@@ -186,6 +188,9 @@ class SubscriptionController extends GetxController {
         if (subscription.subject.isClosed || response.result == null) return;
         subscription(response.result);
         selectedPeriod(subscription.value.period);
+        if (subscription.value.isPurchase == false) {
+          selectedSupportType.value = SubscriptionSupportType.standard;
+        }
         selectedUserCount(subscription.value.userCount >= minUser ? subscription.value.userCount : minUser);
         selectedStorage(subscription.value.storage >= minStorage ? subscription.value.storage : minStorage);
         selectedMaxContractCount(
@@ -227,6 +232,7 @@ class SubscriptionController extends GetxController {
     _subscriptionDatasource.calculateSubscriptionPrice(
       workspaceId: workspaceId,
       period: selectedPeriod.value,
+      supportType: selectedSupportType.value,
       modules: selectedModules,
       usersCount: selectedUserCount.value,
       storage: selectedStorage.value,
@@ -303,6 +309,12 @@ class SubscriptionController extends GetxController {
       selectedPeriod(period);
       calculatePrice();
     }
+  }
+
+  void updateSupportType(final SubscriptionSupportType? type) {
+    if (selectedSupportType.value == type) return;
+    selectedSupportType.value = type;
+    calculatePrice();
   }
 
   void showEmptyModulesSnackBar() {

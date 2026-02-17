@@ -9,13 +9,13 @@ class ReplyEditManager {
   final ConversationMessagesController controller;
 
   void setReplyMessage(final MessageDto? message) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     clearPinedMessageToInputBox();
     controller.repliedMessage.value = message;
   }
 
   void setReplyMessageByMessageId(final String messageId) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     clearPinedMessageToInputBox();
     final message = controller.messages.cast<MessageDto>().firstWhereOrNull(
       (final m) => m.id == messageId,
@@ -30,7 +30,7 @@ class ReplyEditManager {
   }
 
   void setEditingMessage(final MessageDto? message) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     clearPinedMessageToInputBox();
     controller.editingMessage.value = message;
     if (message != null && message.text != null) {

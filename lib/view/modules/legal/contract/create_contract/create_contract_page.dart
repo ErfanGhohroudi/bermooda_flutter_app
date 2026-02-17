@@ -320,7 +320,9 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                             ),
                             onPressed: () => appShowYesCancelDialog(
                               title: s.delete,
-                              description: s.areYouSureYouWantToDeleteItem,
+                              description: s.areYouSureYouWantToDeleteItem(s.signatory.toLowerCase()),
+                              yesButtonTitle: s.delete,
+                              yesBackgroundColor: AppColors.red,
                               onYesButtonTap: () {
                                 AppNavigator.back();
                                 final members = List<SignerDto>.from(params.members);

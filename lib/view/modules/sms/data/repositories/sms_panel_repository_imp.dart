@@ -6,9 +6,9 @@ import '../../domain/entity/sms_panel_number.dart';
 import '../../domain/enums/enums.dart';
 import '../../domain/repositories/sms_panel_repository.dart';
 import '../datasources/sms_panel_datasource.dart';
-import '../../../sms/data/dto/response/sms_panel_number.dart';
+import '../../../sms/data/models/response/sms_panel_number.dart';
 import '../datasources/sms_panel_departments_datasource.dart';
-import '../dto/response/sms_departments.dart';
+import '../models/response/sms_department.dart';
 
 /// Repository Implementation
 /// Converts DTOs to Domain Entities (Data Layer to Domain Layer)
@@ -174,6 +174,7 @@ class SmsPanelRepositoryImpl implements SmsPanelRepository {
 
   @override
   Future<SmsPanelNumber> createNumber({
+    required final int departmentId,
     required final String number,
     required final String providerName,
     required final ProviderType providerType,
@@ -181,13 +182,13 @@ class SmsPanelRepositoryImpl implements SmsPanelRepository {
   }) async {
     final completer = Completer<SmsPanelNumber>();
     _smsPanelDatasource.createNumber(
+      departmentId: departmentId,
       number: number,
       providerName: providerName,
       providerType: providerType,
       apiKey: apiKey,
       onResponse: (final response) {
-        if (response.result == null) return completer.completeError(response);
-        completer.complete(_convertSmsNumberDtoToEntity(response.result!));
+        completer.complete(_convertSmsNumberDtoToEntity(response));
       },
       onError: (final error) => completer.completeError(error),
     );

@@ -13,7 +13,7 @@ class VoiceRecorderManager {
   int _recordedVoiceDuration = 0;
 
   Future<void> startRecording() async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final status = await controller.recorderController.checkPermission();
     if (status == false) return;
     Directory tempDir = Directory.systemTemp;
@@ -53,7 +53,7 @@ class VoiceRecorderManager {
   }
 
   Future<void> stopRecording() async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     // Stop recording with RecorderController
     final path = await controller.recorderController.stop();
 
@@ -70,7 +70,7 @@ class VoiceRecorderManager {
   }
 
   void sendRecordedVoice() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.recordedVoicePath.value != null &&
         controller.recordedVoiceDuration.value != null) {
       controller.sendVoice(File(controller.recordedVoicePath.value!), controller.recordedVoiceDuration.value);

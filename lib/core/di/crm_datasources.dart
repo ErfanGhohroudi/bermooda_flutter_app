@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 
 import '../../data/data.dart';
+import '../../view/modules/crm/invoice/data/datasources/customer_finance/get_invoice_code_datasource.dart';
+import '../../view/modules/crm/invoice/data/datasources/customer_finance/invoice_manager_datasource.dart';
+import '../../view/modules/crm/invoice/data/datasources/customer_finance/pay_invoice_datasource.dart';
+import '../../view/modules/crm/invoice/data/datasources/customer_finance/update_invoice_info_datasource.dart';
 
 class CrmDatasources {
   static void init() {

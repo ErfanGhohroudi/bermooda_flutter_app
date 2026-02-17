@@ -1,5 +1,4 @@
-import 'package:bermooda_business/data/data.dart';
-
+import '../../data/models/models.dart';
 import '../repositories/invoice_repository.dart';
 
 /// UseCase for getting invoice by ID

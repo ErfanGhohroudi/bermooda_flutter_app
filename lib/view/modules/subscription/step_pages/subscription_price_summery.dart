@@ -148,6 +148,8 @@ class SubscriptionPriceSummery extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WInfoRow(s.subscriptionPeriod, ctrl.selectedPeriod.value.getTitle()),
+          if (ctrl.selectedSupportType.value != null)
+          WPriceRow('${s.support} (${ctrl.selectedSupportType.value?.title})', calculated.totalSupportPrice.toString().toTomanMoney()),
           WPriceRow('${s.users} (${ctrl.selectedUserCount.value})', calculated.totalUserPrice.toString().toTomanMoney()),
           WPriceRow(
             '${s.storage} (${ctrl.selectedStorage.value} ${s.gb})',

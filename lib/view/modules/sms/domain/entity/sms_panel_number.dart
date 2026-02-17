@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../sms/data/dto/response/sms_panel_number.dart';
+import '../../../sms/data/models/response/sms_panel_number.dart';
 
 class SmsPanelNumber extends Equatable {
   const SmsPanelNumber({
-    this.id,
+    required this.id,
+    this.title,
     this.number,
-    this.providerName,
     // this.status,
-    // this.balance,
-    // this.dailyLimit,
-    // this.monthlyLimit,
-    // this.usedToday,
-    // this.usedThisMonth,
+    this.balance,
+    this.dailyLimit,
+    this.monthlyLimit,
+    this.usedToday,
+    this.usedThisMonth,
     // this.planType,
     // this.planTypeDisplay,
     // this.planName,
@@ -27,15 +27,15 @@ class SmsPanelNumber extends Equatable {
     // this.createdBy,
   });
 
-  final int? id;
+  final int id;
+  final String? title;
   final String? number;
-  final String? providerName;
   // final String? status;
-  // final String? balance;
-  // final int? dailyLimit;
-  // final int? monthlyLimit;
-  // final int? usedToday;
-  // final int? usedThisMonth;
+  final String? balance;
+  final int? dailyLimit;
+  final int? monthlyLimit;
+  final int? usedToday;
+  final int? usedThisMonth;
   // final String? planType; // enum
   // final String? planTypeDisplay;
   // final String? planName;
@@ -51,15 +51,15 @@ class SmsPanelNumber extends Equatable {
 
   factory SmsPanelNumber.fromDto(final SmsPanelNumberReadDto dto) {
     return SmsPanelNumber(
-      id: dto.id,
+      id: dto.id ?? 0,
+      title: dto.providerName,
       number: dto.number,
-      providerName: dto.providerName,
       // status: dto.status,
-      // balance: dto.balance,
-      // dailyLimit: dto.dailyLimit,
-      // monthlyLimit: dto.monthlyLimit,
-      // usedToday: dto.usedToday,
-      // usedThisMonth: dto.usedThisMonth,
+      balance: dto.balance,
+      dailyLimit: dto.dailyLimit,
+      monthlyLimit: dto.monthlyLimit,
+      usedToday: dto.usedToday,
+      usedThisMonth: dto.usedThisMonth,
       // planType: dto.planType,
       // planTypeDisplay: dto.planTypeDisplay,
       // planName: dto.planName,
@@ -78,14 +78,14 @@ class SmsPanelNumber extends Equatable {
   @override
   List<Object?> get props => [
     id,
+    title,
     number,
-    providerName,
     // status,
-    // balance,
-    // dailyLimit,
-    // monthlyLimit,
-    // usedToday,
-    // usedThisMonth,
+    balance,
+    dailyLimit,
+    monthlyLimit,
+    usedToday,
+    usedThisMonth,
     // planType,
     // planTypeDisplay,
     // planName,

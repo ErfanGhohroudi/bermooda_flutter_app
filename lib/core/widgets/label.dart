@@ -9,7 +9,8 @@ class WLabel extends StatefulWidget {
     this.height,
     this.minWidth = 50,
     this.borderRadius = 8,
-    this.verticalPadding = 5,
+    this.verticalPadding = 7,
+    this.fontSize,
     super.key,
   })  : assert(text != null || user != null, "Insert text or user"),
         assert(text == null || user == null, "Must use one of them");
@@ -22,6 +23,7 @@ class WLabel extends StatefulWidget {
   final double minWidth;
   final double borderRadius;
   final double verticalPadding;
+  final double? fontSize;
 
   @override
   State<WLabel> createState() => _WLabelState();
@@ -36,14 +38,14 @@ class _WLabelState extends State<WLabel> {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: widget.verticalPadding),
       decoration: BoxDecoration(
         color: (widget.color ?? context.theme.hintColor).withAlpha(20),
-        border: Border.all(color: widget.color?.withValues(alpha: 0.3) ?? Colors.transparent, width: 2),
+        // border: Border.all(color: widget.color?.withValues(alpha: 0.3) ?? Colors.transparent, width: 2),
         borderRadius: BorderRadius.circular(widget.borderRadius),
       ),
       child: Center(
         widthFactor: 1,
         heightFactor: 1,
         child: widget.text != null
-            ? Text(widget.text!).bodySmall(color: widget.textColor ?? widget.color ?? context.theme.hintColor).bold()
+            ? Text(widget.text!).bodySmall(fontSize: widget.fontSize, color: widget.textColor ?? widget.color ?? context.theme.hintColor).bold()
             : widget.user != null
                 ? WCircleAvatar(
                     user: widget.user!,
@@ -53,7 +55,7 @@ class _WLabelState extends State<WLabel> {
                     bodySmall: true,
                     nameColor: widget.textColor ?? widget.color ?? context.theme.hintColor,
                   )
-                : const SizedBox(),
+                : const SizedBox.shrink(),
       ),
     );
   }

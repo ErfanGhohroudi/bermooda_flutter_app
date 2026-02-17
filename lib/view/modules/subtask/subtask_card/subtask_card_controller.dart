@@ -53,7 +53,7 @@ mixin SubtaskCardController {
   void deleteSubtask({required final VoidCallback action}) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureToDeleteMessage,
+      description: s.areYouSureYouWantToDeleteItem(s.subtask.toLowerCase()),
       yesButtonTitle: s.delete,
       yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {

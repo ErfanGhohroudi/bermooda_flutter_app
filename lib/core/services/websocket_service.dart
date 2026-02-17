@@ -243,7 +243,7 @@ class WebSocketService with WidgetsBindingObserver {
   void _updateCurrentWorkspace(final Map<String, dynamic> jsonData) {
     if (jsonData['data_type'] == 'update_current_workspace') {
       try {
-        final WorkspaceReadDto model = WorkspaceReadDto.fromMap(jsonData['data']['current_workspace']);
+        final WorkspaceReadDto model = WorkspaceReadDto.fromMap(jsonData['data']);
         if (_core.currentWorkspace.value.id == model.id) {
           _core.updateCurrentWorkspace(model);
         }

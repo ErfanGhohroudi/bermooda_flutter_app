@@ -189,6 +189,10 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                       );
                     }
 
+                    if (controller.isSurveyBot) {
+                      return const SizedBox.shrink();
+                    }
+
                     return MessageInputWidget(controller: controller);
                   },
                 ),
@@ -370,7 +374,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
                     user: UserReadDto(
                       id: controller.conversation.value.id,
                       fullName: controller.conversation.value.displayName,
-                      avatarUrl: controller.isAnonymousBot ? AppImages.bot : controller.conversation.value.avatarUrl,
+                      avatarUrl: controller.isBot ? AppImages.bot : controller.conversation.value.avatarUrl,
                     ),
                   ),
                 ),
@@ -430,7 +434,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
               ],
             ),
             actions: [
-              if (!controller.isAnonymousBot) ...[
+              if (!controller.isBot) ...[
                 IconButton(
                   onPressed: controller.toggleSearchBoxVisible,
                   tooltip: s.search,

@@ -1,6 +1,7 @@
 import 'package:bermooda_business/core/services/permission_service.dart';
 import 'package:u/utilities.dart';
 
+import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
@@ -71,7 +72,9 @@ class LegalCaseDetailsController extends GetxController {
   void onDeleteLegalCase() {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.legalCase.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back(); // close dialog
         _datasource.delete(
@@ -249,7 +252,9 @@ class LegalCaseDetailsController extends GetxController {
   void deleteStep(final LegalCaseStep step) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.step.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back(); // close dialog
         _datasource.deleteCaseStep(
@@ -506,7 +511,9 @@ class LegalCaseDetailsController extends GetxController {
   void deleteDocument(final LegalCaseDocumentDto document) {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.document.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back(); // close dialog
         _datasource.deleteDocument(

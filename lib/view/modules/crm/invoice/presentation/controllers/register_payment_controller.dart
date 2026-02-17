@@ -4,8 +4,9 @@ import '../../../../../../core/core.dart';
 import '../../../../../../core/navigator/navigator.dart';
 import '../../../../../../core/widgets/image_files.dart';
 import '../../../../../../data/data.dart';
-import '../../data/params/pay_invoice_params.dart';
+import '../../data/models/pay_invoice_params.dart';
 import '../../data/repositories/invoice_repository_impl.dart';
+import '../../domain/entities/invoice.dart';
 import '../../domain/usecases/pay_invoice.dart';
 import '../../domain/usecases/payment_verification.dart';
 
@@ -50,7 +51,7 @@ class RegisterPaymentController extends GetxController {
     paymentTime.value = time;
   }
 
-  void submit({required final VoidCallback onResponse}) {
+  void submit({required final Function(InvoiceEntity? invoice) onResponse}) {
     if (!formKey.currentState!.validate()) return;
 
     if (paymentDate.isEmpty) {
@@ -76,6 +77,9 @@ class RegisterPaymentController extends GetxController {
           return;
         }
 
+        InvoiceEntity? updatedInvoice;
+        String? successMessage;
+
         try {
           isLoading(true);
 
@@ -92,22 +96,38 @@ class RegisterPaymentController extends GetxController {
             autoApprove: autoApprove.value,
           );
 
-          final paymentResponse = await _payInvoiceUseCase(invoiceMainId, params);
-          if (autoApprove.value && paymentResponse.result?.id != null) {
-            await _paymentVerificationUseCase(
-              recordId: paymentResponse.result!.id!,
-              reason: '',
+          final result = await _payInvoiceUseCase(invoiceMainId, params);
+
+          updatedInvoice = result.result;
+          successMessage = result.message;
+
+          final resPaymentRecord = installmentId == null
+              ? updatedInvoice?.paymentRecord
+              : updatedInvoice?.installments.firstWhereOrNull((final i) => i.id == installmentId)?.paymentRecord;
+
+          if (autoApprove.value && resPaymentRecord?.id != null) {
+            final res = await _paymentVerificationUseCase(
+              recordId: resPaymentRecord!.id,
+              reason: null,
               verify: autoApprove.value,
               installmentId: installmentId,
             );
+            updatedInvoice = res.result;
+            successMessage = res.message;
           }
 
           isLoading(false);
-          AppSnackBar.snackbarGreen(title: s.done, subtitle: paymentResponse.message);
+          AppSnackBar.snackbarGreen(title: s.done, subtitle: successMessage);
           AppNavigator.back();
-          onResponse();
+          onResponse(updatedInvoice);
         } catch (e) {
           isLoading(false);
+
+          if (updatedInvoice != null) {
+            AppSnackBar.snackbarGreen(title: s.done, subtitle: successMessage ?? '');
+            AppNavigator.back();
+            onResponse(updatedInvoice);
+          }
         }
       },
     );

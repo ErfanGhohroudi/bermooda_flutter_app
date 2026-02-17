@@ -3,8 +3,10 @@ import 'package:u/utilities.dart';
 import '../../../../../../data/data.dart';
 import '../../domain/entities/invoice.dart';
 import '../../domain/repositories/invoice_repository.dart';
-import '../params/invoice_params.dart';
-import '../params/pay_invoice_params.dart';
+import '../datasources/customer_finance/get_invoice_code_datasource.dart';
+import '../datasources/customer_finance/invoice_manager_datasource.dart';
+import '../datasources/customer_finance/pay_invoice_datasource.dart';
+import '../models/models.dart';
 
 /// Repository Implementation
 /// Converts DTOs to Domain Entities (Data Layer to Domain Layer)
@@ -103,13 +105,19 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<GenericResponse<PaymentRecord>> payInvoice(final String invoiceMainId, final PayInvoiceParams params) async {
-    final completer = Completer<GenericResponse<PaymentRecord>>();
+  Future<GenericResponse<InvoiceEntity>> payInvoice(final String invoiceMainId, final PayInvoiceParams params) async {
+    final completer = Completer<GenericResponse<InvoiceEntity>>();
     _payInvoiceDatasource.payInvoice(
       invoiceMainId: invoiceMainId,
-      data: params.toMap(),
+      data: params,
       onResponse: (final response) {
-        completer.complete(response);
+        final res = GenericResponse(
+          status: response.status,
+          message: response.message,
+          result: response.result != null ? _mapInvoiceDtoToEntity(response.result!) : null,
+          extra: response.extra,
+        );
+        completer.complete(res);
       },
       onError: (final error) {
         completer.completeError(error);
@@ -138,13 +146,13 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
   }
 
   @override
-  Future<InvoiceEntity> paymentVerification(
+  Future<GenericResponse<InvoiceEntity>> paymentVerification(
     final int recordId,
     final bool verify,
-    final String reason,
+    final String? reason,
     final int? installmentId,
   ) {
-    final completer = Completer<InvoiceEntity>();
+    final completer = Completer<GenericResponse<InvoiceEntity>>();
     _payInvoiceDatasource.paymentVerification(
       recordId: recordId,
       verify: verify,
@@ -152,8 +160,13 @@ class InvoiceRepositoryImpl implements InvoiceRepository {
       installmentId: installmentId,
       onResponse: (final response) {
         if (response.result == null) return completer.completeError('response.result is null');
-        final res = response.result!;
-        completer.complete(_mapInvoiceDtoToEntity(res));
+        final res = GenericResponse<InvoiceEntity>(
+          status: response.status,
+          message: response.message,
+          result: response.result != null ? _mapInvoiceDtoToEntity(response.result!) : null,
+          extra: response.extra,
+        );
+        completer.complete(res);
       },
       onError: (final error) {
         completer.completeError(error);

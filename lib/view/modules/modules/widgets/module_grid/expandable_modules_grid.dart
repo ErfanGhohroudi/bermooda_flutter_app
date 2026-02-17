@@ -19,7 +19,7 @@ class _WExpandableCardGridState extends State<WExpandableCardGrid> {
   bool _isExpanded = false;
 
   // تعداد آیتم‌هایی که در حالت بسته نمایش داده می‌شوند
-  final int _displayLimit = 7;
+  final int _displayLimit = 100;
 
   // لیست کامل تمام آیتم‌ها
   late final List<WModuleCard> _allItems;

@@ -49,7 +49,7 @@ class _WAddressFieldState extends State<WAddressField> {
         widget.minLength,
         required: widget.required,
         requiredMessage: s.requiredField,
-        minLengthMessage: s.isShort(widget.minLength.toString()),
+        minLengthMessage: s.valueIsShort(widget.minLength.toString()),
       ),
     );
   }

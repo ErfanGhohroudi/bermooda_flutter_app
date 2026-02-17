@@ -76,6 +76,7 @@ class _InvoiceListPageState extends State<InvoiceListPage> {
                   onTapPay: ctrl.onTapPayInvoice,
                   onTapReCreate: () => ctrl.onTapReCreate(invoice),
                   onTapSuspension: () => ctrl.showSuspensionSheet(invoice),
+                  onTapPaymentVerification: ctrl.onTapPaymentVerification,
                 );
               },
             ),

@@ -93,7 +93,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
       validator: validateMinLength(
         authenticationType.isPerson() ? 10 : 11,
         requiredMessage: s.requiredField,
-        minLengthMessage: s.isShort(authenticationType.isPerson() ? '10' : '11'),
+        minLengthMessage: s.valueIsShort(authenticationType.isPerson() ? '10' : '11'),
       ),
     ),
     if (authenticationType.isLegal()) ...[
@@ -108,7 +108,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
         validator: validateMinLength(
           6,
           requiredMessage: s.requiredField,
-          minLengthMessage: s.isShort('6'),
+          minLengthMessage: s.valueIsShort('6'),
         ),
       ),
 
@@ -124,7 +124,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
         validator: validateMinLength(
           12,
           requiredMessage: s.requiredField,
-          minLengthMessage: s.isShort('12'),
+          minLengthMessage: s.valueIsShort('12'),
         ),
       ),
 
@@ -141,7 +141,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with Authentica
           // validator: validateMinLength(
           //   11,
           //   requiredMessage: s.requiredField,
-          //   minLengthMessage: s.isShort('11'),
+          //   minLengthMessage: s.valueIsShort('11'),
           // ),
         ),
     ],

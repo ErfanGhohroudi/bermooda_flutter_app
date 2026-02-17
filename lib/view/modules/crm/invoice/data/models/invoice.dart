@@ -1,4 +1,9 @@
-part of '../../../data.dart';
+import 'package:decimal/decimal.dart';
+import 'package:u/utilities.dart';
+
+import '../../../../../../core/utils/enums/enums.dart';
+import '../../../../../../data/data.dart';
+import '../../domain/enums/verify_status.dart';
 
 class InvoiceReadDto {
   final int? id;
@@ -160,7 +165,7 @@ class Installment {
     isDelayed: json["is_delayed"],
     documentOfPayment: json["document_of_payment"] == null
         ? null
-        : List<MainFileReadDto>.from(json["document_of_payment"]!.map((final x) => MainFileReadDto.fromJson(x))),
+        : List<MainFileReadDto>.from(json["document_of_payment"]!.map((final x) => MainFileReadDto.fromMap(x))),
     paymentRecord: json["payment_record"] == null ? null : PaymentRecord.fromJson(json["payment_record"]!),
     daysPassed: json["days_passed"] == null ? null : int.tryParse(json["days_passed"]!.toString()),
     createdPersian: json["created_persian"],
@@ -170,7 +175,8 @@ class Installment {
 }
 
 class PaymentRecord {
-  int? id;
+  int id;
+  VerifyStatus verifyStatus;
   int? invoiceId;
   DateTime? createdAt;
   List<MainFileReadDto> paymentFiles;
@@ -183,7 +189,8 @@ class PaymentRecord {
   DateTime? verifiedAt;
 
   PaymentRecord({
-    this.id,
+    required this.id,
+    required this.verifyStatus,
     this.invoiceId,
     this.createdAt,
     this.paymentFiles = const [],
@@ -199,7 +206,8 @@ class PaymentRecord {
   factory PaymentRecord.fromRawJson(final String str) => PaymentRecord.fromJson(json.decode(str));
 
   factory PaymentRecord.fromJson(final Map<String, dynamic> json) => PaymentRecord(
-    id: json["id"],
+    id: json["id"] ?? 0,
+    verifyStatus: VerifyStatus.fromString(json["verify_status"]),
     invoiceId: json["invoice"],
     createdAt: json["created_at"] == null ? null : DateTime.tryParse(json["created_at"]!),
     paymentFiles: json["payment_file"] != null

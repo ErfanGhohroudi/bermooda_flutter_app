@@ -72,7 +72,7 @@ class WMeetingItem extends StatelessWidget {
                         onTap: () {
                           appShowYesCancelDialog(
                             title: s.delete,
-                            description: s.areYouSureToDeleteMessage,
+                            description: s.areYouSureYouWantToDeleteItem(s.meeting.toLowerCase()),
                             yesButtonTitle: s.delete,
                             yesBackgroundColor: AppColors.red,
                             onYesButtonTap: () {

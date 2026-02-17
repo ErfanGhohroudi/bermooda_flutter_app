@@ -1,10 +1,12 @@
 import 'package:u/utilities.dart';
 
+import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/services/permission_service.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../domain/entity/sms_department.dart';
+import '../pages/numbers_list_page.dart';
 
 class SmsDepartmentMainSheet extends StatelessWidget {
   const SmsDepartmentMainSheet({
@@ -56,12 +58,12 @@ class SmsDepartmentMainSheet extends StatelessWidget {
             _item(
               context: context,
               onTap: () {
-                // AppNavigator.push(MyReviewsPage(
-                //   department: department,
-                // ));
+                AppNavigator.push(SmsNumbersListPage(
+                  departmentId: department.id,
+                ));
               },
-              icon: AppIcons.listOutline,
-              title: 'مدیریت شماره ها',
+              icon: AppIcons.cardSimOutline,
+              title: s.numberManagement,
             ),
         ],
       ),

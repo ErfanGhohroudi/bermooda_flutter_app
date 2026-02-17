@@ -300,7 +300,7 @@ class _LabelsMultiSelectDialogState extends State<_LabelsMultiSelectDialog> {
             onTap: () {
               appShowYesCancelDialog(
                 title: s.delete,
-                description: s.areYouSureYouWantToDeleteItem,
+                description: s.areYouSureYouWantToDeleteItem(s.label.toLowerCase()),
                 yesButtonTitle: s.delete,
                 yesBackgroundColor: AppColors.red,
                 onYesButtonTap: () {

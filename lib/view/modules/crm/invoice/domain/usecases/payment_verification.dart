@@ -1,3 +1,4 @@
+import '../../../../../../data/data.dart';
 import '../entities/invoice.dart';
 import '../repositories/invoice_repository.dart';
 
@@ -7,10 +8,10 @@ class PaymentVerificationUseCase {
 
   final InvoiceRepository repository;
 
-  Future<InvoiceEntity> call({
+  Future<GenericResponse<InvoiceEntity>> call({
     required final int recordId,
     required final bool verify,
-    required final String reason,
+    final String? reason,
     final int? installmentId,
   }) => repository.paymentVerification(
     recordId,

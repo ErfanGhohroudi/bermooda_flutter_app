@@ -10,7 +10,7 @@ class TypingIndicatorManager {
   Timer? _typingTimer;
 
   void sendTypingStatus(final bool typingStatus) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (_previousTypingStatus == typingStatus) return;
     _previousTypingStatus = typingStatus;
     controller.repository.sendTyping(

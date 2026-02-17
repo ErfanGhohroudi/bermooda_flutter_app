@@ -17,7 +17,7 @@ class MessageSearchManager {
   }
 
   Future<void> searchInMessages() async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     controller.currentSearchResultIndex.value = 0;
     if (controller.searchCtrl.text.trim().isEmpty || controller.searchCtrl.text.trim().length < 2) {
       return controller.searchResults.clear();
@@ -38,7 +38,7 @@ class MessageSearchManager {
   }
 
   void nextSearchResult() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.currentSearchResultIndex.value + 1 >= controller.searchResults.length) return;
     controller.currentSearchResultIndex(controller.currentSearchResultIndex.value + 1);
     if (controller.searchResults.isNotEmpty) {
@@ -48,7 +48,7 @@ class MessageSearchManager {
   }
 
   void previousSearchResult() {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     if (controller.currentSearchResultIndex.value == 0) return;
     controller.currentSearchResultIndex(controller.currentSearchResultIndex.value - 1);
     if (controller.searchResults.isNotEmpty) {

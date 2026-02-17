@@ -13,6 +13,7 @@ import '../members/members_management_page.dart';
 import '../project/list/project_list_page.dart';
 import '../requests/request_main_page.dart';
 import '../sms/presentation/pages/department_list_page.dart';
+import '../voip/presentation/pages/department_list_page.dart';
 import '../warehouse/presentation/pages/warehouse_list_page.dart';
 import 'modules_controller.dart';
 import 'widgets/module_card/module_card.dart';
@@ -120,29 +121,29 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const MembersManagementPage()),
       ),
-    if (subService.projectModuleIsActive && perService.haveProjectAccess)
+    if ((subService.projectModuleIsActive && perService.haveProjectAccess) || AppConfig.instance.isDevelopment)
       WModuleCard(
         title: s.project,
         icon: AppIcons.projectModule,
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const ProjectListPage()),
       ),
-    if (subService.crmModuleIsActive && perService.haveCRMAccess)
+    if ((subService.crmModuleIsActive && perService.haveCRMAccess) || AppConfig.instance.isDevelopment)
       WModuleCard(
         title: s.customers,
         icon: AppIcons.crmModule,
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const CrmCategoriesListPage()),
       ),
-    if (subService.hrModuleIsActive) ...[
-      if (perService.haveHRAccess)
+    if (subService.hrModuleIsActive || AppConfig.instance.isDevelopment) ...[
+      if (perService.haveHRAccess || AppConfig.instance.isDevelopment)
         WModuleCard(
           title: s.humanResources,
           icon: AppIcons.humanResourceModule,
           isBottomSheet: isBottomSheet,
           onTap: () => AppNavigator.push(const HrDepartmentsListPage()),
         ),
-      if (subService.requestsModuleIsActive)
+      if (subService.requestsModuleIsActive || AppConfig.instance.isDevelopment)
         WModuleCard(
           title: s.requests,
           icon: AppIcons.requestModule,
@@ -150,7 +151,8 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
           onTap: () => AppNavigator.push(const RequestMainPage()),
         ),
     ],
-    if ((subService.legalModuleIsActive && perService.haveLegalAccess) || AppConfig.instance.isDevelopment)
+    if (AppConfig.instance.isDevelopment)
+      // if (subService.legalModuleIsActive && perService.haveLegalAccess)
       WModuleCard(
         title: s.legal,
         icon: AppIcons.legalModule,
@@ -173,20 +175,30 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         onTap: () {},
       ),
     if (AppConfig.instance.isDevelopment)
+      // if (subService.warehouseModuleIsActive && perService.haveWarehouseAccess)
       WModuleCard(
         title: s.warehouseModuleName,
         icon: AppIcons.warehouseModule,
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const WarehouseListPage()),
       ),
-    if (subService.smsModuleIsActive || AppConfig.instance.isDevelopment)
+    if (AppConfig.instance.isDevelopment)
+      // if (subService.smsModuleIsActive && perService.haveSMSAccess)
       WModuleCard(
         title: s.sms,
-        icon: AppIcons.warehouseModule,
+        icon: AppIcons.smsModule,
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const SmsDepartmentListPage()),
       ),
-    if (subService.marketingModuleIsActive && AppConfig.instance.isDevelopment)
+    if (AppConfig.instance.isDevelopment)
+      // if (subService.cloudCallModuleIsActive && perService.haveCloudCallAccess)
+      WModuleCard(
+        title: s.cloudCall,
+        icon: AppIcons.callOutline,
+        isBottomSheet: isBottomSheet,
+        onTap: () => AppNavigator.push(const VoipDepartmentListPage()),
+      ),
+    if (AppConfig.instance.isDevelopment)
       // if (subService.marketingModuleIsActive && perService.haveMarketingAccess)
       WModuleCard(
         title: s.marketing,

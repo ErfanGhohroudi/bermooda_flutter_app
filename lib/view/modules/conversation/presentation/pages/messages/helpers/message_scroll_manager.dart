@@ -76,7 +76,7 @@ class MessageScrollManager {
   void loadMoreMessages() {
     if (controller.isLoadingMore.value) return;
     controller.isLoadingMore(true);
-    if (controller.isAnonymousBot) {
+    if (controller.isBot) {
       controller.repository.getAnonymousFeedbacks(controller.currentPage);
     } else {
       controller.repository.getMessages(controller.conversation.value.id, page: controller.currentPage);

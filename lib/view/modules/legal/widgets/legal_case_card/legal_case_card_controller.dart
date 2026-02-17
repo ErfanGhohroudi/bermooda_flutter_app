@@ -2,6 +2,7 @@ import 'package:bermooda_business/core/navigator/navigator.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
+import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../data/data.dart';
 import '../../legal_case/legal_case_page.dart';
@@ -48,7 +49,9 @@ mixin LegalCaseCardController {
   void onDeleteLegalCase() {
     appShowYesCancelDialog(
       title: s.delete,
-      description: s.areYouSureYouWantToDeleteItem,
+      description: s.areYouSureYouWantToDeleteItem(s.legalCase.toLowerCase()),
+      yesButtonTitle: s.delete,
+      yesBackgroundColor: AppColors.red,
       onYesButtonTap: () {
         AppNavigator.back(); // close dialog
         _datasource.delete(

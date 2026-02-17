@@ -89,7 +89,7 @@ class _SendSmsSheetState extends State<SendSmsSheet> {
                 items: ctrl.numbers.map(
                   (final SmsPanelNumber num) {
                     final number = num.number;
-                    final providerName = num.providerName;
+                    final providerName = num.title;
                     return DropdownMenuItem<SmsPanelNumber>(
                       value: num,
                       child: WDropdownItemText(text: "$providerName ($number)"),

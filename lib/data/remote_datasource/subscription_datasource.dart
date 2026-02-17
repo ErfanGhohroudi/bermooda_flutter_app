@@ -33,6 +33,7 @@ class SubscriptionDatasource {
   void calculateSubscriptionPrice({
     required final String workspaceId,
     required final SubscriptionPeriod? period,
+    required final SubscriptionSupportType? supportType,
     required final List<ModuleReadDto> modules,
     required final int usersCount,
     required final int storage,
@@ -49,6 +50,7 @@ class SubscriptionDatasource {
         "/v1/PayManager/SubPaymentManager/PrepareSubInvoice/",
         data: {
           "workspace_id": workspaceId,
+          if (supportType != null) "support_tier": supportType.name,
           "module_slug_list": modules.map((final e) => e.slug).toList(),
           "max_member": usersCount, // count
           "max_volume": storage, // GB

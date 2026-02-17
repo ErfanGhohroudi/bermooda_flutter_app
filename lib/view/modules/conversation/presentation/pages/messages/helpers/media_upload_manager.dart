@@ -20,7 +20,7 @@ class MediaUploadManager {
   final Map<String, dio.CancelToken> _uploadCancelTokens = {};
 
   Future<void> sendImage(final File imageFile) async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final fileSizeInBytes = await imageFile.length();
     if (fileSizeInBytes > _maxFileSizeLimitInBytes) {
       return _showSizeLimitError();
@@ -89,7 +89,7 @@ class MediaUploadManager {
   }
 
   Future<void> sendVideo(final File videoFile) async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final fileSizeInBytes = await videoFile.length();
     if (fileSizeInBytes > _maxFileSizeLimitInBytes) {
       return _showSizeLimitError();
@@ -158,7 +158,7 @@ class MediaUploadManager {
   }
 
   Future<void> sendFile(final File file, final String fileName) async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final fileSizeInBytes = await file.length();
     if (fileSizeInBytes > _maxFileSizeLimitInBytes) {
       return _showSizeLimitError();
@@ -244,7 +244,7 @@ class MediaUploadManager {
   }
 
   Future<void> sendVoice(final File voiceFile, [final int? duration]) async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final fileSizeInBytes = await voiceFile.length();
     if (fileSizeInBytes > _maxFileSizeLimitInBytes) {
       return _showSizeLimitError();
@@ -324,7 +324,7 @@ class MediaUploadManager {
   }
 
   void _updateMessageProgress(final String clientId, final double progress) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final index = controller.messages.cast<MessageDto>().indexWhere(
       (final m) => m.clientId == clientId,
     );
@@ -337,7 +337,7 @@ class MediaUploadManager {
   }
 
   void _setMessageUploadError(final String clientId, final String error) {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final index = controller.messages.cast<MessageDto>().indexWhere(
       (final m) => m.clientId == clientId,
     );
@@ -418,7 +418,7 @@ class MediaUploadManager {
       _uploadCancelTokens.remove(clientId);
     }
 
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     // Remove message from list
     final index = controller.messages.cast<MessageDto>().indexWhere(
       (final m) => m.clientId == clientId,
@@ -444,7 +444,7 @@ class MediaUploadManager {
     }
     _uploadCancelTokens.clear();
 
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     // Remove all uploading messages from list
     final uploadingMessages = controller.messages.cast<MessageDto>().where((final m) => m.isSending || m.isFailed).toList();
     for (final message in uploadingMessages) {
@@ -463,7 +463,7 @@ class MediaUploadManager {
   }
 
   Future<void> retryUpload(final String clientId) async {
-    if (controller.isAnonymousBot) return;
+    if (controller.isBot) return;
     final index = controller.messages.cast<MessageDto>().indexWhere(
       (final m) => m.clientId == clientId,
     );

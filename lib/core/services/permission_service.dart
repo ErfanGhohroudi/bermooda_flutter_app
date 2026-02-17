@@ -1,5 +1,6 @@
 import 'package:u/utilities.dart';
 
+import '../../app_config.dart';
 import '../../data/data.dart';
 import '../utils/enums/enums.dart';
 import '/core/utils/extensions/user_permission_extensions.dart';
@@ -68,9 +69,21 @@ class PermissionService extends GetxService {
   bool get isSMSSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isSupervisor();
   bool get isSMSManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.sms).isManager();
   /// [isWorkspaceOwner] or ![isSMSNoAccess]
-  bool get haveSMSAccess => isWorkspaceOwner || !isSMSNoAccess;
+  bool get haveSMSAccess => isWorkspaceOwner || !isSMSNoAccess || AppConfig.instance.isDevelopment;
   /// [isWorkspaceOwner] or [isSMSManger] or [isSMSSupervisor]
-  bool get haveSMSAdminAccess => isWorkspaceOwner || isSMSManger || isSMSSupervisor;
+  bool get haveSMSAdminAccess => isWorkspaceOwner || isSMSManger || isSMSSupervisor || AppConfig.instance.isDevelopment;
   /// [isWorkspaceOwner] or [isSMSManger]
-  bool get haveSMSManagerAccess => isWorkspaceOwner || isSMSManger;
+  bool get haveSMSManagerAccess => isWorkspaceOwner || isSMSManger || AppConfig.instance.isDevelopment;
+
+  /// Cloud Call /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  bool get isCloudCallNoAccess => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isNoAccess();
+  bool get isCloudCallExpert => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isExpert();
+  bool get isCloudCallSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isSupervisor();
+  bool get isCloudCallManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isManager();
+  /// [isWorkspaceOwner] or ![isCloudCallNoAccess]
+  bool get haveCloudCallAccess => isWorkspaceOwner || !isCloudCallNoAccess || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isCloudCallManger] or [isCloudCallSupervisor]
+  bool get haveCloudCallAdminAccess => isWorkspaceOwner || isCloudCallManger || isCloudCallSupervisor || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isCloudCallManger]
+  bool get haveCloudCallManagerAccess => isWorkspaceOwner || isCloudCallManger || AppConfig.instance.isDevelopment;
 }

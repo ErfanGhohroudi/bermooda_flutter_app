@@ -125,6 +125,7 @@ class SubscriptionPriceReadDto extends Equatable {
     required this.totalUserPrice,
     required this.totalStoragePrice,
     required this.totalContractPrice,
+    required this.totalSupportPrice,
     required this.discountPercentage,
     required this.discountPrice,
     required this.finalPrice,
@@ -140,6 +141,7 @@ class SubscriptionPriceReadDto extends Equatable {
   final int totalUserPrice;
   final int totalStoragePrice;
   final int totalContractPrice;
+  final int totalSupportPrice;
   final double discountPercentage;
   final int discountPrice;
   final int finalPrice;
@@ -157,6 +159,7 @@ class SubscriptionPriceReadDto extends Equatable {
     totalUserPrice: json["invoice_summery"]?["total_member_price"] ?? 0,
     totalStoragePrice: json["invoice_summery"]?["total_volume_price"] ?? 0,
     totalContractPrice: json["invoice_summery"]?["total_contract_price"] ?? 0,
+    totalSupportPrice: json["invoice_summery"]?["total_support_price"] ?? 0,
     discountPercentage: json["invoice_summery"]?["discount_percentage"]?.toDouble() ?? 0,
     discountPrice: json["invoice_summery"]?["discount_amount"] ?? 0,
     finalPrice: json["invoice_summery"]?["payable_price"] ?? 0,
@@ -178,6 +181,7 @@ class SubscriptionPriceReadDto extends Equatable {
     totalUserPrice,
     totalStoragePrice,
     totalContractPrice,
+    totalStoragePrice,
     discountPercentage,
     discountPrice,
     finalPrice,
