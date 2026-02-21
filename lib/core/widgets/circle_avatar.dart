@@ -46,6 +46,7 @@ class WCircleAvatar extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
+      spacing: 6,
       children: [
         SizedBox(
           width: size,
@@ -114,21 +115,23 @@ class WCircleAvatar extends StatelessWidget {
               Text(
                 user.fullName ?? '',
                 maxLines: maxLines,
-              ).bodyMedium(overflow: TextOverflow.ellipsis, color: nameColor).marginSymmetric(horizontal: 6),
-              if (subTitle != null) subTitle!.marginSymmetric(horizontal: 6),
+              ).bodyMedium(overflow: TextOverflow.ellipsis, color: nameColor),
+              if (subTitle != null) subTitle!,
             ],
           ).expanded(),
         if (showFullName && !expand && !bodySmall)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                user.fullName ?? '',
-                maxLines: maxLines,
-              ).bodyMedium(overflow: TextOverflow.ellipsis, color: nameColor).marginSymmetric(horizontal: 6),
-              if (subTitle != null) subTitle!.marginSymmetric(horizontal: 6),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.fullName ?? '',
+                  maxLines: maxLines,
+                ).bodyMedium(overflow: TextOverflow.ellipsis, color: nameColor),
+                if (subTitle != null) subTitle!,
+              ],
+            ),
           ),
         if (showFullName && expand && bodySmall)
           Column(
@@ -138,21 +141,23 @@ class WCircleAvatar extends StatelessWidget {
               Text(
                 user.fullName ?? '',
                 maxLines: maxLines,
-              ).bodySmall(overflow: TextOverflow.ellipsis, color: nameColor).marginSymmetric(horizontal: 6),
-              if (subTitle != null) subTitle!.marginSymmetric(horizontal: 6),
+              ).bodySmall(overflow: TextOverflow.ellipsis, color: nameColor),
+              if (subTitle != null) subTitle!,
             ],
           ).expanded(),
         if (showFullName && !expand && bodySmall)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                user.fullName ?? '',
-                maxLines: maxLines,
-              ).bodySmall(overflow: TextOverflow.ellipsis, color: nameColor).marginSymmetric(horizontal: 6),
-              if (subTitle != null) subTitle!.marginSymmetric(horizontal: 6),
-            ],
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.fullName ?? '',
+                  maxLines: maxLines,
+                ).bodySmall(overflow: TextOverflow.ellipsis, color: nameColor),
+                if (subTitle != null) subTitle!,
+              ],
+            ),
           ),
       ],
     );

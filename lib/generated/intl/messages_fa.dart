@@ -23,45 +23,47 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(item) =>
       "* فقط افرادی که به عنوان مدیر و کارشناس انتخاب می شوند به این ${item} دسترسی خواهند داشت.";
 
-  static String m1(item) => "آیا از حذف این ${item} اطمینان دارید؟";
+  static String m1(count) => "و ${count} مورد دیگر";
 
-  static String m2(name) =>
+  static String m2(item) => "آیا از حذف این ${item} اطمینان دارید؟";
+
+  static String m3(name) =>
       "${name} عزیز برای دسترسی به داشبورد تخصصی کسب‌وکار خود نیاز به تکمیل اطلاعات کسب‌وکار و فعال سازی داشبورد است.";
 
-  static String m3(step) => "مرحله به (${step}) تغییر کند؟";
+  static String m4(step) => "مرحله به (${step}) تغییر کند؟";
 
-  static String m4(percentage) =>
+  static String m5(percentage) =>
       "درصد پیشرفت زیر وظیفه به \'${percentage}\' تغییر کند؟";
 
-  static String m5(count) => "${count} روز بدون تداخل اعمال خواهد شد";
+  static String m6(count) => "${count} روز بدون تداخل اعمال خواهد شد";
 
-  static String m6(count, total) => "${count} از ${total} قسط پرداخت شده است";
+  static String m7(count, total) => "${count} از ${total} قسط پرداخت شده است";
 
-  static String m7(item) => "\"${item}\" الزامی است";
+  static String m8(item) => "\"${item}\" الزامی است";
 
-  static String m8(count) => "حداکثر ${count} فایل قابل انتخاب است.";
+  static String m9(count) => "حداکثر ${count} فایل قابل انتخاب است.";
 
-  static String m9(phoneNumber) =>
+  static String m10(phoneNumber) =>
       "کد 6 رقمی ارسال شده به (${phoneNumber}) را وارد کنید.";
 
-  static String m10(path) => "PDF با موفقیت در مسیر زیر ذخیره شد:\n${path}";
+  static String m11(path) => "PDF با موفقیت در مسیر زیر ذخیره شد:\n${path}";
 
-  static String m11(item) => "لطفاً حداقل یک ${item} اضافه کنید.";
+  static String m12(item) => "لطفاً حداقل یک ${item} اضافه کنید.";
 
-  static String m12(name) => "شیفت ${name} با تمام روزهای انتخابی تداخل دارد";
+  static String m13(name) => "شیفت ${name} با تمام روزهای انتخابی تداخل دارد";
 
-  static String m13(name, count) => "شیفت ${name} با ${count} روز تداخل دارد";
+  static String m14(name, count) => "شیفت ${name} با ${count} روز تداخل دارد";
 
-  static String m14(name) => "کسب‌وکار تغییر کرد به (${name})";
+  static String m15(name) => "کسب‌وکار تغییر کرد به (${name})";
 
-  static String m15(item) => "این ${item} درحال حاضر وجود دارد";
+  static String m16(item) => "این ${item} درحال حاضر وجود دارد";
 
-  static String m16(length) =>
+  static String m17(length) =>
       "مقدار وارد شده کوتاه است (حداقل ${length} کاراکتر)";
 
-  static String m17(time) => "شما ${time} زودتر وارد شدید.";
+  static String m18(time) => "شما ${time} زودتر وارد شدید.";
 
-  static String m18(time) => "شما ${time} دیرتر وارد شدید.";
+  static String m19(time) => "شما ${time} دیرتر وارد شدید.";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -101,10 +103,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "فرمت‌های مجاز: XLSX, XLS, CSV (حداکثر 10 مگابایت)",
     ),
     "amount": MessageLookupByLibrary.simpleMessage("مبلغ"),
+    "andMore": m1,
     "apiKey": MessageLookupByLibrary.simpleMessage("کلید API"),
     "appName": MessageLookupByLibrary.simpleMessage("برمودا"),
     "applicant": MessageLookupByLibrary.simpleMessage("درخواست دهنده"),
     "apply": MessageLookupByLibrary.simpleMessage("تایید"),
+    "applyFilter": MessageLookupByLibrary.simpleMessage("اعمال"),
     "approve": MessageLookupByLibrary.simpleMessage("تایید"),
     "archive": MessageLookupByLibrary.simpleMessage("بایگانی"),
     "archiveRemoved": MessageLookupByLibrary.simpleMessage(
@@ -134,7 +138,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "areYouSureToRemoveMember": MessageLookupByLibrary.simpleMessage(
       "آیا از حذف (تعدیل، اخراج، اتمام قرارداد) این کاربر مطمئن هستید؟ دسترسی او به داشبورد فوراً قطع شده و تمام وظایف تخصیص‌داده‌شده به او باید به شخص دیگری واگذار شود.",
     ),
-    "areYouSureYouWantToDeleteItem": m1,
+    "areYouSureYouWantToDeleteItem": m2,
     "areYouSureYouWantToLogOut": MessageLookupByLibrary.simpleMessage(
       "آیا میخواهید از حساب کاربری خارج شوید؟",
     ),
@@ -148,7 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "attendance": MessageLookupByLibrary.simpleMessage("حضور و غیاب"),
     "attendanceRate": MessageLookupByLibrary.simpleMessage("نرخ حضور"),
     "audio": MessageLookupByLibrary.simpleMessage("صدا"),
-    "authenticationNeedsDialogText": m2,
+    "authenticationNeedsDialogText": m3,
     "autoApproveAfterRegistration": MessageLookupByLibrary.simpleMessage(
       "تأیید خودکار بلافاصله پس از ثبت پرداخت",
     ),
@@ -192,7 +196,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "calendar": MessageLookupByLibrary.simpleMessage("تقویم"),
     "camera": MessageLookupByLibrary.simpleMessage("دوربین"),
+    "campaignSummary": MessageLookupByLibrary.simpleMessage("خلاصه کمپین"),
+    "campaignTitle": MessageLookupByLibrary.simpleMessage("عنوان کمپین"),
     "cancel": MessageLookupByLibrary.simpleMessage("انصراف"),
+    "cancelSend": MessageLookupByLibrary.simpleMessage("لغو ارسال"),
     "cannotChangeStatus": MessageLookupByLibrary.simpleMessage(
       "نمیتوانید به وضعیت قبلی برگردید",
     ),
@@ -230,11 +237,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "بررسی درخواست",
     ),
     "changeStatus": MessageLookupByLibrary.simpleMessage("وضعیت تغییر کند؟"),
-    "changeStep": m3,
+    "changeStep": m4,
     "changeStepStatus": MessageLookupByLibrary.simpleMessage(
       "وضعیت مرحله تغییر کند؟",
     ),
-    "changeSubtaskProgressTo": m4,
+    "changeSubtaskProgressTo": m5,
     "changeSubtaskStatusToDone": MessageLookupByLibrary.simpleMessage(
       "وضعیت زیر وظیفه به \'انجام شده\' تغییر کند؟",
     ),
@@ -280,6 +287,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "connectionLost": MessageLookupByLibrary.simpleMessage("اتصال قطع است"),
     "contactInfo": MessageLookupByLibrary.simpleMessage("اطلاعات تماس"),
     "contactPreference": MessageLookupByLibrary.simpleMessage("اولویت ارتباط"),
+    "contentAndSettings": MessageLookupByLibrary.simpleMessage(
+      "محتوا و تنظیمات",
+    ),
     "contract": MessageLookupByLibrary.simpleMessage("قرارداد"),
     "contractCount": MessageLookupByLibrary.simpleMessage("تعداد قرارداد"),
     "contractCountInfo": MessageLookupByLibrary.simpleMessage(
@@ -301,6 +311,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "copyText": MessageLookupByLibrary.simpleMessage("کپی کردن متن"),
     "correspondence": MessageLookupByLibrary.simpleMessage("مکاتبات اداری"),
+    "cost": MessageLookupByLibrary.simpleMessage("هزینه"),
     "count": MessageLookupByLibrary.simpleMessage("تعداد"),
     "country": MessageLookupByLibrary.simpleMessage("کشور"),
     "coverageStartDate": MessageLookupByLibrary.simpleMessage(
@@ -313,6 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAccount": MessageLookupByLibrary.simpleMessage("ایجاد حساب کاربری"),
     "createContract": MessageLookupByLibrary.simpleMessage("قرارداد جدید"),
     "createInstallments": MessageLookupByLibrary.simpleMessage("ایجاد اقساط"),
+    "createdAt": MessageLookupByLibrary.simpleMessage("ایجادشده در"),
     "createdBy": MessageLookupByLibrary.simpleMessage("ایجاد شده توسط"),
     "crmGroupHelperText": MessageLookupByLibrary.simpleMessage(
       "* ابتدا دسته‌بندی که مدنظر دارید را انتخاب کنید.",
@@ -359,7 +371,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "day": MessageLookupByLibrary.simpleMessage("روز"),
     "days": MessageLookupByLibrary.simpleMessage("روز"),
     "daysOfMonth": MessageLookupByLibrary.simpleMessage("روزهای ماه"),
-    "daysWithoutConflictWillBeApplied": m5,
+    "daysWithoutConflictWillBeApplied": m6,
     "deadline": MessageLookupByLibrary.simpleMessage("مهلت"),
     "decline": MessageLookupByLibrary.simpleMessage("رد کردن"),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
@@ -389,6 +401,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "آیا این مشتری از پوشه حذف شود؟",
     ),
     "deleted": MessageLookupByLibrary.simpleMessage("حذف شده ها"),
+    "delivered": MessageLookupByLibrary.simpleMessage("دریافت‌شده"),
     "department": MessageLookupByLibrary.simpleMessage("واحد"),
     "departureDate": MessageLookupByLibrary.simpleMessage("تاریخ حرکت"),
     "departureTime": MessageLookupByLibrary.simpleMessage("ساعت حرکت"),
@@ -427,6 +440,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "download": MessageLookupByLibrary.simpleMessage("دانلود فایل"),
     "downloadErrorFile": MessageLookupByLibrary.simpleMessage(
       "دانلود فایل خطا",
+    ),
+    "downloadSampleFile": MessageLookupByLibrary.simpleMessage(
+      "دانلود فایل نمونه",
     ),
     "downloading": MessageLookupByLibrary.simpleMessage("در حال دانلود..."),
     "drawSignature": MessageLookupByLibrary.simpleMessage("ترسیم امضا"),
@@ -487,6 +503,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterStepTitle": MessageLookupByLibrary.simpleMessage(
       "عنوان مرحله را وارد کنید",
     ),
+    "enterYourMessage": MessageLookupByLibrary.simpleMessage(
+      "پیام خود را وارد کنید...",
+    ),
     "entry": MessageLookupByLibrary.simpleMessage("ورود"),
     "entryTime": MessageLookupByLibrary.simpleMessage("زمان ورود"),
     "equipmentType": MessageLookupByLibrary.simpleMessage("نوع تجهیز"),
@@ -506,12 +525,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorSavingInvoice": MessageLookupByLibrary.simpleMessage(
       "خطا در ذخیره فاکتور",
     ),
+    "estimatedCost": MessageLookupByLibrary.simpleMessage("هزینه تخمینی"),
     "exactAddress": MessageLookupByLibrary.simpleMessage(
       "محل مراجعه (آدرس دقیق)",
     ),
     "exactLocation": MessageLookupByLibrary.simpleMessage("محل دقیق مراجعه"),
     "exactProblem": MessageLookupByLibrary.simpleMessage("مشکل دقیق"),
+    "example": MessageLookupByLibrary.simpleMessage("مثال"),
     "excelColumn": MessageLookupByLibrary.simpleMessage("ستون Excel"),
+    "excelCsvFileGuideDescription": MessageLookupByLibrary.simpleMessage(
+      "فایل Excel یا CSV باید شامل شماره‌های موبایل در اولین ستون باشد.",
+    ),
     "excellent": MessageLookupByLibrary.simpleMessage("عالی"),
     "exit": MessageLookupByLibrary.simpleMessage("خروج"),
     "exitApp": MessageLookupByLibrary.simpleMessage(
@@ -534,6 +558,13 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "expiringSoon": MessageLookupByLibrary.simpleMessage(
       "به زودی منقضی می‌شود",
+    ),
+    "export": MessageLookupByLibrary.simpleMessage("استخراج"),
+    "exportAllRecordsToExcel": MessageLookupByLibrary.simpleMessage(
+      "استخراج تمامی رکوردها در قالب \"Excel\".",
+    ),
+    "exportFilteredListToExcel": MessageLookupByLibrary.simpleMessage(
+      "استخراج نتایج فیلتر شده در قالب \"Excel\".",
     ),
     "extension": MessageLookupByLibrary.simpleMessage("داخلی"),
     "extraAmountToBalance": MessageLookupByLibrary.simpleMessage(
@@ -566,6 +597,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "files": MessageLookupByLibrary.simpleMessage("فایل ها"),
     "filters": MessageLookupByLibrary.simpleMessage("فیلتر ها"),
+    "finalApproval": MessageLookupByLibrary.simpleMessage("تایید نهایی"),
     "finalPrice": MessageLookupByLibrary.simpleMessage("قیمت نهایی"),
     "fingerPrint": MessageLookupByLibrary.simpleMessage("اثر انگشت"),
     "firstName": MessageLookupByLibrary.simpleMessage("نام"),
@@ -594,6 +626,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "gb": MessageLookupByLibrary.simpleMessage("گیگابایت"),
     "gender": MessageLookupByLibrary.simpleMessage("جنسیت"),
+    "generalInfo": MessageLookupByLibrary.simpleMessage("اطلاعات کلی"),
     "getLocationDescribe": MessageLookupByLibrary.simpleMessage(
       "این برنامه از موقعیت مکانی شما فقط در لحظه ثبت ورود و خروج استفاده می‌کند تا از حضور شما در محدوده شرکت اطمینان حاصل کرده و صحت تردد شما را تأیید نماید.",
     ),
@@ -602,10 +635,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "gpsIsOff": MessageLookupByLibrary.simpleMessage(
       "سرویس موقعیت مکانی (GPS) غیرفعال است. لطفاً آن را روشن کنید.",
     ),
+    "groupMessages": MessageLookupByLibrary.simpleMessage("پیام های گروهی"),
+    "groupSmsWarningMessage": MessageLookupByLibrary.simpleMessage(
+      "پس از تایید، پیامک‌ها در صف ارسال قرار می‌گیرند. لطفا از صحت اطلاعات اطمینان حاصل کنید.",
+    ),
     "groupTitle": MessageLookupByLibrary.simpleMessage("عنوان گروه"),
     "guaranteeDocuments": MessageLookupByLibrary.simpleMessage(
       "مدارک ضمانت (چک / سفته)",
     ),
+    "guide": MessageLookupByLibrary.simpleMessage("راهنما"),
     "hRModuleIsRequired": MessageLookupByLibrary.simpleMessage(
       "نیاز به ماژول سرمایه انسانی(HR) است",
     ),
@@ -624,7 +662,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "iban": MessageLookupByLibrary.simpleMessage("شماره شبا"),
     "ignore": MessageLookupByLibrary.simpleMessage("❌ نادیده بگیر"),
     "image": MessageLookupByLibrary.simpleMessage("تصویر"),
+    "immediate": MessageLookupByLibrary.simpleMessage("فوری"),
     "inProgress": MessageLookupByLibrary.simpleMessage("در حال انجام"),
+    "inbox": MessageLookupByLibrary.simpleMessage("صندوق ورودی"),
     "includePosition": MessageLookupByLibrary.simpleMessage("ذکر سمت شغلی"),
     "includeSalary": MessageLookupByLibrary.simpleMessage("ذکر میزان حقوق"),
     "industry": MessageLookupByLibrary.simpleMessage("صنعت"),
@@ -644,12 +684,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "تاریخ شروع اقساط الزامی است",
     ),
     "installments": MessageLookupByLibrary.simpleMessage("اقساط"),
-    "installmentsPaid": m6,
+    "installmentsPaid": m7,
     "insurance": MessageLookupByLibrary.simpleMessage("بیمه"),
     "interestRate": MessageLookupByLibrary.simpleMessage("نرخ بهره سالانه"),
     "introductionSubject": MessageLookupByLibrary.simpleMessage(
       "موضوع معرفی‌نامه",
     ),
+    "invalid": MessageLookupByLibrary.simpleMessage("نامعتبر"),
     "invalidEmailAddress": MessageLookupByLibrary.simpleMessage(
       "آدرس ایمیل صحیح نیست",
     ),
@@ -696,7 +737,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "iranIBANisShort": MessageLookupByLibrary.simpleMessage(
       "شماره شبا ایران باید ۲۶ کاراکتر باشد.",
     ),
-    "isRequired": m7,
+    "isRequired": m8,
     "issueInvoice": MessageLookupByLibrary.simpleMessage("ثبت فاکتور"),
     "issueInvoiceConfirmation": MessageLookupByLibrary.simpleMessage(
       "آیا از صدور این فاکتور اطمینان دارید؟ این عملیات ممکن است غیرقابل بازگشت باشد.",
@@ -758,12 +799,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "mails": MessageLookupByLibrary.simpleMessage("مکاتبات"),
     "mainResponsibilities": MessageLookupByLibrary.simpleMessage("وظایف اصلی"),
     "manual": MessageLookupByLibrary.simpleMessage("دستی"),
+    "manualEntry": MessageLookupByLibrary.simpleMessage("ورود دستی"),
     "maritalStatus": MessageLookupByLibrary.simpleMessage("وضعیت تأهل"),
     "marketing": MessageLookupByLibrary.simpleMessage("تبلیغات"),
     "married": MessageLookupByLibrary.simpleMessage("متأهل"),
     "maxLength": MessageLookupByLibrary.simpleMessage("حداکثر طول"),
     "maximum": MessageLookupByLibrary.simpleMessage("حداکثر"),
-    "maximumFilesCanSelected": m8,
+    "maximumFilesCanSelected": m9,
     "medias": MessageLookupByLibrary.simpleMessage("تصاویر"),
     "medicalCertificateRequired": MessageLookupByLibrary.simpleMessage(
       "گواهی پزشک (PDF/JPG)*",
@@ -786,6 +828,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لیست اعضا و عملکرد آن‌ها",
     ),
     "message": MessageLookupByLibrary.simpleMessage("پیام"),
+    "messageContent": MessageLookupByLibrary.simpleMessage("محتوای پیام"),
     "messageNotFound": MessageLookupByLibrary.simpleMessage("پیام پیدا نشد"),
     "messageSentSuccessfully": MessageLookupByLibrary.simpleMessage(
       "پیام با موفقیت ارسال شد",
@@ -927,9 +970,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "note": MessageLookupByLibrary.simpleMessage("یادداشت"),
     "notice": MessageLookupByLibrary.simpleMessage("اطلاعیه"),
     "notifications": MessageLookupByLibrary.simpleMessage("اعلان ها"),
+    "nowruzFestival": MessageLookupByLibrary.simpleMessage("جشنواره نوروز"),
     "number": MessageLookupByLibrary.simpleMessage("شماره"),
     "numberManagement": MessageLookupByLibrary.simpleMessage("مدیریت شماره ها"),
     "numberOfChildren": MessageLookupByLibrary.simpleMessage("تعداد فرزند"),
+    "numbersEntryMethod": MessageLookupByLibrary.simpleMessage(
+      "روش ورود شماره‌ها",
+    ),
+    "numbersShouldStartWith09": MessageLookupByLibrary.simpleMessage(
+      "شماره‌ها باید با 09 شروع شوند.",
+    ),
     "occasionType": MessageLookupByLibrary.simpleMessage("نوع مناسبت"),
     "ofText": MessageLookupByLibrary.simpleMessage("از"),
     "offline": MessageLookupByLibrary.simpleMessage("آفلاین"),
@@ -954,7 +1004,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "otpCodeNotReceived": MessageLookupByLibrary.simpleMessage(
       "کد را دریافت نکردید؟",
     ),
-    "otpInfoText": m9,
+    "otpInfoText": m10,
     "overallStatistics": MessageLookupByLibrary.simpleMessage("آمار کلی"),
     "overdue": MessageLookupByLibrary.simpleMessage("تاخیر ها"),
     "overdueFollowups": MessageLookupByLibrary.simpleMessage(
@@ -1008,7 +1058,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "paymentWasSuccessful": MessageLookupByLibrary.simpleMessage(
       "پرداخت با موفقیت انجام شد",
     ),
-    "pdfSavedAt": m10,
+    "pdfSavedAt": m11,
     "penaltyRateCannotBeZero": MessageLookupByLibrary.simpleMessage(
       "نرخ جریمه نمیتواند صفر باشد.",
     ),
@@ -1034,7 +1084,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pin": MessageLookupByLibrary.simpleMessage("سنجاق کردن"),
     "planning": MessageLookupByLibrary.simpleMessage("برنامه ریزی"),
-    "pleaseAddAtLeastOne": m11,
+    "pleaseAddAtLeastOne": m12,
     "pleaseEnterReason": MessageLookupByLibrary.simpleMessage(
       "لطفاً دلیل تعلیق فاکتور را وارد کنید",
     ),
@@ -1091,9 +1141,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "reasonLengthError": MessageLookupByLibrary.simpleMessage(
       "تعداد کاراکترهای دلیل تعلیق باید حداقل ۱۰ عدد باشد.",
     ),
+    "receivedBy": MessageLookupByLibrary.simpleMessage("دریافت‌شده توسط"),
     "receivedSent": MessageLookupByLibrary.simpleMessage("دریافتی / ارسالی"),
     "recipient": MessageLookupByLibrary.simpleMessage("دریافت‌کننده"),
     "recipients": MessageLookupByLibrary.simpleMessage("دریافت‌کنندگان"),
+    "recipientsNumbers": MessageLookupByLibrary.simpleMessage(
+      "شماره‌های گیرنده",
+    ),
     "recovery": MessageLookupByLibrary.simpleMessage("بازیابی"),
     "referenceID": MessageLookupByLibrary.simpleMessage("شناسه مرجع"),
     "refreshing": MessageLookupByLibrary.simpleMessage("بروزرسانی..."),
@@ -1208,6 +1262,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "saved": MessageLookupByLibrary.simpleMessage("ذخیره شد"),
     "scanQRCode": MessageLookupByLibrary.simpleMessage("کد QR را اسکن کنید"),
+    "scheduledDate": MessageLookupByLibrary.simpleMessage("تاریخ تعیین‌شده"),
     "scheduling": MessageLookupByLibrary.simpleMessage("زمان‌بندی"),
     "search": MessageLookupByLibrary.simpleMessage("جستجو"),
     "seconds": MessageLookupByLibrary.simpleMessage("ثانیه"),
@@ -1243,6 +1298,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "ارسال پیام ناشناس",
     ),
     "sendCode": MessageLookupByLibrary.simpleMessage("ارسال کد"),
+    "sendGroupSMS": MessageLookupByLibrary.simpleMessage("ارسال پیامک گروهی"),
     "sendInvitation": MessageLookupByLibrary.simpleMessage("ارسال دعوتنامه"),
     "sendPaymentReceipt": MessageLookupByLibrary.simpleMessage(
       "ارسال رسید فیش پرداخت",
@@ -1252,21 +1308,28 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "آیا همه مشتریان انتخاب شده به بورد کانبان اضافه شوند؟",
         ),
+    "sendTest": MessageLookupByLibrary.simpleMessage("ارسال آزمایشی"),
     "sendThisCustomerToBoardDialogDescription":
         MessageLookupByLibrary.simpleMessage(
           "آیا این مشتری به بورد کانبان اضافه شود؟",
         ),
+    "sendTime": MessageLookupByLibrary.simpleMessage("زمان ارسال"),
     "sendToBoard": MessageLookupByLibrary.simpleMessage("ارسال به بورد"),
     "sender": MessageLookupByLibrary.simpleMessage("فرستنده"),
+    "senderBalance": MessageLookupByLibrary.simpleMessage("موجودی فرستنده"),
     "senderNumber": MessageLookupByLibrary.simpleMessage("شماره فرستنده"),
+    "sent": MessageLookupByLibrary.simpleMessage("ارسال‌شده"),
+    "sentAt": MessageLookupByLibrary.simpleMessage("ارسال‌شده در"),
+    "sentBy": MessageLookupByLibrary.simpleMessage("ارسال‌شده توسط"),
+    "sentMessages": MessageLookupByLibrary.simpleMessage("پیام های ارسالی"),
     "serviceId": MessageLookupByLibrary.simpleMessage(
       "شناسه سرویس (Service ID)",
     ),
     "settings": MessageLookupByLibrary.simpleMessage("تنظیمات"),
     "share": MessageLookupByLibrary.simpleMessage("اشتراک گذاری"),
     "shiftColor": MessageLookupByLibrary.simpleMessage("رنگ شیفت"),
-    "shiftConflictsWithAllSelectedDays": m12,
-    "shiftConflictsWithDays": m13,
+    "shiftConflictsWithAllSelectedDays": m13,
+    "shiftConflictsWithDays": m14,
     "shiftOverlapReport": MessageLookupByLibrary.simpleMessage(
       "گزارش تداخل شیفت",
     ),
@@ -1381,7 +1444,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "swipeToCheckOut": MessageLookupByLibrary.simpleMessage(
       "برای ثبت خروج بکشید",
     ),
-    "switchedBusiness": m14,
+    "switchedBusiness": m15,
     "tapEnterToAdd": MessageLookupByLibrary.simpleMessage(
       "* برای اضافه شدن، دکمه Enter کیبورد را بزنید.",
     ),
@@ -1393,14 +1456,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "tasks": MessageLookupByLibrary.simpleMessage("وظایف"),
     "tax": MessageLookupByLibrary.simpleMessage("ارزش افزوده"),
     "technicalSkills": MessageLookupByLibrary.simpleMessage("مهارت‌های تخصصی"),
+    "testSendDoesNotAffectCampaignStats": MessageLookupByLibrary.simpleMessage(
+      "ارسال آزمایشی تاثیری بر آمار کمپین ندارد.",
+    ),
     "theme": MessageLookupByLibrary.simpleMessage("تغییر تم"),
     "thisDateHasAlreadyBeenAdded": MessageLookupByLibrary.simpleMessage(
       "این تاریخ قبلاً اضافه شده است.",
     ),
-    "thisIsExist": m15,
+    "thisIsExist": m16,
     "time": MessageLookupByLibrary.simpleMessage("ساعت"),
     "timeMustBeSetInFuture": MessageLookupByLibrary.simpleMessage(
-      "زمان باید برای آینده باشد",
+      "زمان باید برای آینده تنظیم شده باشد",
     ),
     "timeSpent": MessageLookupByLibrary.simpleMessage("زمان صرف شده"),
     "timeTracking": MessageLookupByLibrary.simpleMessage("ردیابی زمان"),
@@ -1493,6 +1559,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "uploadCriminalRecordClearanceCertificate":
         MessageLookupByLibrary.simpleMessage("بارگذاری گواهی عدم سوء پیشینه"),
     "uploadExelFile": MessageLookupByLibrary.simpleMessage("آپلود فایل Excel"),
+    "uploadFileExcelCsv": MessageLookupByLibrary.simpleMessage(
+      "بارگذاری فایل (Excel/CSV)",
+    ),
     "uploadInvoiceReceipt": MessageLookupByLibrary.simpleMessage(
       "آپلود فاکتور / رسید",
     ),
@@ -1516,11 +1585,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "userCount": MessageLookupByLibrary.simpleMessage("تعداد کاربران"),
     "userSelection": MessageLookupByLibrary.simpleMessage("انتخاب کاربر"),
     "users": MessageLookupByLibrary.simpleMessage("کاربران"),
+    "valid": MessageLookupByLibrary.simpleMessage("معتبر"),
     "validBeginningSignInPhoneNumber": MessageLookupByLibrary.simpleMessage(
       "+ فقط در ابتدا مجاز است",
     ),
+    "validationIssues": MessageLookupByLibrary.simpleMessage("موارد نامعتبر"),
     "validityDate": MessageLookupByLibrary.simpleMessage("تاریخ اعتبار"),
-    "valueIsShort": m16,
+    "valueIsShort": m17,
     "verification": MessageLookupByLibrary.simpleMessage("احراز هویت"),
     "verificationTextInfo": MessageLookupByLibrary.simpleMessage(
       "تکمیل اطلاعات این بخش برای ایجاد فاکتور، تسویه حساب و سایر عملیات الزامی است.",
@@ -1567,8 +1638,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "year": MessageLookupByLibrary.simpleMessage("سال"),
     "yes": MessageLookupByLibrary.simpleMessage("بله"),
-    "youAreEarly": m17,
-    "youAreLate": m18,
+    "youAreEarly": m18,
+    "youAreLate": m19,
     "youAreNotMemberOfThisGroup": MessageLookupByLibrary.simpleMessage(
       "شما عضو این گروه نیستید.",
     ),

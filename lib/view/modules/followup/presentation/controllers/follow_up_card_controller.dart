@@ -227,18 +227,19 @@ class FollowUpCardController {
       }
     } else if (followUp.value.dataSourceType!.isLegal) {
       // if (followUp.value.caseData?.phoneNumber != null) {
-      //   recipientPhoneNumber = followUp.value.customerData?.phoneNumber;
+      //   recipientPhoneNumber = followUp.value.caseData?.phoneNumber;
       //   return;
       // } else {
       //   AppSnackBar.snackbarRed(title: s.error, subtitle: s.isRequired(''));
       // }
     }
 
-    if (recipientPhoneNumber == null) return;
-
     return await bottomSheet(
       title: s.sendSMS,
-      childBuilder: (final context) => SendSmsSheet(recipientPhoneNumber: recipientPhoneNumber!),
+      childBuilder: (final context) => SendSmsSheet(
+        recipientPhoneNumber: recipientPhoneNumber,
+        showScheduledAt: false,
+      ),
     );
   }
 }

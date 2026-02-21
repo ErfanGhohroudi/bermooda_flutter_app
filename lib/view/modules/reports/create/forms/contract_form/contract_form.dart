@@ -46,14 +46,14 @@ class ContractForm extends StatelessWidget {
                 WDatePickerField(
                   labelText: s.startDate,
                   showYearSelector: true,
-                  onConfirm: (final date, final compactFormatterDate) {
+                  onConfirm: (final date) {
                     ctrl.selectedStartDate = date;
                   },
                 ).expanded(),
                 WDatePickerField(
                   labelText: s.endDate,
                   showYearSelector: true,
-                  onConfirm: (final date, final compactFormatterDate) {
+                  onConfirm: (final date) {
                     ctrl.selectedEndDate = date;
                   },
                 ).expanded(),

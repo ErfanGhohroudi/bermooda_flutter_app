@@ -7,6 +7,7 @@ class GenericResponse<T> {
     this.status,
     this.message = "",
     this.extra,
+    this.exportedFile,
   });
 
   final bool? status;
@@ -14,6 +15,7 @@ class GenericResponse<T> {
   final T? result;
   final List<T>? resultList;
   final ExtraReadDto? extra;
+  final Map<String, dynamic>? exportedFile;
 
   factory GenericResponse.fromJson(final dynamic json, {final Function? fromMap}) {
     if (json == null || json is! Map<String, dynamic>) {
@@ -26,10 +28,10 @@ class GenericResponse<T> {
     final status = json["status"] == null
         ? null
         : json["status"] == true
-            ? true
-            : json["status"].toString().toLowerCase() == 'false'
-                ? false
-                : false;
+        ? true
+        : json["status"].toString().toLowerCase() == 'false'
+        ? false
+        : false;
 
     if (fromMap == null) return GenericResponse<T>(status: status, message: json["message"].toString());
     if (json["data"] is List) {
@@ -38,6 +40,7 @@ class GenericResponse<T> {
         status: status,
         message: json["message"].toString(),
         extra: (json["extra"] ?? json["pagination"]) == null ? null : ExtraReadDto.fromJson(json["extra"] ?? json["pagination"]),
+        exportedFile: json["exported_file"],
       );
     }
     if (json["data"] is String) {
@@ -46,6 +49,7 @@ class GenericResponse<T> {
         status: status,
         message: json["message"].toString(),
         extra: json["extra"] ?? json["pagination"],
+        exportedFile: json["exported_file"],
       );
     }
     return GenericResponse<T>(
@@ -53,6 +57,7 @@ class GenericResponse<T> {
       status: status,
       message: json["message"].toString(),
       extra: (json["extra"] ?? json["pagination"]) == null ? null : ExtraReadDto.fromJson(json["extra"] ?? json["pagination"]),
+      exportedFile: json["exported_file"],
     );
   }
 }

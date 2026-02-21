@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../core/widgets/fields/amount_field/amount_currency_field.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/utils/enums/enums.dart';
@@ -144,19 +145,19 @@ class _ProjectCreateUpdatePageState extends State<ProjectCreateUpdatePage> with 
           spacing: 18,
           children: [
             WDatePickerField(
-              initialValue: startDate,
+              initialValue: startDate?.toJalali(),
               labelText: s.startDate,
               showYearSelector: true,
-              onConfirm: (final date, final compactFormatterDate) {
-                startDate = compactFormatterDate;
+              onConfirm: (final date) {
+                startDate = date?.formatCompactDate();
               },
             ),
             WDatePickerField(
-              initialValue: dueDate,
+              initialValue: dueDate?.toJalali(),
               labelText: s.dueDate,
               showYearSelector: true,
-              onConfirm: (final date, final compactFormatterDate) {
-                dueDate = compactFormatterDate;
+              onConfirm: (final date) {
+                dueDate = date?.formatCompactDate();
               },
             ),
             WAmountCurrencyField(

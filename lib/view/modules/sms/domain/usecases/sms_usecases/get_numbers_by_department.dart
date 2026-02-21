@@ -3,8 +3,8 @@ import '../../entity/sms_panel_number.dart';
 import '../../repositories/sms_panel_repository.dart';
 
 /// UseCase for getting numbers by department
-class GetNumbersByDepartmentUseCase {
-  GetNumbersByDepartmentUseCase(this.repository);
+class GetSmsNumbersByDepartmentUseCase {
+  GetSmsNumbersByDepartmentUseCase(this.repository);
 
   final SmsPanelRepository repository;
 

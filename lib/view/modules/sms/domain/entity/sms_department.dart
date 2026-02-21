@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../../data/data.dart';
-import '../../data/models/response/sms_department.dart';
+import '../../data/models/response/sms_department_dto.dart';
 
 class SmsDepartment extends Equatable {
   const SmsDepartment({

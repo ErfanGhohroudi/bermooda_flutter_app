@@ -18,6 +18,7 @@ class WPhoneNumberField extends StatelessWidget {
     this.onEditingComplete,
     this.helperText,
     this.helperStyle,
+    this.suffixIcon,
     super.key,
   });
 
@@ -36,6 +37,7 @@ class WPhoneNumberField extends StatelessWidget {
   final Function()? onEditingComplete;
   final String? helperText;
   final TextStyle? helperStyle;
+  final Widget? suffixIcon;
 
   @override
   Widget build(final BuildContext context) {
@@ -109,6 +111,7 @@ class WPhoneNumberField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       textAlign: TextAlign.left,
       keyboardType: TextInputType.phone,
+      suffixIcon: suffixIcon,
       formatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
       ],

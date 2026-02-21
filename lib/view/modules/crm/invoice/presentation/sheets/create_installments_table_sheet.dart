@@ -46,12 +46,12 @@ class CreateInstallmentsTableSheet extends StatelessWidget {
           // Installment Start Date
           WDatePickerField(
             labelText: 'تاریخ اولین قسط',
-            initialValue: ctrl.installmentStartDate?.formatCompactDate(),
+            initialValue: ctrl.installmentStartDate,
             required: true,
             startDate: Jalali.now(),
             showYearSelector: true,
             enableClearButton: false,
-            onConfirm: (final date, final formattedDate) {
+            onConfirm: (final date) {
               ctrl.installmentStartDate = date;
             },
           ),

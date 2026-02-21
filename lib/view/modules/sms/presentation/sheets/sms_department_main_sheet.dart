@@ -6,7 +6,10 @@ import '../../../../../core/services/permission_service.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../domain/entity/sms_department.dart';
+import '../pages/group_sms_list_page.dart';
 import '../pages/numbers_list_page.dart';
+import '../pages/inbox_sms_list_page.dart';
+import '../pages/sms_list_page.dart';
 
 class SmsDepartmentMainSheet extends StatelessWidget {
   const SmsDepartmentMainSheet({
@@ -27,32 +30,32 @@ class SmsDepartmentMainSheet extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
+              AppNavigator.push(SmsListPage(
+                departmentId: department.id,
+              ));
             },
             icon: AppIcons.listOutline,
-            title: 'پیام های ارسالی',
+            title: s.sentMessages,
           ),
           _item(
             context: context,
             onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
+              AppNavigator.push(GroupSmsListPage(
+                departmentId: department.id,
+              ));
             },
             icon: AppIcons.listOutline,
-            title: 'پیام گروهی',
+            title: s.groupMessages,
           ),
           _item(
             context: context,
             onTap: () {
-              // AppNavigator.push(MyReviewsPage(
-              //   department: department,
-              // ));
+              AppNavigator.push(InboxSmsListPage(
+                departmentId: department.id,
+              ));
             },
             icon: AppIcons.listOutline,
-            title: 'صندوق ورودی',
+            title: s.inbox,
           ),
           if (haveManagerAccess)
             _item(

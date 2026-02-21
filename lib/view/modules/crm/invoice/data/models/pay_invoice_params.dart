@@ -31,7 +31,7 @@ class PayInvoiceParams {
 
   Map<String, dynamic> toMap() => <String, dynamic>{
     'amount': amount,
-    'installment_id_list': installmentId != null ? [installmentId] : null,
+    if (installmentId != null) 'installment_id_list': [installmentId],
     'tracking_code': trackingCode,
     'description': description,
     'payment_date_jalali': paymentDate,

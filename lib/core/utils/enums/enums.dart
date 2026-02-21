@@ -294,7 +294,8 @@ enum ModuleType {
   conversation,
   legal,
   sms,
-  cloudCall,
+  voip,
+  support,
   employment,
   marketing,
   planning,
@@ -308,7 +309,8 @@ enum ModuleType {
     ModuleType.conversation => s.conversation,
     ModuleType.legal => s.legal,
     ModuleType.sms => s.sms,
-    ModuleType.cloudCall => s.cloudCall,
+    ModuleType.voip => s.cloudCall,
+    ModuleType.support => s.support,
     ModuleType.employment => s.employment,
     ModuleType.marketing => s.marketing,
     ModuleType.planning => s.planning,
@@ -332,7 +334,9 @@ enum ModuleType {
       case 'SMS':
         return ModuleType.sms;
       case 'CLC':
-        return ModuleType.cloudCall;
+        return ModuleType.voip;
+      case 'SUP':
+        return ModuleType.support;
       case 'employment':
         return ModuleType.employment;
       case 'marketing':
@@ -354,7 +358,8 @@ enum PermissionName {
   humanResources("Human Resources (HR)", "سرمایه انسانی (HR)", "human_resources"),
   legal("Legal", "حقوقی", "LGL"),
   sms("SMS", "پیامک", "SMS"),
-  voip("Calls", "تماس", "CLC");
+  voip("Calls", "تماس", "CLC"),
+  support("Support", "پشتیبانی", "SUP");
 
   const PermissionName(this.title, this.titleTr1, this.value);
 
@@ -378,6 +383,8 @@ enum PermissionName {
         return PermissionName.sms;
       case 'CLC':
         return PermissionName.voip;
+      case 'SUP':
+        return PermissionName.support;
       default:
         return null;
     }

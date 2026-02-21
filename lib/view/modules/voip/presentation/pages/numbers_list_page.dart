@@ -38,6 +38,7 @@ class _VoipNumbersListPageState extends State<VoipNumbersListPage> {
       floatingActionButton: ctrl.haveAdminAccess
           ? FloatingActionButton(
               heroTag: "addVoipCardSimFAB",
+              tooltip: "${s.addText} ${s.number}",
               onPressed: () {
                 bottomSheet(
                   title: "${s.addText} ${s.number}",

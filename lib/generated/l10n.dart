@@ -764,6 +764,11 @@ class S {
     return Intl.message('Apply', name: 'apply', desc: '', args: []);
   }
 
+  /// `Apply`
+  String get applyFilter {
+    return Intl.message('Apply', name: 'applyFilter', desc: '', args: []);
+  }
+
   /// `Confirm`
   String get confirm {
     return Intl.message('Confirm', name: 'confirm', desc: '', args: []);
@@ -6044,6 +6049,16 @@ class S {
     return Intl.message('Recipients', name: 'recipients', desc: '', args: []);
   }
 
+  /// `Message Content`
+  String get messageContent {
+    return Intl.message(
+      'Message Content',
+      name: 'messageContent',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Message Text`
   String get messageText {
     return Intl.message(
@@ -7522,6 +7537,351 @@ class S {
   /// `Service ID`
   String get serviceId {
     return Intl.message('Service ID', name: 'serviceId', desc: '', args: []);
+  }
+
+  /// `Cancel Send`
+  String get cancelSend {
+    return Intl.message('Cancel Send', name: 'cancelSend', desc: '', args: []);
+  }
+
+  /// `Sent`
+  String get sent {
+    return Intl.message('Sent', name: 'sent', desc: '', args: []);
+  }
+
+  /// `Delivered`
+  String get delivered {
+    return Intl.message('Delivered', name: 'delivered', desc: '', args: []);
+  }
+
+  /// `Sent by`
+  String get sentBy {
+    return Intl.message('Sent by', name: 'sentBy', desc: '', args: []);
+  }
+
+  /// `Received by`
+  String get receivedBy {
+    return Intl.message('Received by', name: 'receivedBy', desc: '', args: []);
+  }
+
+  /// `Sent Messages`
+  String get sentMessages {
+    return Intl.message(
+      'Sent Messages',
+      name: 'sentMessages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Group Messages`
+  String get groupMessages {
+    return Intl.message(
+      'Group Messages',
+      name: 'groupMessages',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inbox`
+  String get inbox {
+    return Intl.message('Inbox', name: 'inbox', desc: '', args: []);
+  }
+
+  /// `Export all records to "Excel".`
+  String get exportAllRecordsToExcel {
+    return Intl.message(
+      'Export all records to "Excel".',
+      name: 'exportAllRecordsToExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export filtered list to "Excel".`
+  String get exportFilteredListToExcel {
+    return Intl.message(
+      'Export filtered list to "Excel".',
+      name: 'exportFilteredListToExcel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export`
+  String get export {
+    return Intl.message('Export', name: 'export', desc: '', args: []);
+  }
+
+  /// `Send Time`
+  String get sendTime {
+    return Intl.message('Send Time', name: 'sendTime', desc: '', args: []);
+  }
+
+  /// `Enter your message...`
+  String get enterYourMessage {
+    return Intl.message(
+      'Enter your message...',
+      name: 'enterYourMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Campaign Title`
+  String get campaignTitle {
+    return Intl.message(
+      'Campaign Title',
+      name: 'campaignTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `e.g.`
+  String get example {
+    return Intl.message('e.g.', name: 'example', desc: '', args: []);
+  }
+
+  /// `Nowruz Festival`
+  String get nowruzFestival {
+    return Intl.message(
+      'Nowruz Festival',
+      name: 'nowruzFestival',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Group SMS`
+  String get sendGroupSMS {
+    return Intl.message(
+      'Send Group SMS',
+      name: 'sendGroupSMS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Content & Settings`
+  String get contentAndSettings {
+    return Intl.message(
+      'Content & Settings',
+      name: 'contentAndSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Final Approval`
+  String get finalApproval {
+    return Intl.message(
+      'Final Approval',
+      name: 'finalApproval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Numbers Entry Method`
+  String get numbersEntryMethod {
+    return Intl.message(
+      'Numbers Entry Method',
+      name: 'numbersEntryMethod',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manual Entry`
+  String get manualEntry {
+    return Intl.message(
+      'Manual Entry',
+      name: 'manualEntry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upload File (Excel/CSV)`
+  String get uploadFileExcelCsv {
+    return Intl.message(
+      'Upload File (Excel/CSV)',
+      name: 'uploadFileExcelCsv',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recipients Numbers`
+  String get recipientsNumbers {
+    return Intl.message(
+      'Recipients Numbers',
+      name: 'recipientsNumbers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guide`
+  String get guide {
+    return Intl.message('Guide', name: 'guide', desc: '', args: []);
+  }
+
+  /// `The Excel or CSV file must include mobile numbers in the first column.`
+  String get excelCsvFileGuideDescription {
+    return Intl.message(
+      'The Excel or CSV file must include mobile numbers in the first column.',
+      name: 'excelCsvFileGuideDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Numbers should start with 09.`
+  String get numbersShouldStartWith09 {
+    return Intl.message(
+      'Numbers should start with 09.',
+      name: 'numbersShouldStartWith09',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download Sample File`
+  String get downloadSampleFile {
+    return Intl.message(
+      'Download Sample File',
+      name: 'downloadSampleFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Campaign Summary`
+  String get campaignSummary {
+    return Intl.message(
+      'Campaign Summary',
+      name: 'campaignSummary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Immediate`
+  String get immediate {
+    return Intl.message('Immediate', name: 'immediate', desc: '', args: []);
+  }
+
+  /// `Valid`
+  String get valid {
+    return Intl.message('Valid', name: 'valid', desc: '', args: []);
+  }
+
+  /// `Invalid`
+  String get invalid {
+    return Intl.message('Invalid', name: 'invalid', desc: '', args: []);
+  }
+
+  /// `Estimated Cost`
+  String get estimatedCost {
+    return Intl.message(
+      'Estimated Cost',
+      name: 'estimatedCost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sender Balance`
+  String get senderBalance {
+    return Intl.message(
+      'Sender Balance',
+      name: 'senderBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Test`
+  String get sendTest {
+    return Intl.message('Send Test', name: 'sendTest', desc: '', args: []);
+  }
+
+  /// `Test send doesn't affect campaign statistics.`
+  String get testSendDoesNotAffectCampaignStats {
+    return Intl.message(
+      'Test send doesn\'t affect campaign statistics.',
+      name: 'testSendDoesNotAffectCampaignStats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After confirmation, your SMS will be queued. Please verify the details before proceeding.`
+  String get groupSmsWarningMessage {
+    return Intl.message(
+      'After confirmation, your SMS will be queued. Please verify the details before proceeding.',
+      name: 'groupSmsWarningMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Created at`
+  String get createdAt {
+    return Intl.message('Created at', name: 'createdAt', desc: '', args: []);
+  }
+
+  /// `Scheduled Date`
+  String get scheduledDate {
+    return Intl.message(
+      'Scheduled Date',
+      name: 'scheduledDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cost`
+  String get cost {
+    return Intl.message('Cost', name: 'cost', desc: '', args: []);
+  }
+
+  /// `and {count} more`
+  String andMore(Object count) {
+    return Intl.message(
+      'and $count more',
+      name: 'andMore',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Validation Issues`
+  String get validationIssues {
+    return Intl.message(
+      'Validation Issues',
+      name: 'validationIssues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General Info`
+  String get generalInfo {
+    return Intl.message(
+      'General Info',
+      name: 'generalInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sent at`
+  String get sentAt {
+    return Intl.message('Sent at', name: 'sentAt', desc: '', args: []);
   }
 }
 

@@ -22,7 +22,7 @@ class SmsNumbersListController extends GetxController {
 
   final SmsPanelRepositoryImpl _repository = SmsPanelRepositoryImpl();
 
-  late final GetNumbersByDepartmentUseCase _getNumbersByDepartmentUseCase = GetNumbersByDepartmentUseCase(_repository);
+  late final GetSmsNumbersByDepartmentUseCase _getNumbersByDepartmentUseCase = GetSmsNumbersByDepartmentUseCase(_repository);
   late final CreateNumberUseCase _createNumberUseCase = CreateNumberUseCase(_repository);
   late final DeleteNumberUseCase _deleteNumberUseCase = DeleteNumberUseCase(_repository);
 

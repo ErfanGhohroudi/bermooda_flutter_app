@@ -60,7 +60,9 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
   @override
   void didUpdateWidget(covariant final WDepartmentItemCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.department != widget.department || oldWidget.showMoreIcon != widget.showMoreIcon || oldWidget.index != widget.index) {
+    if (oldWidget.department != widget.department ||
+        oldWidget.showMoreIcon != widget.showMoreIcon ||
+        oldWidget.index != widget.index) {
       setState(() {});
     }
     if (widget.isReorderEnabled != oldWidget.isReorderEnabled) {
@@ -82,20 +84,22 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
   Widget build(final BuildContext context) {
     return WCard(
       showBorder: true,
-      onTap: widget.onTap ?? () {
-        if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
+      onTap:
+          widget.onTap ??
+          () {
+            if (widget.isReorderEnabled) return AppSnackBar.snackbarRed(title: s.warning, subtitle: s.saveYourChangesFirst);
 
-        bottomSheet(
-          child: HrDepartmentMainPage(
-            department: widget.department,
-            onEdited: (final department) {
-              if (widget.ctrl != null) {
-                widget.ctrl!.departments[widget.index] = department;
-              }
-            },
-          ),
-        );
-      },
+            bottomSheet(
+              child: HrDepartmentMainPage(
+                department: widget.department,
+                onEdited: (final department) {
+                  if (widget.ctrl != null) {
+                    widget.ctrl!.departments[widget.index] = department;
+                  }
+                },
+              ),
+            );
+          },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -125,7 +129,9 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
                     user: UserReadDto(id: '', avatarUrl: widget.department.avatar?.url, fullName: widget.department.title),
                     size: 50,
                   ),
-                  Flexible(child: Text(widget.department.title ?? '', maxLines: 1).bodyMedium(overflow: TextOverflow.ellipsis).bold()),
+                  Flexible(
+                    child: Text(widget.department.title ?? '', maxLines: 1).bodyMedium(overflow: TextOverflow.ellipsis).bold(),
+                  ),
                 ],
               ).expanded(),
               if (widget.showMoreIcon || widget.moreButtonBuilder != null)
@@ -163,7 +169,12 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
                 ),
             ],
           ),
-          WLabelProgressBar(title: s.successRate, value: widget.department.progress, progressColor: AppColors.green, minTextWidth: 60),
+          WLabelProgressBar(
+            title: s.successRate,
+            value: widget.department.progress,
+            progressColor: AppColors.green,
+            minTextWidth: 60,
+          ),
           if (widget.department.members.isNotEmpty) ...[
             const Divider(height: 0),
             InkWell(
@@ -184,8 +195,9 @@ class _WDepartmentItemCardState extends State<WDepartmentItemCard> with SingleTi
                             contentPadding: EdgeInsets.zero,
                             leading: WCircleAvatar(user: member, size: 40),
                             title: Text(member.fullName ?? '- -').bodyMedium(),
-                            subtitle: Text(member.permissions.getByName(PermissionName.humanResources)?.permissionType?.getTitle() ?? '')
-                                .bodySmall(color: context.theme.hintColor),
+                            subtitle: Text(
+                              member.permissions.getByName(PermissionName.humanResources)?.permissionType?.getTitle() ?? '',
+                            ).bodySmall(color: context.theme.hintColor),
                           ),
                         );
                       },

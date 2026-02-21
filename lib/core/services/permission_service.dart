@@ -75,15 +75,27 @@ class PermissionService extends GetxService {
   /// [isWorkspaceOwner] or [isSMSManger]
   bool get haveSMSManagerAccess => isWorkspaceOwner || isSMSManger || AppConfig.instance.isDevelopment;
 
-  /// Cloud Call /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  bool get isCloudCallNoAccess => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isNoAccess();
-  bool get isCloudCallExpert => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isExpert();
-  bool get isCloudCallSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isSupervisor();
-  bool get isCloudCallManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isManager();
-  /// [isWorkspaceOwner] or ![isCloudCallNoAccess]
-  bool get haveCloudCallAccess => isWorkspaceOwner || !isCloudCallNoAccess || AppConfig.instance.isDevelopment;
-  /// [isWorkspaceOwner] or [isCloudCallManger] or [isCloudCallSupervisor]
-  bool get haveCloudCallAdminAccess => isWorkspaceOwner || isCloudCallManger || isCloudCallSupervisor || AppConfig.instance.isDevelopment;
-  /// [isWorkspaceOwner] or [isCloudCallManger]
-  bool get haveCloudCallManagerAccess => isWorkspaceOwner || isCloudCallManger || AppConfig.instance.isDevelopment;
+  /// Voip /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  bool get isVoipNoAccess => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isNoAccess();
+  bool get isVoipExpert => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isExpert();
+  bool get isVoipSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isSupervisor();
+  bool get isVoipManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.voip).isManager();
+  /// [isWorkspaceOwner] or ![isVoipNoAccess]
+  bool get haveVoipAccess => isWorkspaceOwner || !isVoipNoAccess || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isVoipManger] or [isVoipSupervisor]
+  bool get haveVoipAdminAccess => isWorkspaceOwner || isVoipManger || isVoipSupervisor || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isVoipManger]
+  bool get haveVoipManagerAccess => isWorkspaceOwner || isVoipManger || AppConfig.instance.isDevelopment;
+
+  /// Support /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  bool get isSupportNoAccess => _currentWorkspace.value.userPermissions.getByName(PermissionName.support).isNoAccess();
+  bool get isSupportExpert => _currentWorkspace.value.userPermissions.getByName(PermissionName.support).isExpert();
+  bool get isSupportSupervisor => _currentWorkspace.value.userPermissions.getByName(PermissionName.support).isSupervisor();
+  bool get isSupportManger => _currentWorkspace.value.userPermissions.getByName(PermissionName.support).isManager();
+  /// [isWorkspaceOwner] or ![isSupportNoAccess]
+  bool get haveSupportAccess => isWorkspaceOwner || !isSupportNoAccess || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isSupportManger] or [isSupportSupervisor]
+  bool get haveSupportAdminAccess => isWorkspaceOwner || isSupportManger || isSupportSupervisor || AppConfig.instance.isDevelopment;
+  /// [isWorkspaceOwner] or [isSupportManger]
+  bool get haveSupportManagerAccess => isWorkspaceOwner || isSupportManger || AppConfig.instance.isDevelopment;
 }

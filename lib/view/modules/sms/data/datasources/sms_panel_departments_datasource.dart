@@ -4,7 +4,7 @@ import 'package:u/utilities.dart';
 import '../../../../../core/loading/loading.dart';
 import '../../../../../data/api_client.dart';
 import '../../../../../data/data.dart';
-import '../models/response/sms_department.dart';
+import '../models/response/sms_department_dto.dart';
 
 class SmsPanelDepartmentsDatasource {
   final ApiClient _apiClient = Get.find();

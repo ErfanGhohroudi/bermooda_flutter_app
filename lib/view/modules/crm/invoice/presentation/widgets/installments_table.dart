@@ -246,10 +246,10 @@ class WInstallmentsTable extends StatelessWidget {
             ),
             WDatePickerField(
               labelText: s.paymentDate,
-              initialValue: selectedDate?.formatCompactDate(),
+              initialValue: selectedDate,
               required: true,
               startDate: startDate ?? Jalali.now(),
-              onConfirm: (final date, final _) {
+              onConfirm: (final date) {
                 selectedDate = date;
               },
             ),

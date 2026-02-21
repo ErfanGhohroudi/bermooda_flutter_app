@@ -39,6 +39,7 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
       floatingActionButton: ctrl.haveAdminAccess
           ? FloatingActionButton(
               heroTag: "addSMSPanelCardSimFAB",
+              tooltip: "${s.addText} ${s.number}",
               onPressed: () {
                 bottomSheet(
                   title: "${s.addText} ${s.number}",
@@ -134,15 +135,15 @@ class _SmsNumbersListPageState extends State<SmsNumbersListPage> {
             spacing: 10,
             children: [
               _buildRowInfo(s.title, number.title ?? '- -').expanded(),
-              _buildRowInfo(s.usedThisMonth, number.usedThisMonth?.toString() ?? '- -').expanded(),
+              _buildRowInfo(s.usedThisMonth, number.usedThisMonth?.toString().separateNumbers3By3() ?? '- -').expanded(),
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
             children: [
-              _buildRowInfo(s.monthlyLimit, number.monthlyLimit?.toString() ?? '- -').expanded(),
-              _buildRowInfo(s.dailyLimit, number.dailyLimit?.toString() ?? '- -').expanded(),
+              _buildRowInfo(s.monthlyLimit, number.monthlyLimit?.toString().separateNumbers3By3() ?? '- -').expanded(),
+              _buildRowInfo(s.dailyLimit, number.dailyLimit?.toString().separateNumbers3By3() ?? '- -').expanded(),
             ],
           ),
           _buildRowInfo(s.balance, number.balance?.toTomanMoney() ?? '- -'),

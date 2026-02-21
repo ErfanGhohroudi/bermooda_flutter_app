@@ -1,5 +1,7 @@
 part of "widgets.dart";
 
+enum CustomDatePickerMode { date, dateAndTime }
+
 class WDatePicker extends StatefulWidget {
   WDatePicker({
     required this.onConfirm,
@@ -7,6 +9,7 @@ class WDatePicker extends StatefulWidget {
     this.initialDate,
     this.showYearSelector = false,
     this.enableClearButton = true,
+    this.mode = CustomDatePickerMode.date,
     super.key,
   }) : assert(initialDate != null && startDate != null ? !initialDate.isBefore(startDate) : true);
 
@@ -15,6 +18,7 @@ class WDatePicker extends StatefulWidget {
   final Jalali? initialDate;
   final bool showYearSelector;
   final bool enableClearButton;
+  final CustomDatePickerMode mode;
 
   @override
   State<WDatePicker> createState() => _WDatePickerState();
@@ -22,29 +26,50 @@ class WDatePicker extends StatefulWidget {
 
 class _WDatePickerState extends State<WDatePicker> {
   static const _maxWidth = 300.0;
+  static const List<String> persianWeekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
+  static const List<String> englishWeekDays = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
   final Rx<PageState> pageState = PageState.loaded.obs;
-  final Rx<Jalali> monthAndYearSelected = Jalali.now().withDay(1).obs;
-  final Rx<Jalali> dateTimeSelected = Jalali.now().obs;
-  final List<String> persianWeekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
-  final List<String> englishWeekDays = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
-  Jalali? startDate;
+  late final Jalali? startDate;
 
-  int get firstWeekDay => monthAndYearSelected.value.withDay(1).weekDay - 1;
+  final Rx<Jalali> monthAndYearSelected = Jalali
+      .now()
+      .withDay(1)
+      .obs;
+  final Rx<Jalali> dateTimeSelected = Jalali
+      .now()
+      .obs;
+
+  TimeOfDay time = TimeOfDay.now();
+
+  CustomDatePickerMode get mode => widget.mode;
+
+  int get firstWeekDay =>
+      monthAndYearSelected.value
+          .withDay(1)
+          .weekDay - 1;
 
   int get monthLength => monthAndYearSelected.value.monthLength;
 
   bool get showClearButton => widget.enableClearButton && widget.initialDate != null;
 
-  bool isDayActive(final Jalali date) => startDate != null
-      ? date.formatCompactDate().numericOnly().toInt() >= (startDate?.formatCompactDate().numericOnly().toInt() ?? 0)
-      : true;
+  bool isDayActive(final Jalali date) =>
+      startDate != null
+          ? date.formatCompactDate().numericOnly().toInt() >= (startDate?.formatCompactDate().numericOnly().toInt() ?? 0)
+          : true;
 
   @override
   void initState() {
     startDate = widget.startDate != null ? Jalali(widget.startDate!.year, widget.startDate!.month, widget.startDate!.day) : null;
     monthAndYearSelected(widget.initialDate?.withDay(1));
     dateTimeSelected(widget.initialDate);
+    if (mode == CustomDatePickerMode.dateAndTime) {
+      time = TimeOfDay(hour: widget.initialDate?.hour ?? TimeOfDay
+          .now()
+          .hour, minute: widget.initialDate?.minute ?? TimeOfDay
+          .now()
+          .minute);
+    }
     super.initState();
   }
 
@@ -95,33 +120,61 @@ class _WDatePickerState extends State<WDatePicker> {
   @override
   Widget build(final BuildContext context) {
     return Obx(
-      () => pageState.isLoaded()
+          () =>
+      pageState.isLoaded()
           ? WCard(
-              child: SizedBox(
-                width: _maxWidth,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (widget.showYearSelector) _yearSelector(),
-                      _monthSelector(), // Month selection widget (previous/next buttons)
-                      _weekDays(), // Displays the names of the week days
-                      _monthDays().marginOnly(top: 5), // Displays the days of the month in a GridView
-                      /// Buttons
-                      Row(
-                        children: [
-                          if (showClearButton) _buildClearButton().expanded() else _buildCancelButton().expanded(),
-                          const SizedBox(width: 10),
-                          _buildConfirmButton().expanded(),
-                        ],
-                      ).marginOnly(top: 12),
-                      if (showClearButton) _buildCancelButton(width: _maxWidth).marginOnly(top: 10),
-                    ],
+        child: SizedBox(
+          width: _maxWidth,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (widget.showYearSelector) _yearSelector(),
+                _monthSelector(), // Month selection widget (previous/next buttons)
+                _weekDays(), // Displays the names of the week days
+                _monthDays().marginOnly(top: 5), // Displays the days of the month in a GridView
+
+                if (mode == CustomDatePickerMode.dateAndTime) ...[
+                  const Divider(),
+                  SizedBox(
+                    height: 85,
+                    child: CupertinoTheme(
+                      data: CupertinoTheme.of(context).copyWith(
+                        textTheme: CupertinoTextThemeData(
+                          dateTimePickerTextStyle: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      child: CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.time,
+                        showTimeSeparator: true,
+                        dateOrder: DatePickerDateOrder.ymd,
+                        initialDateTime: DateTime(1, 1, 1, time.hour, time.minute),
+                        use24hFormat: true,
+                        onDateTimeChanged: (final DateTime newDate) {
+                          time = TimeOfDay(hour: newDate.hour, minute: newDate.minute);
+                        },
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
+                  const Divider(),
+                ],
+
+                /// Buttons
+                Row(
+                  children: [
+                    if (showClearButton) _buildClearButton().expanded() else
+                      _buildCancelButton().expanded(),
+                    const SizedBox(width: 10),
+                    _buildConfirmButton().expanded(),
+                  ],
+                ).marginOnly(top: 12),
+                if (showClearButton) _buildCancelButton(width: _maxWidth).marginOnly(top: 10),
+              ],
+            ),
+          ),
+        ),
+      )
           : const SizedBox(),
     );
   }
@@ -150,7 +203,13 @@ class _WDatePickerState extends State<WDatePicker> {
   Widget _buildConfirmButton() {
     return UElevatedButton(
       title: s.confirm,
-      onTap: () => widget.onConfirm(dateTimeSelected.value),
+      onTap: () {
+        Jalali dateTime = dateTimeSelected.value;
+        if (mode == CustomDatePickerMode.dateAndTime) {
+          dateTime = dateTime.copyWith(hour: time.hour, minute: time.minute);
+        }
+        widget.onConfirm(dateTime);
+      },
     );
   }
 
@@ -237,75 +296,84 @@ class _WDatePickerState extends State<WDatePicker> {
   }
 
   /// Widget to display the names of the weekdays
-  Widget _weekDays() => Container(
-    height: 25,
-    decoration: BoxDecoration(
-      color: context.theme.scaffoldBackgroundColor,
-      borderRadius: BorderRadius.circular(30),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: (isPersianLang ? persianWeekDays : englishWeekDays)
-          .map(
-            (final day) => Text(
-              day,
-            ).bodyMedium(),
+  Widget _weekDays() =>
+      Container(
+        height: 25,
+        decoration: BoxDecoration(
+          color: context.theme.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: (isPersianLang ? persianWeekDays : englishWeekDays)
+              .map(
+                (final day) =>
+                Text(
+                  day,
+                ).bodyMedium(),
           )
-          .toList(),
-    ),
-  );
+              .toList(),
+        ),
+      );
 
   /// Widget to display the days of the month as a `GridView`
-  Widget _monthDays() => GridView.builder(
-    physics: const NeverScrollableScrollPhysics(),
-    // Disables internal scrolling
-    shrinkWrap: true,
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 7, // 7 columns for the days of the week
-      mainAxisSpacing: 8, // Vertical spacing between items
-      crossAxisSpacing: 8, // Horizontal spacing between items
-    ),
-    itemCount: monthLength + firstWeekDay,
-    // Total number of cells (days of the month + empty placeholders)
-    itemBuilder: (final context, final index) {
-      // Display empty placeholders for days before the start of the month
-      if (index < firstWeekDay) {
-        return const SizedBox();
-      }
-
-      final int day = index - firstWeekDay + 1; // Calculate the correct day number
-
-      final bool isSelected =
-          monthAndYearSelected.value.year == dateTimeSelected.value.year &&
-          monthAndYearSelected.value.month == dateTimeSelected.value.month &&
-          day == dateTimeSelected.value.day; // Check if the day is selected
-
-      final bool isToday =
-          monthAndYearSelected.value.year == Jalali.now().year &&
-          monthAndYearSelected.value.month == Jalali.now().month &&
-          day == Jalali.now().day; // Check if the day is today
-
-      return Container(
-        decoration: BoxDecoration(
-          color: isSelected ? navigatorKey.currentContext!.theme.primaryColor : Colors.transparent, // Highlight selected day
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.circular(10),
-          border: isToday
-              ? Border.all(color: navigatorKey.currentContext!.theme.primaryColor, width: 1)
-              : null, // Add blue border for today
+  Widget _monthDays() =>
+      GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        // Disables internal scrolling
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 7, // 7 columns for the days of the week
+          mainAxisSpacing: 8, // Vertical spacing between items
+          crossAxisSpacing: 8, // Horizontal spacing between items
         ),
-        alignment: Alignment.center,
-        child: Text(day.toString()).bodyLarge(
-          color: isDayActive(monthAndYearSelected.value.withDay(day))
-              ? (isSelected ? Colors.white : null)
-              : context.theme.hintColor, // White text color for selected day
-        ),
-      ).onTap(() {
-        // Set the selected day when tapped
-        if (isDayActive(monthAndYearSelected.value.withDay(day))) {
-          updateSelectedDate(monthAndYearSelected.value.withDay(day));
-        }
-      });
-    },
-  ).marginSymmetric(horizontal: 4);
+        itemCount: monthLength + firstWeekDay,
+        // Total number of cells (days of the month + empty placeholders)
+        itemBuilder: (final context, final index) {
+          // Display empty placeholders for days before the start of the month
+          if (index < firstWeekDay) {
+            return const SizedBox();
+          }
+
+          final int day = index - firstWeekDay + 1; // Calculate the correct day number
+
+          final bool isSelected =
+              monthAndYearSelected.value.year == dateTimeSelected.value.year &&
+                  monthAndYearSelected.value.month == dateTimeSelected.value.month &&
+                  day == dateTimeSelected.value.day; // Check if the day is selected
+
+          final bool isToday =
+              monthAndYearSelected.value.year == Jalali
+                  .now()
+                  .year &&
+                  monthAndYearSelected.value.month == Jalali
+                      .now()
+                      .month &&
+                  day == Jalali
+                      .now()
+                      .day; // Check if the day is today
+
+          return Container(
+            decoration: BoxDecoration(
+              color: isSelected ? navigatorKey.currentContext!.theme.primaryColor : Colors.transparent, // Highlight selected day
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(10),
+              border: isToday
+                  ? Border.all(color: navigatorKey.currentContext!.theme.primaryColor, width: 1)
+                  : null, // Add blue border for today
+            ),
+            alignment: Alignment.center,
+            child: Text(day.toString()).bodyLarge(
+              color: isDayActive(monthAndYearSelected.value.withDay(day))
+                  ? (isSelected ? Colors.white : null)
+                  : context.theme.hintColor, // White text color for selected day
+            ),
+          ).onTap(() {
+            // Set the selected day when tapped
+            if (isDayActive(monthAndYearSelected.value.withDay(day))) {
+              updateSelectedDate(monthAndYearSelected.value.withDay(day));
+            }
+          });
+        },
+      ).marginSymmetric(horizontal: 4);
 }

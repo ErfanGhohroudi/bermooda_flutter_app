@@ -152,4 +152,13 @@ extension JalaliDateExtentions<T> on Jalali? {
     final jalaliDate = this!;
     return '${jalaliDate.day} ${jalaliDate.month.getJalaliMonthNameFaEn()} ${jalaliDate.year}';
   }
+
+  String get toDateTimeString {
+    if (this == null) return '';
+    final f = this!.formatter;
+    final hour = this!.hour.toString().padLeft(2, '0');
+    final minute = this!.minute.toString().padLeft(2, '0');
+    return '${f.yyyy}/${f.mm}/${f.dd} $hour:$minute';
+  }
+
 }

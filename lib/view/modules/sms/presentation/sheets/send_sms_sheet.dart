@@ -8,9 +8,18 @@ import '../../domain/entity/sms_panel_number.dart';
 import '../controllers/send_sms_controller.dart';
 
 class SendSmsSheet extends StatefulWidget {
-  const SendSmsSheet({super.key, required this.recipientPhoneNumber});
+  const SendSmsSheet({
+    this.recipientPhoneNumber,
+    this.departmentId,
+    this.showScheduledAt = true,
+    super.key,
+  });
 
-  final String recipientPhoneNumber;
+  final String? recipientPhoneNumber;
+
+  /// just SMS department's id
+  final int? departmentId;
+  final bool showScheduledAt;
 
   @override
   State<SendSmsSheet> createState() => _SendSmsSheetState();
@@ -21,7 +30,7 @@ class _SendSmsSheetState extends State<SendSmsSheet> {
 
   @override
   void initState() {
-    ctrl = Get.put(SendSmsController());
+    ctrl = Get.put(SendSmsController(departmentId: widget.departmentId));
     super.initState();
   }
 
@@ -69,18 +78,29 @@ class _SendSmsSheetState extends State<SendSmsSheet> {
             mainAxisSize: MainAxisSize.min,
             spacing: 18,
             children: [
-              RichText(
-                text: TextSpan(
-                  style: context.textTheme.bodyMedium,
-                  children: [
-                    TextSpan(
-                      text: "${s.recipient}: ",
-                      style: context.textTheme.bodyMedium?.copyWith(color: context.theme.hintColor),
-                    ),
-                    TextSpan(text: widget.recipientPhoneNumber),
-                  ],
+              if (widget.recipientPhoneNumber != null)
+                RichText(
+                  text: TextSpan(
+                    style: context.textTheme.bodyMedium,
+                    children: [
+                      TextSpan(
+                        text: "${s.recipient}: ",
+                        style: context.textTheme.bodyMedium?.copyWith(color: context.theme.hintColor),
+                      ),
+                      TextSpan(text: widget.recipientPhoneNumber),
+                    ],
+                  ),
+                )
+              else
+                WPhoneNumberField(
+                  controller: ctrl.recipientPhoneNumberCtrl,
+                  labelText: s.recipient,
+                  hintText: "09123456789",
+                  required: true,
+                  startWith: '09',
+                  minLength: 11,
+                  maxLength: 11,
                 ),
-              ),
               WDropDownFormField<SmsPanelNumber>(
                 labelText: s.senderNumber,
                 value: ctrl.selectedNumber,
@@ -98,16 +118,34 @@ class _SendSmsSheetState extends State<SendSmsSheet> {
                 ).toList(),
                 onChanged: (final value) => ctrl.selectedNumber = value,
               ),
-              WTextField(
-                controller: ctrl.contentController,
-                hintText: s.messageText,
-                multiLine: true,
-                required: true,
-                showRequired: false,
-                minLines: 4,
-                maxLines: 10,
-                maxLength: 2000,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 10,
+                children: [
+                  Text(s.messageContent).titleMedium(color: context.theme.hintColor),
+                  WTextField(
+                    controller: ctrl.contentCtrl,
+                    hintText: s.enterYourMessage,
+                    required: true,
+                    showRequired: false,
+                    multiLine: true,
+                    showCounter: true,
+                    minLines: 4,
+                    maxLines: 10,
+                    maxLength: 900,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                  ),
+                ],
               ),
+              if (widget.showScheduledAt)
+                WDatePickerField(
+                  labelText: "${s.sendTime} ${s.optional}",
+                  startDate: Jalali.now(),
+                  initialValue: ctrl.scheduledAt,
+                  mode: CustomDatePickerMode.dateAndTime,
+                  onConfirm: (final date) => ctrl.scheduledAt = date,
+                ),
+
               Obx(
                 () => UElevatedButton(
                   width: double.infinity,

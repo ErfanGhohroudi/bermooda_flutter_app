@@ -1,6 +1,6 @@
 import 'package:u/utilities.dart';
 
-import '../widgets/widgets.dart' show WDatePicker, WRangeDatePicker;
+import '../widgets/widgets.dart' show WDatePicker, WRangeDatePicker, CustomDatePickerMode;
 import '../widgets/fields/fields.dart';
 
 abstract class DateAndTimeFunctions {
@@ -12,6 +12,7 @@ abstract class DateAndTimeFunctions {
     final VoidCallback? onDismissed,
     final bool showYearSelector = false,
     final bool enableClearButton = true,
+    final CustomDatePickerMode mode = CustomDatePickerMode.date,
   }) async {
     if (initialDate != null && startDate != null && initialDate.isBefore(startDate)) {
       initialDate = null;
@@ -28,8 +29,12 @@ abstract class DateAndTimeFunctions {
           initialDate: initialDate,
           showYearSelector: showYearSelector,
           enableClearButton: enableClearButton,
+          mode: mode,
           onConfirm: (final date) {
-            final finalDate = date != null ? Jalali(date.year, date.month, date.day) : null;
+            Jalali? finalDate = date != null ? Jalali(date.year, date.month, date.day) : null;
+            if (mode == CustomDatePickerMode.dateAndTime) {
+              finalDate = date;
+            }
             Navigator.of(context).pop(finalDate); // مقدار انتخاب‌شده رو برمی‌گردونه
           },
         ),

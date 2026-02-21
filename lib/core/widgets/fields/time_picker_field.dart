@@ -73,9 +73,10 @@ class _WTimePickerFieldState extends State<WTimePickerField> {
     bottomSheet(
       title: s.selectTime,
       childBuilder: (final _) => Column(
+        spacing: 18,
         children: [
           SizedBox(
-            height: 250,
+            height: 185,
             child: CupertinoTheme(
               data: CupertinoTheme.of(context).copyWith(
                 textTheme: CupertinoTextThemeData(

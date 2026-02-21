@@ -87,7 +87,7 @@ class _WMultiDatePickerFieldState extends State<WMultiDatePickerField> {
                   return null;
                 }
               : null,
-          onConfirm: (final date, final compactFormatterDate) {
+          onConfirm: (final date) {
             _addDate(date);
           },
         ),

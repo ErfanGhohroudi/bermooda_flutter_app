@@ -68,6 +68,7 @@ class _VoipDepartmentListPageState extends State<VoipDepartmentListPage> {
         floatingActionButton: ctrl.haveAdminAccess
             ? FloatingActionButton(
                 heroTag: "voipDepartmentsFAB",
+                tooltip: s.newDepartment,
                 onPressed: () {
                   bottomSheet(
                     title: s.newDepartment,

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../sms/data/models/response/sms_panel_number.dart';
+import '../../../sms/data/models/response/sms_panel_number_dto.dart';
 
 class SmsPanelNumber extends Equatable {
   const SmsPanelNumber({

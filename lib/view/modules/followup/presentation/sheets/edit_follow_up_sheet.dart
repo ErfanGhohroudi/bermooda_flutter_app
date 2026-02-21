@@ -58,8 +58,8 @@ class _EditFollowUpSheetState extends State<EditFollowUpSheet> with EditFollowUp
                     required: true,
                     showRequired: false,
                     startDate: Jalali.now(),
-                    initialValue: followUp.date?.formatCompactDate(),
-                    onConfirm: (final date, final compactFormatterDate) {
+                    initialValue: followUp.date,
+                    onConfirm: (final date) {
                       followUp = followUp.copyWith(date: date);
                     },
                   ).expanded(),

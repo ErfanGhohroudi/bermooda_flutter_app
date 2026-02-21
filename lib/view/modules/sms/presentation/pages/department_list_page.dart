@@ -68,6 +68,7 @@ class _SmsDepartmentListPageState extends State<SmsDepartmentListPage> {
         floatingActionButton: ctrl.haveAdminAccess
             ? FloatingActionButton(
                 heroTag: "smsDepartmentsFAB",
+                tooltip: s.newDepartment,
                 onPressed: () {
                   bottomSheet(
                     title: s.newDepartment,

@@ -28,7 +28,7 @@ Future<T?> bottomSheet<T>({
     useSafeArea: true,
     constraints: BoxConstraints(
       minHeight: minHeight,
-      maxHeight: maxHeight ?? MediaQuery.sizeOf(navigatorKey.currentContext!).height * 0.8,
+      maxHeight: maxHeight ?? MediaQuery.sizeOf(navigatorKey.currentContext!).height * 0.85,
       // maxHeight: maxHeight ?? MediaQuery.sizeOf(navigatorKey.currentContext!).height - 100,
     ),
     builder: (final BuildContext context) => Container(

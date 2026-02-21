@@ -21,7 +21,7 @@ class VoipNumbersListController extends GetxController {
 
   final VoipRepositoryImpl _repository = VoipRepositoryImpl();
 
-  late final GetNumbersByDepartmentUseCase _getNumbersByDepartmentUseCase = GetNumbersByDepartmentUseCase(_repository);
+  late final GetVoipNumbersByDepartmentUseCase _getNumbersByDepartmentUseCase = GetVoipNumbersByDepartmentUseCase(_repository);
   late final CreateNumberUseCase _createNumberUseCase = CreateNumberUseCase(_repository);
   late final DeleteNumberUseCase _deleteNumberUseCase = DeleteNumberUseCase(_repository);
 

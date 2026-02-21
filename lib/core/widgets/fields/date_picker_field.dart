@@ -1,7 +1,7 @@
 part of 'fields.dart';
 
 class WDatePickerField extends StatefulWidget {
-  WDatePickerField({
+  const WDatePickerField({
     required this.onConfirm,
     this.initialValue, // yyyy/mm/dd
     this.startDate,
@@ -14,11 +14,15 @@ class WDatePickerField extends StatefulWidget {
     this.showYearSelector = false,
     this.validator,
     this.enableClearButton = true,
+    this.mode = CustomDatePickerMode.date,
     super.key,
-  }) : assert(initialValue == null || initialValue.toJalali() != null, 'initialValue format is not yyyy/mm/dd');
+  });
+  // }) : assert(initialValue == null || initialValue.toJalali() != null, 'initialValue format is not yyyy/mm/dd');
 
-  final Function(Jalali? date, String? compactFormatterDate) onConfirm;
-  final String? initialValue;
+  final Function(Jalali? date) onConfirm;
+
+  /// YYYY/MM/DD
+  final Jalali? initialValue;
   final Jalali? startDate;
   final String? labelText;
   final bool enabled;
@@ -27,6 +31,7 @@ class WDatePickerField extends StatefulWidget {
   final bool showYearSelector;
   final FormFieldValidator<String?>? validator;
   final bool enableClearButton;
+  final CustomDatePickerMode mode;
 
   @override
   State<WDatePickerField> createState() => _WDatePickerFieldState();
@@ -36,6 +41,8 @@ class _WDatePickerFieldState extends State<WDatePickerField> {
   Jalali? currentDate;
   final TextEditingController dateController = TextEditingController();
 
+  CustomDatePickerMode get mode => widget.mode;
+
   @override
   void initState() {
     setInitialDate();
@@ -43,8 +50,11 @@ class _WDatePickerFieldState extends State<WDatePickerField> {
   }
 
   void setInitialDate() {
-    currentDate = widget.initialValue.toJalali();
+    currentDate = widget.initialValue;
     dateController.text = currentDate?.formatCompactDate() ?? '';
+    if (mode == CustomDatePickerMode.dateAndTime) {
+      dateController.text = currentDate?.toDateTimeString ?? '';
+    }
   }
 
   @override
@@ -81,26 +91,31 @@ class _WDatePickerFieldState extends State<WDatePickerField> {
       onTap: () async {
         FocusManager.instance.primaryFocus!.unfocus();
         if (widget.enabled) {
-          final hadInitialValue = dateController.text.isNotEmpty;
+          final hadInitialValue = currentDate != null;
+          // final hadInitialValue = dateController.text.isNotEmpty;
           final result = await DateAndTimeFunctions.showCustomPersianDatePicker(
             startDate: widget.startDate,
-            initialDate: dateController.text.toJalali(),
+            initialDate: currentDate,
             showYearSelector: widget.showYearSelector,
             barrierDismissible: false,
             enableClearButton: widget.enableClearButton,
+            mode: mode,
           );
           FocusManager.instance.primaryFocus!.unfocus();
           if (result != null && result.year > 0) {
             currentDate = result;
             dateController.text = currentDate!.formatCompactDate();
-            widget.onConfirm(currentDate!, currentDate!.formatCompactDate());
+            if (mode == CustomDatePickerMode.dateAndTime) {
+              dateController.text = currentDate!.toDateTimeString;
+            }
+            widget.onConfirm(currentDate);
           } else if (result != null  && result.year <= 0 && hadInitialValue && widget.enableClearButton) {
             // Handle clear button click - result is Jalali(0) when clear is pressed
             // Only clear if there was an initial value and clear button is enabled
             currentDate = null;
             dateController.text = '';
             // Call onConfirm with null values - parent should handle null value as cleared date
-            widget.onConfirm(null, null);
+            widget.onConfirm(null);
           }
         }
       },

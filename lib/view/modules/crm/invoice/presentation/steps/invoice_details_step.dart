@@ -87,9 +87,9 @@ class InvoiceDetailsStep extends StatelessWidget {
                     // Created Date
                     WDatePickerField(
                       labelText: s.dateOfEntry,
-                      initialValue: ctrl.createdDate?.formatCompactDate(),
+                      initialValue: ctrl.createdDate,
                       required: true,
-                      onConfirm: (final date, final formattedDate) {
+                      onConfirm: (final date) {
                         ctrl.createdDate = date;
                       },
                     ).expanded(),
@@ -97,10 +97,10 @@ class InvoiceDetailsStep extends StatelessWidget {
                     // Validity Date
                     WDatePickerField(
                       labelText: s.validityDate,
-                      initialValue: ctrl.validityDate?.formatCompactDate(),
+                      initialValue: ctrl.validityDate,
                       showYearSelector: true,
                       required: true,
-                      onConfirm: (final date, final formattedDate) {
+                      onConfirm: (final date) {
                         ctrl.validityDate = date;
                       },
                     ).expanded(),

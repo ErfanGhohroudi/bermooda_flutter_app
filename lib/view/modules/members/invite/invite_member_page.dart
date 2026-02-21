@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../core/navigator/navigator.dart';
+import '../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../core/widgets/profile_upload_and_show_image.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/widgets/fields/fields.dart';
@@ -445,9 +446,9 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
           WDatePickerField(
             labelText: s.contractStartDate,
             showYearSelector: true,
-            initialValue: startContractDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              startContractDate = compactFormatterDate;
+            initialValue: startContractDate?.toJalali(),
+            onConfirm: (final date) {
+              startContractDate = date?.formatCompactDate();
             },
           ),
 
@@ -455,9 +456,9 @@ class _InviteMemberPageState extends State<InviteMemberPage> with InviteMemberCo
           WDatePickerField(
             labelText: s.contractEndDate,
             showYearSelector: true,
-            initialValue: endContractDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              endContractDate = compactFormatterDate;
+            initialValue: endContractDate?.toJalali(),
+            onConfirm: (final date) {
+              endContractDate = date?.formatCompactDate();
             },
           ),
 

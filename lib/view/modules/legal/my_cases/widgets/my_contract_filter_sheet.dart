@@ -2,8 +2,10 @@ import 'package:u/utilities.dart';
 
 import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
+import '../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/fields/labels_dropdown_new/labels_dropdown_new.dart';
+import '../../../../../core/widgets/filter_sheet_buttons.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../../../../data/data.dart';
 import '../my_cases_controller.dart';
@@ -187,21 +189,21 @@ class _MyContractFilterSheetState extends State<MyContractFilterSheet> {
               children: [
                 Expanded(
                   child: WDatePickerField(
-                    initialValue: _fromDate,
+                    initialValue: _fromDate?.toJalali(),
                     labelText: s.from,
                     showYearSelector: true,
-                    onConfirm: (final date, final compactDate) {
-                      setState(() => _fromDate = compactDate);
+                    onConfirm: (final date) {
+                      setState(() => _fromDate = date?.formatCompactDate());
                     },
                   ),
                 ),
                 Expanded(
                   child: WDatePickerField(
-                    initialValue: _toDate,
+                    initialValue: _toDate?.toJalali(),
                     labelText: s.to,
                     showYearSelector: true,
-                    onConfirm: (final date, final compactDate) {
-                      setState(() => _toDate = compactDate);
+                    onConfirm: (final date) {
+                      setState(() => _toDate = date?.formatCompactDate());
                     },
                   ),
                 ),
@@ -221,21 +223,21 @@ class _MyContractFilterSheetState extends State<MyContractFilterSheet> {
               children: [
                 Expanded(
                   child: WDatePickerField(
-                    initialValue: _fromDueDate,
+                    initialValue: _fromDueDate?.toJalali(),
                     labelText: s.from,
                     showYearSelector: true,
-                    onConfirm: (final date, final compactDate) {
-                      setState(() => _fromDueDate = compactDate);
+                    onConfirm: (final date) {
+                      setState(() => _fromDueDate = date?.formatCompactDate());
                     },
                   ),
                 ),
                 Expanded(
                   child: WDatePickerField(
-                    initialValue: _toDueDate,
+                    initialValue: _toDueDate?.toJalali(),
                     labelText: s.to,
                     showYearSelector: true,
-                    onConfirm: (final date, final compactDate) {
-                      setState(() => _toDueDate = compactDate);
+                    onConfirm: (final date) {
+                      setState(() => _toDueDate = date?.formatCompactDate());
                     },
                   ),
                 ),
@@ -245,23 +247,9 @@ class _MyContractFilterSheetState extends State<MyContractFilterSheet> {
         ),
 
         // Buttons
-        Row(
-          spacing: 12,
-          children: [
-            Expanded(
-              child: UElevatedButton(
-                title: s.clear,
-                backgroundColor: context.theme.hintColor,
-                onTap: _clearFilters,
-              ),
-            ),
-            Expanded(
-              child: UElevatedButton(
-                title: s.apply,
-                onTap: _applyFilters,
-              ),
-            ),
-          ],
+        WFilterSheetButtons(
+          onTapClear: _clearFilters,
+          onTapApply: _applyFilters,
         ),
       ],
     );

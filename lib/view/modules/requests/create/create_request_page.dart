@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../core/navigator/navigator.dart';
+import '../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../core/widgets/fields/amount_field/amount_field.dart';
 import '../../../../core/utils/enums/request_enums_extensions.dart';
 import '../../../../core/widgets/fields/fields.dart';
@@ -200,19 +201,19 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         children: [
           WDatePickerField(
             labelText: s.startDate,
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
             },
           ),
           WDatePickerField(
             labelText: s.endDate,
-            initialValue: endDate,
+            initialValue: endDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              endDate = compactFormatterDate;
+            onConfirm: (final date) {
+              endDate = date?.formatCompactDate();
               endDateTimeJalali = date;
             },
           ),
@@ -230,19 +231,19 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         children: [
           WDatePickerField(
             labelText: s.startDate,
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
             },
           ),
           WDatePickerField(
             labelText: s.endDate,
-            initialValue: endDate,
+            initialValue: endDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              endDate = compactFormatterDate;
+            onConfirm: (final date) {
+              endDate = date?.formatCompactDate();
               endDateTimeJalali = date;
             },
           ),
@@ -282,19 +283,19 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         children: [
           WDatePickerField(
             labelText: s.startDate,
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
             },
           ),
           WDatePickerField(
             labelText: s.endDate,
-            initialValue: endDate,
+            initialValue: endDate?.toJalali(),
             required: true,
-            onConfirm: (final date, final compactFormatterDate) {
-              endDate = compactFormatterDate;
+            onConfirm: (final date) {
+              endDate = date?.formatCompactDate();
               endDateTimeJalali = date;
             },
           ),
@@ -311,12 +312,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         spacing: 18,
         children: [
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.leaveDate,
-            onConfirm: (final date, final compactFormatterDate) {
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
-              startDate = compactFormatterDate;
             },
           ),
           Row(
@@ -356,12 +357,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
         spacing: 18,
         children: [
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.leaveDate,
-            onConfirm: (final date, final compactFormatterDate) {
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
-              startDate = compactFormatterDate;
             },
           ),
           WDropDownFormField<String>(
@@ -414,12 +415,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
               spacing: 10,
               children: [
                 WDatePickerField(
-                  initialValue: startDate,
+                  initialValue: startDate?.toJalali(),
                   required: true,
                   labelText: s.departureDate,
-                  onConfirm: (final date, final compactFormatterDate) {
+                  onConfirm: (final date) {
+                    startDate = date?.formatCompactDate();
                     startDateTimeJalali = date;
-                    startDate = compactFormatterDate;
                   },
                 ).expanded(),
                 WDropDownFormField<String>(
@@ -435,12 +436,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
               spacing: 10,
               children: [
                 WDatePickerField(
-                  initialValue: endDate,
+                  initialValue: endDate?.toJalali(),
                   required: true,
                   labelText: s.returnDate,
-                  onConfirm: (final date, final compactFormatterDate) {
+                  onConfirm: (final date) {
+                    endDate = date?.formatCompactDate();
                     endDateTimeJalali = date;
-                    endDate = compactFormatterDate;
                   },
                 ).expanded(),
                 WDropDownFormField<String>(
@@ -522,12 +523,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             spacing: 10,
             children: [
               WDatePickerField(
-                initialValue: startDate,
+                initialValue: startDate?.toJalali(),
                 required: true,
                 labelText: s.startDate,
-                onConfirm: (final date, final compactFormatterDate) {
+                onConfirm: (final date) {
+                  startDate = date?.formatCompactDate();
                   startDateTimeJalali = date;
-                  startDate = compactFormatterDate;
                 },
               ).expanded(),
               WDropDownFormField<String>(
@@ -543,12 +544,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             spacing: 10,
             children: [
               WDatePickerField(
-                initialValue: endDate,
+                initialValue: endDate?.toJalali(),
                 required: true,
                 labelText: s.endDate,
-                onConfirm: (final date, final compactFormatterDate) {
+                onConfirm: (final date) {
+                  endDate = date?.formatCompactDate();
                   endDateTimeJalali = date;
-                  endDate = compactFormatterDate;
                 },
               ).expanded(),
               WDropDownFormField<String>(
@@ -601,12 +602,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             },
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.expenseDate,
-            onConfirm: (final date, final compactFormatterDate) {
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
-              startDate = compactFormatterDate;
             },
           ),
           WAmountField(
@@ -703,11 +704,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             required: true,
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.requiredPaymentDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
             },
           ),
           WDropDownFormField<String>(
@@ -757,11 +758,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             maxLines: 3,
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.coverageStartDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
             },
           ),
           WAmountField(
@@ -963,11 +964,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             maxLines: 3,
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.problemDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
             },
           ),
           WDropDownFormField<String>(
@@ -1369,11 +1370,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             },
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.requiredIssueDate,
-            onConfirm: (final date, final compactFormatterDate) {
-              startDate = compactFormatterDate;
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
             },
           ),
           Obx(
@@ -1420,12 +1421,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
             required: true,
           ),
           WDatePickerField(
-            initialValue: startDate,
+            initialValue: startDate?.toJalali(),
             required: true,
             labelText: s.requiredIssueDate,
-            onConfirm: (final date, final compactFormatterDate) {
+            onConfirm: (final date) {
+              startDate = date?.formatCompactDate();
               startDateTimeJalali = date;
-              startDate = compactFormatterDate;
             },
           ),
           WTextField(
@@ -1455,12 +1456,12 @@ class _CreateRequestPageState extends State<CreateRequestPage> with CreateReques
 
         /// General specific fields
         WDatePickerField(
-          initialValue: startDate,
+          initialValue: startDate?.toJalali(),
           required: true,
           labelText: s.date,
-          onConfirm: (final date, final compactFormatterDate) {
+          onConfirm: (final date) {
+            startDate = date?.formatCompactDate();
             startDateTimeJalali = date;
-            startDate = compactFormatterDate;
           },
         ),
         Row(

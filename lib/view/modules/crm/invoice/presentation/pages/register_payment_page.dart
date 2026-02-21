@@ -109,7 +109,8 @@ class _RegisterPaymentPageState extends State<RegisterPaymentPage> {
                   WDatePickerField(
                     labelText: s.paymentDate,
                     required: true,
-                    onConfirm: (final jalali, final compactDate) {
+                    onConfirm: (final jalali) {
+                      final compactDate = jalali?.formatCompactDate();
                       ctrl.paymentDate(compactDate);
                     },
                   ).expanded(),

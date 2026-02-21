@@ -3,6 +3,7 @@ import 'package:u/utilities.dart';
 import '../../../../../core/core.dart';
 import '../../../../../core/navigator/navigator.dart';
 import '../../../../../core/theme.dart';
+import '../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../core/widgets/fields/fields.dart';
 import '../../../../../core/widgets/upload_and_show_image.dart';
 import '../../../../../core/widgets/widgets.dart';
@@ -87,12 +88,12 @@ class _CreateContractPageState extends State<CreateContractPage> with CreateCont
                 /// Validity Date
                 WDatePickerField(
                   labelText: s.validityDate,
-                  initialValue: params.expireDate,
+                  initialValue: params.expireDate?.toJalali(),
                   startDate: Jalali.now(),
                   showYearSelector: true,
                   required: true,
-                  onConfirm: (final date, final compactFormatterDate) {
-                    params = params.copyWith(expireDate: compactFormatterDate);
+                  onConfirm: (final date) {
+                    params = params.copyWith(expireDate: date?.formatCompactDate());
                   },
                 ),
 

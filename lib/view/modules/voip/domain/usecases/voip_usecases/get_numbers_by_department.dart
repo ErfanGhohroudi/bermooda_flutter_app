@@ -3,8 +3,8 @@ import '../../entity/voip_number.dart';
 import '../../repositories/voip_repository.dart';
 
 /// UseCase for getting numbers by department
-class GetNumbersByDepartmentUseCase {
-  GetNumbersByDepartmentUseCase(this.repository);
+class GetVoipNumbersByDepartmentUseCase {
+  GetVoipNumbersByDepartmentUseCase(this.repository);
 
   final VoipRepository repository;
 

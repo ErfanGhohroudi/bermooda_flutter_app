@@ -89,8 +89,6 @@ class UserReadDto extends Equatable {
     );
   }
 
-  factory UserReadDto.fromJson(final String str) => UserReadDto.fromMap(json.decode(str));
-
   factory UserReadDto.fromMap(final Map<String, dynamic> json) => UserReadDto(
         id: (json["id"] ?? json["user_id"]).toString(),
         fullName: json["fullname"],

@@ -1,6 +1,7 @@
 import 'package:u/utilities.dart';
 
 import '../../../../../../core/navigator/navigator.dart';
+import '../../../../../../core/utils/extensions/date_extensions.dart';
 import '../../../../../../core/widgets/fields/fields.dart';
 import '../../../../../../core/widgets/image_files.dart';
 import '../../../../../../core/utils/extensions/color_extension.dart';
@@ -142,13 +143,13 @@ class _CreateEditMeetingPageState extends State<CreateEditMeetingPage> with Crea
 
           /// Date
           WDatePickerField(
-            initialValue: dateController.text,
+            initialValue: dateController.text.toJalali(),
             required: true,
             enableClearButton: false,
-            onConfirm: (final date, final compactFormatterDate) {
+            onConfirm: (final date) {
               if (date != null) {
                 selectedTime = date;
-                dateController.text = compactFormatterDate ?? '';
+                dateController.text = selectedTime.formatCompactDate();
               }
             },
           ),
