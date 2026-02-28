@@ -168,8 +168,8 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
     switch (status) {
       case MessageStatus.sending:
         return const WCircularLoading(
-          size: 12,
-          strokeWidth: 2,
+          size: 8,
+          strokeWidth: 1.5,
           color: Colors.white,
           backgroundColor: Colors.white24,
         );
@@ -189,6 +189,8 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
     final ReplyToMessageDto reply, {
     required final bool isOwn,
   }) {
+    final replyTitle = reply.type.title ?? reply.text ?? '';
+
     return Directionality(
       textDirection: isOwn ? TextDirection.rtl : TextDirection.ltr,
       child: GestureDetector(
@@ -202,36 +204,43 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
             color: isOwn ? Colors.white.withValues(alpha: 0.15) : context.theme.hintColor.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(
-                      color: isOwn ? Colors.white.withAlpha(60) : context.theme.hintColor,
-                      width: 3,
+          child: IntrinsicHeight(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 6,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: isOwn ? Colors.white.withAlpha(60) : context.theme.hintColor,
+                          width: 3,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(reply.sender.fullName ?? '').bodySmall(color: isOwn ? Colors.white : null),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      reply.type.title ?? reply.text ?? '',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ).bodySmall(color: isOwn ? Colors.white : null),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(reply.sender.fullName ?? '').bodySmall(color: isOwn ? Colors.white : null),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            replyTitle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ).bodySmall(color: isOwn ? Colors.white : null),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              ).pSymmetric(horizontal: 8),
-            ],
+              ),
+            ),
           ),
         ),
       ),
@@ -286,7 +295,8 @@ class _MessageBubbleWidgetState extends State<MessageBubbleWidget> {
         if (_message.attachments!.isNotEmpty) {
           widgets.add(
             MessageVoiceWidget(
-              attachment: _message.attachments!.first,
+              voiceUrl: _message.attachments!.first.fileUrl,
+              fileName: _message.attachments!.first.fileName,
               duration: _message.duration,
               isOwn: isOwn,
             ),

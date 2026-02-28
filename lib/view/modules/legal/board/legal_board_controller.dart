@@ -285,8 +285,8 @@ class LegalBoardController extends GetxController {
       _kanbanDatasource.moveACard(
         cardSlug: item.slug,
         targetSectionSlug: targetSectionSlug,
-        beforeCardSlug: getBeforeCardSlug(),
-        afterCardSlug: getAfterCardSlug(),
+        previousCardSlug: getBeforeCardSlug(),
+        nextCardSlug: getAfterCardSlug(),
         onResponse: (final response) {},
         onError: (final errorResponse) {},
       );

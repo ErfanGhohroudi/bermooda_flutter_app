@@ -168,7 +168,7 @@ class ConversationMessagesController extends GetxController {
 
   void getMessages() {
     currentPage = 1;
-    if (isBot) {
+    if (isBot && isAnonymousBot) {
       repository.getAnonymousFeedbacks(currentPage);
     } else {
       repository.getMessages(conversation.value.id, page: currentPage);

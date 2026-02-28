@@ -236,7 +236,7 @@ class _ConversationMessagesPageState extends State<ConversationMessagesPage> {
         final isSelected = controller.selectedMessageIds.contains(message.id);
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           child: WithMainActionMenu(
             controller: controller,
             message: message,

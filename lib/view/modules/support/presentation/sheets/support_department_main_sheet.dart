@@ -6,6 +6,10 @@ import '../../../../../core/services/permission_service.dart';
 import '../../../../../core/theme.dart';
 import '../../../../../core/widgets/widgets.dart';
 import '../../domain/entities/support_department.dart';
+import '../bindings/my_chats_list_binding.dart';
+import '../pages/my_chats_list_page.dart';
+import '../pages/support_board_page.dart';
+import '../bindings/support_board_binding.dart';
 
 class SupportDepartmentMainSheet extends StatelessWidget {
   const SupportDepartmentMainSheet({
@@ -28,30 +32,26 @@ class SupportDepartmentMainSheet extends StatelessWidget {
           _item(
             context: context,
             onTap: () {
-              // AppNavigator.push(
-              //   ProjectBoardPage(
-              //     department: department,
-              //     onEdited: onEdited,
-              //   ),
-              // );
+              AppNavigator.push(
+                const SupportBoardPage(),
+                binding: SupportBoardBinding(department: department),
+              );
             },
             icon: AppIcons.tickCircleOutline,
-            title: s.projectBoard,
+            title: "s.conversationsBoard",
           ),
 
-          /// My Tasks
+          /// My Replies
           _item(
             context: context,
             onTap: () {
-              // AppNavigator.push(
-              //   MyTasksPage(
-              //     dataSourceType: SubtaskDataSourceType.department,
-              //     projectId: department.id ?? '',
-              //   ),
-              // );
+              AppNavigator.push(
+                const SupportMyChatsListPage(),
+                binding: SupportMyChatsListBinding(departmentId: department.id),
+              );
             },
-            icon: AppIcons.listOutline,
-            title: s.myTasks,
+            icon: AppIcons.chatOutline,
+            title: "s.myReplies",
           ),
 
           /// Stats

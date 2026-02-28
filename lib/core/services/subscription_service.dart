@@ -63,6 +63,8 @@ class SubscriptionService extends GetxService {
 
   bool get cloudCallModuleIsActive => subscription.modules.cloudCallIsActive;
 
+  bool get supportModuleIsActive => subscription.modules.supportIsActive;
+
   bool get employmentModuleIsActive => subscription.modules.employmentIsActive;
 
   bool get marketingModuleIsActive => subscription.modules.marketingIsActive;

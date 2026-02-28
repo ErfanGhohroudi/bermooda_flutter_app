@@ -7,6 +7,7 @@ import '../../../../../core/widgets/widgets.dart';
 import '../../domain/entities/support_department.dart';
 import '../controllers/department_list_controller.dart';
 import '../widgets/department_card.dart';
+import 'archived_department_list_page.dart';
 import 'department_create_update_page.dart';
 
 class SupportDepartmentListPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SupportDepartmentListPageState extends State<SupportDepartmentListPage> {
       },
       child: UScaffold(
         appBar: AppBar(
-          title: Text(s.sms),
+          title: Text(s.support),
           actions: [
             Obx(
               () => ctrl.haveAdminAccess && !ctrl.isReorderEnabled.value
@@ -41,7 +42,7 @@ class _SupportDepartmentListPageState extends State<SupportDepartmentListPage> {
                       tooltip: s.archive,
                       icon: const UImage(AppIcons.archiveOutline, size: 25, color: Colors.white),
                       onPressed: () {
-                        // AppNavigator.push(const SmsArchivedDepartmentListPage());
+                        AppNavigator.push(const SupportArchivedDepartmentListPage());
                       },
                     )
                   : const SizedBox.shrink(),

@@ -276,8 +276,8 @@ class ProjectBoardController extends GetxController {
       _kanbanDatasource.moveACard(
         cardSlug: item.slug,
         targetSectionSlug: targetSectionSlug,
-        beforeCardSlug: getBeforeCardSlug(),
-        afterCardSlug: getAfterCardSlug(),
+        previousCardSlug: getBeforeCardSlug(),
+        nextCardSlug: getAfterCardSlug(),
         onResponse: (final response) {},
         onError: (final errorResponse) {},
       );
@@ -287,9 +287,14 @@ class ProjectBoardController extends GetxController {
   }
 
   Item<TaskReadDto> _parseItemFromMap(final dynamic json) {
-    final cardSlug = json["slug"];
+    final cardSlug = json["slug"] ?? '';
     final relatedObject = json["related_obj"]?["data"];
     final item = TaskReadDto.fromMap(relatedObject);
-    return Item<TaskReadDto>(id: item.id.toString(), slug: cardSlug, data: item);
+
+    return Item<TaskReadDto>(
+      id: item.id.toString(),
+      slug: cardSlug,
+      data: item,
+    );
   }
 }

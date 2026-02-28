@@ -156,7 +156,9 @@ class _ConversationsListPageState extends State<ConversationsListPage> {
     final isGroup = conversation.type == ConversationType.group;
     final isBot = conversation.type == ConversationType.bot;
     final displayName = conversation.displayName;
-    final avatarUrl = isBot ? AppImages.bot : conversation.avatarUrl ?? (isGroup ? null : conversation.members.firstOrNull?.user.avatarUrl);
+    final avatarUrl = isBot
+        ? AppImages.bot
+        : conversation.avatarUrl ?? (isGroup ? null : conversation.members.firstOrNull?.user.avatarUrl);
 
     return ListTile(
       minTileHeight: 70,
@@ -195,7 +197,9 @@ class _ConversationsListPageState extends State<ConversationsListPage> {
               animationType: BadgeAnimationType.fade,
               showBadge: conversation.unreadCount > 0,
               position: const BadgePosition(bottom: 0),
-              badgeContent: Text(conversation.unreadCount.toString()).bodySmall(color: Colors.white),
+              badgeContent: Text(
+                conversation.unreadCount.toString().separateNumbers3By3(),
+              ).bodySmall(color: Colors.white),
             ),
           Text(conversation.lastMessageAt.toTimeAgo(persian: isPersianLang)).bodySmall(color: Colors.grey).marginOnly(top: 4),
         ],

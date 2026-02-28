@@ -13,6 +13,7 @@ import '../members/members_management_page.dart';
 import '../project/list/project_list_page.dart';
 import '../requests/request_main_page.dart';
 import '../sms/presentation/pages/department_list_page.dart';
+import '../support/presentation/pages/department_list_page.dart';
 import '../voip/presentation/pages/department_list_page.dart';
 import '../warehouse/presentation/pages/warehouse_list_page.dart';
 import 'modules_controller.dart';
@@ -197,6 +198,14 @@ class _ModulesPageState extends State<ModulesPage> with ModulesController {
         icon: AppIcons.callOutline,
         isBottomSheet: isBottomSheet,
         onTap: () => AppNavigator.push(const VoipDepartmentListPage()),
+      ),
+    if (AppConfig.instance.isDevelopment)
+      // if (subService.supportModuleIsActive && perService.haveSupportAccess)
+      WModuleCard(
+        title: s.support,
+        icon: AppIcons.supportModule,
+        isBottomSheet: isBottomSheet,
+        onTap: () => AppNavigator.push(const SupportDepartmentListPage()),
       ),
     if (AppConfig.instance.isDevelopment)
       // if (subService.marketingModuleIsActive && perService.haveMarketingAccess)

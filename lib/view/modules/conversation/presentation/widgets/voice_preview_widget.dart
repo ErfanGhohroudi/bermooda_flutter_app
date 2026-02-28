@@ -3,15 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/theme.dart';
-import '../pages/messages/conversation_messages_controller.dart';
 
 class VoicePreviewWidget extends StatefulWidget {
   const VoicePreviewWidget({
-    required this.controller,
+    required this.path,
+    required this.onTapDelete,
     super.key,
   });
 
-  final ConversationMessagesController controller;
+  final Rxn<String> path;
+  final VoidCallback onTapDelete;
 
   @override
   State<VoicePreviewWidget> createState() => _VoicePreviewWidgetState();
@@ -33,7 +34,7 @@ class _VoicePreviewWidgetState extends State<VoicePreviewWidget> {
   }
 
   Future<void> _initPlayer() async {
-    final voicePath = widget.controller.recordedVoicePath.value;
+    final voicePath = widget.path.value;
     if (voicePath == null) return;
 
     try {
@@ -83,7 +84,7 @@ class _VoicePreviewWidgetState extends State<VoicePreviewWidget> {
     } catch (e) {
       debugPrint('Error in play/pause: $e');
       // If startPlayer fails, try to prepare again
-      final voicePath = widget.controller.recordedVoicePath.value;
+      final voicePath = widget.path.value;
       if (voicePath != null) {
         try {
           await playerController.preparePlayer(
@@ -123,7 +124,7 @@ class _VoicePreviewWidgetState extends State<VoicePreviewWidget> {
   Widget build(final BuildContext context) {
     return Obx(
       () {
-        if (widget.controller.recordedVoicePath.value == null) {
+        if (widget.path.value == null) {
           return const SizedBox.shrink();
         }
 
@@ -133,7 +134,7 @@ class _VoicePreviewWidgetState extends State<VoicePreviewWidget> {
           child: Row(
             children: [
               IconButton(
-                onPressed: widget.controller.clearVoicePreview,
+                onPressed: widget.onTapDelete,
                 icon: const UImage(AppIcons.delete, color: Colors.white),
                 style: IconButton.styleFrom(
                   backgroundColor: AppColors.red,

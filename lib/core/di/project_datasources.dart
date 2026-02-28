@@ -9,6 +9,5 @@ class ProjectDatasources {
     Get.lazyPut<ProjectStatisticsDatasource>(() => ProjectStatisticsDatasource(), fenix: true);
     Get.lazyPut<TaskDatasource>(() => TaskDatasource(), fenix: true);
     Get.lazyPut<TaskArchiveDatasource>(() => TaskArchiveDatasource(), fenix: true);
-    Get.lazyPut<KanbanDatasource>(() => KanbanDatasource(), fenix: true);
   }
 }

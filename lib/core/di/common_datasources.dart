@@ -5,6 +5,7 @@ import '../../data/data.dart';
 class CommonDatasources {
   static void init() {
     // --- Common/Shared Data Sources ---
+    Get.lazyPut<KanbanDatasource>(() => KanbanDatasource(), fenix: true);
     Get.lazyPut<DashboardDatasource>(() => DashboardDatasource(), fenix: true);
     Get.lazyPut<DropdownDatasource>(() => DropdownDatasource(), fenix: true);
     Get.lazyPut<CalendarDatasource>(() => CalendarDatasource(), fenix: true);

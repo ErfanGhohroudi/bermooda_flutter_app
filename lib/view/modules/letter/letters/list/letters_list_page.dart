@@ -115,7 +115,7 @@ class _LettersListPageState extends State<LettersListPage> with LettersListContr
             ListTile(
               contentPadding: EdgeInsets.zero,
               minTileHeight: 50,
-              leading: const UImage(AppIcons.mailColor, size: 20),
+              leading: UImage(AppIcons.mailColor, size: 20, color: context.theme.primaryColorDark),
               title: Text(
                 mail.title ?? '',
                 textAlign: TextAlign.justify,

@@ -11,10 +11,12 @@ abstract class AppNavigator {
     final Transition transition = Transition.cupertino,
     final bool preventDuplicates = true,
     final int milliSecondDelay = 10,
+    final Bindings? binding,
   }) async {
     await Future.delayed(milliSecondDelay.milliseconds);
     return Get.to<T>(
       page,
+      binding: binding,
       fullscreenDialog: dialog,
       popGesture: true,
       opaque: dialog ? false : true,

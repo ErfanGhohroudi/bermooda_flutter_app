@@ -1,4 +1,5 @@
 import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:vibration/vibration.dart';
 import 'package:u/utilities.dart';
 
@@ -14,8 +15,12 @@ class VoiceRecorderManager {
 
   Future<void> startRecording() async {
     if (controller.isBot) return;
-    final status = await controller.recorderController.checkPermission();
-    if (status == false) return;
+    final hadNotRequestedPermission = await Permission.microphone.status != PermissionStatus.granted;
+    if (hadNotRequestedPermission) {
+      await Permission.microphone.request();
+      return;
+    }
+
     Directory tempDir = Directory.systemTemp;
     final timestamp = DateTime.now().millisecondsSinceEpoch;
     final random = Random().nextInt(10000);
@@ -54,6 +59,8 @@ class VoiceRecorderManager {
 
   Future<void> stopRecording() async {
     if (controller.isBot) return;
+    if (controller.isRecording.value == false) return;
+
     // Stop recording with RecorderController
     final path = await controller.recorderController.stop();
 

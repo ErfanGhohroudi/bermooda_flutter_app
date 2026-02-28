@@ -47,10 +47,10 @@ class MessageInputWidget extends StatelessWidget {
                   }),
                 ),
                 Obx(() {
-                  if (controller.recordedVoicePath.value != null || (controller.isRecording.value == false && controller.messageController.text.trim().isNotEmpty)) {
+                  if (controller.recordedVoicePath.value != null ||
+                      (controller.isRecording.value == false && controller.messageController.text.trim().isNotEmpty)) {
                     return IconButton(
                       icon: const UImage(AppIcons.sendMessage, size: 30, color: AppColors.primaryColor),
-                      // icon: const Icon(Icons.send, color: AppColors.primaryColor),
                       onPressed: () {
                         if (controller.recordedVoicePath.value != null) {
                           controller.sendRecordedVoice();
@@ -161,7 +161,10 @@ class MessageInputWidget extends StatelessWidget {
 
   Widget _buildCurrentInputWidget(final BuildContext context) {
     if (controller.recordedVoicePath.value != null) {
-      return VoicePreviewWidget(controller: controller);
+      return VoicePreviewWidget(
+        path: controller.recordedVoicePath,
+        onTapDelete: controller.clearVoicePreview,
+      );
     }
 
     // If recording, show live waveform

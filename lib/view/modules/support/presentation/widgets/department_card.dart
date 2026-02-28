@@ -9,6 +9,7 @@ import '../../../../../core/widgets/widgets.dart';
 import '../../../../../data/data.dart';
 import '../../domain/entities/support_department.dart';
 import '../controllers/department_list_controller.dart';
+import '../pages/department_create_update_page.dart';
 import '../sheets/support_department_main_sheet.dart';
 
 class WSupportDepartmentCard extends StatefulWidget {
@@ -139,13 +140,13 @@ class _WSupportDepartmentCardState extends State<WSupportDepartmentCard> with Si
                             iconColor: AppColors.green,
                             onTap: () {
                               if (widget.ctrl == null) return;
-                              // bottomSheet(
-                              //   title: s.editDepartment,
-                              //   child: SmsDepartmentCreateUpdatePage(
-                              //     ctrl: widget.ctrl!,
-                              //     department: widget.department,
-                              //   ),
-                              // );
+                              bottomSheet(
+                                title: s.editDepartment,
+                                child: SupportDepartmentCreateUpdatePage(
+                                  ctrl: widget.ctrl!,
+                                  department: widget.department,
+                                ),
+                              );
                             },
                           ),
                           WPopupMenuItem(
@@ -158,6 +159,39 @@ class _WSupportDepartmentCardState extends State<WSupportDepartmentCard> with Si
                         ],
                   ),
                 ),
+            ],
+          ),
+          const Divider(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
+            children: [
+              _item(
+                title: "s.totalChats",
+                value: widget.department.totalChats.toString().separateNumbers3By3(),
+                color: AppColors.blue,
+              ).expanded(),
+              _item(
+                title: "s.openChats",
+                value: widget.department.openChats.toString().separateNumbers3By3(),
+                color: AppColors.red,
+              ).expanded(),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 10,
+            children: [
+              _item(
+                title: "s.waitingForReply",
+                value: widget.department.waitingForReply.toString().separateNumbers3By3(),
+                color: AppColors.orange,
+              ).expanded(),
+              _item(
+                title: "s.closedChats",
+                value: widget.department.closedChats.toString().separateNumbers3By3(),
+                color: Colors.green,
+              ).expanded(),
             ],
           ),
           if (widget.department.members.isNotEmpty) ...[
@@ -181,7 +215,7 @@ class _WSupportDepartmentCardState extends State<WSupportDepartmentCard> with Si
                             leading: WCircleAvatar(user: member, size: 40),
                             title: Text(member.fullName ?? '- -').bodyMedium(),
                             subtitle: Text(
-                              member.permissions.getByName(PermissionName.sms)?.permissionType?.getTitle() ?? '',
+                              member.permissions.getByName(PermissionName.support)?.permissionType?.getTitle() ?? '',
                             ).bodySmall(color: context.theme.hintColor),
                           ),
                         );
@@ -205,4 +239,17 @@ class _WSupportDepartmentCardState extends State<WSupportDepartmentCard> with Si
       ),
     );
   }
+
+  Widget _item({
+    required final String title,
+    required final String value,
+    final Color? color,
+  }) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Text(title, textAlign: TextAlign.center).bodyMedium(color: context.theme.hintColor),
+      Text(value, textAlign: TextAlign.center).titleMedium(color: color).bold(),
+    ],
+  );
 }

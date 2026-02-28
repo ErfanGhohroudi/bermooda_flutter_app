@@ -1214,10 +1214,10 @@ class S {
     return Intl.message('No Data', name: 'noData', desc: '', args: []);
   }
 
-  /// `Write your message`
+  /// `Type your message`
   String get writeYourMessage {
     return Intl.message(
-      'Write your message',
+      'Type your message',
       name: 'writeYourMessage',
       desc: '',
       args: [],

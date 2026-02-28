@@ -73,7 +73,11 @@ class MessageWebSocketHandler {
               }
 
               controller.pageState.loaded();
-              controller.isLoadingMore(false);
+
+              if (controller.isLoadingMore.value) {
+                controller.isLoadingMore(false);
+              }
+
               delay(1000, () => controller.connectionState(ChatConnectionType.done));
 
               if (controller.searchingForMessageId != null) {

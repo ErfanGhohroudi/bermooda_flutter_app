@@ -16,6 +16,7 @@ import 'common_datasources.dart';
 import 'conversation_datasources.dart';
 import 'sms_panel_datasources.dart';
 import 'subtask_datasources.dart';
+import 'support_datasources.dart';
 import 'voip_datasources.dart';
 import 'warehouse_datasources.dart';
 
@@ -42,6 +43,7 @@ abstract class DependencyInjector {
       CommonDatasources.init();
       SmsPanelDatasources.init();
       VoipDatasources.init();
+      SupportDatasources.init();
       WarehouseDatasources.init();
     });
 

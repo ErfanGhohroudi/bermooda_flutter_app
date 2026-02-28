@@ -6,17 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:u/utilities.dart';
 
 import '../../../../../core/helpers/open_file_helpers.dart';
-import '../../data/dto/conversation_dtos.dart';
 
 class MessageVoiceWidget extends StatefulWidget {
   const MessageVoiceWidget({
-    required this.attachment,
+    required this.voiceUrl,
+    required this.fileName,
     required this.duration,
     required this.isOwn,
     super.key,
   });
 
-  final MessageAttachmentDto attachment;
+  final String voiceUrl;
+  final String fileName;
   final int? duration;
   final bool isOwn;
 
@@ -42,7 +43,7 @@ class _MessageVoiceWidgetState extends State<MessageVoiceWidget> with AutomaticK
   @override
   void initState() {
     super.initState();
-    _voiceUrl = widget.attachment.fileUrl;
+    _voiceUrl = widget.voiceUrl;
     playerController = PlayerController()..overrideAudioSession = true;
     // چک کن آیا فایل قبلاً دانلود شده و player را initialize کن
     _checkCachedFileAndInit();
@@ -72,7 +73,7 @@ class _MessageVoiceWidgetState extends State<MessageVoiceWidget> with AutomaticK
     }
 
     // چک کن آیا فایل قبلاً دانلود شده
-    final fileName = widget.attachment.fileName;
+    final fileName = widget.fileName;
     final cachedPath = await OpenFileHelpers.getFilePath(fileName);
     if (cachedPath != null) {
       final file = File(cachedPath);
@@ -100,7 +101,7 @@ class _MessageVoiceWidgetState extends State<MessageVoiceWidget> with AutomaticK
     // دانلود فایل
     _isDownloading(true);
     try {
-      final fileName = widget.attachment.fileName;
+      final fileName = widget.fileName;
       final downloadedPath = await OpenFileHelpers.downloadFile(
         url: _voiceUrl,
         fileName: fileName,

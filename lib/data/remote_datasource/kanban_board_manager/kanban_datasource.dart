@@ -1,6 +1,12 @@
 part of '../../data.dart';
 
-enum KanbanRequestType { human_recource, project_board, crm, contract}
+enum KanbanRequestType {
+  human_recource,
+  project_board,
+  crm,
+  contract,
+  support,
+}
 
 class KanbanDatasource {
   final ApiClient _apiClient = Get.find();
@@ -46,8 +52,8 @@ class KanbanDatasource {
   void moveACard({
     required final String cardSlug,
     required final String targetSectionSlug,
-    final String? beforeCardSlug,
-    final String? afterCardSlug,
+    final String? previousCardSlug,
+    final String? nextCardSlug,
     required final Function(GenericResponse<BoardMemberReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
     final bool withRetry = false,
@@ -59,8 +65,8 @@ class KanbanDatasource {
         data: {
           "dest_column_slug": targetSectionSlug, // required
           "card_slug": cardSlug, // required
-          "before_card_slug": beforeCardSlug, // optional
-          "after_card_slug": afterCardSlug, // optional
+          "before_card_slug": previousCardSlug, // optional
+          "after_card_slug": nextCardSlug, // optional
         },
         skipRetry: !withRetry,
       );

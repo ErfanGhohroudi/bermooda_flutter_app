@@ -84,6 +84,8 @@ extension ListModulesExtentions<T> on List<ModuleReadDto>? {
 
   bool get cloudCallIsActive => (getByType(ModuleType.voip)?.isActive ?? false);
 
+  bool get supportIsActive => (getByType(ModuleType.support)?.isActive ?? false);
+
   bool get employmentIsActive => (getByType(ModuleType.employment)?.isActive ?? false);
 
   bool get marketingIsActive => (getByType(ModuleType.marketing)?.isActive ?? false);

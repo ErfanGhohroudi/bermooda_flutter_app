@@ -32,7 +32,7 @@ class SupportDepartmentListController extends GetxController {
   int pageNumber = 1;
   final RxList<SupportDepartment> departments = <SupportDepartment>[].obs;
 
-  bool get haveAdminAccess => Get.find<PermissionService>().haveSMSAdminAccess;
+  bool get haveAdminAccess => Get.find<PermissionService>().haveSupportAdminAccess;
 
   @override
   void onInit() {
@@ -167,7 +167,7 @@ class SupportDepartmentListController extends GetxController {
         title: title,
         members: members,
       );
-      insertDepartment(department);
+      insertItem(department);
       return department;
     } catch (e) {
       return null;
@@ -187,17 +187,21 @@ class SupportDepartmentListController extends GetxController {
         title: title,
         members: members,
       );
-      final index = departments.indexWhere((final d) => d.id == id);
-      if (index == -1) return null;
-      departments[index] = department;
-      departments.refresh();
-      return department;
+      return updateItem(department);
     } catch (e) {
       return null;
     }
   }
 
-  void insertDepartment(final SupportDepartment newDepartment) {
+  SupportDepartment? updateItem(final SupportDepartment department) {
+    final index = departments.indexWhere((final d) => d.id == department.id);
+    if (index == -1) return null;
+    departments[index] = department;
+    departments.refresh();
+    return department;
+  }
+
+  void insertItem(final SupportDepartment newDepartment) {
     departments.insert(0, newDepartment);
   }
 }

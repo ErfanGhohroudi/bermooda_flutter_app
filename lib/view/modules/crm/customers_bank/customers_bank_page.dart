@@ -117,11 +117,12 @@ class _CustomersBankPageState extends State<CustomersBankPage> {
           onTap: () => ctrl.navigateToDocumentImportedCustomersPage(document),
           child: Column(
             children: [
-              const SizedBox(
+              SizedBox(
                 width: double.infinity,
                 child: UImage(
                   AppImages.folder,
                   borderRadius: 15,
+                  color: context.theme.primaryColorDark,
                 ),
               ).expanded(),
               Text(

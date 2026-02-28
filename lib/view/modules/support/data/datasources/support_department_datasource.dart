@@ -14,6 +14,7 @@ class SupportDepartmentDatasource {
     required final String? search,
     required final Function(GenericResponse<SupportDepartmentReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.get(
@@ -23,6 +24,7 @@ class SupportDepartmentDatasource {
           "per_page_count": perPageCount,
           if (search != null) "search": search,
         },
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {
@@ -44,6 +46,7 @@ class SupportDepartmentDatasource {
     required final int? avatarId,
     required final Function(GenericResponse<SupportDepartmentReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.post(
@@ -53,6 +56,7 @@ class SupportDepartmentDatasource {
           "member_id_list": members.map((final e) => e.id).toList(),
           if (avatarId != null) "avatar_id": avatarId,
         },
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {
@@ -75,6 +79,7 @@ class SupportDepartmentDatasource {
     required final int? avatarId,
     required final Function(GenericResponse<SupportDepartmentReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.put(
@@ -84,6 +89,7 @@ class SupportDepartmentDatasource {
           "member_id_list": members.map((final e) => e.id).toList(),
           if (avatarId != null) "avatar_id": avatarId,
         },
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {
@@ -103,10 +109,12 @@ class SupportDepartmentDatasource {
     required final int id,
     required final Function(GenericResponse<dynamic> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.delete(
         "/v1/SupportManager/DepartmentManager/$id/",
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {
@@ -125,15 +133,17 @@ class SupportDepartmentDatasource {
     required final String? search,
     required final Function(GenericResponse<SupportDepartmentReadDto> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.get(
-        "/v1/SupportManager/DepartmentManager/Archives/",
+        "/v1/SupportManager/Department/Archives/",
         queryParameters: {
           "page_number": pageNumber,
           "per_page_count": perPageCount,
           if (search != null) "search": search,
         },
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {
@@ -153,10 +163,12 @@ class SupportDepartmentDatasource {
     required final int id,
     required final Function(GenericResponse<dynamic> response) onResponse,
     required final Function(GenericResponse<dynamic> errorResponse) onError,
+    final bool withRetry = false,
   }) async {
     try {
       final response = await _apiClient.post(
-        "/v1/SupportManager/DepartmentManager/$id/restore/",
+        "/v1/SupportManager/Department/$id/restore/",
+        skipRetry: !withRetry,
       );
 
       if (response.isOk) {

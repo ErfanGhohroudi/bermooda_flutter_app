@@ -183,7 +183,7 @@ class _WVoipDepartmentCardState extends State<WVoipDepartmentCard> with SingleTi
                             leading: WCircleAvatar(user: member, size: 40),
                             title: Text(member.fullName ?? '- -').bodyMedium(),
                             subtitle: Text(
-                              member.permissions.getByName(PermissionName.sms)?.permissionType?.getTitle() ?? '',
+                              member.permissions.getByName(PermissionName.voip)?.permissionType?.getTitle() ?? '',
                             ).bodySmall(color: context.theme.hintColor),
                           ),
                         );

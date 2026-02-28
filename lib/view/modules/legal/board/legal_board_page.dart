@@ -236,7 +236,7 @@ class _LegalBoardPageState extends State<LegalBoardPage> {
                 Row(
                   spacing: 10,
                   children: [
-                    const UImage(AppIcons.callOutline, size: 30),
+                    UImage(AppIcons.callOutline, size: 30, color: context.theme.primaryColorDark),
                     Container(
                       width: context.width / 4,
                       height: 10,

@@ -28,7 +28,8 @@ class ProjectCreateUpdateSectionPage extends StatefulWidget {
   State<ProjectCreateUpdateSectionPage> createState() => _ProjectCreateUpdateSectionPageState();
 }
 
-class _ProjectCreateUpdateSectionPageState extends State<ProjectCreateUpdateSectionPage> with ProjectCreateUpdateSectionController {
+class _ProjectCreateUpdateSectionPageState extends State<ProjectCreateUpdateSectionPage>
+    with ProjectCreateUpdateSectionController {
   @override
   void initState() {
     project = widget.project;
@@ -129,7 +130,11 @@ class _ProjectCreateUpdateSectionPageState extends State<ProjectCreateUpdateSect
                 if (section != null && controller.kanbanController.sections.first.slug != section?.slug)
                   WTextButton(
                     text: "${s.delete} ${s.section}",
-                    textStyle: context.textTheme.bodyMedium!.copyWith(color: AppColors.red, fontWeight: FontWeight.bold, fontSize: 14),
+                    textStyle: context.textTheme.bodyMedium!.copyWith(
+                      color: AppColors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                     onPressed: onDelete,
                   ).marginOnly(bottom: 10),
                 Obx(

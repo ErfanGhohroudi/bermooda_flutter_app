@@ -179,8 +179,8 @@ class _ProjectItemCardState extends State<ProjectItemCard> with SingleTickerProv
                   (widget.project.budget ?? '0') != '0' ? (widget.project.budget ?? '0').toString().toTomanMoney() : '- -',
                 ).bodyMedium(),
               ),
-              _item(title: s.startDate, value: Text(widget.project.startDate ?? '- -')),
-              _item(title: s.dueDate, value: Text(widget.project.dueDate ?? '- -')),
+              _item(title: s.startDate, value: Text(widget.project.startDate ?? '- -').bodyMedium()),
+              _item(title: s.dueDate, value: Text(widget.project.dueDate ?? '- -').bodyMedium()),
             ],
           ),
           if (!widget.project.members.isNullOrEmpty()) ...[
@@ -237,9 +237,8 @@ class _ProjectItemCardState extends State<ProjectItemCard> with SingleTickerProv
   }) => Row(
     crossAxisAlignment: crossAxisAlignment,
     mainAxisSize: MainAxisSize.min,
-    spacing: 10,
     children: [
-      Text("$title : ").bodyMedium(color: context.theme.hintColor),
+      Text("$title: ").bodyMedium(color: context.theme.hintColor),
       value.expanded(),
     ],
   );

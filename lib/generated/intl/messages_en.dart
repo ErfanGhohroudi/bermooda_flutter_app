@@ -1666,7 +1666,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "workspaceTitle": MessageLookupByLibrary.simpleMessage("Business Title"),
     "writeYourMessage": MessageLookupByLibrary.simpleMessage(
-      "Write your message",
+      "Type your message",
     ),
     "year": MessageLookupByLibrary.simpleMessage("Year"),
     "yes": MessageLookupByLibrary.simpleMessage("Yes"),
